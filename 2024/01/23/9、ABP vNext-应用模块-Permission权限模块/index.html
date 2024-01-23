@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>何锦祥 博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="" />
+    
+    <meta name="description" content="1234567891011存储权限给用户授权对用户权限进行校验ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="何锦祥 博客">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/23/9%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Permission%E6%9D%83%E9%99%90%E6%A8%A1%E5%9D%97/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="1234567891011存储权限给用户授权对用户权限进行校验ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-14.png">
+<meta property="article:published_time" content="2024-01-23T06:01:00.559Z">
+<meta property="article:modified_time" content="2024-01-18T13:14:27.828Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="生活, 思考, 感悟, 分享">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image-14.png">
+    
+
+    
+        <link rel="alternate" href="/" title="何锦祥 博客" type="application/atom+xml" />
+    
+
+    
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/BlogPro/css/style.css">
+
+
+    
+<script src="/BlogPro/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/BlogPro/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/">Home</a>
+                                </li>
+                            
+                                    
+                                
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/about/index.html">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/BlogPro/',
+        CONTENT_URL: '/BlogPro/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/BlogPro/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-9、ABP vNext-应用模块-Permission权限模块" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/BlogPro/2024/01/23/9%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Permission%E6%9D%83%E9%99%90%E6%A8%A1%E5%9D%97/" class="article-date">
+       <time datetime="2024-01-23T06:01:00.559Z" itemprop="datePublished">2024-01-23</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/BlogPro/2024/01/23/9%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Permission%E6%9D%83%E9%99%90%E6%A8%A1%E5%9D%97/" class="article-date">
+     <time datetime="2024-01-18T13:14:27.828Z" itemprop="dateModified">2024-01-18</time>
+  </a>
+</div>
+
+
+                
+
+                
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">存储权限</span><br><span class="line">给用户授权</span><br><span class="line">对用户权限进行校验</span><br><span class="line"></span><br><span class="line">ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。</span><br><span class="line"></span><br><span class="line">该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系。例如，您可以创建一个角色，并为该角色分配所需的权限，然后将该角色分配给一个或多个用户。</span><br><span class="line"></span><br><span class="line">此外，PermissionManagement模块还提供了一些中间件和过滤器，用于处理权限相关的请求和操作。这些中间件和过滤器可以在应用程序的各个层面上使用，以确保只有具有适当权限的用户才能访问受保护的资源或执行受保护的操作。</span><br><span class="line"></span><br><span class="line">总的来说，ABP框架的PermissionManagement模块是一个功能强大、易于使用的权限管理解决方案，可以帮助开发人员快速构建安全的应用程序。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Permission权限模块-在电商项目中的使用"><a href="#Permission权限模块-在电商项目中的使用" class="headerlink" title="Permission权限模块 在电商项目中的使用"></a>Permission权限模块 在电商项目中的使用</h3><ul>
+<li>1、定义权限</li>
+<li>2、集成权限管理模块</li>
+<li>3、存储权限</li>
+<li>4、给接口授权</li>
+<li>5、给用户授权</li>
+<li>6、用户鉴权(校验用户是否有相应的权限)</li>
+</ul>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ul>
+<li><p>创建Permissions文件夹</p>
+</li>
+<li><p>创建 EbusinessPermission 类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 权限定义</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class EbusinessPermission : PermissionDefinitionProvider</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 用户添加权限</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public string Name = &quot;UserInset&quot;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>引入  Volo.Abp.PermissionManagement.Domain 包</p>
+</li>
+<li><p>引入  Volo.Abp.PermissionManagement.EntityFrameworkCore 包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//集成应用模块，permission权限模块</span><br><span class="line">typeof(AbpPermissionManagementDomainModule),</span><br><span class="line">typeof(AbpPermissionManagementEntityFrameworkCoreModule)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数据库上下文类添加对应Permission表的注册<br><img src="/BlogPro/image-14.png" alt="Alt text"></p>
+</li>
+<li><p>执行数据库迁移命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migrations add Permission1</span><br><span class="line"></span><br><span class="line">dotnet ef database update</span><br></pre></td></tr></table></figure></li>
+<li><p>生成出对应的表</p>
+</li>
+<li><p>包含 权限表、权限授权表、权限分组表<br><img src="/BlogPro/image-15.png" alt="Alt text"></p>
+</li>
+<li><p>添加相应权限 在 EbusinessPermission 类添加Define方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">   /// 1、定义权限方法</span><br><span class="line">   /// &lt;/summary&gt;</span><br><span class="line">   /// &lt;param name=&quot;context&quot;&gt;&lt;/param&gt;</span><br><span class="line">   /// &lt;exception cref=&quot;NotImplementedException&quot;&gt;&lt;/exception&gt;</span><br><span class="line">   public override void Define(IPermissionDefinitionContext context)</span><br><span class="line">   &#123;</span><br><span class="line">       // 1、定义权限组</span><br><span class="line">       PermissionGroupDefinition permissionGroupDefinition= context.AddGroup(&quot;UserService&quot;);</span><br><span class="line"></span><br><span class="line">       // 2、定义权限组中具体权限</span><br><span class="line">       // 1、定义一级权限</span><br><span class="line">       PermissionDefinition permissionDefinition = permissionGroupDefinition.AddPermission(&quot;UsermManage&quot;);</span><br><span class="line"></span><br><span class="line">       // 2、定义二级权限</span><br><span class="line">      // PermissionDefinition permissionDefinition1 = permissionDefinition.AddChild(&quot;UsermManage.UserInset&quot;);</span><br><span class="line">      // permissionDefinition1.AddChild(&quot;&quot;);</span><br><span class="line">      // permissionDefinition.AddChild(&quot;UsermManage.UserUpdate&quot;);</span><br><span class="line">       permissionGroupDefinition.AddPermission(&quot;UserInset&quot;);</span><br><span class="line">       permissionGroupDefinition.AddPermission(&quot;UserUpdate&quot;);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在控制器的Authorize 特性添加 对应权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Authorize(&quot;UsermManage&quot;)]</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="给用户进行授权"><a href="#给用户进行授权" class="headerlink" title="给用户进行授权"></a>给用户进行授权</h3><ul>
+<li>引入  Volo.Abp.PermissionManagement.Domain.Identity 包</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpPermissionManagementDomainIdentityModule),</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>创建用户授权服务 PermissionService</p>
+</li>
+<li><p>授权完，会把对应的授权数据加进  abppermissiongrants -&gt; 权限授予表里面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 用户授权服务</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[Dependency(ServiceLifetime.Singleton)]</span><br><span class="line">public class PermissionService : IRemoteService</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 授权管理器</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public IPermissionManager permissionManager &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 给用户授权</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;userId&quot;&gt; 3a0cd7eb-38d3-b3c8-927c-cbe3c24677d3&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;permissionName&quot;&gt;UserInset &lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    public async Task GrantPermissionForUserAsync(Guid userId, string permissionName)</span><br><span class="line">    &#123;</span><br><span class="line">        await permissionManager.SetForUserAsync(userId, permissionName, true);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 给用户授权(批量)</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;userId&quot;&gt; 3a0cd7eb-38d3-b3c8-927c-cbe3c24677d3&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;permissionName&quot;&gt;UserInset &lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    public async Task GrantPermissionsForUserAsync(Guid userId, List&lt;string&gt; permissionNames)</span><br><span class="line">    &#123;</span><br><span class="line">        foreach (var permissionName in permissionNames)</span><br><span class="line">        &#123;</span><br><span class="line">            await permissionManager.SetForUserAsync(userId, permissionName, true);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加对应的过滤器，防止XSS攻击</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">context.Services.AddControllers(options =&gt; &#123;</span><br><span class="line">    // 取消默认的xss攻击</span><br><span class="line">    options.Filters.Add(new IgnoreAntiforgeryTokenAttribute());</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/image-16.png" alt="Alt text"></p>
+</li>
+<li><p>给指定用户进行授权<br><img src="/BlogPro/image-17.png" alt="Alt text"></p>
+</li>
+</ul>
+<h3 id="修改自带表的前缀"><a href="#修改自带表的前缀" class="headerlink" title="修改自带表的前缀"></a>修改自带表的前缀</h3><ul>
+<li>在 ABPEbusinessContext 类中的 OnModelCreating 方法里面添加如下方法<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 2、ermissionManagement 生成对应的数据库迁移文件。</span><br><span class="line">AbpPermissionManagementDbProperties.DbTablePrefix = &quot;Sys_&quot;;</span><br></pre></td></tr></table></figure></li>
+<li>在 EbusinessModule 类 中的  ConfigureServices 方法里面添加<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 14、PermissionManagement模块访问新前缀</span><br><span class="line">AbpPermissionManagementDbProperties.DbTablePrefix = &quot;Sys_&quot;;</span><br></pre></td></tr></table></figure></li>
+<li>重新进行迁移命令，可实现修改自带的权限表的前缀</li>
+</ul>
+<h3 id="给用户授予角色权限"><a href="#给用户授予角色权限" class="headerlink" title="给用户授予角色权限"></a>给用户授予角色权限</h3><ul>
+<li><p>创建一个新用户</p>
+</li>
+<li><p>登录新用户</p>
+</li>
+<li><p>批量授予新权限<br><img src="/BlogPro/image-19.png" alt="Alt text"></p>
+</li>
+<li><p>创建新的角色<br><img src="/BlogPro/image-20.png" alt="Alt text"></p>
+</li>
+<li><p>到PermissionService类里面新增给角色授权的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 给用户角色授权</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;userId&quot;&gt; 3a0cd7eb-38d3-b3c8-927c-cbe3c24677d3&lt;/param&gt;</span><br><span class="line">/// &lt;param name=&quot;permissionName&quot;&gt;UserInset &lt;/param&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public async Task GrantPermissionsForUserRoleAsync(string RoleName, string permissionName)</span><br><span class="line">&#123;</span><br><span class="line">    await permissionManager.SetForRoleAsync(RoleName, permissionName, true);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>给指定角色授予相对应的权限<br><img src="/BlogPro/image-21.png" alt="Alt text"></p>
+</li>
+<li><p>给当前用户授予角色修改权限<br><img src="/BlogPro/image-23.png" alt="Alt text"></p>
+</li>
+<li><p>给用户指定授予相对应的角色<br><img src="/BlogPro/image-22.png" alt="Alt text"></p>
+</li>
+<li><p>重新登录用户，刷新令牌，发现当前用户已经被授予了相关权限</p>
+</li>
+</ul>
+<h3 id="根据用户邮箱给指定用户授予权限"><a href="#根据用户邮箱给指定用户授予权限" class="headerlink" title="根据用户邮箱给指定用户授予权限"></a>根据用户邮箱给指定用户授予权限</h3><ul>
+<li>创建一个 用户邮箱权限类  UserEamilPermissionManagementProvider</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 用户邮箱 权限管理(提供用户授权)</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class UserEamilPermissionManagementProvider : PermissionManagementProvider</span><br><span class="line">&#123;</span><br><span class="line">    public UserEamilPermissionManagementProvider(IPermissionGrantRepository permissionGrantRepository, IGuidGenerator guidGenerator, ICurrentTenant currentTenant) : base(permissionGrantRepository, guidGenerator, currentTenant)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 提供者名称 自定义</span><br><span class="line">    public override string Name =&gt; &quot;UserEamil&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>到PermissionService类里面新增给用户授权通过邮箱的方法<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 给用户邮箱授权</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;userId&quot;&gt; 3a0cd7eb-38d3-b3c8-927c-cbe3c24677d3&lt;/param&gt;</span><br><span class="line">/// &lt;param name=&quot;permissionName&quot;&gt;UserInset &lt;/param&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public async Task GrantPermissionsForUserEamilAsync(string Eamil, string permissionName)</span><br><span class="line">&#123;</span><br><span class="line">    await permissionManager.SetAsync(permissionName, &quot;UserEamil&quot;, Eamil, true);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>-在 EbusinessModule 类的 ConfigureServices 方法中 注册自定义用户邮箱权限类到系统</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 15、注册自定义用户邮箱权限管理提供者</span><br><span class="line">Configure&lt;PermissionManagementOptions&gt;(options =&gt; &#123;</span><br><span class="line">    options.ManagementProviders.Add&lt;UserEamilPermissionManagementProvider&gt;();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>给指定邮箱授予权限<br><img src="/BlogPro/image-24.png" alt="Alt text"></li>
+</ul>
+<h3 id="自定义用户邮箱鉴权"><a href="#自定义用户邮箱鉴权" class="headerlink" title="自定义用户邮箱鉴权"></a>自定义用户邮箱鉴权</h3><ul>
+<li>创建用户邮箱鉴权类 UserEamilPermissionValueProvider<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 用户邮箱自定义鉴权</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class UserEamilPermissionValueProvider : PermissionValueProvider</span><br><span class="line">&#123;</span><br><span class="line">    public UserEamilPermissionValueProvider(IPermissionStore permissionStore) : base(permissionStore)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public override string Name =&gt; &quot;UserEamil&quot;;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 鉴权方法（校验用户邮箱是否有权限）</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;context&quot;&gt;&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    /// &lt;exception cref=&quot;NotImplementedException&quot;&gt;&lt;/exception&gt;</span><br><span class="line">    public override async Task&lt;PermissionGrantResult&gt; CheckAsync(PermissionValueCheckContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、获取用户邮箱</span><br><span class="line">        var Email = context.Principal?.FindFirst(AbpClaimTypes.Email)?.Value;</span><br><span class="line"></span><br><span class="line">        if (Email == null)</span><br><span class="line">        &#123;</span><br><span class="line">            // 2、返回授权失败</span><br><span class="line">            return PermissionGrantResult.Undefined;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 3、根据邮箱查询UsermManage权限</span><br><span class="line">        // 1、获取的是接口权限。</span><br><span class="line">        // 2、UserEamil</span><br><span class="line">        // 3、具体邮箱</span><br><span class="line">        // 核心鉴权：查询授权数据库是否有权限。</span><br><span class="line">        bool flag = await PermissionStore.IsGrantedAsync(context.Permission.Name, Name, Email);</span><br><span class="line"></span><br><span class="line">        return flag ? PermissionGrantResult.Granted</span><br><span class="line">            : PermissionGrantResult.Undefined; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 多权限鉴权方法</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;context&quot;&gt;&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line"></span><br><span class="line">    public override async Task&lt;MultiplePermissionGrantResult&gt; CheckAsync(PermissionValuesCheckContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        var permissionNames = context.Permissions.Select(x =&gt; x.Name).Distinct().ToArray();</span><br><span class="line">        Check.NotNullOrEmpty(permissionNames, nameof(permissionNames));</span><br><span class="line"></span><br><span class="line">        var Email = context.Principal?.FindFirst(AbpClaimTypes.Email)?.Value;</span><br><span class="line">        if (Email == null)</span><br><span class="line">        &#123;</span><br><span class="line">            return new MultiplePermissionGrantResult(permissionNames);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return await PermissionStore.IsGrantedAsync(permissionNames, Name, Email);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>-在 EbusinessModule 类的 ConfigureServices 方法中 注册自定义用户邮箱鉴权到系统</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> // 16、注册自定义用户邮箱鉴权提供者</span><br><span class="line">Configure&lt;AbpPermissionOptions&gt;(options =&gt; &#123;</span><br><span class="line">    options.ValueProviders.Add&lt;UserEamilPermissionValueProvider&gt;();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="更加精细化的权限控制-指定方法或者代码"><a href="#更加精细化的权限控制-指定方法或者代码" class="headerlink" title="更加精细化的权限控制  指定方法或者代码"></a>更加精细化的权限控制  指定方法或者代码</h3><ul>
+<li><p>在控制器上面依赖注入 AbpAuthorizationService 类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">///  abp鉴权service</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public AbpAuthorizationService abpAuthorizationService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询商品方法</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;product&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">[HttpGet]</span><br><span class="line">public List&lt;ProductDto&gt; SelectProduct()</span><br><span class="line">&#123;</span><br><span class="line">    //return productABPService.Select(new Product());</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、保护具体的子方法(判断用户邮箱是否有 UserInset)</span><br><span class="line">        abpAuthorizationService.CheckAsync(&quot;UserInset&quot;).Wait();</span><br><span class="line"></span><br><span class="line">        // 使用日志</span><br><span class="line">        Log.Information(&quot;查询商品&quot;); // 建议直接使用 内部依赖ILogger</span><br><span class="line">        _logger.LogInformation(&quot;查询商品&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    catch (Exception e)</span><br><span class="line">    &#123;</span><br><span class="line">        throw new UserFriendlyException(&quot;查询商品失败&quot;, &quot;-1&quot;, e.ToString());</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    return productABPService.GetListAsync(new PagedAndSortedResultRequestDto()).Result.Items.ToList();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PermissionDefitionManager 类的理解<br><img src="/BlogPro/image-26.png" alt="Alt text"></p>
+</li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/9%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Permission%E6%9D%83%E9%99%90%E6%A8%A1%E5%9D%97/" data-id="clrpy8obu000iygwrar3f60zq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "John Doe"
+        },
+        
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/image-14.png",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2024-01-23",
+        "dateCreated": "2024-01-23",
+        "dateModified": "2024-01-18",
+        "url": "https://smdegz.github.io/BlogPro/2024/01/23/9、ABP vNext-应用模块-Permission权限模块/",
+        "description": "1234567891011存储权限给用户授权对用户权限进行校验ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系。",
+        "wordCount": 1625
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="stack-overflow" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/BlogPro/2024/01/23/11%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Aduit%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            (no title)
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/BlogPro/2024/01/23/8%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Account%E8%B4%A6%E6%88%B7%E6%A8%A1%E5%9D%97/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title"></p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/image-40.png)" alt="" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2024-01-23T06:01:00.580Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2024-01-23T06:01:00.574Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/image-34.png)" alt="" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2024-01-23T06:01:00.568Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/image-30.png)" alt="" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2024-01-23T06:01:00.566Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/11%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Aduit%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/image-27.png)" alt="" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/11%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Aduit%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2024-01-23T06:01:00.561Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">14</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/ABP-C/" rel="tag">ABP C#</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/BlogPro/tags/ABP-C/" style="font-size: 10px;">ABP C#</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/BlogPro/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 John Doe</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://smdegz.github.io/BlogPro/2024/01/23/9%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Permission%E6%9D%83%E9%99%90%E6%A8%A1%E5%9D%97/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/BlogPro/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/BlogPro/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/BlogPro/js/main.js"></script>
+
+
+</body>
+</html>
