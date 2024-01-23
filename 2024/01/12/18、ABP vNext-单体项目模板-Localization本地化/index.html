@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>18、ABP vNext-单体项目模板-Localization本地化 | 何锦祥 博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="ABPvNest" />
+    
+    <meta name="description" content="12345ABP框架中的OpenID Connect和OAuth2模块是一个用于实现身份验证和授权的模块。它支持使用OpenID Connect协议与身份提供者进行通信，以进行用户身份验证和授权。通过使用OpenID Connect和OAuth2模块，您可以轻松地集成第三方身份提供者，例如Google、Facebook等，以及自定义的身份提供者。这个模块提供了一些便利的API和扩展点，以便您自定义">
+<meta property="og:type" content="article">
+<meta property="og:title" content="18、ABP vNext-单体项目模板-Localization本地化">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="12345ABP框架中的OpenID Connect和OAuth2模块是一个用于实现身份验证和授权的模块。它支持使用OpenID Connect协议与身份提供者进行通信，以进行用户身份验证和授权。通过使用OpenID Connect和OAuth2模块，您可以轻松地集成第三方身份提供者，例如Google、Facebook等，以及自定义的身份提供者。这个模块提供了一些便利的API和扩展点，以便您自定义">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images/image-40.png">
+<meta property="article:published_time" content="2024-01-12T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-23T06:25:18.472Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="ABPvNest">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images/image-40.png">
+    
+
+    
+        <link rel="alternate" href="/" title="何锦祥 博客" type="application/atom+xml" />
+    
+
+    
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/BlogPro/css/style.css">
+
+
+    
+<script src="/BlogPro/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/BlogPro/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/">Home</a>
+                                </li>
+                            
+                                    
+                                
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/about/index.html">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/BlogPro/',
+        CONTENT_URL: '/BlogPro/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/BlogPro/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-18、ABP vNext-单体项目模板-Localization本地化" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        18、ABP vNext-单体项目模板-Localization本地化
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="article-date">
+       <time datetime="2024-01-12T02:48:57.000Z" itemprop="datePublished">2024-01-12</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="article-date">
+     <time datetime="2024-01-23T06:25:18.472Z" itemprop="dateModified">2024-01-23</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/BlogPro/tags/ABPvNest/" rel="tag">ABPvNest</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ABP框架中的OpenID Connect和OAuth2模块是一个用于实现身份验证和授权的模块。它支持使用OpenID Connect协议与身份提供者进行通信，以进行用户身份验证和授权。</span><br><span class="line"></span><br><span class="line">通过使用OpenID Connect和OAuth2模块，您可以轻松地集成第三方身份提供者，例如Google、Facebook等，以及自定义的身份提供者。这个模块提供了一些便利的API和扩展点，以便您自定义身份验证和授权的行为。</span><br><span class="line"></span><br><span class="line">在ABP框架中，OpenID Connect和OAuth2模块通常与ASP.NET Core Identity框架一起使用。ASP.NET Core Identity是一个用于身份验证和授权的框架，它提供了用户账户管理、密码哈希、角色管理等功能的支持。通过将OpenID Connect和OAuth2模块与ASP.NET Core Identity集成，您可以构建一个强大而灵活的身份验证和授权系统。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/BlogPro/images/image-40.png" alt="Alt text"></p>
+<ul>
+<li><p>创建三个WebApi应用项目<br><img src="/BlogPro/images/image-41.png" alt="Alt text"></p>
+</li>
+<li><p>引用 Volo.Abp.OpenIddict.EntityFrameworkCore 包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpOpenIddictEntityFrameworkCoreModule), // 集成OpenIddict</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 WebAPINewDbContext 类的 OnModelCreating 方法添加如下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">builder.ConfigureOpenIddict();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新迁移数据库文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migration add openaddict</span><br><span class="line">dotnet ef update database openaddict</span><br><span class="line"></span><br><span class="line">生成四张表</span><br><span class="line">applications 存储客户端角色</span><br><span class="line">scopes 存储微服务资源角色</span><br><span class="line">tokens 存储登录信息，账号密码会生成Access_Token</span><br><span class="line">authorizations 存储授权信息，指定客户端能访问哪些微服务</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="配置客户端及微服务信息"><a href="#配置客户端及微服务信息" class="headerlink" title="配置客户端及微服务信息"></a>配置客户端及微服务信息</h3><ul>
+<li><p>创建一个 Server，用来配置客户端及微服务信息 ServerDataSeedContributor</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 配置OpenIddict 客户端信息+微服务信息 （种子数据）</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class ServerDataSeedContributor : IDataSeedContributor, ITransientDependency</span><br><span class="line">&#123;</span><br><span class="line">    private readonly IOpenIddictApplicationManager _applicationManager; // 配置客户端信息  YDT.Ebusiness.Logs</span><br><span class="line">    private readonly IOpenIddictScopeManager _scopeManager; // 配置分布式系统（微服务信息） YDT.Ebusiness.Seckills</span><br><span class="line"></span><br><span class="line">    public ServerDataSeedContributor(</span><br><span class="line">        IOpenIddictApplicationManager applicationManager,</span><br><span class="line">        IOpenIddictScopeManager scopeManager)</span><br><span class="line">    &#123;</span><br><span class="line">        _applicationManager = applicationManager;</span><br><span class="line">        _scopeManager = scopeManager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public async Task SeedAsync(DataSeedContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        // 微服务信息配置</span><br><span class="line">        if (await _scopeManager.FindByNameAsync(&quot;Seckills&quot;) == null)</span><br><span class="line">        &#123;</span><br><span class="line">            await _scopeManager.CreateAsync(new OpenIddictScopeDescriptor()</span><br><span class="line">            &#123;</span><br><span class="line">                Name = &quot;Seckills&quot;, // 微服务名称</span><br><span class="line">                DisplayName = &quot;秒杀系统&quot;,</span><br><span class="line">                DisplayNames =</span><br><span class="line">                &#123;</span><br><span class="line">                    [CultureInfo.GetCultureInfo(&quot;zh-Hans&quot;)] = &quot;演示 API 访问&quot;,</span><br><span class="line">                    [CultureInfo.GetCultureInfo(&quot;tr&quot;)] = &quot;API erişimi&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                Resources =</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;SeckillsResource&quot; // 微服务名称接口</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 客户端配置</span><br><span class="line">        if (await _applicationManager.FindByClientIdAsync(&quot;LogsId&quot;) == null)</span><br><span class="line">        &#123;</span><br><span class="line">            await _applicationManager.CreateAsync(new OpenIddictApplicationDescriptor</span><br><span class="line">            &#123;</span><br><span class="line">                ClientId = &quot;LogsId&quot;,</span><br><span class="line">                ClientSecret = &quot;1q2w3e*&quot;,</span><br><span class="line">                ConsentType = OpenIddictConstants.ConsentTypes.Explicit,</span><br><span class="line">                DisplayName = &quot;日志系统&quot;,</span><br><span class="line">                PostLogoutRedirectUris =</span><br><span class="line">                &#123;</span><br><span class="line">                    new Uri(&quot;https://localhost:44302/signout-callback-oidc&quot;),</span><br><span class="line">                    new Uri(&quot;http://localhost:4200&quot;)</span><br><span class="line">                &#125;,</span><br><span class="line">                RedirectUris =</span><br><span class="line">                &#123;</span><br><span class="line">                    new Uri(&quot;https://localhost:44302/signin-oidc&quot;),</span><br><span class="line">                    new Uri(&quot;http://localhost:4200&quot;)</span><br><span class="line">                &#125;,</span><br><span class="line">                // 具体的权限</span><br><span class="line">                Permissions =</span><br><span class="line">                &#123;</span><br><span class="line">                    OpenIddictConstants.Permissions.Endpoints.Authorization,</span><br><span class="line">                    OpenIddictConstants.Permissions.Endpoints.Token,</span><br><span class="line">                    OpenIddictConstants.Permissions.Endpoints.Device,</span><br><span class="line">                    OpenIddictConstants.Permissions.Endpoints.Introspection,</span><br><span class="line">                    OpenIddictConstants.Permissions.Endpoints.Revocation,</span><br><span class="line">                    OpenIddictConstants.Permissions.Endpoints.Logout,</span><br><span class="line"></span><br><span class="line">                    OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,</span><br><span class="line">                    OpenIddictConstants.Permissions.GrantTypes.Implicit,</span><br><span class="line">                    OpenIddictConstants.Permissions.GrantTypes.Password,</span><br><span class="line">                    OpenIddictConstants.Permissions.GrantTypes.RefreshToken,</span><br><span class="line">                    OpenIddictConstants.Permissions.GrantTypes.DeviceCode,</span><br><span class="line">                    OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,</span><br><span class="line">                    OpenIddictConstants.Permissions.Prefixes.GrantType + &quot;MyTokenExtensionGrant&quot;,</span><br><span class="line"></span><br><span class="line">                    OpenIddictConstants.Permissions.ResponseTypes.Code,</span><br><span class="line">                    OpenIddictConstants.Permissions.ResponseTypes.CodeIdToken,</span><br><span class="line">                    OpenIddictConstants.Permissions.ResponseTypes.CodeIdTokenToken,</span><br><span class="line">                    OpenIddictConstants.Permissions.ResponseTypes.CodeToken,</span><br><span class="line">                    OpenIddictConstants.Permissions.ResponseTypes.IdToken,</span><br><span class="line">                    OpenIddictConstants.Permissions.ResponseTypes.IdTokenToken,</span><br><span class="line">                    OpenIddictConstants.Permissions.ResponseTypes.None,</span><br><span class="line">                    OpenIddictConstants.Permissions.ResponseTypes.Token,</span><br><span class="line"></span><br><span class="line">                    OpenIddictConstants.Permissions.Scopes.Roles,</span><br><span class="line">                    OpenIddictConstants.Permissions.Scopes.Profile,</span><br><span class="line">                    OpenIddictConstants.Permissions.Scopes.Email,</span><br><span class="line">                    OpenIddictConstants.Permissions.Scopes.Address,</span><br><span class="line">                    OpenIddictConstants.Permissions.Scopes.Phone,</span><br><span class="line">                    OpenIddictConstants.Permissions.Prefixes.Scope + &quot;Seckills&quot; // 定义权限</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 WebAPINewModule 类中的 OnApplicationInitialization 方法中添加 客户端与微服务端的注册信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 1、添加openiddict 对应的微服务信息和客户端信息</span><br><span class="line">context.ServiceProvider</span><br><span class="line">   .GetRequiredService&lt;IDataSeeder&gt;()</span><br><span class="line">   .SeedAsync().Wait();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行项目 scopes表 和 applications表会创建一条客户端连接的种子数据<br><img src="/BlogPro/images/image-43.png" alt="Alt text"></p>
+</li>
+<li><p>客户端通过 ClientId 和 ClientSecret 生成 Access_Tonken</p>
+</li>
+<li><p>引入 Volo.Abp.OpenIddict.AspNetCore 包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 集成Volo.Abp.OpenIddict.AspNetCore</span><br><span class="line">typeof(AbpOpenIddictAspNetCoreModule)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用客户端调用认证中心的登录接口</p>
+</li>
+<li><p>客户端Logs项目创建 AccessTokenController </p>
+</li>
+<li><p>Logs项目API项目改造成ABP项目</p>
+</li>
+<li><p>创建EbusinessModule 类</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">// 1、依赖Volo.Abp.AspNetCore.Mvc模块</span><br><span class="line">[DependsOn(</span><br><span class="line">    // 1、ABP框架包</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule)</span><br><span class="line">)]</span><br><span class="line">public class LogsModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line">    public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、先获取配置对象</span><br><span class="line">        var Configuration = context.Services.GetConfiguration();</span><br><span class="line">        var hostingEnvironment = context.Services.GetHostingEnvironment();</span><br><span class="line"></span><br><span class="line">        context.Services.AddSwaggerGen();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public override void OnApplicationInitialization(ApplicationInitializationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、获取app</span><br><span class="line">        var app = context.GetApplicationBuilder();</span><br><span class="line">        // 2、获取环境</span><br><span class="line">        var env = context.GetEnvironment();</span><br><span class="line">        // Configure the HTTP request pipeline.</span><br><span class="line">        if (env.IsDevelopment())</span><br><span class="line">        &#123;</span><br><span class="line">            app.UseSwagger();</span><br><span class="line">            app.UseSwaggerUI();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        app.UseHttpsRedirection();</span><br><span class="line"></span><br><span class="line">        app.UseAuthorization();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Logs项目 引入 Volo.Abp.AspNetCore.Mvc 包</p>
+</li>
+</ul>
+<p> -新建LogsModule, 将Program启动类的代码移植到Moudle类里面<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">// 1、依赖Volo.Abp.AspNetCore.Mvc模块</span><br><span class="line">[DependsOn(</span><br><span class="line">    // 1、ABP框架包</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule)</span><br><span class="line">)]</span><br><span class="line">public class LogsModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line">    public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、先获取配置对象</span><br><span class="line">        var Configuration = context.Services.GetConfiguration();</span><br><span class="line">        var hostingEnvironment = context.Services.GetHostingEnvironment();</span><br><span class="line"></span><br><span class="line">        context.Services.AddSwaggerGen();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public override void OnApplicationInitialization(ApplicationInitializationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、获取app</span><br><span class="line">        var app = context.GetApplicationBuilder();</span><br><span class="line">        // 2、获取环境</span><br><span class="line">        var env = context.GetEnvironment();</span><br><span class="line">        // Configure the HTTP request pipeline.</span><br><span class="line">        if (env.IsDevelopment())</span><br><span class="line">        &#123;</span><br><span class="line">            app.UseSwagger();</span><br><span class="line">            app.UseSwaggerUI();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        app.UseHttpsRedirection();</span><br><span class="line"></span><br><span class="line">        app.UseAuthorization();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>修改 Program类代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">    public static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        var builder = WebApplication.CreateBuilder(args);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        // 1、加载LogsModule</span><br><span class="line">        builder.Services.AddApplication&lt;LogsModule&gt;();</span><br><span class="line"></span><br><span class="line">        var app = builder.Build();</span><br><span class="line"></span><br><span class="line">        // 2、执行中间件</span><br><span class="line">        app.InitializeApplication();</span><br><span class="line"></span><br><span class="line">        app.MapControllers();</span><br><span class="line"></span><br><span class="line">        app.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+<li><p>在控制器里面添加访问接口方法 </p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">[HttpGet(Name = &quot;AccessToken&quot;)]</span><br><span class="line">public async Task&lt;string&gt; Get()</span><br><span class="line">&#123;</span><br><span class="line">    // 一、获取token</span><br><span class="line">    const string server = &quot;https://localhost:44330&quot;; // 认证中心地址</span><br><span class="line">    const string serverApi = &quot;https://localhost:44301/api/abp/application-configuration&quot;;</span><br><span class="line">    const string api = &quot;https://localhost:7134/Seckills&quot;;</span><br><span class="line">    const string clientId = &quot;LogsId&quot;;</span><br><span class="line">    const string clientSecret = &quot;1q2w3e*&quot;;</span><br><span class="line"></span><br><span class="line">    var client = new HttpClient();</span><br><span class="line"></span><br><span class="line">    // 1、获取openiddict所有的接口 </span><br><span class="line">    var configuration = await client.GetDiscoveryDocumentAsync(server);</span><br><span class="line">    if (configuration.IsError)</span><br><span class="line">    &#123;</span><br><span class="line">        throw new Exception(configuration.Error);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 2、准备客户端Id和密码、微服务信息</span><br><span class="line">    var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest</span><br><span class="line">    &#123;</span><br><span class="line">        Address = configuration.TokenEndpoint, // 生成token接口</span><br><span class="line">        ClientId = clientId, // 客户端Id</span><br><span class="line">        ClientSecret = clientSecret, // 客户端密码</span><br><span class="line"></span><br><span class="line">        Scope = &quot;Seckills profile roles email phone offline_access&quot;, // 微服务名称。(核心授权)</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    if (tokenResponse.IsError)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(tokenResponse.Error);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 3、取出token</span><br><span class="line">    Console.WriteLine(&quot;Access token: &#123;0&#125;&quot;, tokenResponse.AccessToken);</span><br><span class="line">    Console.WriteLine();</span><br><span class="line">    Console.WriteLine(&quot;Refresh token: &#123;0&#125;&quot;, tokenResponse.RefreshToken);</span><br><span class="line">    Console.WriteLine();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>客户端 跟 认证系统 都启动</p>
+</li>
+<li><p>客户端访问认证系统的登录接口<br><img src="/BlogPro/images/image-44.png" alt="Alt text"></p>
+</li>
+</ul>
+<h3 id="使用Access-Token"><a href="#使用Access-Token" class="headerlink" title="使用Access_Token"></a>使用Access_Token</h3><ul>
+<li><p>在Seckills系统的SeckillsController控制器里面添加使用Token的代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 开始秒杀</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line"></span><br><span class="line">[HttpGet(Name = &quot;Seckills&quot;)]</span><br><span class="line">public string Get()</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;开始秒杀&quot;);</span><br><span class="line">    return &quot;秒杀成功&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改Logs系统的控制器代码，增加访问Seckills系统的接口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 二、访问秒杀服务</span><br><span class="line">// 1、先添加Token</span><br><span class="line">var serverRequest = new HttpRequestMessage(HttpMethod.Get, api);</span><br><span class="line">serverRequest.Headers.Authorization = new AuthenticationHeaderValue(&quot;Bearer&quot;, tokenResponse.AccessToken);</span><br><span class="line"></span><br><span class="line">// 2、开始访问</span><br><span class="line">var serverResponse = await client.SendAsync(serverRequest);</span><br><span class="line">serverResponse.EnsureSuccessStatusCode();</span><br><span class="line"></span><br><span class="line">// 3、输出数据</span><br><span class="line">Console.WriteLine(serverResponse.Content.ReadAsStringAsync().Result);</span><br><span class="line"></span><br><span class="line">return serverResponse.Content.ReadAsStringAsync().Result;</span><br></pre></td></tr></table></figure></li>
+<li><p>在Seckills系统里面的Program启动类里面增加如下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 开启校验AccessToken 交给认证中心校验</span><br><span class="line">builder.Services.AddAuthentication(&quot;Bearer&quot;)</span><br><span class="line">                .AddJwtBearer(options =&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    options.Authority = &quot;https://localhost:44330&quot;; // 认证中心校验</span><br><span class="line">                    options.Audience = &quot;SeckillsResource&quot;; // 访问具体微服务对应的什么资源(接口)</span><br><span class="line">                &#125;);</span><br></pre></td></tr></table></figure></li>
+<li><p>总结</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、openiddict在abp vnext中的使用</span><br><span class="line">1、生成openiddict表</span><br><span class="line">2、配置openiddict表种子数据，客户端和微服务数据</span><br><span class="line">3、分布式登录 (授权)生成AccessToken</span><br><span class="line">4、使用AccessToken</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" data-id="clrpzr9cp000a6wwr6cfo0128" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "John Doe"
+        },
+        "headline": "18、ABP vNext-单体项目模板-Localization本地化",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/images/image-40.png",
+        "keywords": "ABPvNest",
+        "genre": "",
+        "datePublished": "2024-01-12",
+        "dateCreated": "2024-01-12",
+        "dateModified": "2024-01-23",
+        "url": "https://smdegz.github.io/BlogPro/2024/01/12/18、ABP vNext-单体项目模板-Localization本地化/",
+        "description": "12345ABP框架中的OpenID Connect和OAuth2模块是一个用于实现身份验证和授权的模块。它支持使用OpenID Connect协议与身份提供者进行通信，以进行用户身份验证和授权。通过使用OpenID Connect和OAuth2模块，您可以轻松地集成第三方身份提供者，例如Google、Facebook等，以及自定义的身份提供者。这个模块提供了一些便利的API和扩展点，以便您自定义",
+        "wordCount": 2898
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="stack-overflow" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            21、ABP-vNext-DDD项目模板-动态C#API客户端
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">17、ABP vNext-单体项目模板-虚拟文件、框架思想总结</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/hello-world/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/hello-world/" class="title">Hello World</a></p>
+                            <p class="item-date"><time datetime="2024-01-23T01:17:35.955Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="title">21、ABP-vNext-DDD项目模板-动态C#API客户端</a></p>
+                            <p class="item-date"><time datetime="2024-01-13T02:48:57.000Z" itemprop="datePublished">2024-01-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/images/image-40.png)" alt="18、ABP vNext-单体项目模板-Localization本地化" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="title">18、ABP vNext-单体项目模板-Localization本地化</a></p>
+                            <p class="item-date"><time datetime="2024-01-12T02:48:57.000Z" itemprop="datePublished">2024-01-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="title">17、ABP vNext-单体项目模板-虚拟文件、框架思想总结</a></p>
+                            <p class="item-date"><time datetime="2024-01-11T02:48:57.000Z" itemprop="datePublished">2024-01-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/images/image-34.png)" alt="15、ABP vNext-应用模块-Featrue特征模块" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="title">15、ABP vNext-应用模块-Featrue特征模块</a></p>
+                            <p class="item-date"><time datetime="2024-01-10T02:48:57.000Z" itemprop="datePublished">2024-01-10</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">15</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/ABPvNest/" rel="tag">ABPvNest</a><span class="tag-list-count">14</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/BlogPro/tags/ABPvNest/" style="font-size: 10px;">ABPvNest</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/BlogPro/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 John Doe</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://smdegz.github.io/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/BlogPro/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/BlogPro/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/BlogPro/js/main.js"></script>
+
+
+</body>
+</html>

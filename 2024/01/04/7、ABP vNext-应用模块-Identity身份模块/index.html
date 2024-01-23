@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>7、ABP vNext-应用模块-Identity身份模块 | 何锦祥 博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="ABPvNest" />
+    
+    <meta name="description" content="12345ABP框架的Identity模块提供了身份验证和授权功能。这个模块支持多种身份验证和授权机制，包括ASP.NET Identity和OAuth2。它提供了一些基础服务，如用户管理、角色管理、权限管理等，并且支持自定义。此外，ABP框架的Identity模块还集成了OpenID Connect协议，提供了登录、注册、注销等功能。在开发过程中，可以使用ABP框架提供的API和UI来管理用户和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="7、ABP vNext-应用模块-Identity身份模块">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/04/7%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Identity%E8%BA%AB%E4%BB%BD%E6%A8%A1%E5%9D%97/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="12345ABP框架的Identity模块提供了身份验证和授权功能。这个模块支持多种身份验证和授权机制，包括ASP.NET Identity和OAuth2。它提供了一些基础服务，如用户管理、角色管理、权限管理等，并且支持自定义。此外，ABP框架的Identity模块还集成了OpenID Connect协议，提供了登录、注册、注销等功能。在开发过程中，可以使用ABP框架提供的API和UI来管理用户和">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images/image-3.png">
+<meta property="article:published_time" content="2024-01-04T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-23T06:25:18.505Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="ABPvNest">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images/image-3.png">
+    
+
+    
+        <link rel="alternate" href="/" title="何锦祥 博客" type="application/atom+xml" />
+    
+
+    
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/BlogPro/css/style.css">
+
+
+    
+<script src="/BlogPro/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/BlogPro/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/">Home</a>
+                                </li>
+                            
+                                    
+                                
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/about/index.html">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/BlogPro/',
+        CONTENT_URL: '/BlogPro/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/BlogPro/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-7、ABP vNext-应用模块-Identity身份模块" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        7、ABP vNext-应用模块-Identity身份模块
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/BlogPro/2024/01/04/7%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Identity%E8%BA%AB%E4%BB%BD%E6%A8%A1%E5%9D%97/" class="article-date">
+       <time datetime="2024-01-04T02:48:57.000Z" itemprop="datePublished">2024-01-04</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/BlogPro/2024/01/04/7%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Identity%E8%BA%AB%E4%BB%BD%E6%A8%A1%E5%9D%97/" class="article-date">
+     <time datetime="2024-01-23T06:25:18.505Z" itemprop="dateModified">2024-01-23</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/BlogPro/tags/ABPvNest/" rel="tag">ABPvNest</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ABP框架的Identity模块提供了身份验证和授权功能。这个模块支持多种身份验证和授权机制，包括ASP.NET Identity和OAuth2。</span><br><span class="line"></span><br><span class="line">它提供了一些基础服务，如用户管理、角色管理、权限管理等，并且支持自定义。此外，ABP框架的Identity模块还集成了OpenID Connect协议，提供了登录、注册、注销等功能。</span><br><span class="line"></span><br><span class="line">在开发过程中，可以使用ABP框架提供的API和UI来管理用户和角色，以及为应用程序分配权限。同时，它还提供了一些中间件和过滤器，用于处理身份验证和授权相关的事情。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>安装 Volo.Abp.Identity.Domain 包</li>
+<li>安装 Volo.Abp.Identity.EntityFrameworkCore 包</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//集成应用模块, identity身份模块</span><br><span class="line">typeof(AbpIdentityDomainModule),</span><br><span class="line">typeof(AbpIdentityEntityFrameworkCoreModule),</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用Identity"><a href="#使用Identity" class="headerlink" title="使用Identity"></a>使用Identity</h3><ul>
+<li><p>在数据库上下文中创建OnModelCreating方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">///  根据模型创建迁移文件。进一步创建表</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;modelBuilder&quot;&gt;&lt;/param&gt;</span><br><span class="line">protected override void OnModelCreating(ModelBuilder builder)</span><br><span class="line">&#123;</span><br><span class="line">    // 1、根据Identity 生成对应的数据库迁移文件。</span><br><span class="line">    AbpIdentityDbProperties.DbTablePrefix = &quot;Sys_&quot;;</span><br><span class="line">    builder.ConfigureIdentity();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成迁移文件 可以发现，现在生成的迁移文件出现很多的Identity实体脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migrations add ebsuiness</span><br><span class="line"></span><br><span class="line">dotnet ef database update </span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/images/image-3.png" alt="Alt text"></p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ABP框架中的Identity包包含了用于身份验证和授权的表。以下是Identity包中包含的一些主要表：</span><br><span class="line"></span><br><span class="line">AspNetUsers - 存储用户信息，如用户名、邮箱、密码等。</span><br><span class="line">AspNetUserRoles - 存储用户角色信息，将用户与角色相关联。</span><br><span class="line">AspNetUserClaims - 存储用户声明信息，可以用于存储用户的自定义属性。</span><br><span class="line">AspNetUserLogins - 存储用户登录信息，与用户的登录凭据相关联。</span><br><span class="line">AspNetRoleClaims - 存储角色声明信息，可以用于存储角色的自定义属性。</span><br><span class="line">AspNetRoles - 存储系统角色的信息。</span><br><span class="line">AspNetRoleClaims - 存储角色声明信息，可以用于存储角色的自定义属性。</span><br><span class="line">AspNetRolePermissions - 存储角色权限信息，将角色与权限相关联。</span><br><span class="line">AspNetUserTokens - 存储用户安全令牌信息，用于验证用户的登录状态。</span><br><span class="line">这些表是ABP框架中Identity包的一部分，用于构建身份验证和授权功能。根据实际需求，你可以根据这些表来扩展或自定义你的身份验证和授权机制。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>引入abp 自带的identity Server包    —&gt;  Volo.Abp.Identity.Application</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpIdentityApplicationModule),</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接下来在user控制器里面注入abp.application 提供的服务</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public IIdentityUserAppService identityUserAppService &#123; get; set; &#125; </span><br><span class="line"> /// &lt;summary&gt;</span><br><span class="line"> /// 添加用户方法</span><br><span class="line"> /// &lt;/summary&gt;</span><br><span class="line"> /// &lt;param name=&quot;User&quot;&gt;&lt;/param&gt;</span><br><span class="line"> /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line"> [HttpPost(Name = &quot;AddUser&quot;)]</span><br><span class="line"> public string AddUser(User User)</span><br><span class="line"> &#123;</span><br><span class="line">     UserService.Insert(User);</span><br><span class="line"></span><br><span class="line">     identityUserAppService.CreateAsync(identityUserCreateDto);</span><br><span class="line">     return &quot;添加成功&quot;;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>-引入abp提供的控制器 引入 Volo.Abp.Identity.HttpApi 包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpIdentityHttpApiModule),</span><br><span class="line">~~~~</span><br><span class="line"></span><br><span class="line">- 引入Identity 对应的权限包 ---&gt; Volo.Abp.PermissionManagement.EntityFrameworkCore</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> typeof(AbpPermissionManagementEntityFrameworkCoreModule)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 运行之后发现多了很多个User接口</span><br><span class="line">![Alt text](/images/image-4.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- module 类，添加对应的Identity权限</span><br></pre></td></tr></table></figure>
+<p>  &#x2F;&#x2F; 10、添加身份认证<br>  context.Services.AddAuthentication().AddCookie();</p>
+<p>  &#x2F;&#x2F; 11、添加权限校验<br>  context.Services.AddAuthorization();</p>
+<p>  &#x2F;&#x2F; 12、去掉所有的权限<br>  context.Services.AddAlwaysAllowAuthorization();</p>
+<p>  &#x2F;&#x2F; 13、identity身份模块访问新前缀<br>  AbpIdentityDbProperties.DbTablePrefix &#x3D; “Sys_”;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 添加角色</span><br><span class="line">![Alt text](/images/image-6.png)</span><br><span class="line"></span><br><span class="line">- 添加用户</span><br><span class="line">![Alt text](/images/image-5.png)</span><br><span class="line"></span><br><span class="line">- 数据库上下文可以修改表前缀</span><br><span class="line">![Alt text](/images/image-7.png)</span><br><span class="line"></span><br><span class="line">- 自定义Identity表字段，在提供的字段里面新增其他字段 创建一个SysUser实体类</span><br></pre></td></tr></table></figure>
+<p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户自定义字段<br>&#x2F;&#x2F;&#x2F; </summary><br>public class SysUser : IdentityUser<br>{<br>    public string CreateTony { set; get; }<br>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<p> public DbSet<SysUser> sys_users { set; get; }</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- 重新迁移文件，发现自定义字段已经加到原先Identity表里面</span><br><span class="line"></span><br><span class="line">### 如何查询自定义新增的实体字段</span><br><span class="line"></span><br><span class="line">- 创建新的IRepository接口文件  IUserABPRepository</span><br></pre></td></tr></table></figure>
+<p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户自定义仓储 用来实现abp提供的仓储接口<br>&#x2F;&#x2F;&#x2F; </summary></p>
+<p>public interface IUserABPRepository : IRepository&lt;SysUser, Guid&gt;<br>{<br>   Task<SysUser> FindByNormalizedUserNameAsync(<br>    [NotNull] string normalizedUserName,<br>    bool includeDetails &#x3D; true,<br>    CancellationToken cancellationToken &#x3D; default<br>);</p>
+<p>Task&lt;List<string>&gt; GetRoleNamesAsync(<br>    Guid id,<br>    CancellationToken cancellationToken &#x3D; default<br>);</p>
+<p>Task&lt;List<string>&gt; GetRoleNamesInOrganizationUnitAsync(<br>    Guid id,<br>    CancellationToken cancellationToken &#x3D; default);</p>
+<p>Task<SysUser> FindByLoginAsync(<br>    [NotNull] string loginProvider,<br>    [NotNull] string providerKey,<br>    bool includeDetails &#x3D; true,<br>    CancellationToken cancellationToken &#x3D; default<br>);<br>}<br>…………</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 创建Repository文件  UserABPRepository</span><br></pre></td></tr></table></figure>
+<p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户仓储自定义实现<br>&#x2F;&#x2F;&#x2F; </summary><br>[Dependency(ServiceLifetime.Singleton)]<br>public class UserABPRepository : EfCoreRepository&lt;ABPEbusinessContext, SysUser, Guid&gt;, IUserABPRepository<br>{<br>    public UserABPRepository(IDbContextProvider<ABPEbusinessContext> dbContextProvider) : base(dbContextProvider)<br>    {<br>    }</p>
+<pre><code>public Task&lt;SysUser&gt; FindByLoginAsync([NotNull] string loginProvider, [NotNull] string providerKey, bool includeDetails = true, CancellationToken cancellationToken = default)
+&#123;
+    throw new NotImplementedException();
+&#125;
+
+public Task&lt;SysUser&gt; FindByNormalizedEmailAsync([NotNull] string normalizedEmail, bool includeDetails = true, CancellationToken cancellationToken = default)
+&#123;
+    throw new NotImplementedException();
+&#125;
+
+public Task&lt;SysUser&gt; FindByNormalizedUserNameAsync([NotNull] string normalizedUserName, bool includeDetails = true, CancellationToken cancellationToken = default)
+&#123;
+    throw new NotImplementedException();
+&#125;
+
+public Task&lt;SysUser&gt; FindByTenantIdAndUserNameAsync([NotNull] string userName, Guid? tenantId, bool includeDetails = true, CancellationToken cancellationToken = default)
+&#123;
+    throw new NotImplementedException();
+&#125;
+</code></pre>
+<p>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 创建一个Service接口文件 IUserABPService</span><br></pre></td></tr></table></figure>
+
+<p> &#x2F;&#x2F;&#x2F; <summary><br> &#x2F;&#x2F;&#x2F; 用户自定义service<br> &#x2F;&#x2F;&#x2F; </summary><br> public interface IUserABPService : ICrudAppService&lt;<br>     SysUserDto,<br>     Guid,<br>     GetSysUserInput,<br>     SysUserCreateDto,<br>     SysUserUpdateDto&gt;<br> {<br>     Task&lt;ListResultDto<IdentityRoleDto>&gt; GetRolesAsync(Guid id);</p>
+<pre><code> Task&lt;ListResultDto&lt;IdentityRoleDto&gt;&gt; GetAssignableRolesAsync();
+
+ Task UpdateRolesAsync(Guid id, IdentityUserUpdateRolesDto input);
+
+ Task&lt;SysUserDto&gt; FindByUsernameAsync(string userName);
+
+ Task&lt;SysUserDto&gt; FindByEmailAsync(string email);
+ 
+</code></pre>
+<p> }</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 创建一个Service 文件  UserABPService</span><br></pre></td></tr></table></figure>
+<p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户service自定义实现<br>&#x2F;&#x2F;&#x2F; </summary><br>[Dependency(ServiceLifetime.Singleton)]<br>&#x2F;&#x2F;[Authorize]<br>public class UserABPService : CrudAppService&lt;<br>    SysUser,<br>    SysUserDto,<br>    Guid,<br>    GetSysUserInput,<br>    SysUserCreateDto,<br>    SysUserUpdateDto&gt;, IUserABPService, IRemoteService<br>{</p>
+<pre><code>public UserABPService(IUserABPRepository userABPRepository) : base(userABPRepository)
+&#123;
+
+&#125;
+
+public Task&lt;SysUserDto&gt; FindByEmailAsync(string email)
+&#123;
+    throw new NotImplementedException();
+&#125;
+
+public Task&lt;SysUserDto&gt; FindByUsernameAsync(string userName)
+&#123;
+    throw new NotImplementedException();
+&#125;
+
+public Task&lt;ListResultDto&lt;IdentityRoleDto&gt;&gt; GetAssignableRolesAsync()
+&#123;
+    throw new NotImplementedException();
+&#125;
+
+public Task&lt;ListResultDto&lt;IdentityRoleDto&gt;&gt; GetRolesAsync(Guid id)
+&#123;
+    throw new NotImplementedException();
+&#125;
+
+public Task UpdateRolesAsync(Guid id, IdentityUserUpdateRolesDto input)
+&#123;
+    throw new NotImplementedException();
+&#125;
+</code></pre>
+<p>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">- 创建相关实体的DTO</span><br></pre></td></tr></table></figure>
+<p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户自定义字段<br>&#x2F;&#x2F;&#x2F; </summary><br>public class SysUserDto : ExtensibleFullAuditedEntityDto<Guid>, IMultiTenant, IHasConcurrencyStamp, IHasEntityVersion<br>{</p>
+<p>}</p>
+<p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户自定义字段<br>&#x2F;&#x2F;&#x2F; </summary><br>public class SysUserCreateDto : IdentityUserCreateDto<br>{<br>    public string CreateTony { set; get; }<br>}</p>
+<p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户自定义字段<br>&#x2F;&#x2F;&#x2F; </summary><br>public class SysUserUpdateDto : IdentityUserUpdateDto<br>{<br>    public string CreateTony { set; get; }<br>}</p>
+<p>。。。。<br>~~~</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/04/7%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Identity%E8%BA%AB%E4%BB%BD%E6%A8%A1%E5%9D%97/" data-id="clrpzr9cu000n6wwr9kg1fawg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "John Doe"
+        },
+        "headline": "7、ABP vNext-应用模块-Identity身份模块",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/images/image-3.png",
+        "keywords": "ABPvNest",
+        "genre": "",
+        "datePublished": "2024-01-04",
+        "dateCreated": "2024-01-04",
+        "dateModified": "2024-01-23",
+        "url": "https://smdegz.github.io/BlogPro/2024/01/04/7、ABP vNext-应用模块-Identity身份模块/",
+        "description": "12345ABP框架的Identity模块提供了身份验证和授权功能。这个模块支持多种身份验证和授权机制，包括ASP.NET Identity和OAuth2。它提供了一些基础服务，如用户管理、角色管理、权限管理等，并且支持自定义。此外，ABP框架的Identity模块还集成了OpenID Connect协议，提供了登录、注册、注销等功能。在开发过程中，可以使用ABP框架提供的API和UI来管理用户和",
+        "wordCount": 812
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="stack-overflow" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/BlogPro/2024/01/05/8%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Account%E8%B4%A6%E6%88%B7%E6%A8%A1%E5%9D%97/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            8、ABP vNext-应用模块-Account账户模块
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/BlogPro/2024/01/03/6%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97-API%E6%96%87%E6%A1%A3%E3%80%81%E6%97%A5%E5%BF%97%E3%80%81%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97-%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">6、ABP vNext-核心模块-API文档、日志、异常模块-笔记</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/hello-world/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/hello-world/" class="title">Hello World</a></p>
+                            <p class="item-date"><time datetime="2024-01-23T01:17:35.955Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="title">21、ABP-vNext-DDD项目模板-动态C#API客户端</a></p>
+                            <p class="item-date"><time datetime="2024-01-13T02:48:57.000Z" itemprop="datePublished">2024-01-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/images/image-40.png)" alt="18、ABP vNext-单体项目模板-Localization本地化" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="title">18、ABP vNext-单体项目模板-Localization本地化</a></p>
+                            <p class="item-date"><time datetime="2024-01-12T02:48:57.000Z" itemprop="datePublished">2024-01-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="title">17、ABP vNext-单体项目模板-虚拟文件、框架思想总结</a></p>
+                            <p class="item-date"><time datetime="2024-01-11T02:48:57.000Z" itemprop="datePublished">2024-01-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/images/image-34.png)" alt="15、ABP vNext-应用模块-Featrue特征模块" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="title">15、ABP vNext-应用模块-Featrue特征模块</a></p>
+                            <p class="item-date"><time datetime="2024-01-10T02:48:57.000Z" itemprop="datePublished">2024-01-10</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">15</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/ABPvNest/" rel="tag">ABPvNest</a><span class="tag-list-count">14</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/BlogPro/tags/ABPvNest/" style="font-size: 10px;">ABPvNest</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/BlogPro/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 John Doe</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://smdegz.github.io/BlogPro/2024/01/04/7%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Identity%E8%BA%AB%E4%BB%BD%E6%A8%A1%E5%9D%97/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/BlogPro/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/BlogPro/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/BlogPro/js/main.js"></script>
+
+
+</body>
+</html>

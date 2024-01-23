@@ -6,23 +6,23 @@
     
 
     
-    <title>Hello World | 何锦祥 博客</title>
+    <title>17、ABP vNext-单体项目模板-虚拟文件、框架思想总结 | 何锦祥 博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="ABPvNest" />
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="123ABP框架中的虚拟文件系统（Virtual File System，简称VFS）是一个非常强大的功能，它能够管理文件系统（磁盘）上实际不存在的文件。虚拟文件系统主要用于将js、css、image、cshtml等文件嵌入到程序集中，并在运行时将它们用作物理文件。它可以集成到EBusiness.Application项目中，通过NuGet下载Volo.Abp.VirtualFileSystem，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/23/hello-world/index.html">
+<meta property="og:title" content="17、ABP vNext-单体项目模板-虚拟文件、框架思想总结">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="何锦祥 博客">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="123ABP框架中的虚拟文件系统（Virtual File System，简称VFS）是一个非常强大的功能，它能够管理文件系统（磁盘）上实际不存在的文件。虚拟文件系统主要用于将js、css、image、cshtml等文件嵌入到程序集中，并在运行时将它们用作物理文件。它可以集成到EBusiness.Application项目中，通过NuGet下载Volo.Abp.VirtualFileSystem，">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-01-23T01:17:35.955Z">
-<meta property="article:modified_time" content="2024-01-23T01:17:35.955Z">
+<meta property="article:published_time" content="2024-01-11T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-23T06:25:18.472Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="生活, 思考, 感悟, 分享">
+<meta property="article:tag" content="ABPvNest">
 <meta name="twitter:card" content="summary">
     
 
@@ -155,14 +155,14 @@
 </div>
 
                         <div class="main-body-content">
-                            <article id="post-hello-world" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-17、ABP vNext-单体项目模板-虚拟文件、框架思想总结" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        Hello World
+        17、ABP vNext-单体项目模板-虚拟文件、框架思想总结
         </h1>
     
 
@@ -173,16 +173,16 @@
                 
   <div class="article-date">
     <i class="fa fa-calendar"></i>
-    <a href="/BlogPro/2024/01/23/hello-world/" class="article-date">
-       <time datetime="2024-01-23T01:17:35.955Z" itemprop="datePublished">2024-01-23</time>
+    <a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="article-date">
+       <time datetime="2024-01-11T02:48:57.000Z" itemprop="datePublished">2024-01-11</time>
     </a>
   </div>
 
 
 <div class="article-date">
   <i class="fa fa-calendar-plus-o"></i>
-  <a href="/BlogPro/2024/01/23/hello-world/" class="article-date">
-     <time datetime="2024-01-23T01:17:35.955Z" itemprop="dateModified">2024-01-23</time>
+  <a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="article-date">
+     <time datetime="2024-01-23T06:25:18.472Z" itemprop="dateModified">2024-01-23</time>
   </a>
 </div>
 
@@ -190,6 +190,11 @@
                 
 
                 
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/BlogPro/tags/ABPvNest/" rel="tag">ABPvNest</a>
+    </div>
+
                 
 
                 
@@ -204,19 +209,15 @@
 
             
 
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ABP框架中的虚拟文件系统（Virtual File System，简称VFS）是一个非常强大的功能，它能够管理文件系统（磁盘）上实际不存在的文件。</span><br><span class="line"></span><br><span class="line">虚拟文件系统主要用于将js、css、image、cshtml等文件嵌入到程序集中，并在运行时将它们用作物理文件。它可以集成到EBusiness.Application项目中，通过NuGet下载Volo.Abp.VirtualFileSystem，然后通过AbpVirtualFileSystemOptions来配置虚拟文件系统。通过IVirtualFileProvider来访问虚拟文件，将特定模块的所有内嵌资源都纳入虚拟文件系统。</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<ul>
+<li><p>引入 Volo.Abp.VirtualFileSystem 包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 集成虚拟文件系统</span><br><span class="line">typeof(AbpVirtualFileSystemModule)</span><br><span class="line"></span><br><span class="line"> private void ConfigureVirtualFiles(IWebHostEnvironment hostingEnvironment)</span><br><span class="line">&#123;</span><br><span class="line">    Configure&lt;AbpVirtualFileSystemOptions&gt;(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.FileSets.AddEmbedded&lt;WebAPINewModule&gt;();</span><br><span class="line">        if (hostingEnvironment.IsDevelopment())</span><br><span class="line">        &#123;</span><br><span class="line">            /* Using physical files in development, so we don&#x27;t need to recompile on changes */</span><br><span class="line">            options.FileSets.ReplaceEmbeddedByPhysical&lt;WebAPINewModule&gt;(hostingEnvironment.ContentRootPath);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在控制器注入 虚拟文件系统tigongzh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">// 4、虚拟文件提供者</span><br><span class="line">public IVirtualFileProvider VirtualFileProvider &#123; set; get; &#125;   </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询商品方法</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;product&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">[HttpGet]</span><br><span class="line">[RequiresFeature(&quot;GetProductFeature&quot;)]</span><br><span class="line">public List&lt;ProductDto&gt; SelectProduct()</span><br><span class="line">&#123;</span><br><span class="line">    //return productABPService.Select(new Product());</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        //abpAuthorizationService.CheckAsync(&quot;UserInset&quot;).Wait();</span><br><span class="line"></span><br><span class="line">        // 1、获取项目中 test.txt文件</span><br><span class="line">        // IFileInfo fileInfo = VirtualFileProvider.GetFileInfo(&quot;/Files/test.txt&quot;);</span><br><span class="line">        //IFileInfo fileInfo = VirtualFileProvider.GetFileInfo(&quot;/Files/tony/tony.txt&quot;);</span><br><span class="line"></span><br><span class="line">        //IFileInfo fileInfo = VirtualFileProvider.GetFileInfo(&quot;/Files/tony/p6高端架构师班-最新班.png&quot;);</span><br><span class="line">        IFileInfo fileInfo = VirtualFileProvider.GetFileInfo(&quot;/Files/tony/20230823_200151 Part 12.mp4&quot;);</span><br><span class="line">        // 2、获取文件内容(字符串)</span><br><span class="line">        // string content = fileInfo.ReadAsString();</span><br><span class="line">        // 3、获取文件流</span><br><span class="line">        //Stream stream = fileInfo.CreateReadStream();</span><br><span class="line">        // 3、获取文件为字节数组</span><br><span class="line">        byte[] fileByte = fileInfo.ReadBytes();</span><br><span class="line">        </span><br><span class="line">        // 4、大文件读取</span><br><span class="line">        // 如果文件过大，超过了内存的大小，导致内存溢出异常。</span><br><span class="line">        // 分段读取 ： 1T ---&gt; 32G。 一次读取32G。一共读取32次读取，才能读完。</span><br><span class="line">        // 场景：有限资源解决无限资源问题。就需要使用分段读取</span><br><span class="line">        // 工具：使用文件流来进行分段</span><br><span class="line">        Stream stream = fileInfo.CreateReadStream();</span><br><span class="line">        byte[] fileByte2 = new byte[3123123121];</span><br><span class="line"></span><br><span class="line">        IFileInfo writerFile = VirtualFileProvider.GetFileInfo(&quot;/Files/tony/20230819_200258.mp4&quot;);</span><br><span class="line">        Stream writerStream = writerFile.CreateReadStream();</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; fileInfo.Length / fileByte2.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            stream.ReadAsync(fileByte2, fileByte2.Length * i, fileByte2.Length);</span><br><span class="line"></span><br><span class="line">            // 1、32G读取之后存储起来</span><br><span class="line">            writerStream.WriteAsync(fileByte2, fileByte2.Length * i, fileByte2.Length);</span><br><span class="line">        &#125;</span><br><span class="line">        // 情况：读取大文件时候，如果内存不够。就直接这样做。</span><br><span class="line"></span><br><span class="line">        // 5、一次性读取批量文件</span><br><span class="line">        IDirectoryContents Contents = VirtualFileProvider.GetDirectoryContents(&quot;/Files/Tony&quot;);</span><br><span class="line">        IEnumerator&lt;IFileInfo&gt; enumerators = Contents.GetEnumerator();</span><br><span class="line">        while (enumerators.MoveNext())</span><br><span class="line">        &#123;</span><br><span class="line">            // 5.1、获取当前文件</span><br><span class="line">            IFileInfo fileInfo1 = enumerators.Current;</span><br><span class="line">            string content = fileInfo.ReadAsString();</span><br><span class="line">            Console.WriteLine(fileByte);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // </span><br><span class="line"></span><br><span class="line">        // 3、打印文件内容</span><br><span class="line">        Console.WriteLine(fileByte);</span><br><span class="line"></span><br><span class="line">        // 使用日志</span><br><span class="line">        Log.Information(&quot;查询商品&quot;); // 建议直接使用 内部依赖ILogger</span><br><span class="line">        _logger.LogInformation(&quot;查询商品&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    catch (Exception e)</span><br><span class="line">    &#123;</span><br><span class="line">        throw new UserFriendlyException(&quot;查询商品失败&quot;, &quot;-1&quot;, e.ToString());</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    return productABPService.GetListAsync(new PagedAndSortedResultRequestDto()).Result.Items.ToList();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
 
         </div>
         <footer class="article-footer">
@@ -224,7 +225,7 @@
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/hello-world/" data-id="clrpzr9cv000t6wwr0psn0l0k" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" data-id="clrpzr9cn00076wwr6uwu4hqe" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -294,17 +295,16 @@
             "@type": "Person",
             "name": "John Doe"
         },
-        "headline": "Hello World",
+        "headline": "17、ABP vNext-单体项目模板-虚拟文件、框架思想总结",
         "image": "https://smdegz.github.io/BlogPro",
-        "keywords": "",
+        "keywords": "ABPvNest",
         "genre": "",
-        "datePublished": "2024-01-23",
-        "dateCreated": "2024-01-23",
+        "datePublished": "2024-01-11",
+        "dateCreated": "2024-01-11",
         "dateModified": "2024-01-23",
-        "url": "https://smdegz.github.io/BlogPro/2024/01/23/hello-world/",
-        "description": "Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick",
-        "wordCount": 128
+        "url": "https://smdegz.github.io/BlogPro/2024/01/11/17、ABP vNext-单体项目模板-虚拟文件、框架思想总结/",
+        "description": "123ABP框架中的虚拟文件系统（Virtual File System，简称VFS）是一个非常强大的功能，它能够管理文件系统（磁盘）上实际不存在的文件。虚拟文件系统主要用于将js、css、image、cshtml等文件嵌入到程序集中，并在运行时将它们用作物理文件。它可以集成到EBusiness.Application项目中，通过NuGet下载Volo.Abp.VirtualFileSystem，",
+        "wordCount": 854
     }
 </script>
 
@@ -385,10 +385,20 @@ Quick",
         
 <nav id="article-nav">
     
+        <a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            18、ABP vNext-单体项目模板-Localization本地化
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
     
-        <a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" id="article-nav-older" class="article-nav-link-wrap">
+    
+        <a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">older</strong>
-        <p class="article-nav-title">21、ABP-vNext-DDD项目模板-动态C#API客户端</p>
+        <p class="article-nav-title">15、ABP vNext-应用模块-Featrue特征模块</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -598,7 +608,7 @@ Quick",
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://smdegz.github.io/BlogPro/2024/01/23/hello-world/';
+    var disqus_url = 'https://smdegz.github.io/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/';
     
     (function() {
     var dsq = document.createElement('script');
