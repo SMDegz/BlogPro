@@ -19,13 +19,13 @@
 <meta property="og:site_name" content="何锦祥 博客">
 <meta property="og:description" content="引入 Volo.Abp。EntityFrameworkCore 在module 类 添加  typeof(AbpEntityFrameworkCoreModule), 创建一个Context 数据库上下文  123456789101112[ConnectionStringName(&quot;Default&quot;)]public class ABPEbusinessContext : Abp">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/.io//image.png">
 <meta property="article:published_time" content="2024-01-23T02:48:57.000Z">
 <meta property="article:modified_time" content="2024-01-23T05:16:04.181Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ABP C#">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/.io//image.png">
     
 
     
@@ -234,7 +234,7 @@
 <li><p>执行命令</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migrations add ebusiness</span><br><span class="line"></span><br><span class="line">dotnet ef database update</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><img src="/BlogPro/image.png" alt="Alt text"></p>
+<p><img src="/BlogPro/.io//image.png" alt="Alt text"></p>
 <h2 id="重构项目为领域驱动项目"><a href="#重构项目为领域驱动项目" class="headerlink" title="重构项目为领域驱动项目"></a>重构项目为领域驱动项目</h2><ul>
 <li><p>安装包 VVolo.Abp.Ddd.Domain</p>
 </li>
@@ -249,7 +249,7 @@
 <li><p>创建一个ABP的仓储类</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品仓储实现</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[Dependency(ServiceLifetime.Singleton)]</span><br><span class="line">public class ProductABPRepository : EfCoreRepository&lt;ABPEbusinessContext, Product, Guid&gt;, IProductABPRepository</span><br><span class="line">&#123;</span><br><span class="line">    public ProductABPRepository(IDbContextProvider&lt;ABPEbusinessContext&gt; dbContextProvider) : base(dbContextProvider)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>实体类要继承自 Entity<Guid></p>
+<li><p>实体类要继承自 Entity<Guid></Guid></p>
 </li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品模型</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class Product : Entity&lt;Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    //public Guid Id &#123; set; get; &#125; // 商品主键</span><br><span class="line">    public string ProductCode &#123; set; get; &#125;    //商品编码</span><br><span class="line">    public string ProductUrl &#123; set; get; &#125;        </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -272,7 +272,7 @@
 </ul>
 <p>只用引用了这个包之后，上面的Serveice 类才可以继承自 CrudAppService&lt;Product, ProductDto, Guid&gt; 类</p>
 <ul>
-<li><p>实体类的 DTO 需要继承自 : EntityDto<Guid></p>
+<li><p>实体类的 DTO 需要继承自 : EntityDto<Guid></Guid></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品Dto,主要是页面数据---&gt;需要转接成为实体</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class ProductDto: EntityDto&lt;Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line">    //public Guid Id &#123; set; get; &#125; // 商品主键</span><br><span class="line">    public string ProductCode &#123; set; get; &#125;   </span><br><span class="line">     //商品编码</span><br><span class="line">    public string ProductUrl &#123; set; get; &#125;    </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>引入 Volo.Abp.AutoMapper 包</p>
@@ -285,7 +285,7 @@
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/" data-id="clrpwm10d0007wwwrgh282ufy" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/" data-id="clrpwytw40007mgwrgf6jdxlk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -356,7 +356,7 @@
             "name": "John Doe"
         },
         "headline": "4、ABP vNext-核心项目-项目模块",
-        "image": "https://smdegz.github.io/BlogPro/BlogPro/image.png",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/.io//image.png",
         "keywords": "ABP C#",
         "genre": "",
         "datePublished": "2024-01-23",
@@ -507,7 +507,7 @@
                             <a href="/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-40.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-40.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>
@@ -547,7 +547,7 @@
                             <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-34.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-34.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>
@@ -567,7 +567,7 @@
                             <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-30.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-30.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>

@@ -19,13 +19,13 @@
 <meta property="og:site_name" content="何锦祥 博客">
 <meta property="og:description" content="12345ABP框架的特征系统是一个用于在运行时启用、禁用或更改应用程序特征的行为的系统。特征的运行时值通常是一个boolean值，例如true（启用）或false（禁用）。但是，您可以获取&#x2F;设置任何类型的特征值。这个特性系统最初是为了控制多租户应用程序中的租户特性。但是，它是可扩展的，可以在任何条件下确定特征。特征系统是通过Volo.Abp.FeaturesNuGet包实现的，大多数情况下，您不">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-34.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/.io//image-34.png">
 <meta property="article:published_time" content="2024-01-23T05:11:17.324Z">
 <meta property="article:modified_time" content="2024-01-21T08:55:18.518Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="生活, 思考, 感悟, 分享">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image-34.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/.io//image-34.png">
     
 
     
@@ -219,7 +219,7 @@
 </li>
 <li><p>重新编译运行，会自动把定义的特征存储到abpfeatures表里面</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 特征定义</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class EbsinessFeatureDefine: FeatureDefinitionProvider</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 定义特征</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public string Name = &quot;AddProductFeature&quot;;</span><br><span class="line"></span><br><span class="line">    public override void Define(IFeatureDefinitionContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        //1、给特征分组(定义特征组)</span><br><span class="line">        FeatureGroupDefinition featureGroupDefinition = context.AddGroup(&quot;ProductGroup&quot;);</span><br><span class="line"></span><br><span class="line">        //2、定义特征</span><br><span class="line">        FeatureDefinition featureDefinition = featureGroupDefinition.AddFeature(&quot;AddProductFeature&quot;,&quot;true&quot;); //添加商品特征</span><br><span class="line"></span><br><span class="line">        //3.1、定义子特征</span><br><span class="line">        featureDefinition.CreateChildFeature(&quot;SendSmsFeature&quot;,&quot;true&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        featureGroupDefinition.AddFeature(&quot;GetProductFeature&quot;, &quot;true&quot;);//查询商品特征</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>给控制器的方法增加特征特性<br><img src="/BlogPro/image-34.png" alt="Alt text"></p>
+<li><p>给控制器的方法增加特征特性<br><img src="/BlogPro/.io//image-34.png" alt="Alt text"></p>
 </li>
 <li><p>创建一个特征Service 用来给租户设置特征 FeatureService</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 给租户设置特征</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[Dependency(ServiceLifetime.Scoped)]</span><br><span class="line">public class FeatureService : IRemoteService</span><br><span class="line">&#123;</span><br><span class="line">    public IFeatureManager featureManager &#123; get; set; &#125; </span><br><span class="line"></span><br><span class="line">    public ICurrentTenant currentTenant &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 给租户设置特征</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public void SetTenantAddProductFeature(string AddProductFeatureValue)</span><br><span class="line">    &#123;</span><br><span class="line">        featureManager.SetForTenantAsync((Guid)currentTenant.GetId(), &quot;AddProductFeature&quot;, AddProductFeatureValue).Wait();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -234,7 +234,7 @@
 <li><p>在 FeatureService 类创建一个新的特征方法 SetTenantGetProductFeature</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">featureManager.SetForTenantAsync((Guid)currentTenant.GetId(), &quot;GetProductFeature&quot;, GetProductFeatureValue).Wait();</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>在控制器的方法里面添加指定特征的特性<br><img src="/BlogPro/image-35.png" alt="Alt text"></p>
+<li><p>在控制器的方法里面添加指定特征的特性<br><img src="/BlogPro/.io//image-35.png" alt="Alt text"></p>
 </li>
 <li><p>先注销用户</p>
 </li>
@@ -254,9 +254,9 @@
 </li>
 <li><p>引入 Volo.Abp.FeatureManagement.HttpApi 包</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> typeof(AbpFeatureManagementApplicationModule),</span><br><span class="line">typeof(AbpFeatureManagementHttpApiModule)</span><br></pre></td></tr></table></figure>
-<p><img src="/BlogPro/image-36.png" alt="Alt text"></p>
+<p><img src="/BlogPro/.io//image-36.png" alt="Alt text"></p>
 </li>
-<li><p>可以在控制器类上面添加特征限制，限制整个控制器的特征访问<br><img src="/BlogPro/image-37.png" alt="Alt text"></p>
+<li><p>可以在控制器类上面添加特征限制，限制整个控制器的特征访问<br><img src="/BlogPro/.io//image-37.png" alt="Alt text"></p>
 </li>
 </ul>
 <h3 id="添加子特征"><a href="#添加子特征" class="headerlink" title="添加子特征"></a>添加子特征</h3><ul>
@@ -266,9 +266,9 @@
 <li><p>在控制器里面注入 </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 3、特征检查接口</span><br><span class="line">public IFeatureChecker FeatureChecker &#123; set; get; &#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>给相关租户设置子特征<br><img src="/BlogPro/image-39.png" alt="Alt text"></p>
+<li><p>给相关租户设置子特征<br><img src="/BlogPro/.io//image-39.png" alt="Alt text"></p>
 </li>
-<li><p>在相应方法里面检查<br><img src="/BlogPro/image-38.png" alt="Alt text"></p>
+<li><p>在相应方法里面检查<br><img src="/BlogPro/.io//image-38.png" alt="Alt text"></p>
 </li>
 </ul>
 
@@ -278,7 +278,7 @@
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" data-id="clrpwm10a0003wwwr2vewg65c" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" data-id="clrpwytw10003mgwr54h0c32b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -349,7 +349,7 @@
             "name": "John Doe"
         },
         
-        "image": "https://smdegz.github.io/BlogPro/BlogPro/image-34.png",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/.io//image-34.png",
         "keywords": "",
         "genre": "",
         "datePublished": "2024-01-23",
@@ -496,7 +496,7 @@
                             <a href="/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-40.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-40.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>
@@ -536,7 +536,7 @@
                             <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-34.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-34.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>
@@ -556,7 +556,7 @@
                             <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-30.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-30.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>

@@ -19,13 +19,13 @@
 <meta property="og:site_name" content="何锦祥 博客">
 <meta property="og:description" content="12345678910ABP框架的多租户支持是一种技术，它允许一个应用程序同时为多个租户提供服务。在多租户应用程序中，不同的租户使用同一个应用程序实例，但每个租户的数据和配置是隔离的，互不干扰。ABP框架通过以下方式实现多租户支持：租户模块添加：使用ABP的命令行工具或Visual Studio插件，可以轻松地将多租户模块添加到项目中。租户实体定义：在多租户模块中，需要定义一个租户实体，用于表示租">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-30.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/.io//image-30.png">
 <meta property="article:published_time" content="2024-01-23T05:11:17.323Z">
 <meta property="article:modified_time" content="2024-01-21T05:42:10.782Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="生活, 思考, 感悟, 分享">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image-30.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/.io//image-30.png">
     
 
     
@@ -198,7 +198,7 @@
 
             <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ABP框架的多租户支持是一种技术，它允许一个应用程序同时为多个租户提供服务。在多租户应用程序中，不同的租户使用同一个应用程序实例，但每个租户的数据和配置是隔离的，互不干扰。</span><br><span class="line"></span><br><span class="line">ABP框架通过以下方式实现多租户支持：</span><br><span class="line"></span><br><span class="line">租户模块添加：使用ABP的命令行工具或Visual Studio插件，可以轻松地将多租户模块添加到项目中。</span><br><span class="line">租户实体定义：在多租户模块中，需要定义一个租户实体，用于表示租户信息。这个实体可以包含租户名称、域名等信息。</span><br><span class="line">租户表创建：多租户模块会自动创建租户表，并使用定义的租户实体来映射表结构。</span><br><span class="line">多租户过滤器：在应用程序的控制器或服务中，可以使用多租户过滤器来确保只有当前租户的数据才会被访问或更新。</span><br><span class="line">多租户权限系统：ABP提供了一套基于租户的权限系统，可以确保每个租户的权限和功能是独立的。</span><br><span class="line">UI支持：ABP框架提供了UI支持，以方便租户的管理和切换。例如，可以提供一个UI界面来创建、管理和删除租户。</span><br></pre></td></tr></table></figure>
 
-<p><img src="/BlogPro/image-30.png" alt="Alt text"></p>
+<p><img src="/BlogPro/.io//image-30.png" alt="Alt text"></p>
 <ul>
 <li><p>引入 Volo.Abp.TenantManagement.Domain 包</p>
 </li>
@@ -223,7 +223,7 @@
 <li><p>引入 Volo.Abp.TenantManagement.HttpApi 包</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpTenantManagementApplicationModule),</span><br><span class="line">typeof(AbpTenantManagementHttpApiModule),</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><img src="/BlogPro/image-31.png" alt="Alt text"></p>
+<p><img src="/BlogPro/.io//image-31.png" alt="Alt text"></p>
 <h3 id="创建多租户步骤"><a href="#创建多租户步骤" class="headerlink" title="创建多租户步骤"></a>创建多租户步骤</h3><ul>
 <li><p>abp 多租户里面有定义了租户权限类，运行系统，自动添加对应权限到数据库</p>
 </li>
@@ -307,7 +307,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 删除租户</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public void DeleteTenant()</span><br><span class="line">&#123;</span><br><span class="line">    // 1、删除租户</span><br><span class="line">    MultiTenancyCookieHelper.DeleteTenantCookie(httpContextAccessor.HttpContext,TenantResolverConsts.DefaultTenantKey);</span><br><span class="line"></span><br><span class="line">    // 2、清空当前租户信息</span><br><span class="line">    using (currentTenant.Change(null))</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;租户清除成功&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li><p>在MultiTenancyCookieHelper 类中新增 DeleteTenantCookie 方法</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public static void DeleteTenantCookie(HttpContext context,</span><br><span class="line">            string tenantKey)</span><br><span class="line">        &#123;</span><br><span class="line">            // 1、删除cookie下的租户</span><br><span class="line">            context.Response.Cookies.Delete(tenantKey);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">- 执行新创建的退出当前租户的方法</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2、Server=localhost;Port=3306;Database=ydt-ebusiness-abpvnext-renqiang;Uid=root;Pwd=root;</span><br><span class="line"></span><br><span class="line">2、配置租户数据库连接地址</span><br><span class="line"></span><br><span class="line">3、切换租户直接使用</span><br><span class="line"></span><br><span class="line">Server=localhost;Port=3306;Database=ydt-ebusiness-abpvnext-xingzhe;Uid=root;Pwd=root;</span><br></pre></td></tr></table></figure></li>
-<li><p>执行以下接口，切换指定租户ID连接到指定数据库<br><img src="/BlogPro/image-33.png" alt="Alt text"></p>
+<li><p>执行以下接口，切换指定租户ID连接到指定数据库<br><img src="/BlogPro/.io//image-33.png" alt="Alt text"></p>
 </li>
 <li><p>这时候重新添加商品，发现新增的商品存储到新数据库的表中，添加新的用户，也会自动存储到新创建的数据库数据中</p>
 </li>
@@ -321,7 +321,7 @@
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" data-id="clrpwm1020002wwwrbj4y60rz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" data-id="clrpwytvz0002mgwr2dq1dcs3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -392,7 +392,7 @@
             "name": "John Doe"
         },
         
-        "image": "https://smdegz.github.io/BlogPro/BlogPro/image-30.png",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/.io//image-30.png",
         "keywords": "",
         "genre": "",
         "datePublished": "2024-01-23",
@@ -539,7 +539,7 @@
                             <a href="/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-40.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-40.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>
@@ -579,7 +579,7 @@
                             <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-34.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-34.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>
@@ -599,7 +599,7 @@
                             <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-30.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-30.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>

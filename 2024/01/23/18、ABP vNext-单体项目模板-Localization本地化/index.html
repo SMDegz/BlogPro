@@ -19,13 +19,13 @@
 <meta property="og:site_name" content="何锦祥 博客">
 <meta property="og:description" content="12345ABP框架中的OpenID Connect和OAuth2模块是一个用于实现身份验证和授权的模块。它支持使用OpenID Connect协议与身份提供者进行通信，以进行用户身份验证和授权。通过使用OpenID Connect和OAuth2模块，您可以轻松地集成第三方身份提供者，例如Google、Facebook等，以及自定义的身份提供者。这个模块提供了一些便利的API和扩展点，以便您自定义">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-40.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/.io//image-40.png">
 <meta property="article:published_time" content="2024-01-23T05:11:17.329Z">
 <meta property="article:modified_time" content="2024-01-21T14:12:08.565Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="生活, 思考, 感悟, 分享">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image-40.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/.io//image-40.png">
     
 
     
@@ -198,9 +198,9 @@
 
             <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ABP框架中的OpenID Connect和OAuth2模块是一个用于实现身份验证和授权的模块。它支持使用OpenID Connect协议与身份提供者进行通信，以进行用户身份验证和授权。</span><br><span class="line"></span><br><span class="line">通过使用OpenID Connect和OAuth2模块，您可以轻松地集成第三方身份提供者，例如Google、Facebook等，以及自定义的身份提供者。这个模块提供了一些便利的API和扩展点，以便您自定义身份验证和授权的行为。</span><br><span class="line"></span><br><span class="line">在ABP框架中，OpenID Connect和OAuth2模块通常与ASP.NET Core Identity框架一起使用。ASP.NET Core Identity是一个用于身份验证和授权的框架，它提供了用户账户管理、密码哈希、角色管理等功能的支持。通过将OpenID Connect和OAuth2模块与ASP.NET Core Identity集成，您可以构建一个强大而灵活的身份验证和授权系统。</span><br></pre></td></tr></table></figure>
 
-<p><img src="/BlogPro/image-40.png" alt="Alt text"></p>
+<p><img src="/BlogPro/.io//image-40.png" alt="Alt text"></p>
 <ul>
-<li><p>创建三个WebApi应用项目<br><img src="/BlogPro/image-41.png" alt="Alt text"></p>
+<li><p>创建三个WebApi应用项目<br><img src="/BlogPro/.io//image-41.png" alt="Alt text"></p>
 </li>
 <li><p>引用 Volo.Abp.OpenIddict.EntityFrameworkCore 包</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpOpenIddictEntityFrameworkCoreModule), // 集成OpenIddict</span><br></pre></td></tr></table></figure>
@@ -218,7 +218,7 @@
 <li><p>在 WebAPINewModule 类中的 OnApplicationInitialization 方法中添加 客户端与微服务端的注册信息</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 1、添加openiddict 对应的微服务信息和客户端信息</span><br><span class="line">context.ServiceProvider</span><br><span class="line">   .GetRequiredService&lt;IDataSeeder&gt;()</span><br><span class="line">   .SeedAsync().Wait();</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>运行项目 scopes表 和 applications表会创建一条客户端连接的种子数据<br><img src="/BlogPro/image-43.png" alt="Alt text"></p>
+<li><p>运行项目 scopes表 和 applications表会创建一条客户端连接的种子数据<br><img src="/BlogPro/.io//image-43.png" alt="Alt text"></p>
 </li>
 <li><p>客户端通过 ClientId 和 ClientSecret 生成 Access_Tonken</p>
 </li>
@@ -250,7 +250,7 @@
 </li>
 <li><p>客户端 跟 认证系统 都启动</p>
 </li>
-<li><p>客户端访问认证系统的登录接口<br><img src="/BlogPro/image-44.png" alt="Alt text"></p>
+<li><p>客户端访问认证系统的登录接口<br><img src="/BlogPro/.io//image-44.png" alt="Alt text"></p>
 </li>
 </ul>
 <h3 id="使用Access-Token"><a href="#使用Access-Token" class="headerlink" title="使用Access_Token"></a>使用Access_Token</h3><ul>
@@ -271,7 +271,7 @@
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" data-id="clrpwm10b0005wwwr6rja0quj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" data-id="clrpwytw20005mgwr2ufjhpmn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -342,7 +342,7 @@
             "name": "John Doe"
         },
         
-        "image": "https://smdegz.github.io/BlogPro/BlogPro/image-40.png",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/.io//image-40.png",
         "keywords": "",
         "genre": "",
         "datePublished": "2024-01-23",
@@ -489,7 +489,7 @@
                             <a href="/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-40.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-40.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>
@@ -529,7 +529,7 @@
                             <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-34.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-34.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>
@@ -549,7 +549,7 @@
                             <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-30.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-30.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>

@@ -19,13 +19,13 @@
 <meta property="og:site_name" content="何锦祥 博客">
 <meta property="og:description" content="12345ABP框架的Identity模块提供了身份验证和授权功能。这个模块支持多种身份验证和授权机制，包括ASP.NET Identity和OAuth2。它提供了一些基础服务，如用户管理、角色管理、权限管理等，并且支持自定义。此外，ABP框架的Identity模块还集成了OpenID Connect协议，提供了登录、注册、注销等功能。在开发过程中，可以使用ABP框架提供的API和UI来管理用户和">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-3.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/.io//image-3.png">
 <meta property="article:published_time" content="2024-01-23T05:11:17.312Z">
 <meta property="article:modified_time" content="2024-01-18T08:05:10.562Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="生活, 思考, 感悟, 分享">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image-3.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/.io//image-3.png">
     
 
     
@@ -210,7 +210,7 @@
 </li>
 <li><p>生成迁移文件 可以发现，现在生成的迁移文件出现很多的Identity实体脚本</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migrations add ebsuiness</span><br><span class="line"></span><br><span class="line">dotnet ef database update </span><br></pre></td></tr></table></figure>
-<p><img src="/BlogPro/image-3.png" alt="Alt text"></p>
+<p><img src="/BlogPro/.io//image-3.png" alt="Alt text"></p>
 </li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ABP框架中的Identity包包含了用于身份验证和授权的表。以下是Identity包中包含的一些主要表：</span><br><span class="line"></span><br><span class="line">AspNetUsers - 存储用户信息，如用户名、邮箱、密码等。</span><br><span class="line">AspNetUserRoles - 存储用户角色信息，将用户与角色相关联。</span><br><span class="line">AspNetUserClaims - 存储用户声明信息，可以用于存储用户的自定义属性。</span><br><span class="line">AspNetUserLogins - 存储用户登录信息，与用户的登录凭据相关联。</span><br><span class="line">AspNetRoleClaims - 存储角色声明信息，可以用于存储角色的自定义属性。</span><br><span class="line">AspNetRoles - 存储系统角色的信息。</span><br><span class="line">AspNetRoleClaims - 存储角色声明信息，可以用于存储角色的自定义属性。</span><br><span class="line">AspNetRolePermissions - 存储角色权限信息，将角色与权限相关联。</span><br><span class="line">AspNetUserTokens - 存储用户安全令牌信息，用于验证用户的登录状态。</span><br><span class="line">这些表是ABP框架中Identity包的一部分，用于构建身份验证和授权功能。根据实际需求，你可以根据这些表来扩展或自定义你的身份验证和授权机制。</span><br></pre></td></tr></table></figure>
@@ -236,15 +236,15 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 添加角色</span><br><span class="line">![Alt text](image-6.png)</span><br><span class="line"></span><br><span class="line">- 添加用户</span><br><span class="line">![Alt text](image-5.png)</span><br><span class="line"></span><br><span class="line">- 数据库上下文可以修改表前缀</span><br><span class="line">![Alt text](image-7.png)</span><br><span class="line"></span><br><span class="line">- 自定义Identity表字段，在提供的字段里面新增其他字段 创建一个SysUser实体类</span><br></pre></td></tr></table></figure>
 <p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户自定义字段<br>&#x2F;&#x2F;&#x2F; </summary><br>public class SysUser : IdentityUser<br>{<br>    public string CreateTony { set; get; }<br>}</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-<p> public DbSet<SysUser> sys_users { set; get; }</p>
+<p> public DbSet<SysUser> sys_users { set; get; }</SysUser></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- 重新迁移文件，发现自定义字段已经加到原先Identity表里面</span><br><span class="line"></span><br><span class="line">### 如何查询自定义新增的实体字段</span><br><span class="line"></span><br><span class="line">- 创建新的IRepository接口文件  IUserABPRepository</span><br></pre></td></tr></table></figure>
 <p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户自定义仓储 用来实现abp提供的仓储接口<br>&#x2F;&#x2F;&#x2F; </summary></p>
-<p>public interface IUserABPRepository : IRepository&lt;SysUser, Guid&gt;<br>{<br>   Task<SysUser> FindByNormalizedUserNameAsync(<br>    [NotNull] string normalizedUserName,<br>    bool includeDetails &#x3D; true,<br>    CancellationToken cancellationToken &#x3D; default<br>);</p>
-<p>Task&lt;List<string>&gt; GetRoleNamesAsync(<br>    Guid id,<br>    CancellationToken cancellationToken &#x3D; default<br>);</p>
-<p>Task&lt;List<string>&gt; GetRoleNamesInOrganizationUnitAsync(<br>    Guid id,<br>    CancellationToken cancellationToken &#x3D; default);</p>
-<p>Task<SysUser> FindByLoginAsync(<br>    [NotNull] string loginProvider,<br>    [NotNull] string providerKey,<br>    bool includeDetails &#x3D; true,<br>    CancellationToken cancellationToken &#x3D; default<br>);<br>}<br>…………</p>
+<p>public interface IUserABPRepository : IRepository&lt;SysUser, Guid&gt;<br>{<br>   Task<SysUser> FindByNormalizedUserNameAsync(<br>    [NotNull] string normalizedUserName,<br>    bool includeDetails &#x3D; true,<br>    CancellationToken cancellationToken &#x3D; default<br>);</SysUser></p>
+<p>Task&lt;List<string>&gt; GetRoleNamesAsync(<br>    Guid id,<br>    CancellationToken cancellationToken &#x3D; default<br>);</string></p>
+<p>Task&lt;List<string>&gt; GetRoleNamesInOrganizationUnitAsync(<br>    Guid id,<br>    CancellationToken cancellationToken &#x3D; default);</string></p>
+<p>Task<SysUser> FindByLoginAsync(<br>    [NotNull] string loginProvider,<br>    [NotNull] string providerKey,<br>    bool includeDetails &#x3D; true,<br>    CancellationToken cancellationToken &#x3D; default<br>);<br>}<br>…………</SysUser></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 创建Repository文件  UserABPRepository</span><br></pre></td></tr></table></figure>
-<p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户仓储自定义实现<br>&#x2F;&#x2F;&#x2F; </summary><br>[Dependency(ServiceLifetime.Singleton)]<br>public class UserABPRepository : EfCoreRepository&lt;ABPEbusinessContext, SysUser, Guid&gt;, IUserABPRepository<br>{<br>    public UserABPRepository(IDbContextProvider<ABPEbusinessContext> dbContextProvider) : base(dbContextProvider)<br>    {<br>    }</p>
+<p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户仓储自定义实现<br>&#x2F;&#x2F;&#x2F; </summary><br>[Dependency(ServiceLifetime.Singleton)]<br>public class UserABPRepository : EfCoreRepository&lt;ABPEbusinessContext, SysUser, Guid&gt;, IUserABPRepository<br>{<br>    public UserABPRepository(IDbContextProvider<ABPEbusinessContext> dbContextProvider) : base(dbContextProvider)<br>    {<br>    }</ABPEbusinessContext></p>
 <pre><code>public Task&lt;SysUser&gt; FindByLoginAsync([NotNull] string loginProvider, [NotNull] string providerKey, bool includeDetails = true, CancellationToken cancellationToken = default)
 &#123;
     throw new NotImplementedException();
@@ -268,7 +268,7 @@ public Task&lt;SysUser&gt; FindByTenantIdAndUserNameAsync([NotNull] string userN
 <p>}</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 创建一个Service接口文件 IUserABPService</span><br></pre></td></tr></table></figure>
 
-<p> &#x2F;&#x2F;&#x2F; <summary><br> &#x2F;&#x2F;&#x2F; 用户自定义service<br> &#x2F;&#x2F;&#x2F; </summary><br> public interface IUserABPService : ICrudAppService&lt;<br>     SysUserDto,<br>     Guid,<br>     GetSysUserInput,<br>     SysUserCreateDto,<br>     SysUserUpdateDto&gt;<br> {<br>     Task&lt;ListResultDto<IdentityRoleDto>&gt; GetRolesAsync(Guid id);</p>
+<p> &#x2F;&#x2F;&#x2F; <summary><br> &#x2F;&#x2F;&#x2F; 用户自定义service<br> &#x2F;&#x2F;&#x2F; </summary><br> public interface IUserABPService : ICrudAppService&lt;<br>     SysUserDto,<br>     Guid,<br>     GetSysUserInput,<br>     SysUserCreateDto,<br>     SysUserUpdateDto&gt;<br> {<br>     Task&lt;ListResultDto<IdentityRoleDto>&gt; GetRolesAsync(Guid id);</IdentityRoleDto></p>
 <pre><code> Task&lt;ListResultDto&lt;IdentityRoleDto&gt;&gt; GetAssignableRolesAsync();
 
  Task UpdateRolesAsync(Guid id, IdentityUserUpdateRolesDto input);
@@ -313,7 +313,7 @@ public Task UpdateRolesAsync(Guid id, IdentityUserUpdateRolesDto input)
 </code></pre>
 <p>}</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">- 创建相关实体的DTO</span><br></pre></td></tr></table></figure>
-<p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户自定义字段<br>&#x2F;&#x2F;&#x2F; </summary><br>public class SysUserDto : ExtensibleFullAuditedEntityDto<Guid>, IMultiTenant, IHasConcurrencyStamp, IHasEntityVersion<br>{</p>
+<p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户自定义字段<br>&#x2F;&#x2F;&#x2F; </summary><br>public class SysUserDto : ExtensibleFullAuditedEntityDto<Guid>, IMultiTenant, IHasConcurrencyStamp, IHasEntityVersion<br>{</Guid></p>
 <p>}</p>
 <p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户自定义字段<br>&#x2F;&#x2F;&#x2F; </summary><br>public class SysUserCreateDto : IdentityUserCreateDto<br>{<br>    public string CreateTony { set; get; }<br>}</p>
 <p>&#x2F;&#x2F;&#x2F; <summary><br>&#x2F;&#x2F;&#x2F; 用户自定义字段<br>&#x2F;&#x2F;&#x2F; </summary><br>public class SysUserUpdateDto : IdentityUserUpdateDto<br>{<br>    public string CreateTony { set; get; }<br>}</p>
@@ -325,7 +325,7 @@ public Task UpdateRolesAsync(Guid id, IdentityUserUpdateRolesDto input)
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/7%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Identity%E8%BA%AB%E4%BB%BD%E6%A8%A1%E5%9D%97/" data-id="clrpwm10h000bwwwr1ojpds00" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/7%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Identity%E8%BA%AB%E4%BB%BD%E6%A8%A1%E5%9D%97/" data-id="clrpwytw8000bmgwr4s2676t6" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -396,7 +396,7 @@ public Task UpdateRolesAsync(Guid id, IdentityUserUpdateRolesDto input)
             "name": "John Doe"
         },
         
-        "image": "https://smdegz.github.io/BlogPro/BlogPro/image-3.png",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/.io//image-3.png",
         "keywords": "",
         "genre": "",
         "datePublished": "2024-01-23",
@@ -543,7 +543,7 @@ public Task UpdateRolesAsync(Guid id, IdentityUserUpdateRolesDto input)
                             <a href="/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-40.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-40.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>
@@ -583,7 +583,7 @@ public Task UpdateRolesAsync(Guid id, IdentityUserUpdateRolesDto input)
                             <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-34.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-34.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>
@@ -603,7 +603,7 @@ public Task UpdateRolesAsync(Guid id, IdentityUserUpdateRolesDto input)
                             <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-30.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/.io//image-30.png)" alt="" class="thumbnail-image"></span>
     
     
 </a>
