@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>何锦祥 博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="" />
+    
+    <meta name="description" content="12345678910ABP框架的多租户支持是一种技术，它允许一个应用程序同时为多个租户提供服务。在多租户应用程序中，不同的租户使用同一个应用程序实例，但每个租户的数据和配置是隔离的，互不干扰。ABP框架通过以下方式实现多租户支持：租户模块添加：使用ABP的命令行工具或Visual Studio插件，可以轻松地将多租户模块添加到项目中。租户实体定义：在多租户模块中，需要定义一个租户实体，用于表示租">
+<meta property="og:type" content="article">
+<meta property="og:title" content="何锦祥 博客">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="12345678910ABP框架的多租户支持是一种技术，它允许一个应用程序同时为多个租户提供服务。在多租户应用程序中，不同的租户使用同一个应用程序实例，但每个租户的数据和配置是隔离的，互不干扰。ABP框架通过以下方式实现多租户支持：租户模块添加：使用ABP的命令行工具或Visual Studio插件，可以轻松地将多租户模块添加到项目中。租户实体定义：在多租户模块中，需要定义一个租户实体，用于表示租">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-30.png">
+<meta property="article:published_time" content="2024-01-23T05:11:17.323Z">
+<meta property="article:modified_time" content="2024-01-21T05:42:10.782Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="生活, 思考, 感悟, 分享">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image-30.png">
+    
+
+    
+        <link rel="alternate" href="/" title="何锦祥 博客" type="application/atom+xml" />
+    
+
+    
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/BlogPro/css/style.css">
+
+
+    
+<script src="/BlogPro/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/BlogPro/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/">Home</a>
+                                </li>
+                            
+                                    
+                                
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/about/index.html">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/BlogPro/',
+        CONTENT_URL: '/BlogPro/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/BlogPro/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-13、ABP vNext-应用模块-MultiTenancy多租户模块" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="article-date">
+       <time datetime="2024-01-23T05:11:17.323Z" itemprop="datePublished">2024-01-23</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="article-date">
+     <time datetime="2024-01-21T05:42:10.782Z" itemprop="dateModified">2024-01-21</time>
+  </a>
+</div>
+
+
+                
+
+                
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ABP框架的多租户支持是一种技术，它允许一个应用程序同时为多个租户提供服务。在多租户应用程序中，不同的租户使用同一个应用程序实例，但每个租户的数据和配置是隔离的，互不干扰。</span><br><span class="line"></span><br><span class="line">ABP框架通过以下方式实现多租户支持：</span><br><span class="line"></span><br><span class="line">租户模块添加：使用ABP的命令行工具或Visual Studio插件，可以轻松地将多租户模块添加到项目中。</span><br><span class="line">租户实体定义：在多租户模块中，需要定义一个租户实体，用于表示租户信息。这个实体可以包含租户名称、域名等信息。</span><br><span class="line">租户表创建：多租户模块会自动创建租户表，并使用定义的租户实体来映射表结构。</span><br><span class="line">多租户过滤器：在应用程序的控制器或服务中，可以使用多租户过滤器来确保只有当前租户的数据才会被访问或更新。</span><br><span class="line">多租户权限系统：ABP提供了一套基于租户的权限系统，可以确保每个租户的权限和功能是独立的。</span><br><span class="line">UI支持：ABP框架提供了UI支持，以方便租户的管理和切换。例如，可以提供一个UI界面来创建、管理和删除租户。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/BlogPro/image-30.png" alt="Alt text"></p>
+<ul>
+<li><p>引入 Volo.Abp.TenantManagement.Domain 包</p>
+</li>
+<li><p>引入 Volo.Abp.TenantManagement.EntityFrameworkCore 包</p>
+</li>
+<li><p>集成相关包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> //集成应用模块，多租户模块</span><br><span class="line">typeof(AbpTenantManagementDomainModule),</span><br><span class="line">typeof(AbpTenantManagementEntityFrameworkCoreModule),</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在数据库上下文类添加多租户的实体配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 5、添加多租户模块</span><br><span class="line">builder.ConfigureTenantManagement();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成迁移文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef mirgination add Tenant</span><br><span class="line">dotnet ef database update Tenant</span><br></pre></td></tr></table></figure></li>
+<li><p>生成两个数据库表</p>
+</li>
+<li><p>一张表存储多租户信息</p>
+</li>
+<li><p>一张表存储多租户的数据库连接字符串</p>
+</li>
+<li><p>引入 Volo.Abp.TenantManagement.Application 包</p>
+</li>
+<li><p>引入 Volo.Abp.TenantManagement.HttpApi 包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpTenantManagementApplicationModule),</span><br><span class="line">typeof(AbpTenantManagementHttpApiModule),</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="/BlogPro/image-31.png" alt="Alt text"></p>
+<h3 id="创建多租户步骤"><a href="#创建多租户步骤" class="headerlink" title="创建多租户步骤"></a>创建多租户步骤</h3><ul>
+<li><p>abp 多租户里面有定义了租户权限类，运行系统，自动添加对应权限到数据库</p>
+</li>
+<li><p>登录用户</p>
+</li>
+<li><p>给指定用户授予ABP多租户定义的权限方法</p>
+</li>
+<li><p>创建租户信息</p>
+</li>
+</ul>
+<h3 id="使用多租户"><a href="#使用多租户" class="headerlink" title="使用多租户"></a>使用多租户</h3><ul>
+<li><p>切换多租户</p>
+</li>
+<li><p>创建切换多租户的类 TenantSwitchAppService</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">///  租户切换(租户存储)--Cookie</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[Dependency(ServiceLifetime.Singleton)]</span><br><span class="line">public class TenantSwitchAppService:IRemoteService</span><br><span class="line">&#123;</span><br><span class="line">    // 查询接口</span><br><span class="line">    public ITenantStore TenantStore &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    public IHttpContextAccessor httpContextAccessor &#123; get; set; &#125;</span><br><span class="line">    public void SwitchTenant(string TanantName)</span><br><span class="line">    &#123;</span><br><span class="line">        Guid? tenantId = null;</span><br><span class="line">        // 1、查询租户</span><br><span class="line">        if (!TanantName.IsNullOrEmpty())</span><br><span class="line">        &#123;</span><br><span class="line">            var tenant = TenantStore.Find(TanantName);</span><br><span class="line">            if (tenant == null)</span><br><span class="line">            &#123;</span><br><span class="line">                throw new UserFriendlyException($&quot;&#123;TanantName&#125;，租户不存在&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (!tenant.IsActive)</span><br><span class="line">            &#123;</span><br><span class="line">                throw new UserFriendlyException($&quot;&#123;TanantName&#125;，租户未激活&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // 1.2、取出租户Id</span><br><span class="line">            tenantId = tenant.Id;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 2、存储租户</span><br><span class="line">        MultiTenancyCookieHelper.SetTenantCookie(httpContextAccessor.HttpContext, tenantId, TenantResolverConsts.DefaultTenantKey);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>编写存储租户信息到cookie的类 MultiTenancyCookieHelper</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 将租户Id存储到Cookie</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public static class MultiTenancyCookieHelper</span><br><span class="line">&#123;</span><br><span class="line">    public static void SetTenantCookie(</span><br><span class="line">        HttpContext context,</span><br><span class="line">        Guid? tenantId,</span><br><span class="line">        string tenantKey)</span><br><span class="line">    &#123;</span><br><span class="line">        if (tenantId != null)</span><br><span class="line">        &#123;</span><br><span class="line">            context.Response.Cookies.Append(</span><br><span class="line">                tenantKey,</span><br><span class="line">                tenantId.ToString(),</span><br><span class="line">                new CookieOptions</span><br><span class="line">                &#123;</span><br><span class="line">                    Path = &quot;/&quot;,</span><br><span class="line">                    HttpOnly = false,</span><br><span class="line">                    Expires = DateTimeOffset.Now.AddYears(10)</span><br><span class="line">                &#125;</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            context.Response.Cookies.Delete(tenantKey);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问刚创建的多租户切换接口，切换多租户</p>
+</li>
+</ul>
+<h3 id="多租户获取租户"><a href="#多租户获取租户" class="headerlink" title="多租户获取租户"></a>多租户获取租户</h3><ul>
+<li><p>引入 Volo.Abp.AspNetCore.MultiTenancy 包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//集成多租户获取租户模块</span><br><span class="line">typeof(AbpAspNetCoreMultiTenancyModule)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 EbusinessModule 类的 ConfigureServices 方法 开启多租户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 18、开启多租户</span><br><span class="line">context.Services.Configure&lt;AbpMultiTenancyOptions&gt;( options =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    options.IsEnabled = true;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>控制器通过注入  ICurrentTenant 类 获取Cooie中存储的租户信息</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 2、获取cookie中存储的租户信息</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public ICurrentTenant CurrentTenant &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 添加商品方法</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;product&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">[HttpPost]</span><br><span class="line">//[Authorize(&quot;UserInset&quot;)]</span><br><span class="line">public string AddProduct(ProductDto productDto)</span><br><span class="line">&#123;</span><br><span class="line">    // 1、获取租户Id</span><br><span class="line">    //var TanatId = CurrentTenant.Id;</span><br><span class="line"></span><br><span class="line">    // 1、获取IsRedisStore设置</span><br><span class="line">    string IsRedisStore = SettingProvider.GetOrNullAsync(&quot;IsRedisStore&quot;).Result;</span><br><span class="line"></span><br><span class="line">    // 2、判断存储到哪里</span><br><span class="line">    if (IsRedisStore.Equals(&quot;true&quot;))</span><br><span class="line">    &#123;</span><br><span class="line">        // productABPService.AddProduct(product);</span><br><span class="line">        productABPService.CreateAsync(productDto).Wait();</span><br><span class="line">    &#125; else</span><br><span class="line">    &#123;</span><br><span class="line">        _logger.LogInformation(&quot;存储到redis&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 3、获取用户值</span><br><span class="line">    var UserId = CurrentUser.GetId();</span><br><span class="line"></span><br><span class="line">    // productABPService.AddProduct(product);</span><br><span class="line">    //productABPService.CreateAsync(productDto).Wait();</span><br><span class="line"></span><br><span class="line">    return &quot;添加成功&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在当前租户状态下，注册新用户，会自动把当前用户指定到当前租户下</li>
+</ul>
+<h3 id="将商品表维护成多租户"><a href="#将商品表维护成多租户" class="headerlink" title="将商品表维护成多租户"></a>将商品表维护成多租户</h3><ul>
+<li><p>在商品表里面继承 IMultiTenant 类</p>
+</li>
+<li><p>添加TenantId字段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class Product : Entity&lt;Guid&gt;, IMultiTenant</span><br><span class="line"></span><br><span class="line">public Guid? TenantId &#123; set; get; &#125; // 多租户Id</span><br></pre></td></tr></table></figure></li>
+<li><p>重新迁移数据库表文件</p>
+</li>
+<li><p>添加商品的时候，自动把当前多租户ID添加到新建的商品表字段里面</p>
+</li>
+<li><p>使用商品通过多租户ID</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询商品方法</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;product&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">[HttpGet(Name = &quot;SelectProduct&quot;)]</span><br><span class="line">public List&lt;Product&gt; SelectProduct()</span><br><span class="line">&#123;</span><br><span class="line">    // 1、使用多租户查询</span><br><span class="line">    var tenantId = CurrentTenant.Id;</span><br><span class="line">    return productService.Select(new Product() &#123; TenantId = tenantId &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在Module 类里面的OnApplicationInitializaion方法里面添加</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 3、使用多租户放开权限</span><br><span class="line">app.UseAuthorization();</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li><p>添加 多租户商品的步骤，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">1、添加多租户</span><br><span class="line"></span><br><span class="line">2、切换多租户</span><br><span class="line"></span><br><span class="line">3、注册多租户用户 renqiang666</span><br><span class="line"></span><br><span class="line">4、登录多租户用户 renqiang666</span><br><span class="line"></span><br><span class="line">5、多租户用户 renqiang666 授权</span><br><span class="line"></span><br><span class="line">&quot;UserUpdate&quot;</span><br><span class="line"></span><br><span class="line">&quot;UserInset</span><br><span class="line"></span><br><span class="line">UsermManage</span><br><span class="line"></span><br><span class="line">UsermManage.UserInset</span><br><span class="line"></span><br><span class="line">UsermManage.UserUpdate</span><br><span class="line"></span><br><span class="line">6、添加权限中间件</span><br><span class="line"></span><br><span class="line">    // 3、使用多租户放开权限</span><br><span class="line">        app.UseAuthorization();</span><br><span class="line">7、添加商品</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>租户切换问题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1、先注销登录的用户</span><br><span class="line"></span><br><span class="line">2、然后开始切换租户</span><br><span class="line"></span><br><span class="line">3、最后获取新租户</span><br><span class="line"></span><br><span class="line">ICurrentTenant</span><br><span class="line"></span><br><span class="line">4、使用 ICurrentTenant 获取新租户信息，完成使用</span><br><span class="line"></span><br><span class="line">使用租户切换</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="多租户数据库切换"><a href="#多租户数据库切换" class="headerlink" title="多租户数据库切换"></a>多租户数据库切换</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">不同租户，不同数据库</span><br><span class="line"></span><br><span class="line">一个租户，一个ydt-ebusiness-abpvnext</span><br><span class="line"></span><br><span class="line">多个租户，多个ydt-ebusiness-abpvnext</span><br><span class="line"></span><br><span class="line">一个租户 ，一个products</span><br><span class="line"></span><br><span class="line">三个租户 ，三个products</span><br><span class="line"></span><br><span class="line">一对一关系</span><br><span class="line"></span><br><span class="line">所有租户，一个数据库，一个表。</span><br><span class="line"></span><br><span class="line">多对一关系</span><br><span class="line"></span><br><span class="line">优势：维护简单</span><br><span class="line"></span><br><span class="line">缺陷：性能会下降</span><br><span class="line"></span><br><span class="line">数据表违背开闭原则</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li><p>一对一关系租户。</p>
+</li>
+<li><p>一个租户，一个数据库，一个表</p>
+</li>
+<li><p>abptenantconnectionstrings</p>
+</li>
+<li><p>1、创建新的租户数据库 多租户相关的表名要保持一致</p>
+</li>
+<li><p>2、添加商品</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">要求：如果是renqiang租户，添加到ydt-ebusiness-abpvnext-renqiang中</span><br><span class="line"></span><br><span class="line">如果是xingzhe租户，添加到ydt-ebusiness-abpvnext-xingzhe中</span><br></pre></td></tr></table></figure></li>
+<li><p>3、前提：</p>
+</li>
+<li><p>1、切换成空租户，无租户的情况</p>
+</li>
+<li><p>2、创建退出当前租户的代码 在 TenantSwitchAppService类里面新增 DeleteTenant 方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 删除租户</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public void DeleteTenant()</span><br><span class="line">&#123;</span><br><span class="line">    // 1、删除租户</span><br><span class="line">    MultiTenancyCookieHelper.DeleteTenantCookie(httpContextAccessor.HttpContext,TenantResolverConsts.DefaultTenantKey);</span><br><span class="line"></span><br><span class="line">    // 2、清空当前租户信息</span><br><span class="line">    using (currentTenant.Change(null))</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;租户清除成功&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>在MultiTenancyCookieHelper 类中新增 DeleteTenantCookie 方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public static void DeleteTenantCookie(HttpContext context,</span><br><span class="line">            string tenantKey)</span><br><span class="line">        &#123;</span><br><span class="line">            // 1、删除cookie下的租户</span><br><span class="line">            context.Response.Cookies.Delete(tenantKey);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">- 执行新创建的退出当前租户的方法</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2、Server=localhost;Port=3306;Database=ydt-ebusiness-abpvnext-renqiang;Uid=root;Pwd=root;</span><br><span class="line"></span><br><span class="line">2、配置租户数据库连接地址</span><br><span class="line"></span><br><span class="line">3、切换租户直接使用</span><br><span class="line"></span><br><span class="line">Server=localhost;Port=3306;Database=ydt-ebusiness-abpvnext-xingzhe;Uid=root;Pwd=root;</span><br></pre></td></tr></table></figure></li>
+<li><p>执行以下接口，切换指定租户ID连接到指定数据库<br><img src="/BlogPro/image-33.png" alt="Alt text"></p>
+</li>
+<li><p>这时候重新添加商品，发现新增的商品存储到新数据库的表中，添加新的用户，也会自动存储到新创建的数据库数据中</p>
+</li>
+<li><p>总结</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">租户数据库切换</span><br><span class="line"></span><br><span class="line">1、创建不同租户数据库</span><br><span class="line"></span><br><span class="line">2、添加不同租户数据库连接地址</span><br><span class="line"></span><br><span class="line">3、切换到不同租户</span><br><span class="line"></span><br><span class="line">4、直接使用租户</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" data-id="clrpwffp80002uwwrf0xo29gv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "John Doe"
+        },
+        
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/image-30.png",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2024-01-23",
+        "dateCreated": "2024-01-23",
+        "dateModified": "2024-01-21",
+        "url": "https://smdegz.github.io/BlogPro/2024/01/23/13、ABP vNext-应用模块-MultiTenancy多租户模块/",
+        "description": "12345678910ABP框架的多租户支持是一种技术，它允许一个应用程序同时为多个租户提供服务。在多租户应用程序中，不同的租户使用同一个应用程序实例，但每个租户的数据和配置是隔离的，互不干扰。ABP框架通过以下方式实现多租户支持：租户模块添加：使用ABP的命令行工具或Visual Studio插件，可以轻松地将多租户模块添加到项目中。租户实体定义：在多租户模块中，需要定义一个租户实体，用于表示租",
+        "wordCount": 1493
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="stack-overflow" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            (no title)
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/BlogPro/2024/01/23/11%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Aduit%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title"></p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2024-01-23T05:11:17.331Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/image-40.png)" alt="" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2024-01-23T05:11:17.329Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2024-01-23T05:11:17.327Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/image-34.png)" alt="" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2024-01-23T05:11:17.324Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/image-30.png)" alt="" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2024-01-23T05:11:17.323Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">13</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/BlogPro/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 John Doe</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://smdegz.github.io/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/BlogPro/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/BlogPro/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/BlogPro/js/main.js"></script>
+
+
+</body>
+</html>
