@@ -12,18 +12,20 @@
     
     <meta name="keywords" content="ABP vNest" />
     
-    <meta name="description" content="12345678910ABP框架中的动态API客户端是一个用于动态调用ABP应用程序中的API的工具。它允许您在运行时动态地创建API客户端，并调用API方法，而不需要在编译时生成API客户端代码。动态API客户端通过使用ABP框架中的Reflection和动态类型来工作。您可以使用动态API客户端来创建API客户端对象，并调用API方法，而不必显式地定义API客户端类和接口。使用动态API客户端">
+    <meta name="description" content="12345678910ABP框架中的动态API客户端是一个用于动态调用ABP应用程序中的API的工具。它允许您在运行时动态地创建API客户端，并调用API方法，而不需要在编译时生成API客户端代码。动态API客户端通过使用ABP框架中的Reflection和动态类型来工作。您可以使用动态API客户端来创建API客户端对象，并调用API方法，而不必显式地定义API客户端类和接口。使用动态API客户">
 <meta property="og:type" content="article">
 <meta property="og:title" content="21、ABP-vNext-DDD项目模板-动态C#API客户端">
 <meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/index.html">
 <meta property="og:site_name" content="何锦祥 博客">
-<meta property="og:description" content="12345678910ABP框架中的动态API客户端是一个用于动态调用ABP应用程序中的API的工具。它允许您在运行时动态地创建API客户端，并调用API方法，而不需要在编译时生成API客户端代码。动态API客户端通过使用ABP框架中的Reflection和动态类型来工作。您可以使用动态API客户端来创建API客户端对象，并调用API方法，而不必显式地定义API客户端类和接口。使用动态API客户端">
+<meta property="og:description" content="12345678910ABP框架中的动态API客户端是一个用于动态调用ABP应用程序中的API的工具。它允许您在运行时动态地创建API客户端，并调用API方法，而不需要在编译时生成API客户端代码。动态API客户端通过使用ABP框架中的Reflection和动态类型来工作。您可以使用动态API客户端来创建API客户端对象，并调用API方法，而不必显式地定义API客户端类和接口。使用动态API客户">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-49.png">
 <meta property="article:published_time" content="2024-01-13T02:48:57.000Z">
-<meta property="article:modified_time" content="2024-01-23T06:49:01.065Z">
+<meta property="article:modified_time" content="2024-01-23T12:06:46.135Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ABP vNest">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image-49.png">
     
 
     
@@ -182,7 +184,7 @@
 <div class="article-date">
   <i class="fa fa-calendar-plus-o"></i>
   <a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="article-date">
-     <time datetime="2024-01-23T06:49:01.065Z" itemprop="dateModified">2024-01-23</time>
+     <time datetime="2024-01-23T12:06:46.135Z" itemprop="dateModified">2024-01-23</time>
   </a>
 </div>
 
@@ -209,7 +211,8 @@
 
             
 
-            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ABP框架中的动态API客户端是一个用于动态调用ABP应用程序中的API的工具。它允许您在运行时动态地创建API客户端，并调用API方法，而不需要在编译时生成API客户端代码。</span><br><span class="line"></span><br><span class="line">动态API客户端通过使用ABP框架中的Reflection和动态类型来工作。您可以使用动态API客户端来创建API客户端对象，并调用API方法，而不必显式地定义API客户端类和接口。</span><br><span class="line"></span><br><span class="line">使用动态API客户端可以带来一些好处，例如：</span><br><span class="line"></span><br><span class="line">灵活性：动态API客户端允许您在运行时动态地调用API，而不是在编译时生成固定的API客户端代码。这使得您可以轻松地更改API调用而无需重新编译应用程序。</span><br><span class="line">快速开发：使用动态API客户端可以加速API开发的流程，因为您不需要编写大量的代码来定义API客户端类和接口。这可以使开发人员更快地构建和测试API。</span><br><span class="line">减少代码重复：由于动态API客户端是在运行时创建的，因此您可以避免编写重复的API客户端代码。这有助于减少代码冗余并简化代码结构。</span><br><span class="line">然而，需要注意的是，动态API客户端可能会降低代码的可维护性和可读性，并且可能会对性能产生一些影响。因此，在使用动态API客户端时，应该仔细考虑其适用性和潜在的权衡。</span><br></pre></td></tr></table></figure>
+            <p><img src="/BlogPro/image-49.png" alt="Alt text"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ABP框架中的动态API客户端是一个用于动态调用ABP应用程序中的API的工具。它允许您在运行时动态地创建API客户端，并调用API方法，而不需要在编译时生成API客户端代码。</span><br><span class="line"></span><br><span class="line">动态API客户端通过使用ABP框架中的Reflection和动态类型来工作。您可以使用动态API客户端来创建API客户端对象，并调用API方法，而不必显式地定义API客户端类和接口。</span><br><span class="line"></span><br><span class="line">使用动态API客户端可以带来一些好处，例如：</span><br><span class="line"></span><br><span class="line">灵活性：动态API客户端允许您在运行时动态地调用API，而不是在编译时生成固定的API客户端代码。这使得您可以轻松地更改API调用而无需重新编译应用程序。</span><br><span class="line">快速开发：使用动态API客户端可以加速API开发的流程，因为您不需要编写大量的代码来定义API客户端类和接口。这可以使开发人员更快地构建和测试API。</span><br><span class="line">减少代码重复：由于动态API客户端是在运行时创建的，因此您可以避免编写重复的API客户端代码。这有助于减少代码冗余并简化代码结构。</span><br><span class="line">然而，需要注意的是，动态API客户端可能会降低代码的可维护性和可读性，并且可能会对性能产生一些影响。因此，在使用动态API客户端时，应该仔细考虑其适用性和潜在的权衡。</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>将Seckills项目设置成Abp 的actofac项目</li>
@@ -247,7 +250,7 @@
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" data-id="clrq7iwny000fk8wrgcozb8ha" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" data-id="clrqbe562000fg4wr9ot4aw06" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -318,15 +321,16 @@
             "name": "John Doe"
         },
         "headline": "21、ABP-vNext-DDD项目模板-动态C#API客户端",
-        "image": "https://smdegz.github.io/BlogPro",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/image-49.png",
         "keywords": "ABP vNest",
         "genre": "",
         "datePublished": "2024-01-13",
         "dateCreated": "2024-01-13",
         "dateModified": "2024-01-23",
         "url": "https://smdegz.github.io/BlogPro/2024/01/13/21、ABP-vNext-DDD项目模板-动态C#API客户端/",
-        "description": "12345678910ABP框架中的动态API客户端是一个用于动态调用ABP应用程序中的API的工具。它允许您在运行时动态地创建API客户端，并调用API方法，而不需要在编译时生成API客户端代码。动态API客户端通过使用ABP框架中的Reflection和动态类型来工作。您可以使用动态API客户端来创建API客户端对象，并调用API方法，而不必显式地定义API客户端类和接口。使用动态API客户端",
-        "wordCount": 279
+        "description": "
+12345678910ABP框架中的动态API客户端是一个用于动态调用ABP应用程序中的API的工具。它允许您在运行时动态地创建API客户端，并调用API方法，而不需要在编译时生成API客户端代码。动态API客户端通过使用ABP框架中的Reflection和动态类型来工作。您可以使用动态API客户端来创建API客户端对象，并调用API方法，而不必显式地定义API客户端类和接口。使用动态API客户",
+        "wordCount": 282
     }
 </script>
 
@@ -465,7 +469,7 @@
                             <a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/BlogPro/image-49.png)" alt="21、ABP-vNext-DDD项目模板-动态C#API客户端" class="thumbnail-image"></span>
     
     
 </a>
@@ -505,7 +509,7 @@
                             <a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/BlogPro/image-48.png)" alt="17、ABP vNext-单体项目模板-虚拟文件、框架思想总结" class="thumbnail-image"></span>
     
     
 </a>

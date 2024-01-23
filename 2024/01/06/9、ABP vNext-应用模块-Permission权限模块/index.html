@@ -12,20 +12,20 @@
     
     <meta name="keywords" content="ABP vNest" />
     
-    <meta name="description" content="1234567891011存储权限给用户授权对用户权限进行校验ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系。">
+    <meta name="description" content="1234567891011存储权限给用户授权对用户权限进行校验ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系">
 <meta property="og:type" content="article">
 <meta property="og:title" content="9、ABP vNext-应用模块-Permission权限模块">
 <meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/06/9%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Permission%E6%9D%83%E9%99%90%E6%A8%A1%E5%9D%97/index.html">
 <meta property="og:site_name" content="何锦祥 博客">
-<meta property="og:description" content="1234567891011存储权限给用户授权对用户权限进行校验ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系。">
+<meta property="og:description" content="1234567891011存储权限给用户授权对用户权限进行校验ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/images/image-14.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-47.png">
 <meta property="article:published_time" content="2024-01-06T02:48:57.000Z">
-<meta property="article:modified_time" content="2024-01-23T06:49:01.048Z">
+<meta property="article:modified_time" content="2024-01-23T12:06:49.205Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ABP vNest">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images/image-14.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image-47.png">
     
 
     
@@ -184,7 +184,7 @@
 <div class="article-date">
   <i class="fa fa-calendar-plus-o"></i>
   <a href="/BlogPro/2024/01/06/9%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Permission%E6%9D%83%E9%99%90%E6%A8%A1%E5%9D%97/" class="article-date">
-     <time datetime="2024-01-23T06:49:01.048Z" itemprop="dateModified">2024-01-23</time>
+     <time datetime="2024-01-23T12:06:49.205Z" itemprop="dateModified">2024-01-23</time>
   </a>
 </div>
 
@@ -211,7 +211,8 @@
 
             
 
-            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">存储权限</span><br><span class="line">给用户授权</span><br><span class="line">对用户权限进行校验</span><br><span class="line"></span><br><span class="line">ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。</span><br><span class="line"></span><br><span class="line">该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系。例如，您可以创建一个角色，并为该角色分配所需的权限，然后将该角色分配给一个或多个用户。</span><br><span class="line"></span><br><span class="line">此外，PermissionManagement模块还提供了一些中间件和过滤器，用于处理权限相关的请求和操作。这些中间件和过滤器可以在应用程序的各个层面上使用，以确保只有具有适当权限的用户才能访问受保护的资源或执行受保护的操作。</span><br><span class="line"></span><br><span class="line">总的来说，ABP框架的PermissionManagement模块是一个功能强大、易于使用的权限管理解决方案，可以帮助开发人员快速构建安全的应用程序。</span><br></pre></td></tr></table></figure>
+            <p><img src="/BlogPro/image-47.png" alt="Alt text"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">存储权限</span><br><span class="line">给用户授权</span><br><span class="line">对用户权限进行校验</span><br><span class="line"></span><br><span class="line">ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。</span><br><span class="line"></span><br><span class="line">该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系。例如，您可以创建一个角色，并为该角色分配所需的权限，然后将该角色分配给一个或多个用户。</span><br><span class="line"></span><br><span class="line">此外，PermissionManagement模块还提供了一些中间件和过滤器，用于处理权限相关的请求和操作。这些中间件和过滤器可以在应用程序的各个层面上使用，以确保只有具有适当权限的用户才能访问受保护的资源或执行受保护的操作。</span><br><span class="line"></span><br><span class="line">总的来说，ABP框架的PermissionManagement模块是一个功能强大、易于使用的权限管理解决方案，可以帮助开发人员快速构建安全的应用程序。</span><br></pre></td></tr></table></figure>
 
 <h3 id="Permission权限模块-在电商项目中的使用"><a href="#Permission权限模块-在电商项目中的使用" class="headerlink" title="Permission权限模块 在电商项目中的使用"></a>Permission权限模块 在电商项目中的使用</h3><ul>
 <li>1、定义权限</li>
@@ -323,7 +324,7 @@
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2024/01/06/9%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Permission%E6%9D%83%E9%99%90%E6%A8%A1%E5%9D%97/" data-id="clrq7iwo2000rk8wrgu1w0r0d" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/06/9%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Permission%E6%9D%83%E9%99%90%E6%A8%A1%E5%9D%97/" data-id="clrqbe566000tg4wrbwr37fom" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -394,15 +395,16 @@
             "name": "John Doe"
         },
         "headline": "9、ABP vNext-应用模块-Permission权限模块",
-        "image": "https://smdegz.github.io/BlogPro/BlogPro/images/image-14.png",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/image-47.png",
         "keywords": "ABP vNest",
         "genre": "",
         "datePublished": "2024-01-06",
         "dateCreated": "2024-01-06",
         "dateModified": "2024-01-23",
         "url": "https://smdegz.github.io/BlogPro/2024/01/06/9、ABP vNext-应用模块-Permission权限模块/",
-        "description": "1234567891011存储权限给用户授权对用户权限进行校验ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系。",
-        "wordCount": 1625
+        "description": "
+1234567891011存储权限给用户授权对用户权限进行校验ABP框架的PermissionManagement模块是一个用于权限管理的模块，它提供了基于角色的访问控制（RBAC）功能。该模块允许您定义角色和权限，并将它们关联起来，以便在应用程序中进行权限控制。该模块提供了一些基础服务，如组织机构管理、角色管理和权限管理等。通过使用这些服务，您可以定义组织机构、角色和权限，并指定它们之间的关系",
+        "wordCount": 1628
     }
 </script>
 
@@ -541,7 +543,7 @@
                             <a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/BlogPro/image-49.png)" alt="21、ABP-vNext-DDD项目模板-动态C#API客户端" class="thumbnail-image"></span>
     
     
 </a>
@@ -581,7 +583,7 @@
                             <a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/BlogPro/image-48.png)" alt="17、ABP vNext-单体项目模板-虚拟文件、框架思想总结" class="thumbnail-image"></span>
     
     
 </a>
