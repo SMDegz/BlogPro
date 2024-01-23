@@ -6,26 +6,26 @@
     
 
     
-    <title>何锦祥 博客</title>
+    <title>13、ABP vNext-应用模块-MultiTenancy多租户模块 | 何锦祥 博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="ABPvNest" />
     
     <meta name="description" content="12345678910ABP框架的多租户支持是一种技术，它允许一个应用程序同时为多个租户提供服务。在多租户应用程序中，不同的租户使用同一个应用程序实例，但每个租户的数据和配置是隔离的，互不干扰。ABP框架通过以下方式实现多租户支持：租户模块添加：使用ABP的命令行工具或Visual Studio插件，可以轻松地将多租户模块添加到项目中。租户实体定义：在多租户模块中，需要定义一个租户实体，用于表示租">
 <meta property="og:type" content="article">
-<meta property="og:title" content="何锦祥 博客">
+<meta property="og:title" content="13、ABP vNext-应用模块-MultiTenancy多租户模块">
 <meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/index.html">
 <meta property="og:site_name" content="何锦祥 博客">
 <meta property="og:description" content="12345678910ABP框架的多租户支持是一种技术，它允许一个应用程序同时为多个租户提供服务。在多租户应用程序中，不同的租户使用同一个应用程序实例，但每个租户的数据和配置是隔离的，互不干扰。ABP框架通过以下方式实现多租户支持：租户模块添加：使用ABP的命令行工具或Visual Studio插件，可以轻松地将多租户模块添加到项目中。租户实体定义：在多租户模块中，需要定义一个租户实体，用于表示租">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-30.png">
-<meta property="article:published_time" content="2024-01-23T06:01:00.566Z">
-<meta property="article:modified_time" content="2024-01-21T05:42:10.782Z">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images/image-30.png">
+<meta property="article:published_time" content="2024-01-23T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-23T06:12:48.642Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="生活, 思考, 感悟, 分享">
+<meta property="article:tag" content="ABPvNest">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image-30.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images/image-30.png">
     
 
     
@@ -160,13 +160,23 @@
                             <article id="post-13、ABP vNext-应用模块-MultiTenancy多租户模块" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        13、ABP vNext-应用模块-MultiTenancy多租户模块
+        </h1>
+    
+
+            </header>
+        
         
             <div class="article-meta">
                 
   <div class="article-date">
     <i class="fa fa-calendar"></i>
     <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="article-date">
-       <time datetime="2024-01-23T06:01:00.566Z" itemprop="datePublished">2024-01-23</time>
+       <time datetime="2024-01-23T02:48:57.000Z" itemprop="datePublished">2024-01-23</time>
     </a>
   </div>
 
@@ -174,7 +184,7 @@
 <div class="article-date">
   <i class="fa fa-calendar-plus-o"></i>
   <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="article-date">
-     <time datetime="2024-01-21T05:42:10.782Z" itemprop="dateModified">2024-01-21</time>
+     <time datetime="2024-01-23T06:12:48.642Z" itemprop="dateModified">2024-01-23</time>
   </a>
 </div>
 
@@ -182,6 +192,11 @@
                 
 
                 
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/BlogPro/tags/ABPvNest/" rel="tag">ABPvNest</a>
+    </div>
+
                 
 
                 
@@ -198,7 +213,7 @@
 
             <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ABP框架的多租户支持是一种技术，它允许一个应用程序同时为多个租户提供服务。在多租户应用程序中，不同的租户使用同一个应用程序实例，但每个租户的数据和配置是隔离的，互不干扰。</span><br><span class="line"></span><br><span class="line">ABP框架通过以下方式实现多租户支持：</span><br><span class="line"></span><br><span class="line">租户模块添加：使用ABP的命令行工具或Visual Studio插件，可以轻松地将多租户模块添加到项目中。</span><br><span class="line">租户实体定义：在多租户模块中，需要定义一个租户实体，用于表示租户信息。这个实体可以包含租户名称、域名等信息。</span><br><span class="line">租户表创建：多租户模块会自动创建租户表，并使用定义的租户实体来映射表结构。</span><br><span class="line">多租户过滤器：在应用程序的控制器或服务中，可以使用多租户过滤器来确保只有当前租户的数据才会被访问或更新。</span><br><span class="line">多租户权限系统：ABP提供了一套基于租户的权限系统，可以确保每个租户的权限和功能是独立的。</span><br><span class="line">UI支持：ABP框架提供了UI支持，以方便租户的管理和切换。例如，可以提供一个UI界面来创建、管理和删除租户。</span><br></pre></td></tr></table></figure>
 
-<p><img src="/BlogPro/image-30.png" alt="Alt text"></p>
+<p><img src="/BlogPro/images/image-30.png" alt="Alt text"></p>
 <ul>
 <li><p>引入 Volo.Abp.TenantManagement.Domain 包</p>
 </li>
@@ -223,7 +238,7 @@
 <li><p>引入 Volo.Abp.TenantManagement.HttpApi 包</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpTenantManagementApplicationModule),</span><br><span class="line">typeof(AbpTenantManagementHttpApiModule),</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><img src="/BlogPro/image-31.png" alt="Alt text"></p>
+<p><img src="/BlogPro/images/image-31.png" alt="Alt text"></p>
 <h3 id="创建多租户步骤"><a href="#创建多租户步骤" class="headerlink" title="创建多租户步骤"></a>创建多租户步骤</h3><ul>
 <li><p>abp 多租户里面有定义了租户权限类，运行系统，自动添加对应权限到数据库</p>
 </li>
@@ -307,7 +322,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 删除租户</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public void DeleteTenant()</span><br><span class="line">&#123;</span><br><span class="line">    // 1、删除租户</span><br><span class="line">    MultiTenancyCookieHelper.DeleteTenantCookie(httpContextAccessor.HttpContext,TenantResolverConsts.DefaultTenantKey);</span><br><span class="line"></span><br><span class="line">    // 2、清空当前租户信息</span><br><span class="line">    using (currentTenant.Change(null))</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;租户清除成功&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li><p>在MultiTenancyCookieHelper 类中新增 DeleteTenantCookie 方法</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public static void DeleteTenantCookie(HttpContext context,</span><br><span class="line">            string tenantKey)</span><br><span class="line">        &#123;</span><br><span class="line">            // 1、删除cookie下的租户</span><br><span class="line">            context.Response.Cookies.Delete(tenantKey);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">- 执行新创建的退出当前租户的方法</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2、Server=localhost;Port=3306;Database=ydt-ebusiness-abpvnext-renqiang;Uid=root;Pwd=root;</span><br><span class="line"></span><br><span class="line">2、配置租户数据库连接地址</span><br><span class="line"></span><br><span class="line">3、切换租户直接使用</span><br><span class="line"></span><br><span class="line">Server=localhost;Port=3306;Database=ydt-ebusiness-abpvnext-xingzhe;Uid=root;Pwd=root;</span><br></pre></td></tr></table></figure></li>
-<li><p>执行以下接口，切换指定租户ID连接到指定数据库<br><img src="/BlogPro/image-33.png" alt="Alt text"></p>
+<li><p>执行以下接口，切换指定租户ID连接到指定数据库<br><img src="/BlogPro/images/image-33.png" alt="Alt text"></p>
 </li>
 <li><p>这时候重新添加商品，发现新增的商品存储到新数据库的表中，添加新的用户，也会自动存储到新创建的数据库数据中</p>
 </li>
@@ -321,7 +336,7 @@
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" data-id="clrpybb0h0001z4wr1dyd1724" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" data-id="clrpymjyj0005pcwrdvm6b7kz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -391,13 +406,13 @@
             "@type": "Person",
             "name": "John Doe"
         },
-        
-        "image": "https://smdegz.github.io/BlogPro/BlogPro/image-30.png",
-        "keywords": "",
+        "headline": "13、ABP vNext-应用模块-MultiTenancy多租户模块",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/images/image-30.png",
+        "keywords": "ABPvNest",
         "genre": "",
         "datePublished": "2024-01-23",
         "dateCreated": "2024-01-23",
-        "dateModified": "2024-01-21",
+        "dateModified": "2024-01-23",
         "url": "https://smdegz.github.io/BlogPro/2024/01/23/13、ABP vNext-应用模块-MultiTenancy多租户模块/",
         "description": "12345678910ABP框架的多租户支持是一种技术，它允许一个应用程序同时为多个租户提供服务。在多租户应用程序中，不同的租户使用同一个应用程序实例，但每个租户的数据和配置是隔离的，互不干扰。ABP框架通过以下方式实现多租户支持：租户模块添加：使用ABP的命令行工具或Visual Studio插件，可以轻松地将多租户模块添加到项目中。租户实体定义：在多租户模块中，需要定义一个租户实体，用于表示租",
         "wordCount": 1493
@@ -481,20 +496,20 @@
         
 <nav id="article-nav">
     
-        <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/BlogPro/2024/01/23/12%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Setting%E8%AE%BE%E7%BD%AE%E6%A8%A1%E5%9D%97/" id="article-nav-newer" class="article-nav-link-wrap">
         <strong class="article-nav-caption">newer</strong>
         <p class="article-nav-title">
         
-            (no title)
+            12、ABP vNext-应用模块-Setting设置模块
         
         </p>
         <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
     </a>
     
     
-        <a href="/BlogPro/2024/01/23/11%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Aduit%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">older</strong>
-        <p class="article-nav-title"></p>
+        <p class="article-nav-title">15、ABP vNext-应用模块-Featrue特征模块</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -516,27 +531,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/BlogPro/image-40.png)" alt="" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/23/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2024-01-23T06:01:00.580Z" itemprop="datePublished">2024-01-23</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/23/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="thumbnail">
+                            <a href="/BlogPro/2024/01/23/2%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-Docker%E5%9F%BA%E7%A1%80-%E7%AC%94%E8%AE%B0/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -548,48 +543,8 @@
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/23/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2024-01-23T06:01:00.574Z" itemprop="datePublished">2024-01-23</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/BlogPro/image-34.png)" alt="" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2024-01-23T06:01:00.568Z" itemprop="datePublished">2024-01-23</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/BlogPro/image-30.png)" alt="" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2024-01-23T06:01:00.566Z" itemprop="datePublished">2024-01-23</time></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/2%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-Docker%E5%9F%BA%E7%A1%80-%E7%AC%94%E8%AE%B0/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2024-01-23T05:37:10.888Z" itemprop="datePublished">2024-01-23</time></p>
                         </div>
                     </li>
                 
@@ -599,7 +554,7 @@
                             <a href="/BlogPro/2024/01/23/11%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Aduit%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/image-27.png)" alt="" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/images/image-27.png)" alt="11、ABP vNext-应用模块-Aduit审计日志模块" class="thumbnail-image"></span>
     
     
 </a>
@@ -608,8 +563,68 @@
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/23/11%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Aduit%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2024-01-23T06:01:00.561Z" itemprop="datePublished">2024-01-23</time></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/11%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Aduit%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97/" class="title">11、ABP vNext-应用模块-Aduit审计日志模块</a></p>
+                            <p class="item-date"><time datetime="2024-01-23T02:48:57.000Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/12%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Setting%E8%AE%BE%E7%BD%AE%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/images/image-29.png)" alt="12、ABP vNext-应用模块-Setting设置模块" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/12%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Setting%E8%AE%BE%E7%BD%AE%E6%A8%A1%E5%9D%97/" class="title">12、ABP vNext-应用模块-Setting设置模块</a></p>
+                            <p class="item-date"><time datetime="2024-01-23T02:48:57.000Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/images/image-30.png)" alt="13、ABP vNext-应用模块-MultiTenancy多租户模块" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/13%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-MultiTenancy%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%9D%97/" class="title">13、ABP vNext-应用模块-MultiTenancy多租户模块</a></p>
+                            <p class="item-date"><time datetime="2024-01-23T02:48:57.000Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/images/image-34.png)" alt="15、ABP vNext-应用模块-Featrue特征模块" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="title">15、ABP vNext-应用模块-Featrue特征模块</a></p>
+                            <p class="item-date"><time datetime="2024-01-23T02:48:57.000Z" itemprop="datePublished">2024-01-23</time></p>
                         </div>
                     </li>
                 
@@ -625,7 +640,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">14</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">15</span></li></ul>
         </div>
     </div>
 
@@ -635,7 +650,7 @@
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/ABP-C/" rel="tag">ABP C#</a><span class="tag-list-count">2</span></li></ul>
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/ABPvNest/" rel="tag">ABPvNest</a><span class="tag-list-count">13</span></li></ul>
         </div>
     </div>
 
@@ -645,7 +660,7 @@
     <div class="widget-wrap widget-float">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/BlogPro/tags/ABP-C/" style="font-size: 10px;">ABP C#</a>
+            <a href="/BlogPro/tags/ABPvNest/" style="font-size: 10px;">ABPvNest</a>
         </div>
     </div>
 
