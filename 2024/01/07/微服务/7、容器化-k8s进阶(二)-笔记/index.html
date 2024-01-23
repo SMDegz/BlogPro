@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
 
-    
+<link rel="stylesheet" href="/BlogPro/css/main.css">
 
-    
-    <title>7、容器化-k8s进阶(二)-笔记 | 何锦祥 博客</title>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-    <meta name="keywords" content="微服务" />
-    
-    <meta name="description" content="7、容器化-k8s进阶(二)-笔记html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:&quot;Lucida Console&quot;">
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="7、容器化-k8s进阶(二)-笔记html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:&quot;Lucida Console&quot;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="7、容器化-k8s进阶(二)-笔记">
 <meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1/7%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-k8s%E8%BF%9B%E9%98%B6(%E4%BA%8C)-%E7%AC%94%E8%AE%B0/index.html">
@@ -24,192 +32,171 @@
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="微服务">
 <meta name="twitter:card" content="summary">
-    
 
-    
-        <link rel="alternate" href="/" title="何锦祥 博客" type="application/atom+xml" />
-    
-
-    
-
-    
-<link rel="stylesheet" href="/BlogPro/libs/font-awesome/css/font-awesome.min.css">
-
-    
-<link rel="stylesheet" href="/BlogPro/libs/titillium-web/styles.css">
-
-    
-<link rel="stylesheet" href="/BlogPro/libs/source-code-pro/styles.css">
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2024/01/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1/7%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-k8s%E8%BF%9B%E9%98%B6(%E4%BA%8C)-%E7%AC%94%E8%AE%B0/">
 
 
-    
-<link rel="stylesheet" href="/BlogPro/css/style.css">
-
-
-    
-<script src="/BlogPro/libs/jquery/3.5.0/jquery.min.js"></script>
-
-    
-    
-        
-<link rel="stylesheet" href="/BlogPro/libs/lightgallery/css/lightgallery.min.css">
-
-    
-    
-        
-<link rel="stylesheet" href="/BlogPro/libs/justified-gallery/justifiedGallery.min.css">
-
-    
-    
-    
-    
-
-
-<meta name="generator" content="Hexo 7.1.1"></head>
-
-<body>
-    <div id="wrap">
-        <header id="header">
-    <div id="header-outer" class="outer">
-        <div class="container">
-            <div class="container-inner">
-                <div id="header-title">
-                    <h1 class="logo-wrap">
-                        <a href="/BlogPro/" class="logo"></a>
-                    </h1>
-                    
-                </div>
-                <div id="header-inner" class="nav-container">
-                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
-                    <div class="nav-container-inner">
-                        <ul id="main-nav">
-                            
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/BlogPro/">Home</a>
-                                </li>
-                            
-                                    
-                                
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/BlogPro/about/index.html">About</a>
-                                </li>
-                            
-                        </ul>
-                        <nav id="sub-nav">
-                            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/BlogPro/',
-        CONTENT_URL: '/BlogPro/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
 </script>
 
-<script src="/BlogPro/js/insight.js"></script>
+  <title>7、容器化-k8s进阶(二)-笔记 | 何锦祥 博客</title>
+  
 
 
-</div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-</header>
+  </div>
 
-        <div class="container">
-            <div class="main-body container-inner">
-                <div class="main-body-inner">
-                    <section id="main">
-                        <div class="main-body-header">
-    <h1 class="header">
-    
-    uncategorized
-    </h1>
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
-                        <div class="main-body-content">
-                            <article id="post-微服务/7、容器化-k8s进阶(二)-笔记" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-        7、容器化-k8s进阶(二)-笔记
-        </h1>
-    
 
-            </header>
-        
-        
-            <div class="article-meta">
-                
-  <div class="article-date">
-    <i class="fa fa-calendar"></i>
-    <a href="/BlogPro/2024/01/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1/7%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-k8s%E8%BF%9B%E9%98%B6(%E4%BA%8C)-%E7%AC%94%E8%AE%B0/" class="article-date">
-       <time datetime="2024-01-07T02:48:57.000Z" itemprop="datePublished">2024-01-07</time>
-    </a>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
   </div>
 
 
-<div class="article-date">
-  <i class="fa fa-calendar-plus-o"></i>
-  <a href="/BlogPro/2024/01/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1/7%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-k8s%E8%BF%9B%E9%98%B6(%E4%BA%8C)-%E7%AC%94%E8%AE%B0/" class="article-date">
-     <time datetime="2024-01-23T07:03:38.722Z" itemprop="dateModified">2024-01-23</time>
-  </a>
-</div>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-
-                
-
-                
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link-link" href="/BlogPro/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a>
-    </div>
-
-                
-
-                
-
-            </div>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
+          <div class="content post posts-expand">
             
 
-            
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2024/01/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1/7%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-k8s%E8%BF%9B%E9%98%B6(%E4%BA%8C)-%E7%AC%94%E8%AE%B0/">
 
-            
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
 
-            <!doctype html>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          7、容器化-k8s进阶(二)-笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-01-07 10:48:57" itemprop="dateCreated datePublished" datetime="2024-01-07T10:48:57+08:00">2024-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-01-23 15:03:38" itemprop="dateModified" datetime="2024-01-23T15:03:38+08:00">2024-01-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
@@ -513,460 +500,193 @@ header, .context-menu, .megamenu-content, footer { font-family: "Segoe UI", Aria
 <div  id='write'  class = 'is-node'><h1><a name='header-n0' class='md-header-anchor '></a>笔记</h1><h3><a name='header-n2' class='md-header-anchor '></a>课程专题：微服务容器化</h3><h2><a name='header-n3' class='md-header-anchor '></a>七、容器化-k8s进阶(二)</h2><p>时间：20:00~21:30</p><p>1、部署webapi项目</p><p><span>	</span>前提：</p><p><span>		</span>1、必须有webapik8s项目镜像</p><p><span>		</span>2、运行webapik8s镜像</p><p><span>				</span>pod yaml</p><p><span>			</span>1、创建webapik8s.yml</p><p><span>			</span>2、运行webapik8s.yml</p><p><span>	</span>总结：</p><p><span>	</span>1、先创建webapi项目</p><p><span>	</span>2、构造镜像</p><p><span>	</span>3、运行镜像</p><p> 访问webapi项目</p><p><span>	</span>浏览器访问webapik8syml </p><p><span>	</span>service</p><p><span>	</span>1、先创建service</p><p><span>		</span>webapik8s.yml</p><p><span>	</span>2、然后运行service</p><p><span>		</span>webapik8s.yml</p><p><span>		</span>总结：部署webapi项目</p><p><span>		</span>1、先创建webapi项目</p><p><span>		</span>2、构造镜像</p><p><span>		</span>3、运行镜像</p><p><span>		</span>4、访问项目</p><p>2、部署nginx项目</p><p><span>		</span>1、先创建nginx项目</p><p><span>		</span>2、构造ydtnginx镜像<span>	</span></p><p><span>		</span>3、运行ydtnginx镜像</p><p><span>				</span>pod</p><p><span>		</span>        1、创建ydtnginx.yml</p><p><span>			</span>2、运行ydtnginx.yml</p><p><span>		</span>4、访问ydtnginx项目</p><p><span>			</span>service</p><p><span>		</span>1、先创建service</p><p><span>			</span>ydtnginx.yml</p><p><span>		</span>2、然后运行service</p><p><span>			</span>ydtnginx.yml</p><p><span>	</span>k8s:</p><p><span>		</span>1、pod</p><p><span>		</span>2、service<span>	</span></p><p>3、service通信</p><p><span>	</span>nginx 代理webapi项目</p><p><span>	</span>工具：flannel</p><p><span>		</span>service名称通信</p><p><span>		</span>webapik8syml  ydtnginxyml</p><p><span>	</span>1、配置webapik8syml。</p><p><span>		</span>webapik8syml  ----&gt; /usr/local/nginx/conf/nginx.conf</p><p><span>		</span>步骤：</p><p><span>		</span>1、进入到ydtnginxyml pod中</p><p><span>				</span>kubectl exec pod/ydtnginxyml -it bash</p><p><span>		</span>2、然后切换到/usr/local/nginx/conf</p><p><span>				</span>cd /usr/local/nginx/conf</p><p><span>		</span>3、最后配置nginx.conf</p><p><span>		</span>4、重新运行nginx</p><p><span>	</span>nginx 代理webapi项目：总结</p><p><span>	</span>工具：flannel</p><p><span>	</span>1、service之间通信</p><p><span>	</span>2、service 名称建立通信。</p><p><span>			</span>nginx手动配置。通信效率低。</p><p><span>	</span>3、不使用pod进行通信。<span>			</span></p><p>4、volumes数据挂载</p><p><span>	</span>nginx 实现自动配置</p><p><span>	</span>volumes ：1、主机文件放到pod中。 2、pod中文件放到主机中。</p><p><span>	</span>目标：nginx 中nginx.conf文件实现自动配置</p><p><span>	</span>1、先创建nginx.conf</p><p><span>		</span>1、主：192.168.142.129</p><p><span>				</span>1、创建nginx.conf</p><p><span>				</span>2、配置nginx.conf</p><p><span>		</span>2、从：192.168.142.168</p><p><span>				</span>1、创建nginx.conf</p><p><span>				</span>2、配置nginx.conf</p><p><span>	</span>2、然后挂载nginx.conf</p><p><span>		</span>含义：主机上的nginx.conf 实现替换 ydtnginxyml /usr/local/nginx/conf/nginx.conf</p><p><span>		</span>volumes </p><p><span>		</span>1、创建volumes </p><p><span>		</span>2、引用volumes </p><p><span>	</span>nginx 实现自动配置：总结</p><p><span>	</span>1、主机上面nginx.conf文件覆盖ydtnginxyml  pod中nginx.conf<span>	</span></p><p><span>	</span>2、使用volumes 数据挂载实现</p><p><span>	</span>3、主从节点分别创建nginx.conf，而且目录一致<span>		</span></p><p><span>	</span>4、最后实现主机nginx.conf文件挂载</p><p><span>	</span>应用场景：</p><p><span>	</span>1、mysql 数据文件和日志文件同步。</p><p><span>		</span>实现主机和pod中间数据同步。<span>	</span></p><p>5、configmap配置</p><p><span>		</span>作用：只需要创建一次配置文件，就可以在多个节点上运行。</p><p><span>		</span>目标：使用configmap创建nginx.conf </p><p><span>		</span>用法</p><p><span>		</span>1、先创建nginx.conf </p><p><span>		</span>2、然后创建configmap</p><p><span>			</span>kubectl create configmap nginxconf3 --from-file=conf=nginx.conf</p><p><span>		</span>3、使用configmap创建nginx.conf <span>	</span></p><p><span>			</span>含义：将主机上面的nginx.conf 文件交给nginxconf3 管理</p><p><span>		</span>4、使用configmap</p><p><span>			</span>含义：使用nginxconf3 ----&gt;替换ydtnginxyml /usr/local/nginx/conf/nginx.conf</p><p><span>			</span>工具：volumes </p><p><span>			</span>1、创建volumes </p><p><span>				</span>ydtnginx.yml</p><p><span>			</span>2、引用volumes </p><p><span>		</span>configmap配置 总结：</p><p><span>		</span>作用：nginx配置文件只需要创建一次，实现多节点运行。</p><p><span>		</span>1、先在主节点创建nginx.conf </p><p><span>		</span>2、然后再创建configmap nginxconf3 </p><p><span>		</span>3、使用 nginxconf3 绑定nginx.conf </p><p><span>		</span>4、使用volumes  将 nginxconf3 替换 ydtnginxyml /usr/local/nginx/conf/nginx.conf文件</p><p><span>	</span>总结：nginx代理webapi</p><p>6、deployment机制</p><p><span>	</span>目标：启动webapi集群</p><p><span>		</span> 启动多个webapi实例 </p><p><span>		</span>要启动多个webapi pod才可以。</p><p><span>	</span>具体目标：webapik8syml pod启动多个。启动2个。</p><p><span>	</span>工具：deployment </p><p><span>		</span> 启动pod集群。</p><p><span>	</span>1、创建deployment</p><p><span>		</span>使用命令：kubectl create deployment webapis --image=webapik8s</p><p><span>		</span>使用yml文件：</p><p><span>		</span>1、创建webapi.yml</p><p><span>		</span>2、配置webapi.yml</p><p><span>		</span>3、运行webapi.yml</p><p><span>		</span>目标：使用deployment 创建了2个webapi实例。</p><p><span>	</span>2、访问deployment</p><p><span>		</span>客户端访问 webapis 集群。webapi集群。</p><p><span>		</span>工具：service</p><p><span>	</span>deployment ：</p><p><span>	</span>1、启动集群</p><p>7、deployment 动态伸缩</p><p><span>	</span>2、集群动态伸缩</p><p><span>		</span>实例可以动态增加，动态删除</p><p><span>		</span>2   345   321</p><p><span>		</span>目标：webapi项目实现动态伸缩，动态增加5个实例。动态删除3个实例</p><p><span>		</span>scale</p><p><span>		</span>kubectl scale --replicas=5 deployment/webapis</p><p>客户端-----&gt;service------&gt;</p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>webapis-644954f875-87p5h &nbsp; 1/1 &nbsp; &nbsp; Running &nbsp; 0 &nbsp; &nbsp; &nbsp; &nbsp;  15s</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>webapis-644954f875-9k4m5 &nbsp; 1/1 &nbsp; &nbsp; Running &nbsp; 0 &nbsp; &nbsp; &nbsp; &nbsp;  11m</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>webapis-644954f875-kqcxk &nbsp; 1/1 &nbsp; &nbsp; Running &nbsp; 0 &nbsp; &nbsp; &nbsp; &nbsp;  11m</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>webapis-644954f875-l5mtv &nbsp; 1/1 &nbsp; &nbsp; Running &nbsp; 0 &nbsp; &nbsp; &nbsp; &nbsp;  15s</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>webapis-644954f875-r4dw9 &nbsp; 1/1 &nbsp; &nbsp; Running &nbsp; 0 &nbsp; &nbsp; &nbsp; &nbsp;  15s</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 113px;"></div><div class="CodeMirror-gutters" style="display: none; height: 113px;"></div></div></div></pre><p>负载均衡</p><p>1、最小活跃数算法。</p><p><span>		</span>kubectl scale --replicas=2 deployment/webapis</p><p>nginx代理webapi集群</p><p>1、使用service通信</p><p><span>	</span>有nginx的功能。可以不需要nginx。</p><p>2、使用service名称。</p><p>&nbsp;</p><p>总结：</p><p>1、部署webapi项目</p><p>2、部署nginx项目</p><p>3、nginx 代理 webapi 使用service</p><p>4、主机和pod之间的数据挂载，volumes</p><p>5、配置文件管理工具：configmap</p><p>6、nginx和webapi集群搭建。deployment</p><p>7、nginx和webapi集群动态伸缩。scale</p><p>8、nginx和webapi集群之间通信。service。</p><p>9、有了service通信后，不需要nginx实现反向代理。</p><p>&nbsp;</p><p>下节课：</p><p>docker镜像仓库。</p><h2><a name='header-n159' class='md-header-anchor '></a>1、在pod里指定挂载的时候可以只指定到目录，在下面子目录里指定文件名称可以吗？</h2><p>答案：是可以的。configmap subPath。hostPath。没有subPath 。直接根据路径和路径文件名称制定</p><h2><a name='header-n161' class='md-header-anchor '></a>2、比如appsettings.json?</h2><p>答案：使用多个数据挂载。一个configmap可以指定多个配置文件</p><h2><a name='header-n163' class='md-header-anchor '></a>3、这样运行k8s只使用master节点暴露端口给客户端访问，就行不需要nginx了吧。</h2><p>答案：是的。不需要了。</p><h2><a name='header-n165' class='md-header-anchor '></a>4、Service能负责 负载均衡 和 反向代理？</h2><p>答案：service，负载均衡 和 反向代理？  对于相同的pod。</p><p><span>		</span>对service负载均衡 和 反向代理。只能使用nginx。</p><h2><a name='header-n168' class='md-header-anchor '></a>5、harbor？</h2><p>答案：私有仓库。</p><h2><a name='header-n170' class='md-header-anchor '></a>6、双11的用户多的时候动态扩容伸缩也是用k8s做的吗？</h2><p>答案：之前不是的，现在是的。</p><h2><a name='header-n172' class='md-header-anchor '></a>7、业务体量不大，数据量也不多，只用docker swarm就可以了吧，感觉K8S一个人负责起来是很麻烦的，用到的技术点比较多。</h2><p>答案：K8S 复杂一些。docker swarm也行。</p><h2><a name='header-n174' class='md-header-anchor '></a>8、k8s不支持dockerle</h2><p>答案：不支持。</p><h2><a name='header-n176' class='md-header-anchor '></a>9、好像是有这个说法，支持podman了</h2><p>答案：支持。</p><p>docker镜像仓库。</p></div>
 </body>
 </html>
-        </div>
-        <footer class="article-footer">
-            
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag"># 微服务</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2024/01/06/9%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Permission%E6%9D%83%E9%99%90%E6%A8%A1%E5%9D%97/" rel="prev" title="9、ABP vNext-应用模块-Permission权限模块">
+      <i class="fa fa-chevron-left"></i> 9、ABP vNext-应用模块-Permission权限模块
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2024/01/07/11%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Aduit%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97/" rel="next" title="11、ABP vNext-应用模块-Aduit审计日志模块">
+      11、ABP vNext-应用模块-Aduit审计日志模块 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2024/01/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1/7%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-k8s%E8%BF%9B%E9%98%B6(%E4%BA%8C)-%E7%AC%94%E8%AE%B0/" data-id="clrq0pr7300188gwrcccm4ax6" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+          </div>
+          
+
 <script>
-    (function ($) {
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-        </footer>
-    </div>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "author": {
-            "@type": "Person",
-            "name": "John Doe"
-        },
-        "headline": "7、容器化-k8s进阶(二)-笔记",
-        "image": "https://smdegz.github.io/BlogPro",
-        "keywords": "微服务",
-        "genre": "",
-        "datePublished": "2024-01-07",
-        "dateCreated": "2024-01-07",
-        "dateModified": "2024-01-23",
-        "url": "https://smdegz.github.io/BlogPro/2024/01/07/微服务/7、容器化-k8s进阶(二)-笔记/",
-        "description": "
-
-
-
-7、容器化-k8s进阶(二)-笔记html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console"",
-        "wordCount": 2855
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
 </script>
 
-</article>
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
-    <section id="comments">
-    
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#write"><span class="nav-number">1.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#write"><span class="nav-number">1.0.1.</span> <span class="nav-text">课程专题：微服务容器化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.1.</span> <span class="nav-text">七、容器化-k8s进阶(二)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.2.</span> <span class="nav-text">1、在pod里指定挂载的时候可以只指定到目录，在下面子目录里指定文件名称可以吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.3.</span> <span class="nav-text">2、比如appsettings.json?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.4.</span> <span class="nav-text">3、这样运行k8s只使用master节点暴露端口给客户端访问，就行不需要nginx了吧。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.5.</span> <span class="nav-text">4、Service能负责 负载均衡 和 反向代理？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.6.</span> <span class="nav-text">5、harbor？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.7.</span> <span class="nav-text">6、双11的用户多的时候动态扩容伸缩也是用k8s做的吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.8.</span> <span class="nav-text">7、业务体量不大，数据量也不多，只用docker swarm就可以了吧，感觉K8S一个人负责起来是很麻烦的，用到的技术点比较多。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.9.</span> <span class="nav-text">8、k8s不支持dockerle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.10.</span> <span class="nav-text">9、好像是有这个说法，支持podman了</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
         
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
-
-    
-    </section>
-
-
-
-                        </div>
-                    </section>
-                    <aside id="sidebar">
-    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
-    <div class="sidebar-top">
-        <p>follow:</p>
-        <ul class="social-links">
-            
-                
-                <li>
-                    <a class="social-tooltip" title="twitter" href="/BlogPro/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-twitter"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="facebook" href="/BlogPro/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-facebook"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="stack-overflow" href="/BlogPro/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-stack-overflow"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
-                        <i class="icon fa fa-github"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="weibo" href="/BlogPro/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-weibo"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="rss" href="/BlogPro/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-rss"></i>
-                    </a>
-                </li>
-                
-            
-        </ul>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/BlogPro/2024/01/07/11%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Aduit%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">newer</strong>
-        <p class="article-nav-title">
-        
-            11、ABP vNext-应用模块-Aduit审计日志模块
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
-    
-    
-        <a href="/BlogPro/2024/01/06/9%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Permission%E6%9D%83%E9%99%90%E6%A8%A1%E5%9D%97/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">older</strong>
-        <p class="article-nav-title">9、ABP vNext-应用模块-Permission权限模块</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">posts</span>
         </a>
-    
-</nav>
-
-    
-    <div class="widgets-container">
-        
-            
-                
-
-            
-                
-    <div class="widget-wrap">
-        <h3 class="widget-title">recents</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/23/hello-world/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/23/hello-world/" class="title">Hello World</a></p>
-                            <p class="item-date"><time datetime="2024-01-23T01:17:35.955Z" itemprop="datePublished">2024-01-23</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="title">21、ABP-vNext-DDD项目模板-动态C#API客户端</a></p>
-                            <p class="item-date"><time datetime="2024-01-13T02:48:57.000Z" itemprop="datePublished">2024-01-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/BlogPro/images/image-40.png)" alt="18、ABP vNext-单体项目模板-Localization本地化" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="title">18、ABP vNext-单体项目模板-Localization本地化</a></p>
-                            <p class="item-date"><time datetime="2024-01-12T02:48:57.000Z" itemprop="datePublished">2024-01-12</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="title">17、ABP vNext-单体项目模板-虚拟文件、框架思想总结</a></p>
-                            <p class="item-date"><time datetime="2024-01-11T02:48:57.000Z" itemprop="datePublished">2024-01-11</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/BlogPro/images/image-34.png)" alt="15、ABP vNext-应用模块-Featrue特征模块" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="title">15、ABP vNext-应用模块-Featrue特征模块</a></p>
-                            <p class="item-date"><time datetime="2024-01-10T02:48:57.000Z" itemprop="datePublished">2024-01-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-            
-                
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">archives</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">23</span></li></ul>
-        </div>
-    </div>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
 
 
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">tags</h3>
-        <div class="widget">
-            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/ABP-vNest/" rel="tag">ABP vNest</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">8</span></li></ul>
-        </div>
-    </div>
 
-
-            
-                
-    <div class="widget-wrap widget-float">
-        <h3 class="widget-title">tag cloud</h3>
-        <div class="widget tagcloud">
-            <a href="/BlogPro/tags/ABP-vNest/" style="font-size: 20px;">ABP vNest</a> <a href="/BlogPro/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-            
-        
-    </div>
-</aside>
-
-                </div>
-            </div>
-        </div>
-        <footer id="footer">
-    <div class="container">
-        <div class="container-inner">
-            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
-            <div class="credit">
-                <h1 class="logo-wrap">
-                    <a href="/BlogPro/" class="logo"></a>
-                </h1>
-                <p>&copy; 2024 John Doe</p>
-                
-                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
-                
-            </div>
-            <div class="footer-plugins">
-              
-    
-
-
-            </div>
-        </div>
-    </div>
-</footer>
+      </div>
 
     </div>
-    
-    
-    <script>
-    var disqus_shortname = 'hexo-theme-hueman';
-    
-    
-    var disqus_url = 'https://smdegz.github.io/BlogPro/2024/01/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1/7%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-k8s%E8%BF%9B%E9%98%B6(%E4%BA%8C)-%E7%AC%94%E8%AE%B0/';
-    
-    (function() {
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    </script>
+  </aside>
+  <div id="sidebar-dimmer"></div>
 
 
+      </div>
+    </main>
 
-
-
-    
+    <footer class="footer">
+      <div class="footer-inner">
         
-<script src="/BlogPro/libs/lightgallery/js/lightgallery.min.js"></script>
 
         
-<script src="/BlogPro/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
 
         
-<script src="/BlogPro/libs/lightgallery/js/lg-pager.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-autoplay.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-fullscreen.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-zoom.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-hash.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-share.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-video.min.js"></script>
-
-    
-    
-        
-<script src="/BlogPro/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
-
-    
-    
-
-    
-    
-    
 
 
 
-<!-- Custom Scripts -->
 
-<script src="/BlogPro/js/main.js"></script>
 
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/muse.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
 </html>
