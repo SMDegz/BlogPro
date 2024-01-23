@@ -1,1 +1,713 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.ico"><script type="module" crossorigin src="/static/js/38b034bd.js"></script><link rel="stylesheet" href="/static/css/581e01a0.css"><meta name="generator" content="Hexo 7.1.1"></head><body id="body-container"><noscript><strong>We're sorry but this app doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>12、ABP vNext-应用模块-Setting设置模块 | 何锦祥 博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="ABP vNest" />
+    
+    <meta name="description" content="1234567ABP框架中的Setting模块是一个用于配置应用程序的模块。它提供了一种灵活的方式来存储和读取配置信息，如数据库连接字符串、SMTP服务器地址等。Setting模块使用一个名为SettingStore的抽象接口来存储和读取配置信息。默认情况下，ABP框架提供了一个实现该接口的类DefaultConfigSettingStore，该类将配置信息存储在App.config或Web.co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="12、ABP vNext-应用模块-Setting设置模块">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/08/12%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Setting%E8%AE%BE%E7%BD%AE%E6%A8%A1%E5%9D%97/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="1234567ABP框架中的Setting模块是一个用于配置应用程序的模块。它提供了一种灵活的方式来存储和读取配置信息，如数据库连接字符串、SMTP服务器地址等。Setting模块使用一个名为SettingStore的抽象接口来存储和读取配置信息。默认情况下，ABP框架提供了一个实现该接口的类DefaultConfigSettingStore，该类将配置信息存储在App.config或Web.co">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images/image-29.png">
+<meta property="article:published_time" content="2024-01-08T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-23T06:49:01.052Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="ABP vNest">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images/image-29.png">
+    
+
+    
+        <link rel="alternate" href="/" title="何锦祥 博客" type="application/atom+xml" />
+    
+
+    
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/BlogPro/css/style.css">
+
+
+    
+<script src="/BlogPro/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/BlogPro/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/">Home</a>
+                                </li>
+                            
+                                    
+                                
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/about/index.html">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/BlogPro/',
+        CONTENT_URL: '/BlogPro/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/BlogPro/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-12、ABP vNext-应用模块-Setting设置模块" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        12、ABP vNext-应用模块-Setting设置模块
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/BlogPro/2024/01/08/12%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Setting%E8%AE%BE%E7%BD%AE%E6%A8%A1%E5%9D%97/" class="article-date">
+       <time datetime="2024-01-08T02:48:57.000Z" itemprop="datePublished">2024-01-08</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/BlogPro/2024/01/08/12%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Setting%E8%AE%BE%E7%BD%AE%E6%A8%A1%E5%9D%97/" class="article-date">
+     <time datetime="2024-01-23T06:49:01.052Z" itemprop="dateModified">2024-01-23</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/BlogPro/tags/ABP-vNest/" rel="tag">ABP vNest</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ABP框架中的Setting模块是一个用于配置应用程序的模块。它提供了一种灵活的方式来存储和读取配置信息，如数据库连接字符串、SMTP服务器地址等。</span><br><span class="line"></span><br><span class="line">Setting模块使用一个名为SettingStore的抽象接口来存储和读取配置信息。默认情况下，ABP框架提供了一个实现该接口的类DefaultConfigSettingStore，该类将配置信息存储在App.config或Web.config文件中。</span><br><span class="line"></span><br><span class="line">开发人员可以通过注入SettingManager依赖项来使用Setting模块。SettingManager类提供了一些方法来获取和设置配置值。这些方法可以接受一个TenantId参数，以针对特定租户的配置进行操作。如果没有提供TenantId参数，则操作将应用于所有租户的默认配置。</span><br><span class="line"></span><br><span class="line">Setting模块还支持从自定义数据源读取配置信息，例如数据库或自定义存储。要使用自定义数据源，开发人员需要实现SettingStore接口，并将其注入到ABP框架中。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>设置 跟 配置 的区别</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">目标不一样，设置针对的是系统，整个系统进行设置，配置是针对用户，对指定用户进行配置</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>引入 Volo.Abp.SettingManagement.Domain 包</p>
+</li>
+<li><p>引入 Volo.Abp.SettingManagement.EntityFrameworkCore 包</p>
+</li>
+<li><p>集成相应包在Module类里面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//集成应用模块，设置模块</span><br><span class="line">typeof(AbpSettingManagementDomainModule),</span><br><span class="line">typeof(AbpSettingManagementEntityFrameworkCoreModule)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在数据库上下文类中添加设置模块的模型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 4、添加设置模块</span><br><span class="line">builder.ConfigureSettingManagement();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成增量迁移文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migration add Setting</span><br><span class="line">dotnet ef database update Setting</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="设置模块-流程"><a href="#设置模块-流程" class="headerlink" title="设置模块 流程"></a>设置模块 流程</h3><ul>
+<li><p>定义设置 创建 ProductSettingDefinition 类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 设置定义</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class ProductSettingDefinition : SettingDefinitionProvider</span><br><span class="line">&#123;</span><br><span class="line">    public string ProductKey = &quot;IsRedisStore&quot;;</span><br><span class="line">    public string ProductValue = &quot;true&quot;; // false 存储到数据库</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 1、全局设置</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;context&quot;&gt;&lt;/param&gt;</span><br><span class="line">    /// &lt;exception cref=&quot;NotImplementedException&quot;&gt;&lt;/exception&gt;</span><br><span class="line">    public override void Define(ISettingDefinitionContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、定义设置</span><br><span class="line">        context.Add(new SettingDefinition(&quot;IsRedisStore&quot;,&quot;true&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>定义的设置存储到数据库 创建设置类 声明设置接口 SettingService</p>
+</li>
+<li><p>添加全局设置方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 设置管理(数据库操作)</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[Dependency(ServiceLifetime.Singleton)]</span><br><span class="line">public class SettingService:IRemoteService</span><br><span class="line">&#123;</span><br><span class="line">    public ISettingManager settingManager &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 全局设置方法</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public string Set(string Name, string Value)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、开始设置</span><br><span class="line">        settingManager.SetGlobalAsync(Name, Value).Wait();</span><br><span class="line"></span><br><span class="line">        return &quot;设置成功&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>默认值是True 数据库不保存数据，设置为false，数据库保存<br><img src="/BlogPro/images/image-29.png" alt="Alt text"></p>
+</li>
+<li><p>在 SettingService 类里面添加 用户设置方法</p>
+</li>
+<li><p>添加用户设置方法</p>
+</li>
+<li><p>如果全局是False，用户要设置成true ，才能有结果保存数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">    /// 局部设置方法（用户个性化设置）</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public string SetUser(Guid UserId,string Name, string Value)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、开始设置</span><br><span class="line">        settingManager.SetForUserAsync(UserId, Name, Value).Wait();</span><br><span class="line"></span><br><span class="line">        return &quot;用户设置成功&quot;;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">设置的保存</span><br><span class="line"></span><br><span class="line">设置的保存原理</span><br><span class="line"></span><br><span class="line">1、获取设置定义</span><br><span class="line"></span><br><span class="line">ISettingDefinitionManager</span><br><span class="line"></span><br><span class="line">-----&gt;IDictionary&lt;string, SettingDefinition&gt;</span><br><span class="line"></span><br><span class="line">----&gt;ISettingDefinitionProvider</span><br><span class="line"></span><br><span class="line">----&gt;ProductSettingDefinition</span><br><span class="line"></span><br><span class="line">2、校验设置定义</span><br><span class="line"></span><br><span class="line">（校验数据库是否传递相同的值）</span><br><span class="line"></span><br><span class="line">3、存储个性化设置</span><br><span class="line"></span><br><span class="line">List Providers</span><br><span class="line"></span><br><span class="line">----&gt;ISettingManagementProvider</span><br><span class="line"></span><br><span class="line">----&gt; GlobalSettingManagementProvider</span><br><span class="line"></span><br><span class="line">----&gt; UserSettingManagementProvider</span><br><span class="line"></span><br><span class="line">----&gt; SettingManagementProvider</span><br><span class="line"></span><br><span class="line">----&gt;ISettingManagementStore</span><br><span class="line"></span><br><span class="line">---&gt;ISettingRepository</span><br><span class="line"></span><br><span class="line">设置的保存思想总结</span><br><span class="line"></span><br><span class="line">1、Volo.Abp.Settings设置模块</span><br><span class="line"></span><br><span class="line">控制全局</span><br><span class="line"></span><br><span class="line">ISettingDefinitionManager</span><br><span class="line"></span><br><span class="line">2、Volo.Abp.SettingManagement设置管理模块</span><br><span class="line"></span><br><span class="line">控制设置局部（设置管理）</span><br><span class="line"></span><br><span class="line">全局控制</span><br><span class="line"></span><br><span class="line">扩展控制（局部扩展）</span><br><span class="line"></span><br><span class="line">任何模块---&gt;都可以是这两种思路</span><br><span class="line"></span><br><span class="line">1、全局+局部组成。</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用设置方法"><a href="#使用设置方法" class="headerlink" title="使用设置方法"></a>使用设置方法</h3><ul>
+<li><p>注入 ISettingProvider 类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">///  ISettingProvider依赖注入</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public ISettingProvider SettingProvider &#123; set; get; &#125; </span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 添加商品方法</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;product&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">[HttpPost]</span><br><span class="line">[Authorize(&quot;UserInset&quot;)]</span><br><span class="line">public string AddProduct(ProductDto productDto)</span><br><span class="line">&#123;</span><br><span class="line">    // 1、获取IsRedisStore设置</span><br><span class="line">    string IsRedisStore = SettingProvider.GetOrNullAsync(&quot;IsRedisStore&quot;).Result;</span><br><span class="line"></span><br><span class="line">    // 2、判断存储到哪里</span><br><span class="line">    if (IsRedisStore.Equals(&quot;true&quot;))</span><br><span class="line">    &#123;</span><br><span class="line">        // productABPService.AddProduct(product);</span><br><span class="line">        productABPService.CreateAsync(productDto).Wait();</span><br><span class="line">    &#125; else</span><br><span class="line">    &#123;</span><br><span class="line">        _logger.LogInformation(&quot;存储到redis&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 3、获取用户值</span><br><span class="line">    var UserId = CurrentUser.GetId();</span><br><span class="line"></span><br><span class="line">    // productABPService.AddProduct(product);</span><br><span class="line">    //productABPService.CreateAsync(productDto).Wait();</span><br><span class="line"></span><br><span class="line">    return &quot;添加成功&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置的使用 原理</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">设置使用</span><br><span class="line"></span><br><span class="line">设置使用（设置查询）原理</span><br><span class="line"></span><br><span class="line">Volo.Abp.Settings</span><br><span class="line"></span><br><span class="line">ISettingProvider</span><br><span class="line"></span><br><span class="line">---&gt; ISettingValueProviderManager(管理者)</span><br><span class="line"></span><br><span class="line">----&gt; List</span><br><span class="line"></span><br><span class="line">----&gt;ISettingValueProvider (可以实现自定义)</span><br><span class="line"></span><br><span class="line">ICurrentUser 所以，可以直接获取Id</span><br><span class="line"></span><br><span class="line">---&gt;ISettingStore（进行自定义扩展，扩展自定存储）</span><br><span class="line"></span><br><span class="line">Volo.Abp.SettingManagement</span><br><span class="line"></span><br><span class="line">---&gt;ISettingManagementStore</span><br><span class="line"></span><br><span class="line">----&gt;IDistributedCache</span><br><span class="line"></span><br><span class="line">----&gt;ISettingRepository</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://smdegz.github.io/BlogPro/2024/01/08/12%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Setting%E8%AE%BE%E7%BD%AE%E6%A8%A1%E5%9D%97/" data-id="clrq4n6a300050kwr41838r8j" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "John Doe"
+        },
+        "headline": "12、ABP vNext-应用模块-Setting设置模块",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/images/image-29.png",
+        "keywords": "ABP vNest",
+        "genre": "",
+        "datePublished": "2024-01-08",
+        "dateCreated": "2024-01-08",
+        "dateModified": "2024-01-23",
+        "url": "https://smdegz.github.io/BlogPro/2024/01/08/12、ABP vNext-应用模块-Setting设置模块/",
+        "description": "1234567ABP框架中的Setting模块是一个用于配置应用程序的模块。它提供了一种灵活的方式来存储和读取配置信息，如数据库连接字符串、SMTP服务器地址等。Setting模块使用一个名为SettingStore的抽象接口来存储和读取配置信息。默认情况下，ABP框架提供了一个实现该接口的类DefaultConfigSettingStore，该类将配置信息存储在App.config或Web.co",
+        "wordCount": 785
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="stack-overflow" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/BlogPro/2024/01/09/%E5%BE%AE%E6%9C%8D%E5%8A%A1/10%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-%E9%A1%B9%E7%9B%AE%E8%87%AA%E5%8A%A8%E5%8C%96CI%E3%80%81CD-%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            10、容器化-项目自动化CI、CD-笔记
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/BlogPro/2024/01/08/%E5%BE%AE%E6%9C%8D%E5%8A%A1/8%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93-%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">8、容器化-镜像仓库-笔记</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/hello-world/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/hello-world/" class="title">Hello World</a></p>
+                            <p class="item-date"><time datetime="2024-01-23T01:17:35.955Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="title">21、ABP-vNext-DDD项目模板-动态C#API客户端</a></p>
+                            <p class="item-date"><time datetime="2024-01-13T02:48:57.000Z" itemprop="datePublished">2024-01-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/images/image-40.png)" alt="18、ABP vNext-单体项目模板-Localization本地化" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="title">18、ABP vNext-单体项目模板-Localization本地化</a></p>
+                            <p class="item-date"><time datetime="2024-01-12T02:48:57.000Z" itemprop="datePublished">2024-01-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="title">17、ABP vNext-单体项目模板-虚拟文件、框架思想总结</a></p>
+                            <p class="item-date"><time datetime="2024-01-11T02:48:57.000Z" itemprop="datePublished">2024-01-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/images/image-34.png)" alt="15、ABP vNext-应用模块-Featrue特征模块" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="title">15、ABP vNext-应用模块-Featrue特征模块</a></p>
+                            <p class="item-date"><time datetime="2024-01-10T02:48:57.000Z" itemprop="datePublished">2024-01-10</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">23</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/ABP-vNest/" rel="tag">ABP vNest</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">8</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/BlogPro/tags/ABP-vNest/" style="font-size: 20px;">ABP vNest</a> <a href="/BlogPro/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/BlogPro/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 John Doe</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://smdegz.github.io/BlogPro/2024/01/08/12%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Setting%E8%AE%BE%E7%BD%AE%E6%A8%A1%E5%9D%97/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/BlogPro/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/BlogPro/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/BlogPro/js/main.js"></script>
+
+
+</body>
+</html>
