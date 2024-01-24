@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>5、Redis | 何锦祥 博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="ABP中间件" />
+    
+    <meta name="description" content="使用本地缓存在微服务系统中会出现缓存命中率下降的问题 普通项目访问数据库    使用redis中间件     本地缓存 使用本地缓存步骤： 1.下载chching-memory缓存包 2.starup文件添加memorychche中间件  1services.addmemoryCache(); 3.在控制器使用对应服务注册IMemoryCache    Redis 使用Redis步骤 虚拟机1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5、Redis">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="使用本地缓存在微服务系统中会出现缓存命中率下降的问题 普通项目访问数据库    使用redis中间件     本地缓存 使用本地缓存步骤： 1.下载chching-memory缓存包 2.starup文件添加memorychche中间件  1services.addmemoryCache(); 3.在控制器使用对应服务注册IMemoryCache    Redis 使用Redis步骤 虚拟机1">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/068db68bb6a93dad6b16412917352c8e.png">
+<meta property="article:published_time" content="2023-01-06T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-24T03:25:27.905Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="ABP中间件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/068db68bb6a93dad6b16412917352c8e.png">
+    
+
+    
+        <link rel="alternate" href="/" title="何锦祥 博客" type="application/atom+xml" />
+    
+
+    
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/BlogPro/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/BlogPro/css/style.css">
+
+
+    
+<script src="/BlogPro/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/BlogPro/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/BlogPro/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/">Home</a>
+                                </li>
+                            
+                                    
+                                
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/BlogPro/about/index.html">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/BlogPro/',
+        CONTENT_URL: '/BlogPro/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/BlogPro/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-ABP中间件/Rddis" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        5、Redis
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/" class="article-date">
+       <time datetime="2023-01-06T02:48:57.000Z" itemprop="datePublished">2023-01-06</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/" class="article-date">
+     <time datetime="2024-01-24T03:25:27.905Z" itemprop="dateModified">2024-01-24</time>
+  </a>
+</div>
+
+
+                
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/BlogPro/tags/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">ABP中间件</a>
+    </div>
+
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <p><img src="/BlogPro/068db68bb6a93dad6b16412917352c8e.png" alt="Alt text"><br><img src="/BlogPro/d83a5d1974baa2ffca16892aa1470403.png" alt="Alt text"><br><img src="/BlogPro/08c866c3c1c22f27c93d9d8b7d42b0a8.png" alt="Alt text"><br><img src="/BlogPro/892a07907320077687e294674be682fa.png" alt="Alt text"></p>
+<h3 id="使用本地缓存在微服务系统中会出现缓存命中率下降的问题"><a href="#使用本地缓存在微服务系统中会出现缓存命中率下降的问题" class="headerlink" title="使用本地缓存在微服务系统中会出现缓存命中率下降的问题"></a>使用本地缓存在微服务系统中会出现缓存命中率下降的问题</h3><ul>
+<li><p>普通项目访问数据库<br>  <img src="/BlogPro/67a0bc28ae706759ae37d445b207667a.png" alt="Alt text"></p>
+</li>
+<li><p>使用redis中间件<br>  <img src="/BlogPro/d6b7fcd43b9c7f6b16109b76c8e52385.png" alt="Alt text"></p>
+</li>
+</ul>
+<h3 id="本地缓存"><a href="#本地缓存" class="headerlink" title="本地缓存"></a>本地缓存</h3><ul>
+<li>使用本地缓存步骤：<ul>
+<li>1.下载chching-memory缓存包</li>
+<li>2.starup文件添加memorychche中间件  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">services.addmemoryCache();</span><br></pre></td></tr></table></figure></li>
+<li>3.在控制器使用对应服务注册IMemoryCache</li>
+</ul>
+</li>
+</ul>
+<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><ul>
+<li>使用Redis步骤<br><img src="/BlogPro/20420a84afc5540a731ad2556f7bf01a.png" alt="Alt text"><ul>
+<li><p>虚拟机1 安装redis 客户端</p>
+</li>
+<li><p>修改redis配置文件</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BIND 0.0.0.0:：1</span><br></pre></td></tr></table></figure></li>
+<li><p>运行redis 端口 6379</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src/redis-server redis.conf</span><br></pre></td></tr></table></figure></li>
+<li><p>虚拟机1 启动redis客户端，连接对应地址</p>
+</li>
+<li><p>Vs下载stackerchange.Redis nuget包</p>
+</li>
+<li><p>封装Rdis使用的扩展方法类<br>  <img src="/BlogPro/a9206da9e684f66d3171a37588520d49.png" alt="Alt text"></p>
+</li>
+<li><p>starup类文件添加Redis中间件</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">services.addDistributedRedisCache(192.168.1.1)</span><br></pre></td></tr></table></figure></li>
+<li><p>控制器文件注入 ConnectionMultiplexer 服务</p>
+</li>
+<li><p>redis 换区一条数据，没有则查询，并存入Redis<br>  <img src="/BlogPro/1dde79924377e4281a741f9cdb994632.png" alt="Alt text"></p>
+</li>
+<li><p>Redis hashSet存储（字典）,实现存储指定值，并自增，自减<br>  <img src="/BlogPro/945bf534d1356e7f054dd4a6eb5a1836.png" alt="Alt text"></p>
+</li>
+<li><p>redis 实现分页查询<br>  <img src="/BlogPro/67a997492454c9e3ef1fd8781b190a89.png" alt="Alt text"></p>
+</li>
+<li><p>redis 存储集合列表<br>  <img src="/BlogPro/e508bb46ecff3ea1dbcb95b7eec6b65c.png" alt="Alt text"></p>
+</li>
+<li><p>redis 实现事务存储<br>  <img src="/BlogPro/1493ae9bffcd8c87b10fcea5f53ddea7.png" alt="Alt text"></p>
+</li>
+<li><p>加入静态锁，防止超卖<br>  <img src="/BlogPro/f176ea9309d266354278322839ce982d.png" alt="Alt text"></p>
+</li>
+<li><p>加入分布式锁，防止集群超卖<br>  <img src="/BlogPro/239e5a8d1f0f2e567dc8d35c2601ecd8.png" alt="Alt text"><br>  <img src="/BlogPro/bedb14f21b42f244f3069a983f5b9bb4.png" alt="Alt text"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="redis-主从集群"><a href="#redis-主从集群" class="headerlink" title="redis 主从集群"></a>redis 主从集群</h3><ul>
+<li>缺点：只有一台主机，不能实现高可用<br><img src="/BlogPro/5b13f711b58392c1036d50e420cf8263.png" alt="Alt text"></li>
+</ul>
+<h3 id="redis-哨兵集群"><a href="#redis-哨兵集群" class="headerlink" title="redis 哨兵集群"></a>redis 哨兵集群</h3><ul>
+<li>缺点：无法高并发读写，无法处理海量数据<br><img src="/BlogPro/203ca86a95b8f6372ae7ef8ed6f572e3.png" alt="Alt text"></li>
+</ul>
+<h3 id="redis-cluster"><a href="#redis-cluster" class="headerlink" title="redis-cluster"></a>redis-cluster</h3><ul>
+<li>缺点：消耗资源</li>
+<li>优点： 高并发读写，，高可用，存储海量数据<br><img src="/BlogPro/56d773444dc0813471c90028744a2644.png" alt="Alt text"><br><img src="/BlogPro/da2f4ba7e0c545c478e2ea22dd989c39.png" alt="Alt text"></li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://smdegz.github.io/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/" data-id="clrrdvr4p00199kwraughfktq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "John Doe"
+        },
+        "headline": "5、Redis",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/068db68bb6a93dad6b16412917352c8e.png",
+        "keywords": "ABP中间件",
+        "genre": "",
+        "datePublished": "2023-01-06",
+        "dateCreated": "2023-01-06",
+        "dateModified": "2024-01-24",
+        "url": "https://smdegz.github.io/BlogPro/2023/01/06/ABP中间件/Rddis/",
+        "description": "
+使用本地缓存在微服务系统中会出现缓存命中率下降的问题
+普通项目访问数据库  
+
+使用redis中间件  
+
+
+本地缓存
+使用本地缓存步骤：
+1.下载chching-memory缓存包
+2.starup文件添加memorychche中间件  1services.addmemoryCache();
+3.在控制器使用对应服务注册IMemoryCache
+
+
+
+Redis
+使用Redis步骤
+虚拟机1 ",
+        "wordCount": 159
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="stack-overflow" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/BlogPro/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/BlogPro/2023/01/07/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            6、MongoDB
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/BlogPro/2023/01/05/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/ShardingSphere-Proxy/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">4、ShardingSphere-Proxy</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/23/hello-world/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/23/hello-world/" class="title">Hello World</a></p>
+                            <p class="item-date"><time datetime="2024-01-23T01:17:35.955Z" itemprop="datePublished">2024-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/image-49.png)" alt="21、ABP-vNext-DDD项目模板-动态C#API客户端" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="title">21、ABP-vNext-DDD项目模板-动态C#API客户端</a></p>
+                            <p class="item-date"><time datetime="2024-01-13T02:48:57.000Z" itemprop="datePublished">2024-01-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/images/image-40.png)" alt="18、ABP vNext-单体项目模板-Localization本地化" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="title">18、ABP vNext-单体项目模板-Localization本地化</a></p>
+                            <p class="item-date"><time datetime="2024-01-12T02:48:57.000Z" itemprop="datePublished">2024-01-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/image-48.png)" alt="17、ABP vNext-单体项目模板-虚拟文件、框架思想总结" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="title">17、ABP vNext-单体项目模板-虚拟文件、框架思想总结</a></p>
+                            <p class="item-date"><time datetime="2024-01-11T02:48:57.000Z" itemprop="datePublished">2024-01-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/BlogPro/images/image-34.png)" alt="15、ABP vNext-应用模块-Featrue特征模块" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="title">15、ABP vNext-应用模块-Featrue特征模块</a></p>
+                            <p class="item-date"><time datetime="2024-01-10T02:48:57.000Z" itemprop="datePublished">2024-01-10</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">26</span></li><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2023/01/">January 2023</a><span class="archive-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/ABP-vNest/" rel="tag">ABP vNest</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/" rel="tag">ABP中间件</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a><span class="tag-list-count">8</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/BlogPro/tags/ABP-vNest/" style="font-size: 20px;">ABP vNest</a> <a href="/BlogPro/tags/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 15px;">ABP中间件</a> <a href="/BlogPro/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 10px;">微服务</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/BlogPro/" class="logo"></a>
+                </h1>
+                <p>&copy; 2024 John Doe</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://smdegz.github.io/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/BlogPro/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/BlogPro/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/BlogPro/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/BlogPro/js/main.js"></script>
+
+
+</body>
+</html>
