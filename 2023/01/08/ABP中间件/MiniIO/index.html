@@ -6,26 +6,26 @@
     
 
     
-    <title>6、MongoDB | 何锦祥 博客</title>
+    <title>8、MiniIO 分布式文件系统 | 何锦祥 博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="keywords" content="ABP中间件" />
     
-    <meta name="description" content="步骤 下载MongoDB客户端 运行Mongod.exe   1mongod.exe --config &quot;路径&quot; 配置mongod.cfg 文件 下载并运行MongoDB 数据库管理工具 VS系在MongoDB-Driver Neget包 建立连接：    mongoDB复制集  创建Replicaset 文件夹  创建Replicaset-data文件夹  创建Replic">
+    <meta name="description" content="步骤 下载MiniIO  下载MC  VS 引入 MinIo包  代码简历与MiniIo的连接    存储文件  CMD启动MiniO   1MiniO.exe derver &quot;Didata&quot;  访问Minio  Localhost：58711 账号密码：minioadmin miniodmin  下载文件代码    删除文件代码    复制图片   1Minioclient">
 <meta property="og:type" content="article">
-<meta property="og:title" content="6、MongoDB">
-<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/01/07/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/index.html">
+<meta property="og:title" content="8、MiniIO 分布式文件系统">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/index.html">
 <meta property="og:site_name" content="何锦祥 博客">
-<meta property="og:description" content="步骤 下载MongoDB客户端 运行Mongod.exe   1mongod.exe --config &quot;路径&quot; 配置mongod.cfg 文件 下载并运行MongoDB 数据库管理工具 VS系在MongoDB-Driver Neget包 建立连接：    mongoDB复制集  创建Replicaset 文件夹  创建Replicaset-data文件夹  创建Replic">
+<meta property="og:description" content="步骤 下载MiniIO  下载MC  VS 引入 MinIo包  代码简历与MiniIo的连接    存储文件  CMD启动MiniO   1MiniO.exe derver &quot;Didata&quot;  访问Minio  Localhost：58711 账号密码：minioadmin miniodmin  下载文件代码    删除文件代码    复制图片   1Minioclient">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/04df9984c9961200e29ce07f362b94b8.png">
-<meta property="article:published_time" content="2023-01-07T02:48:57.000Z">
-<meta property="article:modified_time" content="2024-01-24T03:25:25.862Z">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images/c75c049195b8b27337cf637d44df2860.png">
+<meta property="article:published_time" content="2023-01-08T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-24T06:15:09.454Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ABP中间件">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/04df9984c9961200e29ce07f362b94b8.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images/c75c049195b8b27337cf637d44df2860.png">
     
 
     
@@ -157,14 +157,14 @@
 </div>
 
                         <div class="main-body-content">
-                            <article id="post-ABP中间件/MongoDB" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-ABP中间件/MiniIO" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        6、MongoDB
+        8、MiniIO 分布式文件系统
         </h1>
     
 
@@ -175,16 +175,16 @@
                 
   <div class="article-date">
     <i class="fa fa-calendar"></i>
-    <a href="/BlogPro/2023/01/07/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/" class="article-date">
-       <time datetime="2023-01-07T02:48:57.000Z" itemprop="datePublished">2023-01-07</time>
+    <a href="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/" class="article-date">
+       <time datetime="2023-01-08T02:48:57.000Z" itemprop="datePublished">2023-01-08</time>
     </a>
   </div>
 
 
 <div class="article-date">
   <i class="fa fa-calendar-plus-o"></i>
-  <a href="/BlogPro/2023/01/07/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/" class="article-date">
-     <time datetime="2024-01-24T03:25:25.862Z" itemprop="dateModified">2024-01-24</time>
+  <a href="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/" class="article-date">
+     <time datetime="2024-01-24T06:15:09.454Z" itemprop="dateModified">2024-01-24</time>
   </a>
 </div>
 
@@ -211,89 +211,66 @@
 
             
 
-            <p><img src="/BlogPro/04df9984c9961200e29ce07f362b94b8.png" alt="Alt text"><br><img src="/BlogPro/bf85355e5ca4cdec856b0795dd1b2a76.png" alt="Alt text"><br><img src="/BlogPro/fdbdda3d6f9bed311d623d5776cc4c72.png" alt="Alt text"><br><img src="/BlogPro/de8cb55cbae60fb8baccbe1e6e1112da.png" alt="Alt text"></p>
+            <p><img src="/BlogPro/images/c75c049195b8b27337cf637d44df2860.png" alt="Alt text"></p>
 <h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ul>
-<li>下载MongoDB客户端</li>
-<li>运行Mongod.exe   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod.exe --config &quot;路径&quot;</span><br></pre></td></tr></table></figure></li>
-<li>配置mongod.cfg 文件</li>
-<li>下载并运行MongoDB 数据库管理工具</li>
-<li>VS系在MongoDB-Driver Neget包</li>
-<li>建立连接：<br>  <img src="/BlogPro/5cacbfedbf1e4f5b896b3e22db21f791.png" alt="Alt text"></li>
+<li><p>下载MiniIO</p>
+</li>
+<li><p>下载MC</p>
+</li>
+<li><p>VS 引入 MinIo包</p>
+</li>
+<li><p>代码简历与MiniIo的连接<br>  <img src="/BlogPro/images/21b20269f9d7bffd7f13d465998af28e.png" alt="Alt text"></p>
+</li>
+<li><p>存储文件</p>
+</li>
+<li><p>CMD启动MiniO</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MiniO.exe derver &quot;Didata&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问Minio<br>  Localhost：58711 账号密码：minioadmin miniodmin</p>
+</li>
+<li><p>下载文件代码<br>  <img src="/BlogPro/images/5330ebc561c4d2c74f2996e22dcd77d6.png" alt="Alt text"></p>
+</li>
+<li><p>删除文件代码<br>  <img src="/BlogPro/images/50f9cacb8ab118d380eb2feaac043e03.png" alt="Alt text"></p>
+</li>
+<li><p>复制图片</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Minioclient。copyobjectAsync（“product”，“fileNew”）</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h3 id="mongoDB复制集"><a href="#mongoDB复制集" class="headerlink" title="mongoDB复制集"></a>mongoDB复制集</h3><p><img src="/BlogPro/be4feea3d9282b1d1dd32157241525a5.png" alt="Alt text"></p>
+<h3 id="监听Minio"><a href="#监听Minio" class="headerlink" title="监听Minio"></a>监听Minio</h3><ul>
+<li><p>mysql创建Miniodb 数据集</p>
+</li>
+<li><p>minio 后台选择Setting&#x2F;notifications 选择mysql输入信息</p>
+</li>
+<li><p>进入miniio目录 ，通过一下目录重启</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">minio server -- address ：9000 --console -address “：9001” </span><br><span class="line">获取mysql 队列名 arn : minio:sql::_:mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入minio目录，通过一下命令启动MC<br>mc.exe alas set myminio http:127.0.0.1:9000 minioadmin minioadmin</p>
+</li>
+<li><p>创建Mysql 队列事件，通过以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mc event add --event &quot;put,delete&quot; minio/productpictwes &quot;队列名&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>此时上传图片，miniodb 数据库会存储对应文件信息</p>
+</li>
+</ul>
+<h3 id="minio-多租户"><a href="#minio-多租户" class="headerlink" title="minio 多租户"></a>minio 多租户</h3><p><img src="/BlogPro/images/b870bdf03b59ae4a958a6243789d9c9c.png" alt="Alt text"></p>
 <ul>
-<li><p>创建Replicaset 文件夹<br><img src="/BlogPro/5dce9283568eeda2b8a306dedabbf7a3.png" alt="Alt text"></p>
+<li><p>租户系统启动</p>
 </li>
-<li><p>创建Replicaset-data文件夹<br><img src="/BlogPro/43201e9206031af18c8c88a7d9de2ce2.png" alt="Alt text"></p>
+<li><p>进入minio 目录中，CMD</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9002” D：work/minio/tenant</span><br></pre></td></tr></table></figure></li>
+<li><p>代码文件<br><img src="/BlogPro/images/30ff37e65fb595d6055a075e3e256543.png" alt="Alt text"></p>
 </li>
-<li><p>创建Replicaset-log文件夹<br><img src="/BlogPro/cd5ddf66e61246182564e21e6beeb111.jpeg" alt="Alt text"></p>
+<li><p>租户系统2启动</p>
 </li>
-<li><p>使用CMD 指定配置文件运行mongoDB实例（3台）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod.ext - f &quot;路径1&quot;/&quot;路径2&quot;/&quot;路径3&quot;</span><br></pre></td></tr></table></figure>
+<li><p>进入minio 目录中，CMD</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9003” D：work/minio/tenant2</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>指定一台从节点，连接到MongoDB客户端</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo.ext --host 127.0.0.1 --port 27018</span><br></pre></td></tr></table></figure></li>
-<li><p>执行Mongo命令</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.initiate（）；</span><br></pre></td></tr></table></figure>
-<p>  <img src="/BlogPro/2f2eb8b20fecd19dcc60f56446ffb307.png" alt="Alt text"></p>
+<li><p>租户系统3启动</p>
 </li>
-<li><p>执行re.status()<br>  <img src="/BlogPro/9047ffafafca38867efb33a502e70438.png" alt="Alt text"></p>
-</li>
-<li><p>添加其他实例成员</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rs.add(&quot;127.0.0.1:27019&quot;)</span><br><span class="line">rs.add(&quot;127.0.0.1:27020&quot;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>mongoDB 工具同时连接多个实例<br><img src="/BlogPro/9fcf29340352fccde13d463a4a994e5b.png" alt="Alt text"></p>
-<ul>
-<li>主实例掉线，从节点自动转变主节点<br><img src="/BlogPro/d5fa63c6fc78475038963880940d53ef.png" alt="Alt text"></li>
+<li><p>进入minio 目录中，CMD</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9004” D：work/minio/tenant3</span><br></pre></td></tr></table></figure></li>
 </ul>
-</li>
-<li><p>通过一下代码实现读取从节点数据<br><img src="/BlogPro/5cacbfedbf1e4f5b896b3e22db21f791-1.png" alt="Alt text"></p>
-</li>
-</ul>
-<h3 id="MongoDB-分片架构"><a href="#MongoDB-分片架构" class="headerlink" title="MongoDB 分片架构"></a>MongoDB 分片架构</h3><ul>
-<li><p>将<br><img src="/BlogPro/bb5722380bffc1d8e7af577ae5a8fd1b.png" alt="Alt text"></p>
-</li>
-<li><p>转变为<br><img src="/BlogPro/1e6f29f81d88c4c01aaae7f4527ba13e.png" alt="Alt text"></p>
-</li>
-<li><p>创建第一个分片集</p>
-</li>
-<li><p>创建Shards文件夹<br>  <img src="/BlogPro/81847ec5cae911731531a835378e3e8f.png" alt="Alt text"><br>  <img src="/BlogPro/9694a67307139e56bce293a14d7b7368.png" alt="Alt text"><br>  <img src="/BlogPro/aea5f0838a9250b719be9c92c50dd432.png" alt="Alt text"></p>
-</li>
-<li><p>创建Shards-data 文件夹<br>  <img src="/BlogPro/e36ec977e8d3caf0a143b353ea3bee0f.png" alt="Alt text"></p>
-</li>
-<li><p>创建Shards-log 文件夹<br>  <img src="/BlogPro/83062ee1a27f28a7f94318dc4fab17bc.png" alt="Alt text"></p>
-</li>
-<li><p>通过CMD命令启动所有实例</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mongod.exe -f &quot;mongod -27021.cfg&quot; </span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将27021 初始化为Primary 节点</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo.exe --host 127.0.0.1 --post 27021</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>初始化主节点</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.initiate()</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>添加其他从节点</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rs.add(127.0.0.1:27022)</span><br><span class="line">rs.add(127.0.0.1:27023)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建第二个分片集</p>
-</li>
-<li><p>节点【31,32,33】 27031,27032,27033</p>
-</li>
-<li><p>配置路由文件 mongod - 27000.cfg</p>
-</li>
-<li><p>启动路由<br>  mongos.exe -f “mongod-27000.cfg”</p>
-</li>
-<li><p>连接路由<br>  mongo.exe– host 127.0.0.1 –port 27000</p>
-</li>
-<li><p>注册分片<br>  sh.adshard(“sharding&#x2F;&#x2F;127.0.0.1:27021 - 27023”)<br>  sh.adshard(“sharding&#x2F;&#x2F;127.0.0.1:27031 - 27033”)</p>
-</li>
-<li><p>代码连接路由<br>  var Client &#x3D; new MongoClient(“mongodb:&#x2F;&#x2F;localhost:27000”);</p>
-</li>
-<li><p>创建分片键<br>  sh.shardcollection(“productDB.product”,”code”:”hashed”)</p>
-</li>
-<li><p>实现范围分片<br>  sh.enablesharding(“shard-1”)</p>
-</li>
-</ul>
+<p><img src="/BlogPro/images/adb966a167f9f8532c9ff90d374bd848.png" alt="Alt text"></p>
+<h2 id="minio-集群"><a href="#minio-集群" class="headerlink" title="minio 集群"></a>minio 集群</h2><p><img src="/BlogPro/images/6771d5f2756d354bb39a430555e0fbf1.png" alt="Alt text"></p>
 
         </div>
         <footer class="article-footer">
@@ -301,7 +278,7 @@
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2023/01/07/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/" data-id="clrrdvr4n00139kwrc143a8kj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/" data-id="clrre5noq0011j0wr33k4byj1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -371,31 +348,38 @@
             "@type": "Person",
             "name": "John Doe"
         },
-        "headline": "6、MongoDB",
-        "image": "https://smdegz.github.io/BlogPro/BlogPro/04df9984c9961200e29ce07f362b94b8.png",
+        "headline": "8、MiniIO 分布式文件系统",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/images/c75c049195b8b27337cf637d44df2860.png",
         "keywords": "ABP中间件",
         "genre": "",
-        "datePublished": "2023-01-07",
-        "dateCreated": "2023-01-07",
+        "datePublished": "2023-01-08",
+        "dateCreated": "2023-01-08",
         "dateModified": "2024-01-24",
-        "url": "https://smdegz.github.io/BlogPro/2023/01/07/ABP中间件/MongoDB/",
+        "url": "https://smdegz.github.io/BlogPro/2023/01/08/ABP中间件/MiniIO/",
         "description": "
 步骤
-下载MongoDB客户端
-运行Mongod.exe   1mongod.exe --config &quot;路径&quot;
-配置mongod.cfg 文件
-下载并运行MongoDB 数据库管理工具
-VS系在MongoDB-Driver Neget包
-建立连接：  
+下载MiniIO
 
-mongoDB复制集
+下载MC
 
-创建Replicaset 文件夹
+VS 引入 MinIo包
 
-创建Replicaset-data文件夹
+代码简历与MiniIo的连接  
 
-创建Replic",
-        "wordCount": 224
+存储文件
+
+CMD启动MiniO
+  1MiniO.exe derver &quot;Didata&quot;
+
+访问Minio  Localhost：58711 账号密码：minioadmin miniodmin
+
+下载文件代码  
+
+删除文件代码  
+
+复制图片
+  1Minioclient",
+        "wordCount": 158
     }
 </script>
 
@@ -487,9 +471,9 @@ mongoDB复制集
     </a>
     
     
-        <a href="/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">older</strong>
-        <p class="article-nav-title">5、Redis</p>
+        <p class="article-nav-title">6、MongoDB</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -620,7 +604,7 @@ mongoDB复制集
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">26</span></li><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2023/01/">January 2023</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2023/01/">January 2023</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -699,7 +683,7 @@ mongoDB复制集
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://smdegz.github.io/BlogPro/2023/01/07/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/';
+    var disqus_url = 'https://smdegz.github.io/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/';
     
     (function() {
     var dsq = document.createElement('script');

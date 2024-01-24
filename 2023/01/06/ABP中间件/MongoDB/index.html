@@ -6,26 +6,26 @@
     
 
     
-    <title>5、Redis | 何锦祥 博客</title>
+    <title>6、MongoDB | 何锦祥 博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="keywords" content="ABP中间件" />
     
-    <meta name="description" content="使用本地缓存在微服务系统中会出现缓存命中率下降的问题 普通项目访问数据库    使用redis中间件     本地缓存 使用本地缓存步骤： 1.下载chching-memory缓存包 2.starup文件添加memorychche中间件  1services.addmemoryCache(); 3.在控制器使用对应服务注册IMemoryCache    Redis 使用Redis步骤 虚拟机1">
+    <meta name="description" content="步骤 下载MongoDB客户端 运行Mongod.exe   1mongod.exe --config &quot;路径&quot; 配置mongod.cfg 文件 下载并运行MongoDB 数据库管理工具 VS系在MongoDB-Driver Neget包 建立连接：    mongoDB复制集  创建Replicaset 文件夹  创建Replicaset-data文件夹  创建Replic">
 <meta property="og:type" content="article">
-<meta property="og:title" content="5、Redis">
-<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/index.html">
+<meta property="og:title" content="6、MongoDB">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/index.html">
 <meta property="og:site_name" content="何锦祥 博客">
-<meta property="og:description" content="使用本地缓存在微服务系统中会出现缓存命中率下降的问题 普通项目访问数据库    使用redis中间件     本地缓存 使用本地缓存步骤： 1.下载chching-memory缓存包 2.starup文件添加memorychche中间件  1services.addmemoryCache(); 3.在控制器使用对应服务注册IMemoryCache    Redis 使用Redis步骤 虚拟机1">
+<meta property="og:description" content="步骤 下载MongoDB客户端 运行Mongod.exe   1mongod.exe --config &quot;路径&quot; 配置mongod.cfg 文件 下载并运行MongoDB 数据库管理工具 VS系在MongoDB-Driver Neget包 建立连接：    mongoDB复制集  创建Replicaset 文件夹  创建Replicaset-data文件夹  创建Replic">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/068db68bb6a93dad6b16412917352c8e.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images/04df9984c9961200e29ce07f362b94b8.png">
 <meta property="article:published_time" content="2023-01-06T02:48:57.000Z">
-<meta property="article:modified_time" content="2024-01-24T03:25:27.905Z">
+<meta property="article:modified_time" content="2024-01-24T06:15:09.454Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ABP中间件">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/068db68bb6a93dad6b16412917352c8e.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images/04df9984c9961200e29ce07f362b94b8.png">
     
 
     
@@ -157,14 +157,14 @@
 </div>
 
                         <div class="main-body-content">
-                            <article id="post-ABP中间件/Rddis" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-ABP中间件/MongoDB" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        5、Redis
+        6、MongoDB
         </h1>
     
 
@@ -175,7 +175,7 @@
                 
   <div class="article-date">
     <i class="fa fa-calendar"></i>
-    <a href="/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/" class="article-date">
+    <a href="/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/" class="article-date">
        <time datetime="2023-01-06T02:48:57.000Z" itemprop="datePublished">2023-01-06</time>
     </a>
   </div>
@@ -183,8 +183,8 @@
 
 <div class="article-date">
   <i class="fa fa-calendar-plus-o"></i>
-  <a href="/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/" class="article-date">
-     <time datetime="2024-01-24T03:25:27.905Z" itemprop="dateModified">2024-01-24</time>
+  <a href="/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/" class="article-date">
+     <time datetime="2024-01-24T06:15:09.454Z" itemprop="dateModified">2024-01-24</time>
   </a>
 </div>
 
@@ -211,65 +211,88 @@
 
             
 
-            <p><img src="/BlogPro/068db68bb6a93dad6b16412917352c8e.png" alt="Alt text"><br><img src="/BlogPro/d83a5d1974baa2ffca16892aa1470403.png" alt="Alt text"><br><img src="/BlogPro/08c866c3c1c22f27c93d9d8b7d42b0a8.png" alt="Alt text"><br><img src="/BlogPro/892a07907320077687e294674be682fa.png" alt="Alt text"></p>
-<h3 id="使用本地缓存在微服务系统中会出现缓存命中率下降的问题"><a href="#使用本地缓存在微服务系统中会出现缓存命中率下降的问题" class="headerlink" title="使用本地缓存在微服务系统中会出现缓存命中率下降的问题"></a>使用本地缓存在微服务系统中会出现缓存命中率下降的问题</h3><ul>
-<li><p>普通项目访问数据库<br>  <img src="/BlogPro/67a0bc28ae706759ae37d445b207667a.png" alt="Alt text"></p>
-</li>
-<li><p>使用redis中间件<br>  <img src="/BlogPro/d6b7fcd43b9c7f6b16109b76c8e52385.png" alt="Alt text"></p>
-</li>
+            <p><img src="/BlogPro/images/04df9984c9961200e29ce07f362b94b8.png" alt="Alt text"><br><img src="/BlogPro/images/bf85355e5ca4cdec856b0795dd1b2a76.png" alt="Alt text"><br><img src="/BlogPro/images/fdbdda3d6f9bed311d623d5776cc4c72.png" alt="Alt text"><br><img src="/BlogPro/images/de8cb55cbae60fb8baccbe1e6e1112da.png" alt="Alt text"></p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ul>
+<li>下载MongoDB客户端</li>
+<li>运行Mongod.exe   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod.exe --config &quot;路径&quot;</span><br></pre></td></tr></table></figure></li>
+<li>配置mongod.cfg 文件</li>
+<li>下载并运行MongoDB 数据库管理工具</li>
+<li>VS系在MongoDB-Driver Neget包</li>
+<li>建立连接：<br>  <img src="/BlogPro/images/5cacbfedbf1e4f5b896b3e22db21f791.png" alt="Alt text"></li>
 </ul>
-<h3 id="本地缓存"><a href="#本地缓存" class="headerlink" title="本地缓存"></a>本地缓存</h3><ul>
-<li>使用本地缓存步骤：<ul>
-<li>1.下载chching-memory缓存包</li>
-<li>2.starup文件添加memorychche中间件  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">services.addmemoryCache();</span><br></pre></td></tr></table></figure></li>
-<li>3.在控制器使用对应服务注册IMemoryCache</li>
-</ul>
+<h3 id="mongoDB复制集"><a href="#mongoDB复制集" class="headerlink" title="mongoDB复制集"></a>mongoDB复制集</h3><p><img src="/BlogPro/images/be4feea3d9282b1d1dd32157241525a5.png" alt="Alt text"></p>
+<ul>
+<li><p>创建Replicaset 文件夹<br><img src="/BlogPro/images/5dce9283568eeda2b8a306dedabbf7a3.png" alt="Alt text"></p>
 </li>
-</ul>
-<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><ul>
-<li>使用Redis步骤<br><img src="/BlogPro/20420a84afc5540a731ad2556f7bf01a.png" alt="Alt text"><ul>
-<li><p>虚拟机1 安装redis 客户端</p>
+<li><p>创建Replicaset-data文件夹<br><img src="/BlogPro/images/43201e9206031af18c8c88a7d9de2ce2.png" alt="Alt text"></p>
 </li>
-<li><p>修改redis配置文件</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BIND 0.0.0.0:：1</span><br></pre></td></tr></table></figure></li>
-<li><p>运行redis 端口 6379</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src/redis-server redis.conf</span><br></pre></td></tr></table></figure></li>
-<li><p>虚拟机1 启动redis客户端，连接对应地址</p>
+<li><p>创建Replicaset-log文件夹<br><img src="/BlogPro/images/cd5ddf66e61246182564e21e6beeb111.jpeg" alt="Alt text"></p>
 </li>
-<li><p>Vs下载stackerchange.Redis nuget包</p>
+<li><p>使用CMD 指定配置文件运行mongoDB实例（3台）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongod.ext - f &quot;路径1&quot;/&quot;路径2&quot;/&quot;路径3&quot;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>封装Rdis使用的扩展方法类<br>  <img src="/BlogPro/a9206da9e684f66d3171a37588520d49.png" alt="Alt text"></p>
+<li><p>指定一台从节点，连接到MongoDB客户端</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo.ext --host 127.0.0.1 --port 27018</span><br></pre></td></tr></table></figure></li>
+<li><p>执行Mongo命令</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.initiate（）；</span><br></pre></td></tr></table></figure>
+<p>  <img src="/BlogPro/images/2f2eb8b20fecd19dcc60f56446ffb307.png" alt="Alt text"></p>
 </li>
-<li><p>starup类文件添加Redis中间件</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">services.addDistributedRedisCache(192.168.1.1)</span><br></pre></td></tr></table></figure></li>
-<li><p>控制器文件注入 ConnectionMultiplexer 服务</p>
+<li><p>执行re.status()<br>  <img src="/BlogPro/images/9047ffafafca38867efb33a502e70438.png" alt="Alt text"></p>
 </li>
-<li><p>redis 换区一条数据，没有则查询，并存入Redis<br>  <img src="/BlogPro/1dde79924377e4281a741f9cdb994632.png" alt="Alt text"></p>
+<li><p>添加其他实例成员</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rs.add(&quot;127.0.0.1:27019&quot;)</span><br><span class="line">rs.add(&quot;127.0.0.1:27020&quot;)</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Redis hashSet存储（字典）,实现存储指定值，并自增，自减<br>  <img src="/BlogPro/945bf534d1356e7f054dd4a6eb5a1836.png" alt="Alt text"></p>
-</li>
-<li><p>redis 实现分页查询<br>  <img src="/BlogPro/67a997492454c9e3ef1fd8781b190a89.png" alt="Alt text"></p>
-</li>
-<li><p>redis 存储集合列表<br>  <img src="/BlogPro/e508bb46ecff3ea1dbcb95b7eec6b65c.png" alt="Alt text"></p>
-</li>
-<li><p>redis 实现事务存储<br>  <img src="/BlogPro/1493ae9bffcd8c87b10fcea5f53ddea7.png" alt="Alt text"></p>
-</li>
-<li><p>加入静态锁，防止超卖<br>  <img src="/BlogPro/f176ea9309d266354278322839ce982d.png" alt="Alt text"></p>
-</li>
-<li><p>加入分布式锁，防止集群超卖<br>  <img src="/BlogPro/239e5a8d1f0f2e567dc8d35c2601ecd8.png" alt="Alt text"><br>  <img src="/BlogPro/bedb14f21b42f244f3069a983f5b9bb4.png" alt="Alt text"></p>
-</li>
+<li><p>mongoDB 工具同时连接多个实例<br><img src="/BlogPro/images/9fcf29340352fccde13d463a4a994e5b.png" alt="Alt text"></p>
+<ul>
+<li>主实例掉线，从节点自动转变主节点<br><img src="/BlogPro/images/d5fa63c6fc78475038963880940d53ef.png" alt="Alt text"></li>
 </ul>
 </li>
+<li><p>通过一下代码实现读取从节点数据<br><img src="/BlogPro/images/5cacbfedbf1e4f5b896b3e22db21f791-1.png" alt="Alt text"></p>
+</li>
 </ul>
-<h3 id="redis-主从集群"><a href="#redis-主从集群" class="headerlink" title="redis 主从集群"></a>redis 主从集群</h3><ul>
-<li>缺点：只有一台主机，不能实现高可用<br><img src="/BlogPro/5b13f711b58392c1036d50e420cf8263.png" alt="Alt text"></li>
-</ul>
-<h3 id="redis-哨兵集群"><a href="#redis-哨兵集群" class="headerlink" title="redis 哨兵集群"></a>redis 哨兵集群</h3><ul>
-<li>缺点：无法高并发读写，无法处理海量数据<br><img src="/BlogPro/203ca86a95b8f6372ae7ef8ed6f572e3.png" alt="Alt text"></li>
-</ul>
-<h3 id="redis-cluster"><a href="#redis-cluster" class="headerlink" title="redis-cluster"></a>redis-cluster</h3><ul>
-<li>缺点：消耗资源</li>
-<li>优点： 高并发读写，，高可用，存储海量数据<br><img src="/BlogPro/56d773444dc0813471c90028744a2644.png" alt="Alt text"><br><img src="/BlogPro/da2f4ba7e0c545c478e2ea22dd989c39.png" alt="Alt text"></li>
+<h3 id="MongoDB-分片架构"><a href="#MongoDB-分片架构" class="headerlink" title="MongoDB 分片架构"></a>MongoDB 分片架构</h3><ul>
+<li><p>将<br><img src="/BlogPro/images/bb5722380bffc1d8e7af577ae5a8fd1b.png" alt="Alt text"></p>
+</li>
+<li><p>转变为<br><img src="/BlogPro/images/1e6f29f81d88c4c01aaae7f4527ba13e.png" alt="Alt text"></p>
+</li>
+<li><p>创建第一个分片集</p>
+</li>
+<li><p>创建Shards文件夹<br>  <img src="/BlogPro/images/81847ec5cae911731531a835378e3e8f.png" alt="Alt text"><br>  <img src="/BlogPro/images/9694a67307139e56bce293a14d7b7368.png" alt="Alt text"><br>  <img src="/BlogPro/images/aea5f0838a9250b719be9c92c50dd432.png" alt="Alt text"></p>
+</li>
+<li><p>创建Shards-data 文件夹<br>  <img src="/BlogPro/images/e36ec977e8d3caf0a143b353ea3bee0f.png" alt="Alt text"></p>
+</li>
+<li><p>创建Shards-log 文件夹<br>  <img src="/BlogPro/images/83062ee1a27f28a7f94318dc4fab17bc.png" alt="Alt text"></p>
+</li>
+<li><p>通过CMD命令启动所有实例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mongod.exe -f &quot;mongod -27021.cfg&quot; </span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将27021 初始化为Primary 节点</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo.exe --host 127.0.0.1 --post 27021</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化主节点</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rs.initiate()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加其他从节点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rs.add(127.0.0.1:27022)</span><br><span class="line">rs.add(127.0.0.1:27023)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建第二个分片集</p>
+</li>
+<li><p>节点【31,32,33】 27031,27032,27033</p>
+</li>
+<li><p>配置路由文件 mongod - 27000.cfg</p>
+</li>
+<li><p>启动路由<br>  mongos.exe -f “mongod-27000.cfg”</p>
+</li>
+<li><p>连接路由<br>  mongo.exe– host 127.0.0.1 –port 27000</p>
+</li>
+<li><p>注册分片<br>  sh.adshard(“sharding&#x2F;&#x2F;127.0.0.1:27021 - 27023”)<br>  sh.adshard(“sharding&#x2F;&#x2F;127.0.0.1:27031 - 27033”)</p>
+</li>
+<li><p>代码连接路由<br>  var Client &#x3D; new MongoClient(“mongodb:&#x2F;&#x2F;localhost:27000”);</p>
+</li>
+<li><p>创建分片键<br>  sh.shardcollection(“productDB.product”,”code”:”hashed”)</p>
+</li>
+<li><p>实现范围分片<br>  sh.enablesharding(“shard-1”)</p>
+</li>
 </ul>
 
         </div>
@@ -278,7 +301,7 @@
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/" data-id="clrrdvr4p00199kwraughfktq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/" data-id="clrre5noq0013j0wr9oo4hv6i" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -348,33 +371,31 @@
             "@type": "Person",
             "name": "John Doe"
         },
-        "headline": "5、Redis",
-        "image": "https://smdegz.github.io/BlogPro/BlogPro/068db68bb6a93dad6b16412917352c8e.png",
+        "headline": "6、MongoDB",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/images/04df9984c9961200e29ce07f362b94b8.png",
         "keywords": "ABP中间件",
         "genre": "",
         "datePublished": "2023-01-06",
         "dateCreated": "2023-01-06",
         "dateModified": "2024-01-24",
-        "url": "https://smdegz.github.io/BlogPro/2023/01/06/ABP中间件/Rddis/",
+        "url": "https://smdegz.github.io/BlogPro/2023/01/06/ABP中间件/MongoDB/",
         "description": "
-使用本地缓存在微服务系统中会出现缓存命中率下降的问题
-普通项目访问数据库  
+步骤
+下载MongoDB客户端
+运行Mongod.exe   1mongod.exe --config &quot;路径&quot;
+配置mongod.cfg 文件
+下载并运行MongoDB 数据库管理工具
+VS系在MongoDB-Driver Neget包
+建立连接：  
 
-使用redis中间件  
+mongoDB复制集
 
+创建Replicaset 文件夹
 
-本地缓存
-使用本地缓存步骤：
-1.下载chching-memory缓存包
-2.starup文件添加memorychche中间件  1services.addmemoryCache();
-3.在控制器使用对应服务注册IMemoryCache
+创建Replicaset-data文件夹
 
-
-
-Redis
-使用Redis步骤
-虚拟机1 ",
-        "wordCount": 159
+创建Replic",
+        "wordCount": 224
     }
 </script>
 
@@ -455,20 +476,20 @@ Redis
         
 <nav id="article-nav">
     
-        <a href="/BlogPro/2023/01/07/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/" id="article-nav-newer" class="article-nav-link-wrap">
         <strong class="article-nav-caption">newer</strong>
         <p class="article-nav-title">
         
-            6、MongoDB
+            8、MiniIO 分布式文件系统
         
         </p>
         <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
     </a>
     
     
-        <a href="/BlogPro/2023/01/05/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/ShardingSphere-Proxy/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/BlogPro/2023/01/05/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Redis/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">older</strong>
-        <p class="article-nav-title">4、ShardingSphere-Proxy</p>
+        <p class="article-nav-title">5、Redis</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -599,7 +620,7 @@ Redis
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">26</span></li><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2023/01/">January 2023</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2023/01/">January 2023</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -678,7 +699,7 @@ Redis
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://smdegz.github.io/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/';
+    var disqus_url = 'https://smdegz.github.io/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/';
     
     (function() {
     var dsq = document.createElement('script');

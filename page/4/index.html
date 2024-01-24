@@ -170,17 +170,17 @@
         <article class="article article-summary">
     <div class="article-summary-inner">
         
-        <a href="/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/" class="thumbnail">
+        <a href="/BlogPro/2023/01/03/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/068db68bb6a93dad6b16412917352c8e.png)" alt="5、Redis" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/images/20844191756839649364a6c32dc85eb4.png)" alt="3、Kafka" class="thumbnail-image"></span>
     
     
         
 <span class="comment-counter">
     <i class="fa fa-comments-o"></i>
     
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://smdegz.github.io/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/">0</span>
+        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://smdegz.github.io/BlogPro/2023/01/03/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka/">0</span>
     
 </span>
 
@@ -193,34 +193,30 @@
             <div class="category">
             
             </div>
-            <div class="date"><time datetime="2023-01-06T02:48:57.000Z" itemprop="datePublished">2023-01-06</time></div>
+            <div class="date"><time datetime="2023-01-03T02:48:57.000Z" itemprop="datePublished">2023-01-03</time></div>
         </div>
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Rddis/">5、Redis</a>
+        <a href="/BlogPro/2023/01/03/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Kafka/">3、Kafka</a>
         </h1>
     
 
         <p class="article-excerpt">
             
-使用本地缓存在微服务系统中会出现缓存命中率下降的问题
-普通项目访问数据库  
+步骤
+安装步骤
+下载Kafka客户单
 
-使用redis中间件  
+安装JavaJDK环境
 
+运行
 
-本地缓存
-使用本地缓存步骤：
-1.下载chching-memory缓存包
-2.starup文件添加memorychche中间件  1services.addmemoryCache();
-3.在控制器使用对应服务注册IMemoryCache
+修改 zookeeper.properties配置文件
 
-
-
-Redis
-使用Redis步骤
-虚拟机1 
+修改kafka配置文件 server.properties 文件  运行kafka（bin&#x2F;window）
+  1kafka-server-start.bat ../../config/server.properties
+安装Negetbao conflu
         </p>
     </div>
 </article>
@@ -233,17 +229,17 @@ Redis
         <article class="article article-summary">
     <div class="article-summary-inner">
         
-        <a href="/BlogPro/2023/01/05/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/ShardingSphere-Proxy/" class="thumbnail">
+        <a href="/BlogPro/2023/01/02/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/RabbitMQ/" class="thumbnail">
     
     
-        <span style="background-image:url(/BlogPro/18beb1fe3d42793821309c8915dc1caa.png)" alt="4、ShardingSphere-Proxy" class="thumbnail-image"></span>
+        <span style="background-image:url(/BlogPro/images/00b14471de2bbd0fee5f18da368496d2.png)" alt="2、RabbitMQ" class="thumbnail-image"></span>
     
     
         
 <span class="comment-counter">
     <i class="fa fa-comments-o"></i>
     
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://smdegz.github.io/BlogPro/2023/01/05/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/ShardingSphere-Proxy/">0</span>
+        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="https://smdegz.github.io/BlogPro/2023/01/02/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/RabbitMQ/">0</span>
     
 </span>
 
@@ -256,33 +252,38 @@ Redis
             <div class="category">
             
             </div>
-            <div class="date"><time datetime="2023-01-05T02:48:57.000Z" itemprop="datePublished">2023-01-05</time></div>
+            <div class="date"><time datetime="2023-01-02T02:48:57.000Z" itemprop="datePublished">2023-01-02</time></div>
         </div>
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/BlogPro/2023/01/05/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/ShardingSphere-Proxy/">4、ShardingSphere-Proxy</a>
+        <a href="/BlogPro/2023/01/02/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/RabbitMQ/">2、RabbitMQ</a>
         </h1>
     
 
         <p class="article-excerpt">
-            步骤
-下载apache-shardingsphere工具
+            
+下载RabbitMQ客户端 以及 ERL语言环境
 
-修改配置文件 confing-sharding.yaml 文件
+运行RabbitMQ：
 
-连接mysql  
+进入Sbin文件夹
+rabbitmq-pluqqins enable rabbitmq_management
+rabbitmq-service.bat
+访问官网 ： 15672端口
 
-设置分片规则  
 
-连接字符串 数据库
-  1schemaName： ebusiness
-安装 javaJdk
+引入 RabbitMQ.client 扩展包
 
-下载mysql-connector- java.jar 驱动
+生产端建立连接  
 
-在bin 文件夹进入CMD，启动服务，默认端口3307
-  1start.
+生产端定义队列
+
+生产端发送消息  
+
+消费者取出消息
+
+先建立
         </p>
     </div>
 </article>
@@ -483,7 +484,7 @@ Redis
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">26</span></li><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2023/01/">January 2023</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2023/01/">January 2023</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 

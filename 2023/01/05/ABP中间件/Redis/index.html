@@ -6,26 +6,26 @@
     
 
     
-    <title>8、MiniIO 分布式文件系统 | 何锦祥 博客</title>
+    <title>5、Redis | 何锦祥 博客</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="keywords" content="ABP中间件" />
     
-    <meta name="description" content="步骤 下载MiniIO  下载MC  VS 引入 MinIo包  代码简历与MiniIo的连接    存储文件  CMD启动MiniO   1MiniO.exe derver &quot;Didata&quot;  访问Minio  Localhost：58711 账号密码：minioadmin miniodmin  下载文件代码    删除文件代码    复制图片   1Minioclient">
+    <meta name="description" content="使用本地缓存在微服务系统中会出现缓存命中率下降的问题 普通项目访问数据库    使用redis中间件     本地缓存 使用本地缓存步骤： 1.下载chching-memory缓存包 2.starup文件添加memorychche中间件  1services.addmemoryCache(); 3.在控制器使用对应服务注册IMemoryCache    Redis 使用Redis步骤 虚拟机1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="8、MiniIO 分布式文件系统">
-<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/01/09/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/index.html">
+<meta property="og:title" content="5、Redis">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/01/05/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Redis/index.html">
 <meta property="og:site_name" content="何锦祥 博客">
-<meta property="og:description" content="步骤 下载MiniIO  下载MC  VS 引入 MinIo包  代码简历与MiniIo的连接    存储文件  CMD启动MiniO   1MiniO.exe derver &quot;Didata&quot;  访问Minio  Localhost：58711 账号密码：minioadmin miniodmin  下载文件代码    删除文件代码    复制图片   1Minioclient">
+<meta property="og:description" content="使用本地缓存在微服务系统中会出现缓存命中率下降的问题 普通项目访问数据库    使用redis中间件     本地缓存 使用本地缓存步骤： 1.下载chching-memory缓存包 2.starup文件添加memorychche中间件  1services.addmemoryCache(); 3.在控制器使用对应服务注册IMemoryCache    Redis 使用Redis步骤 虚拟机1">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/c75c049195b8b27337cf637d44df2860.png">
-<meta property="article:published_time" content="2023-01-09T02:48:57.000Z">
-<meta property="article:modified_time" content="2024-01-24T06:07:05.359Z">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images/068db68bb6a93dad6b16412917352c8e.png">
+<meta property="article:published_time" content="2023-01-05T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-24T06:15:09.453Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ABP中间件">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/c75c049195b8b27337cf637d44df2860.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images/068db68bb6a93dad6b16412917352c8e.png">
     
 
     
@@ -157,14 +157,14 @@
 </div>
 
                         <div class="main-body-content">
-                            <article id="post-ABP中间件/MiniIO" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-ABP中间件/Redis" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        8、MiniIO 分布式文件系统
+        5、Redis
         </h1>
     
 
@@ -175,16 +175,16 @@
                 
   <div class="article-date">
     <i class="fa fa-calendar"></i>
-    <a href="/BlogPro/2023/01/09/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/" class="article-date">
-       <time datetime="2023-01-09T02:48:57.000Z" itemprop="datePublished">2023-01-09</time>
+    <a href="/BlogPro/2023/01/05/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Redis/" class="article-date">
+       <time datetime="2023-01-05T02:48:57.000Z" itemprop="datePublished">2023-01-05</time>
     </a>
   </div>
 
 
 <div class="article-date">
   <i class="fa fa-calendar-plus-o"></i>
-  <a href="/BlogPro/2023/01/09/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/" class="article-date">
-     <time datetime="2024-01-24T06:07:05.359Z" itemprop="dateModified">2024-01-24</time>
+  <a href="/BlogPro/2023/01/05/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Redis/" class="article-date">
+     <time datetime="2024-01-24T06:15:09.453Z" itemprop="dateModified">2024-01-24</time>
   </a>
 </div>
 
@@ -211,66 +211,66 @@
 
             
 
-            <p><img src="/BlogPro/c75c049195b8b27337cf637d44df2860.png" alt="Alt text"></p>
-<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ul>
-<li><p>下载MiniIO</p>
+            <p><img src="/BlogPro/images/068db68bb6a93dad6b16412917352c8e.png" alt="Alt text"><br><img src="/BlogPro/images/d83a5d1974baa2ffca16892aa1470403.png" alt="Alt text"><br><img src="/BlogPro/images/08c866c3c1c22f27c93d9d8b7d42b0a8.png" alt="Alt text"><br><img src="/BlogPro/images/892a07907320077687e294674be682fa.png" alt="Alt text"></p>
+<h3 id="使用本地缓存在微服务系统中会出现缓存命中率下降的问题"><a href="#使用本地缓存在微服务系统中会出现缓存命中率下降的问题" class="headerlink" title="使用本地缓存在微服务系统中会出现缓存命中率下降的问题"></a>使用本地缓存在微服务系统中会出现缓存命中率下降的问题</h3><ul>
+<li><p>普通项目访问数据库<br>  <img src="/BlogPro/images/67a0bc28ae706759ae37d445b207667a.png" alt="Alt text"></p>
 </li>
-<li><p>下载MC</p>
-</li>
-<li><p>VS 引入 MinIo包</p>
-</li>
-<li><p>代码简历与MiniIo的连接<br>  <img src="/BlogPro/21b20269f9d7bffd7f13d465998af28e.png" alt="Alt text"></p>
-</li>
-<li><p>存储文件</p>
-</li>
-<li><p>CMD启动MiniO</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MiniO.exe derver &quot;Didata&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>访问Minio<br>  Localhost：58711 账号密码：minioadmin miniodmin</p>
-</li>
-<li><p>下载文件代码<br>  <img src="/BlogPro/5330ebc561c4d2c74f2996e22dcd77d6.png" alt="Alt text"></p>
-</li>
-<li><p>删除文件代码<br>  <img src="/BlogPro/50f9cacb8ab118d380eb2feaac043e03.png" alt="Alt text"></p>
-</li>
-<li><p>复制图片</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Minioclient。copyobjectAsync（“product”，“fileNew”）</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="监听Minio"><a href="#监听Minio" class="headerlink" title="监听Minio"></a>监听Minio</h3><ul>
-<li><p>mysql创建Miniodb 数据集</p>
-</li>
-<li><p>minio 后台选择Setting&#x2F;notifications 选择mysql输入信息</p>
-</li>
-<li><p>进入miniio目录 ，通过一下目录重启</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">minio server -- address ：9000 --console -address “：9001” </span><br><span class="line">获取mysql 队列名 arn : minio:sql::_:mysql</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>进入minio目录，通过一下命令启动MC<br>mc.exe alas set myminio http:127.0.0.1:9000 minioadmin minioadmin</p>
-</li>
-<li><p>创建Mysql 队列事件，通过以下命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mc event add --event &quot;put,delete&quot; minio/productpictwes &quot;队列名&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>此时上传图片，miniodb 数据库会存储对应文件信息</p>
+<li><p>使用redis中间件<br>  <img src="/BlogPro/images/d6b7fcd43b9c7f6b16109b76c8e52385.png" alt="Alt text"></p>
 </li>
 </ul>
-<h3 id="minio-多租户"><a href="#minio-多租户" class="headerlink" title="minio 多租户"></a>minio 多租户</h3><p><img src="/BlogPro/b870bdf03b59ae4a958a6243789d9c9c.png" alt="Alt text"></p>
-<ul>
-<li><p>租户系统启动</p>
-</li>
-<li><p>进入minio 目录中，CMD</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9002” D：work/minio/tenant</span><br></pre></td></tr></table></figure></li>
-<li><p>代码文件<br><img src="/BlogPro/30ff37e65fb595d6055a075e3e256543.png" alt="Alt text"></p>
-</li>
-<li><p>租户系统2启动</p>
-</li>
-<li><p>进入minio 目录中，CMD</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9003” D：work/minio/tenant2</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>租户系统3启动</p>
-</li>
-<li><p>进入minio 目录中，CMD</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9004” D：work/minio/tenant3</span><br></pre></td></tr></table></figure></li>
+<h3 id="本地缓存"><a href="#本地缓存" class="headerlink" title="本地缓存"></a>本地缓存</h3><ul>
+<li>使用本地缓存步骤：<ul>
+<li>1.下载chching-memory缓存包</li>
+<li>2.starup文件添加memorychche中间件  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">services.addmemoryCache();</span><br></pre></td></tr></table></figure></li>
+<li>3.在控制器使用对应服务注册IMemoryCache</li>
 </ul>
-<p><img src="/BlogPro/adb966a167f9f8532c9ff90d374bd848.png" alt="Alt text"></p>
-<h2 id="minio-集群"><a href="#minio-集群" class="headerlink" title="minio 集群"></a>minio 集群</h2><p><img src="/BlogPro/6771d5f2756d354bb39a430555e0fbf1.png" alt="Alt text"></p>
+</li>
+</ul>
+<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><ul>
+<li>使用Redis步骤<br><img src="/BlogPro/images/20420a84afc5540a731ad2556f7bf01a.png" alt="Alt text"><ul>
+<li><p>虚拟机1 安装redis 客户端</p>
+</li>
+<li><p>修改redis配置文件</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BIND 0.0.0.0:：1</span><br></pre></td></tr></table></figure></li>
+<li><p>运行redis 端口 6379</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src/redis-server redis.conf</span><br></pre></td></tr></table></figure></li>
+<li><p>虚拟机1 启动redis客户端，连接对应地址</p>
+</li>
+<li><p>Vs下载stackerchange.Redis nuget包</p>
+</li>
+<li><p>封装Rdis使用的扩展方法类<br>  <img src="/BlogPro/images/a9206da9e684f66d3171a37588520d49.png" alt="Alt text"></p>
+</li>
+<li><p>starup类文件添加Redis中间件</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">services.addDistributedRedisCache(192.168.1.1)</span><br></pre></td></tr></table></figure></li>
+<li><p>控制器文件注入 ConnectionMultiplexer 服务</p>
+</li>
+<li><p>redis 换区一条数据，没有则查询，并存入Redis<br>  <img src="/BlogPro/images/1dde79924377e4281a741f9cdb994632.png" alt="Alt text"></p>
+</li>
+<li><p>Redis hashSet存储（字典）,实现存储指定值，并自增，自减<br>  <img src="/BlogPro/images/945bf534d1356e7f054dd4a6eb5a1836.png" alt="Alt text"></p>
+</li>
+<li><p>redis 实现分页查询<br>  <img src="/BlogPro/images/67a997492454c9e3ef1fd8781b190a89.png" alt="Alt text"></p>
+</li>
+<li><p>redis 存储集合列表<br>  <img src="/BlogPro/images/e508bb46ecff3ea1dbcb95b7eec6b65c.png" alt="Alt text"></p>
+</li>
+<li><p>redis 实现事务存储<br>  <img src="/BlogPro/images/1493ae9bffcd8c87b10fcea5f53ddea7.png" alt="Alt text"></p>
+</li>
+<li><p>加入静态锁，防止超卖<br>  <img src="/BlogPro/images/f176ea9309d266354278322839ce982d.png" alt="Alt text"></p>
+</li>
+<li><p>加入分布式锁，防止集群超卖<br>  <img src="/BlogPro/images/239e5a8d1f0f2e567dc8d35c2601ecd8.png" alt="Alt text"><br>  <img src="/BlogPro/images/bedb14f21b42f244f3069a983f5b9bb4.png" alt="Alt text"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="redis-主从集群"><a href="#redis-主从集群" class="headerlink" title="redis 主从集群"></a>redis 主从集群</h3><ul>
+<li>缺点：只有一台主机，不能实现高可用<br><img src="/BlogPro/images/5b13f711b58392c1036d50e420cf8263.png" alt="Alt text"></li>
+</ul>
+<h3 id="redis-哨兵集群"><a href="#redis-哨兵集群" class="headerlink" title="redis 哨兵集群"></a>redis 哨兵集群</h3><ul>
+<li>缺点：无法高并发读写，无法处理海量数据<br><img src="/BlogPro/images/203ca86a95b8f6372ae7ef8ed6f572e3.png" alt="Alt text"></li>
+</ul>
+<h3 id="redis-cluster"><a href="#redis-cluster" class="headerlink" title="redis-cluster"></a>redis-cluster</h3><ul>
+<li>缺点：消耗资源</li>
+<li>优点： 高并发读写，，高可用，存储海量数据<br><img src="/BlogPro/images/56d773444dc0813471c90028744a2644.png" alt="Alt text"><br><img src="/BlogPro/images/da2f4ba7e0c545c478e2ea22dd989c39.png" alt="Alt text"></li>
+</ul>
 
         </div>
         <footer class="article-footer">
@@ -278,7 +278,7 @@
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2023/01/09/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/" data-id="clrrdvr4n00119kwrbuql07ds" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://smdegz.github.io/BlogPro/2023/01/05/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Redis/" data-id="clrre5nos0019j0wrgk1z980k" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -348,38 +348,33 @@
             "@type": "Person",
             "name": "John Doe"
         },
-        "headline": "8、MiniIO 分布式文件系统",
-        "image": "https://smdegz.github.io/BlogPro/BlogPro/c75c049195b8b27337cf637d44df2860.png",
+        "headline": "5、Redis",
+        "image": "https://smdegz.github.io/BlogPro/BlogPro/images/068db68bb6a93dad6b16412917352c8e.png",
         "keywords": "ABP中间件",
         "genre": "",
-        "datePublished": "2023-01-09",
-        "dateCreated": "2023-01-09",
+        "datePublished": "2023-01-05",
+        "dateCreated": "2023-01-05",
         "dateModified": "2024-01-24",
-        "url": "https://smdegz.github.io/BlogPro/2023/01/09/ABP中间件/MiniIO/",
+        "url": "https://smdegz.github.io/BlogPro/2023/01/05/ABP中间件/Redis/",
         "description": "
-步骤
-下载MiniIO
+使用本地缓存在微服务系统中会出现缓存命中率下降的问题
+普通项目访问数据库  
 
-下载MC
+使用redis中间件  
 
-VS 引入 MinIo包
 
-代码简历与MiniIo的连接  
+本地缓存
+使用本地缓存步骤：
+1.下载chching-memory缓存包
+2.starup文件添加memorychche中间件  1services.addmemoryCache();
+3.在控制器使用对应服务注册IMemoryCache
 
-存储文件
 
-CMD启动MiniO
-  1MiniO.exe derver &quot;Didata&quot;
 
-访问Minio  Localhost：58711 账号密码：minioadmin miniodmin
-
-下载文件代码  
-
-删除文件代码  
-
-复制图片
-  1Minioclient",
-        "wordCount": 158
+Redis
+使用Redis步骤
+虚拟机1 ",
+        "wordCount": 159
     }
 </script>
 
@@ -460,20 +455,20 @@ CMD启动MiniO
         
 <nav id="article-nav">
     
-        <a href="/BlogPro/2023/01/10/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/ScheduleMaster/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/BlogPro/2023/01/06/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MongoDB/" id="article-nav-newer" class="article-nav-link-wrap">
         <strong class="article-nav-caption">newer</strong>
         <p class="article-nav-title">
         
-            9、ScheduleMaster 分布式任务调度系统
+            6、MongoDB
         
         </p>
         <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
     </a>
     
     
-        <a href="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Elasticsearch/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/BlogPro/2023/01/04/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Nginx/" id="article-nav-older" class="article-nav-link-wrap">
         <strong class="article-nav-caption">older</strong>
-        <p class="article-nav-title">7、Elasticsearch</p>
+        <p class="article-nav-title">4、Nginx</p>
         <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
         </a>
     
@@ -604,7 +599,7 @@ CMD启动MiniO
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">26</span></li><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2023/01/">January 2023</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2023/01/">January 2023</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -683,7 +678,7 @@ CMD启动MiniO
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://smdegz.github.io/BlogPro/2023/01/09/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/';
+    var disqus_url = 'https://smdegz.github.io/BlogPro/2023/01/05/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Redis/';
     
     (function() {
     var dsq = document.createElement('script');
