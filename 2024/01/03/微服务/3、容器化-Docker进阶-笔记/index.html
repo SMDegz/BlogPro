@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
 
-    
+<link rel="stylesheet" href="/BlogPro/css/main.css">
 
-    
-    <title>3、容器化-Docker进阶-笔记 | 何锦祥 博客</title>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-    <meta name="keywords" content="Microservices" />
-    
-    <meta name="description" content="3、容器化-Docker进阶-笔记html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:&quot;Lucida Console&quot;">
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="3、容器化-Docker进阶-笔记html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:&quot;Lucida Console&quot;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="3、容器化-Docker进阶-笔记">
 <meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/01/03/%E5%BE%AE%E6%9C%8D%E5%8A%A1/3%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-Docker%E8%BF%9B%E9%98%B6-%E7%AC%94%E8%AE%B0/index.html">
@@ -24,192 +32,171 @@
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Microservices">
 <meta name="twitter:card" content="summary">
-    
 
-    
-        <link rel="alternate" href="/" title="何锦祥 博客" type="application/atom+xml" />
-    
-
-    
-
-    
-<link rel="stylesheet" href="/BlogPro/libs/font-awesome/css/font-awesome.min.css">
-
-    
-<link rel="stylesheet" href="/BlogPro/libs/titillium-web/styles.css">
-
-    
-<link rel="stylesheet" href="/BlogPro/libs/source-code-pro/styles.css">
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2024/01/03/%E5%BE%AE%E6%9C%8D%E5%8A%A1/3%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-Docker%E8%BF%9B%E9%98%B6-%E7%AC%94%E8%AE%B0/">
 
 
-    
-<link rel="stylesheet" href="/BlogPro/css/style.css">
-
-
-    
-<script src="/BlogPro/libs/jquery/3.5.0/jquery.min.js"></script>
-
-    
-    
-        
-<link rel="stylesheet" href="/BlogPro/libs/lightgallery/css/lightgallery.min.css">
-
-    
-    
-        
-<link rel="stylesheet" href="/BlogPro/libs/justified-gallery/justifiedGallery.min.css">
-
-    
-    
-    
-    
-
-
-<meta name="generator" content="Hexo 7.1.1"></head>
-
-<body>
-    <div id="wrap">
-        <header id="header">
-    <div id="header-outer" class="outer">
-        <div class="container">
-            <div class="container-inner">
-                <div id="header-title">
-                    <h1 class="logo-wrap">
-                        <a href="/BlogPro/" class="logo"></a>
-                    </h1>
-                    
-                </div>
-                <div id="header-inner" class="nav-container">
-                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
-                    <div class="nav-container-inner">
-                        <ul id="main-nav">
-                            
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/BlogPro/">Home</a>
-                                </li>
-                            
-                                    
-                                
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/BlogPro/about/index.html">About</a>
-                                </li>
-                            
-                        </ul>
-                        <nav id="sub-nav">
-                            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/BlogPro/',
-        CONTENT_URL: '/BlogPro/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
 </script>
 
-<script src="/BlogPro/js/insight.js"></script>
+  <title>3、容器化-Docker进阶-笔记 | 何锦祥 博客</title>
+  
 
 
-</div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-</header>
+  </div>
 
-        <div class="container">
-            <div class="main-body container-inner">
-                <div class="main-body-inner">
-                    <section id="main">
-                        <div class="main-body-header">
-    <h1 class="header">
-    
-    uncategorized
-    </h1>
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
-                        <div class="main-body-content">
-                            <article id="post-微服务/3、容器化-Docker进阶-笔记" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-        3、容器化-Docker进阶-笔记
-        </h1>
-    
 
-            </header>
-        
-        
-            <div class="article-meta">
-                
-  <div class="article-date">
-    <i class="fa fa-calendar"></i>
-    <a href="/BlogPro/2024/01/03/%E5%BE%AE%E6%9C%8D%E5%8A%A1/3%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-Docker%E8%BF%9B%E9%98%B6-%E7%AC%94%E8%AE%B0/" class="article-date">
-       <time datetime="2024-01-03T02:48:57.000Z" itemprop="datePublished">2024-01-03</time>
-    </a>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
   </div>
 
 
-<div class="article-date">
-  <i class="fa fa-calendar-plus-o"></i>
-  <a href="/BlogPro/2024/01/03/%E5%BE%AE%E6%9C%8D%E5%8A%A1/3%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-Docker%E8%BF%9B%E9%98%B6-%E7%AC%94%E8%AE%B0/" class="article-date">
-     <time datetime="2024-01-24T06:18:30.953Z" itemprop="dateModified">2024-01-24</time>
-  </a>
-</div>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-
-                
-
-                
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link-link" href="/BlogPro/tags/Microservices/" rel="tag">Microservices</a>
-    </div>
-
-                
-
-                
-
-            </div>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
+          <div class="content post posts-expand">
             
 
-            
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2024/01/03/%E5%BE%AE%E6%9C%8D%E5%8A%A1/3%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-Docker%E8%BF%9B%E9%98%B6-%E7%AC%94%E8%AE%B0/">
 
-            
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
 
-            <!doctype html>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          3、容器化-Docker进阶-笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-01-03 10:48:57" itemprop="dateCreated datePublished" datetime="2024-01-03T10:48:57+08:00">2024-01-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-01-24 14:18:30" itemprop="dateModified" datetime="2024-01-24T14:18:30+08:00">2024-01-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
@@ -513,460 +500,193 @@ header, .context-menu, .megamenu-content, footer { font-family: "Segoe UI", Aria
 <div  id='write'  class = 'is-node'><h1><a name='header-n0' class='md-header-anchor '></a>笔记</h1><h3><a name='header-n2' class='md-header-anchor '></a>课程专题：微服务容器化</h3><h2><a name='header-n3' class='md-header-anchor '></a>三、容器化-Docker进阶</h2><p>1、Docker 自定义镜像</p><p><span>	</span>含义：项目做成一个镜像。</p><p><span>	</span>核心：Dockerfile</p><p><span>	</span>目标：nginx 做成一个镜像</p><p><span>	</span>Dockerfile</p><p><span>	</span>理解：Dockerfile深入理解。配置命令。实现批量操作</p><p><span>		</span>   1、基础镜像 父镜像</p><p><span>		</span>   2、其他命令</p><p><span>	</span>落地：</p><p><span>	</span>思路：</p><p><span>		</span>1、Linux上面：如何运行nginx<span>	</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1 安装 nginx需要工具</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span> yum -y install gcc make pcre-devel zlib-devel tar zlib</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">2 下载nginx</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span> wget  http://nginx.org/download/nginx-1.15.2.tar.gz</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">3 nginx解压/nginx目录</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span>tar -zxvf  nginx-1.15.2.tar.gz</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">4 切换到/nginx/nginx-1.15.2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span>执行./configure</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>make</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-tab" role="presentation" cm-text="	">    </span>make install 进行安装</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">5 切换到/usr/local/nginx/sbin</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span>执行 ./nginx </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-tab" role="presentation" cm-text="	">    </span>启动nginx</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 295px;"></div><div class="CodeMirror-gutters" style="display: none; height: 295px;"></div></div></div></pre><p><span>	</span>  docker 中容器运行 nginx 也是这5个步骤</p><p><span>	</span>  Dockerfile</p><p> Docker自定义镜像 </p><p>   1、Dockerfile</p><p>   2、了解Docker 指令</p><p>   3、配置Dockerfile：使用指令操作 原始Linux运行nginx命令</p><p>   4、构造自定义镜像</p><p>   5、运行自定义镜像，得到容器</p><p>  Docker自定义.NET7项目镜像</p><p>  <span>	</span>1、安装.NET7 SDK</p><p><span>		</span>yum</p><p><span>	</span>  2、切换到pulish中</p><p><span>		</span>cd  pulish</p><p><span>	</span>  3、运行项目</p><p><span>		</span>dotnet YDT_Docker_WebAPI.dll<span>	</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">FROM mcr.microsoft.com/dotnet/aspnet:7.0</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">WORKDIR /publish</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">EXPOSE 80</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">EXPOSE 443</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">COPY publish/ /publish</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">ENTRYPOINT ["dotnet", "YDT_Docker_WebAPI.dll"]</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 136px;"></div><div class="CodeMirror-gutters" style="display: none; height: 136px;"></div></div></div></pre><p><span>	</span>docker run -d -P webapi</p><p><span>				</span>      ydtnginx</p><p><span>	</span>一个一个创建，</p><p><span>	</span>一个一个运行</p><p><span>	</span>1000个镜像。</p><p><span>	</span>批量操作<span>	</span></p><p>2、Docker 容器编排</p><p><span>	</span>含义：批量构造镜像，批量操作容器</p><p><span>	</span>目的： docker-compose批量运行镜像（ydtnginx webapi）</p><p><span>		</span>    docker-compose批量构造镜像（ydtnginx webapi）</p><p><span>	</span>工具：docker-compose</p><p><span>		</span>下载docker-compose </p><p><span>			</span><a href='https://github.com/docker/compose/releases' target='_blank' class='url'>https://github.com/docker/compose/releases</a></p><p><span>			</span>VPN  阿里云镜像仓库<span>	</span></p><p>    <span>	</span>  1、手动安装docker-compose</p><p><span>			</span>1、windows10上下载docker-compose-linux-x86_64</p><p><span>			</span>2、修改docker-compose-linux-x86_64 后缀名docker-compose</p><p><span>			</span>3、上传到Linux到这个/usr/local/bin/docker-compose</p><p><span>			</span>4、授权docker-compose</p><p><span>			</span>5、添加docker-compose快捷操作</p><p><span>		</span>核心：docker-compose.yml文件  类似于json配置文件</p><p><span>				</span>客户端----&gt;json----&gt;服务端</p><p><span>				</span>客户端----&gt;直接数据----&gt;服务端</p><p><span>			</span>docker-compose.yml  批量传输容器或镜像批量操作命令</p><p><span>				</span>docker run -d -P webapi</p><p><span>		</span>        <span>	</span>docker run -d -P ydtnginx</p><p><span>		</span>如何用：</p><p><span>			</span>1、理解docker-compose.yml格式</p><p><span>				</span>json  {</p><p><span>						</span>&quot;name&quot;:&quot;dddd&quot;</p><p>                                                &quot;tony&quot;:{}</p><p><span>						</span> &quot;tony&quot;:[]</p><p>                                                  &quot;tony&quot;:[{},{}]</p><p><span>					</span>  } </p><p><span>				</span>yml</p><p><span>						</span>&quot;name&quot;: &quot;dddd&quot;</p><p>                                                &quot;tony1&quot;:</p><p><span>							</span>&quot;id&quot;: &quot;2&quot;</p><p><span>							</span>&quot;name&quot;: &quot;3&quot;</p><p><span>						</span> &quot;tony2&quot;:</p><p><span>						</span>     - &quot;2&quot;</p><p>                                                     - &quot;3&quot;</p><p><span>						</span> &quot;tony3&quot;:</p><p><span>						</span>       - &quot;2&quot;:</p><p>                                                          &quot;id&quot;: </p><p><span>						</span>       - &quot;3&quot;<span>				</span></p><p><span>			</span>2、理解docker-compose.yml指令</p><p><span>					</span>如何固定key。<span>			</span></p><p><span>			</span>3、配置docker-compose.yml</p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">version: '3'</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">services:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; ydtnginx:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; build: /root/nginx</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; ports:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; - 8090:80</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; webapicore:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; build: /root/webapi</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; ports:</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; - 8091:80</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 227px;"></div><div class="CodeMirror-gutters" style="display: none; height: 227px;"></div></div></div></pre><p>目的： docker-compose批量运行镜像（ydtnginx webapi）</p><p><span>	</span>    docker-compose批量构造镜像（ydtnginx webapi）</p><p><span>	</span>容器编排</p><p><span>	</span>1、docker-compose</p><p><span>	</span>2、docker-compose.yml<span>	</span></p><p>3、Docker 容器网络</p><p><span>	</span>容器网络 :容器之间通信</p><p><span>	</span>目标：实现nignx代理webapi</p><p><span>	</span>工具：network</p><p><span>		</span>  <span>				</span>192.168.182.1 ~ 192.168.182.255</p><p><span>	</span>  客户端---&gt;Linux---&gt;Docker---&gt;容器----&gt;项目</p><p><span>							</span>    容器----&gt;项目</p><p><span>							</span>    容器----&gt;项目</p><p><span>							</span>    容器----&gt;项目</p><p>              192.168.182.1 </p><p>                客户端---&gt;Linux---&gt;Docker---&gt;容器----&gt;项目</p><p>              192.168.183.1 </p><p><span>		</span>客户端---&gt;Linux---&gt;Docker---&gt;容器----&gt;项目</p><p><span>		</span> 192.168.184.1 </p><p><span>		</span>客户端---&gt;Linux---&gt;Docker---&gt;容器----&gt;项目</p><p><span>		</span> 192.168.185.1 </p><p><span>		</span>客户端---&gt;Linux---&gt;Docker---&gt; 容器----&gt;项目</p><p><span>		</span>容器----&gt;项目(内部模式)<span>						</span></p><p><span>	</span>桥接模式：（推荐桥接模式）默认模式 bridge</p><p><span>	</span>host模式：</p><p><span>	</span>none模式：</p><p><span>	</span>1、创建桥接模式网段</p><p><span>	</span>2、使用桥接模式网段</p><p><span>	</span>3、容器之间如何通信</p><p><span>		</span>核心：依靠容器名称 ydtnginx  webapicore</p><p><span>		</span>webapicore名称配置到nginx中就可以了</p><p><span>		</span>1、找到webapicore</p><p><span>		</span>2、进入nginx容器</p><p><span>			</span>cd /usr/local/nginx/sbin</p><p><span>	</span> 目标：使用网络实现了容器之间的通信。</p><p><span>	</span>1、network 桥接网络</p><p><span>	</span>2、使用的是容器名。docker-compose.yml中的容器名</p><p><span>	</span>缺陷：每一次通信都要进入容器。单独操作</p><p>4、Docker volume数据卷</p><p><span>	</span> 含义：Linux文件可以挂载到容器中。</p><p><span>		</span>    Linux文件可以复制到容器中。</p><p><span>	</span>目表：Linux主机上面的nginx.conf配置文件挂载到 nginx容器中。<span>	</span></p><p><span>	</span>nginx.conf<span>	</span>------&gt;<span>	</span>/usr/local/nginx/conf/nginx.conf</p><p><span>	</span>1、先创建nginx.conf</p><p><span>	</span>2、配置nginx.conf</p><p><span>	</span>3、nginx.conf挂载 。</p><p><span>		</span>1、docker-compose.yml中使用</p><p><span>	</span>第一个知识点</p><p><span>	</span>1、主机文件挂载到容器中。</p><p><span>	</span>2、主机目录挂载到容器中。<span>	</span></p><p><span>	</span>3、容器目录挂载到主机中。</p><p>总结</p><p>1、自定义镜像</p><p>2、容器编排</p><p>3、容器网络</p><p>4、数据挂载</p><p>&nbsp;</p><p>docker swarm</p><p>&nbsp;</p><h2><a name='header-n141' class='md-header-anchor '></a>1、文件复制到容器中？把文件从容器外copy后黏贴到容器内？</h2><p>挂载：先复制，后替换</p><p>答案：是的，</p><h2><a name='header-n144' class='md-header-anchor '></a>2、反向挂载，只限于目录？</h2><p>答案：是的</p><h2><a name='header-n146' class='md-header-anchor '></a>3、容器文件目录挂载到主机文件目录的意义是什么</h2><p>答案：应用场景</p><p><span>	</span>MySQL es mongodb</p><p><span>	</span>内存。持久化。</p><p><span>	</span>容器中数据库数据目录-----&gt;Linux主机目录</p><h2><a name='header-n151' class='md-header-anchor '></a>4、文件挂载后如果主机文件改了，还用重新up吗<span>	</span></h2><p>答案：重新运行，才会更新。运行的时候，才会生效。</p><h2><a name='header-n153' class='md-header-anchor '></a>5、容器数据目录和主机挂载的目录会同时存在数据吗?</h2><p>答案：同时存在的。config</p><h2><a name='header-n155' class='md-header-anchor '></a>6、挂载不就是类似于Windows的共享目录的功能吗？但是Linux功能强大一点</h2><p>答案：共享目录。</p><h2><a name='header-n157' class='md-header-anchor '></a>7、一般项目运行时，一个nginx会应对多个项目，应该是要主机一份配置文件吧？需要挂载到N个项目对应的容器中吗？</h2><p>答案：一个nginx挂载一个。运行多个nginx挂载</p><p>&nbsp;</p></div>
 </body>
 </html>
-        </div>
-        <footer class="article-footer">
-            
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/Microservices/" rel="tag"># Microservices</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2024/01/02/5%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97-%E8%87%AA%E5%8A%A8API%E6%8E%A7%E5%88%B6%E5%99%A8/" rel="prev" title="5、ABP vNext-核心模块-自动API控制器">
+      <i class="fa fa-chevron-left"></i> 5、ABP vNext-核心模块-自动API控制器
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2024/01/03/6%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97-API%E6%96%87%E6%A1%A3%E3%80%81%E6%97%A5%E5%BF%97%E3%80%81%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97-%E7%AC%94%E8%AE%B0/" rel="next" title="6、ABP vNext-核心模块-API文档、日志、异常模块-笔记">
+      6、ABP vNext-核心模块-API文档、日志、异常模块-笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
 
 
 
-    <a data-url="https://smdegz.github.io/BlogPro/2024/01/03/%E5%BE%AE%E6%9C%8D%E5%8A%A1/3%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-Docker%E8%BF%9B%E9%98%B6-%E7%AC%94%E8%AE%B0/" data-id="clrrefn2d001l90wrd8389jn1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+          </div>
+          
+
 <script>
-    (function ($) {
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-        </footer>
-    </div>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "author": {
-            "@type": "Person",
-            "name": "John Doe"
-        },
-        "headline": "3、容器化-Docker进阶-笔记",
-        "image": "https://smdegz.github.io/BlogPro",
-        "keywords": "Microservices",
-        "genre": "",
-        "datePublished": "2024-01-03",
-        "dateCreated": "2024-01-03",
-        "dateModified": "2024-01-24",
-        "url": "https://smdegz.github.io/BlogPro/2024/01/03/微服务/3、容器化-Docker进阶-笔记/",
-        "description": "
-
-
-
-3、容器化-Docker进阶-笔记html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console"",
-        "wordCount": 3603
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
 </script>
 
-</article>
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
-    <section id="comments">
-    
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#write"><span class="nav-number">1.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#write"><span class="nav-number">1.0.1.</span> <span class="nav-text">课程专题：微服务容器化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.1.</span> <span class="nav-text">三、容器化-Docker进阶</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.2.</span> <span class="nav-text">1、文件复制到容器中？把文件从容器外copy后黏贴到容器内？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.3.</span> <span class="nav-text">2、反向挂载，只限于目录？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.4.</span> <span class="nav-text">3、容器文件目录挂载到主机文件目录的意义是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.5.</span> <span class="nav-text">4、文件挂载后如果主机文件改了，还用重新up吗	</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.6.</span> <span class="nav-text">5、容器数据目录和主机挂载的目录会同时存在数据吗?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.7.</span> <span class="nav-text">6、挂载不就是类似于Windows的共享目录的功能吗？但是Linux功能强大一点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">1.8.</span> <span class="nav-text">7、一般项目运行时，一个nginx会应对多个项目，应该是要主机一份配置文件吧？需要挂载到N个项目对应的容器中吗？</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
         
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
-
-    
-    </section>
-
-
-
-                        </div>
-                    </section>
-                    <aside id="sidebar">
-    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
-    <div class="sidebar-top">
-        <p>follow:</p>
-        <ul class="social-links">
-            
-                
-                <li>
-                    <a class="social-tooltip" title="twitter" href="/BlogPro/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-twitter"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="facebook" href="/BlogPro/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-facebook"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="stack-overflow" href="/BlogPro/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-stack-overflow"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
-                        <i class="icon fa fa-github"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="weibo" href="/BlogPro/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-weibo"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="rss" href="/BlogPro/" target="_blank" rel="noopener">
-                        <i class="icon fa fa-rss"></i>
-                    </a>
-                </li>
-                
-            
-        </ul>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/BlogPro/2024/01/03/6%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97-API%E6%96%87%E6%A1%A3%E3%80%81%E6%97%A5%E5%BF%97%E3%80%81%E5%BC%82%E5%B8%B8%E6%A8%A1%E5%9D%97-%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">newer</strong>
-        <p class="article-nav-title">
-        
-            6、ABP vNext-核心模块-API文档、日志、异常模块-笔记
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
-    
-    
-        <a href="/BlogPro/2024/01/02/5%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97-%E8%87%AA%E5%8A%A8API%E6%8E%A7%E5%88%B6%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">older</strong>
-        <p class="article-nav-title">5、ABP vNext-核心模块-自动API控制器</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">posts</span>
         </a>
-    
-</nav>
-
-    
-    <div class="widgets-container">
-        
-            
-                
-
-            
-                
-    <div class="widget-wrap">
-        <h3 class="widget-title">recents</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/23/hello-world/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/23/hello-world/" class="title">Hello World</a></p>
-                            <p class="item-date"><time datetime="2024-01-23T01:17:35.955Z" itemprop="datePublished">2024-01-23</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/BlogPro/image-49.png)" alt="21、ABP-vNext-DDD项目模板-动态C#API客户端" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/13/21%E3%80%81ABP-vNext-DDD%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E5%8A%A8%E6%80%81C#API%E5%AE%A2%E6%88%B7%E7%AB%AF/" class="title">21、ABP-vNext-DDD项目模板-动态C#API客户端</a></p>
-                            <p class="item-date"><time datetime="2024-01-13T02:48:57.000Z" itemprop="datePublished">2024-01-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/BlogPro/images/image-40.png)" alt="18、ABP vNext-单体项目模板-Localization本地化" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/12/18%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-Localization%E6%9C%AC%E5%9C%B0%E5%8C%96/" class="title">18、ABP vNext-单体项目模板-Localization本地化</a></p>
-                            <p class="item-date"><time datetime="2024-01-12T02:48:57.000Z" itemprop="datePublished">2024-01-12</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/BlogPro/image-48.png)" alt="17、ABP vNext-单体项目模板-虚拟文件、框架思想总结" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/11/17%E3%80%81ABP%20vNext-%E5%8D%95%E4%BD%93%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E3%80%81%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E6%80%BB%E7%BB%93/" class="title">17、ABP vNext-单体项目模板-虚拟文件、框架思想总结</a></p>
-                            <p class="item-date"><time datetime="2024-01-11T02:48:57.000Z" itemprop="datePublished">2024-01-11</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="thumbnail">
-    
-    
-        <span style="background-image:url(/BlogPro/images/image-34.png)" alt="15、ABP vNext-应用模块-Featrue特征模块" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/BlogPro/2024/01/10/15%E3%80%81ABP%20vNext-%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9D%97-Featrue%E7%89%B9%E5%BE%81%E6%A8%A1%E5%9D%97/" class="title">15、ABP vNext-应用模块-Featrue特征模块</a></p>
-                            <p class="item-date"><time datetime="2024-01-10T02:48:57.000Z" itemprop="datePublished">2024-01-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-            
-                
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">archives</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2024/01/">January 2024</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/BlogPro/archives/2023/01/">January 2023</a><span class="archive-list-count">9</span></li></ul>
-        </div>
-    </div>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
 
 
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">tags</h3>
-        <div class="widget">
-            <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/ABP-Middleware/" rel="tag">ABP Middleware</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/ABP-vNest/" rel="tag">ABP vNest</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/BlogPro/tags/Microservices/" rel="tag">Microservices</a><span class="tag-list-count">8</span></li></ul>
-        </div>
-    </div>
 
-
-            
-                
-    <div class="widget-wrap widget-float">
-        <h3 class="widget-title">tag cloud</h3>
-        <div class="widget tagcloud">
-            <a href="/BlogPro/tags/ABP-Middleware/" style="font-size: 15px;">ABP Middleware</a> <a href="/BlogPro/tags/ABP-vNest/" style="font-size: 20px;">ABP vNest</a> <a href="/BlogPro/tags/Microservices/" style="font-size: 10px;">Microservices</a>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-            
-        
-    </div>
-</aside>
-
-                </div>
-            </div>
-        </div>
-        <footer id="footer">
-    <div class="container">
-        <div class="container-inner">
-            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
-            <div class="credit">
-                <h1 class="logo-wrap">
-                    <a href="/BlogPro/" class="logo"></a>
-                </h1>
-                <p>&copy; 2024 John Doe</p>
-                
-                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
-                
-            </div>
-            <div class="footer-plugins">
-              
-    
-
-
-            </div>
-        </div>
-    </div>
-</footer>
+      </div>
 
     </div>
-    
-    
-    <script>
-    var disqus_shortname = 'hexo-theme-hueman';
-    
-    
-    var disqus_url = 'https://smdegz.github.io/BlogPro/2024/01/03/%E5%BE%AE%E6%9C%8D%E5%8A%A1/3%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-Docker%E8%BF%9B%E9%98%B6-%E7%AC%94%E8%AE%B0/';
-    
-    (function() {
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    </script>
+  </aside>
+  <div id="sidebar-dimmer"></div>
 
 
+      </div>
+    </main>
 
-
-
-    
+    <footer class="footer">
+      <div class="footer-inner">
         
-<script src="/BlogPro/libs/lightgallery/js/lightgallery.min.js"></script>
 
         
-<script src="/BlogPro/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
 
         
-<script src="/BlogPro/libs/lightgallery/js/lg-pager.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-autoplay.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-fullscreen.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-zoom.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-hash.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-share.min.js"></script>
-
-        
-<script src="/BlogPro/libs/lightgallery/js/lg-video.min.js"></script>
-
-    
-    
-        
-<script src="/BlogPro/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
-
-    
-    
-
-    
-    
-    
 
 
 
-<!-- Custom Scripts -->
 
-<script src="/BlogPro/js/main.js"></script>
 
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/muse.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
 </html>
