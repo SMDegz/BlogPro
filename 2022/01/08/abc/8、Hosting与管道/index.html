@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="定义了一个名为SystemClock的类，它实现了IHostedService接口。IHostedService是一个用于在ASP.NET Core应用程序中创建后台服务的接口，这些服务可以在应用程序的生命周期内运行。 123456789101112131415161718192021222324252627282930313233public class Sample01&#123;    p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="8、Hosting与管道">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/01/08/abc/8%E3%80%81Hosting%E4%B8%8E%E7%AE%A1%E9%81%93/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="定义了一个名为SystemClock的类，它实现了IHostedService接口。IHostedService是一个用于在ASP.NET Core应用程序中创建后台服务的接口，这些服务可以在应用程序的生命周期内运行。 123456789101112131415161718192021222324252627282930313233public class Sample01&#123;    p">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-01-08T01:11:12.000Z">
+<meta property="article:modified_time" content="2024-01-25T06:38:57.182Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content=".Net 基础理论">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/01/08/abc/8%E3%80%81Hosting%E4%B8%8E%E7%AE%A1%E9%81%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>8、Hosting与管道 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/01/08/abc/8%E3%80%81Hosting%E4%B8%8E%E7%AE%A1%E9%81%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          8、Hosting与管道
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-01-08 09:11:12" itemprop="dateCreated datePublished" datetime="2022-01-08T09:11:12+08:00">2022-01-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-01-25 14:38:57" itemprop="dateModified" datetime="2024-01-25T14:38:57+08:00">2024-01-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><p>定义了一个名为SystemClock的类，它实现了IHostedService接口。IHostedService是一个用于在ASP.NET Core应用程序中创建后台服务的接口，这些服务可以在应用程序的生命周期内运行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public class Sample01</span><br><span class="line">&#123;</span><br><span class="line">    public class SystemClock : IHostedService</span><br><span class="line">    &#123;</span><br><span class="line">        private Timer _timer;</span><br><span class="line"></span><br><span class="line">        public Task StartAsync(CancellationToken cancellationToken)</span><br><span class="line">        &#123;</span><br><span class="line">            _timer = new Timer(state =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine($&quot;Current Time:&#123;DateTime.Now.ToLongTimeString()&#125;&quot;);</span><br><span class="line">            &#125;, null,0, 1000);</span><br><span class="line"></span><br><span class="line">            return Task.CompletedTask;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Task StopAsync(CancellationToken cancellationToken)</span><br><span class="line">        &#123;</span><br><span class="line">            _timer?.Dispose();</span><br><span class="line">            return Task.CompletedTask;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        //使用HostBuilder创建一个新的宿主（host），并配置服务。这里特别添加了一个名为SystemClock的托管服务。最后，通过调用host.Run()来启动应用程序的宿主和事件循环。</span><br><span class="line">        var host = new HostBuilder()</span><br><span class="line">            .ConfigureServices(collection =&gt; collection</span><br><span class="line">                .AddHostedService&lt;SystemClock&gt;())</span><br><span class="line">                .Build();</span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>主要目的是展示如何在ASP.NET Core应用程序中创建一个后台服务，该服务定期收集并打印温度、湿度和空气质量的数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">public class Sample02</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 温度</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public interface ITemperatureCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int Get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 湿度</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public interface IHumidityCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int Get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 空气质量</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public interface IAirQualityCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int Get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class Collector: ITemperatureCollector, IHumidityCollector, IAirQualityCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int ITemperatureCollector.Get()</span><br><span class="line">        &#123;</span><br><span class="line">            var random = new Random();</span><br><span class="line">            return random.Next(0, 100);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int IHumidityCollector.Get()</span><br><span class="line">        &#123;</span><br><span class="line">            var random = new Random();</span><br><span class="line">            return random.Next(0, 100);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int IAirQualityCollector.Get()</span><br><span class="line">        &#123;</span><br><span class="line">            var random = new Random();</span><br><span class="line">            return random.Next(0, 100);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class AirEnvironmentService : IHostedService</span><br><span class="line">    &#123;</span><br><span class="line">        private readonly ITemperatureCollector _temperatureCollector;</span><br><span class="line">        private readonly IHumidityCollector _humidityCollector;</span><br><span class="line">        private readonly IAirQualityCollector _airQualityCollector;</span><br><span class="line"></span><br><span class="line">        private Timer _timer;</span><br><span class="line"></span><br><span class="line">        public AirEnvironmentService(</span><br><span class="line">            ITemperatureCollector temperatureCollector,</span><br><span class="line">            IHumidityCollector humidityCollector,</span><br><span class="line">            IAirQualityCollector airQualityCollector</span><br><span class="line">        )</span><br><span class="line">        &#123;</span><br><span class="line">            _temperatureCollector = temperatureCollector;</span><br><span class="line">            _humidityCollector = humidityCollector;</span><br><span class="line">            _airQualityCollector = airQualityCollector;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Task StartAsync(CancellationToken cancellationToken)</span><br><span class="line">        &#123;</span><br><span class="line">            _timer = new Timer(state =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine($&quot;温度：&#123;_temperatureCollector.Get(), -10&#125;&quot; +</span><br><span class="line">                                  $&quot;湿度：&#123;_humidityCollector.Get(), -10&#125;&quot; +</span><br><span class="line">                                  $&quot;空气质量：&#123;_airQualityCollector.Get(), -10&#125;&quot; +</span><br><span class="line">                                  $&quot;时间:&#123;DateTime.Now.ToLongTimeString()&#125;&quot;);</span><br><span class="line">            &#125;, null,0, 1000);</span><br><span class="line"></span><br><span class="line">            return Task.CompletedTask;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Task StopAsync(CancellationToken cancellationToken)</span><br><span class="line">        &#123;</span><br><span class="line">            _timer?.Dispose();</span><br><span class="line">            return Task.CompletedTask;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        var collector = new Collector();</span><br><span class="line">        var host = new HostBuilder()</span><br><span class="line">            .ConfigureServices(collection =&gt; collection</span><br><span class="line">                .AddSingleton&lt;ITemperatureCollector&gt;(collector)</span><br><span class="line">                .AddSingleton&lt;IHumidityCollector&gt;(collector)</span><br><span class="line">                .AddSingleton&lt;IAirQualityCollector&gt;(collector)</span><br><span class="line">                .AddHostedService&lt;AirEnvironmentService&gt;()</span><br><span class="line">            ).Build();</span><br><span class="line"></span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>用于模拟空气环境中的温度、湿度和空气质量数据的收集。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line">public class Sample03</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 温度</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public interface ITemperatureCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int Get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 湿度</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public interface IHumidityCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int Get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 空气质量</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public interface IAirQualityCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int Get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class Collector: ITemperatureCollector, IHumidityCollector, IAirQualityCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int ITemperatureCollector.Get()</span><br><span class="line">        &#123;</span><br><span class="line">            var random = new Random();</span><br><span class="line">            return random.Next(0, 100);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int IHumidityCollector.Get()</span><br><span class="line">        &#123;</span><br><span class="line">            var random = new Random();</span><br><span class="line">            return random.Next(0, 100);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int IAirQualityCollector.Get()</span><br><span class="line">        &#123;</span><br><span class="line">            var random = new Random();</span><br><span class="line">            return random.Next(0, 100);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class AirEnvironmentOptions</span><br><span class="line">    &#123;</span><br><span class="line">        public long Interval &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class AirEnvironmentService : IHostedService</span><br><span class="line">    &#123;</span><br><span class="line">        private readonly ITemperatureCollector _temperatureCollector;</span><br><span class="line">        private readonly IHumidityCollector _humidityCollector;</span><br><span class="line">        private readonly IAirQualityCollector _airQualityCollector;</span><br><span class="line">        private readonly AirEnvironmentOptions _options;</span><br><span class="line"></span><br><span class="line">        private Timer _timer;</span><br><span class="line"></span><br><span class="line">        //这个类实现了IHostedService接口，使得它可以作为ASP.NET Core应用程序中的一个后台服务。</span><br><span class="line">        //它有四个私有成员变量：三个用于温度、湿度和空气质量的数据采集器，以及一个用于存储空气环境选项。</span><br><span class="line">        //在构造函数中，它接收这三个数据采集器和空气环境选项作为参数，并将它们赋值给对应的私有成员变量。</span><br><span class="line">        //StartAsync方法是IHostedService接口的一部分，用于启动服务。在这个方法中，它初始化了一个计时器（Timer），每隔一段时间（在此代码中未明确指定）就会执行一次回调函数。在回调函数中，它可能会调用数据采集器的Get()方法来获取温度、湿度和空气质量数据，但具体实现被截断了。</span><br><span class="line">        public AirEnvironmentService(</span><br><span class="line">            ITemperatureCollector temperatureCollector,</span><br><span class="line">            IHumidityCollector humidityCollector,</span><br><span class="line">            IAirQualityCollector airQualityCollector,</span><br><span class="line">            IOptions&lt;AirEnvironmentOptions&gt; options</span><br><span class="line">        )</span><br><span class="line">        &#123;</span><br><span class="line">            _temperatureCollector = temperatureCollector;</span><br><span class="line">            _humidityCollector = humidityCollector;</span><br><span class="line">            _airQualityCollector = airQualityCollector;</span><br><span class="line">            _options = options.Value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Task StartAsync(CancellationToken cancellationToken)</span><br><span class="line">        &#123;</span><br><span class="line">            _timer = new Timer(state =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine($&quot;温度：&#123;_temperatureCollector.Get(), -10&#125;&quot; +</span><br><span class="line">                                  $&quot;湿度：&#123;_humidityCollector.Get(), -10&#125;&quot; +</span><br><span class="line">                                  $&quot;空气质量：&#123;_airQualityCollector.Get(), -10&#125;&quot; +</span><br><span class="line">                                  $&quot;时间:&#123;DateTime.Now.ToLongTimeString()&#125;&quot;);</span><br><span class="line">            &#125;, null,0, _options.Interval);</span><br><span class="line"></span><br><span class="line">            return Task.CompletedTask;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Task StopAsync(CancellationToken cancellationToken)</span><br><span class="line">        &#123;</span><br><span class="line">            _timer?.Dispose();</span><br><span class="line">            return Task.CompletedTask;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        //构造函数接收ITemperatureCollector, IHumidityCollector, IAirQualityCollector, 和 IOptions&lt;AirEnvironmentOptions&gt;作为参数。这意味着在ASP.NET Core应用程序中，当创建AirEnvironmentService的实例时，依赖注入容器会负责提供这些依赖项。</span><br><span class="line">        //IOptions&lt;AirEnvironmentOptions&gt; 使得服务能够访问配置文件中定义的AirEnvironmentOptions设置。</span><br><span class="line">        var collector = new Collector();</span><br><span class="line">        var host = new HostBuilder()</span><br><span class="line">            .ConfigureAppConfiguration(builder =&gt; builder.AddJsonFile(&quot;appsettings.json&quot;))</span><br><span class="line">            .ConfigureServices((context, collection) =&gt; collection</span><br><span class="line">                .AddSingleton&lt;ITemperatureCollector&gt;(collector)</span><br><span class="line">                .AddSingleton&lt;IHumidityCollector&gt;(collector)</span><br><span class="line">                .AddSingleton&lt;IAirQualityCollector&gt;(collector)</span><br><span class="line">                .AddHostedService&lt;AirEnvironmentService&gt;()</span><br><span class="line">                .AddOptions()</span><br><span class="line">                .Configure&lt;AirEnvironmentOptions&gt;(</span><br><span class="line">                    context.Configuration.GetSection(&quot;AirEnvironment&quot;))</span><br><span class="line">            ).Build();</span><br><span class="line"></span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>这段代码的核心功能是使用ASP.NET Core框架创建一个配置好的Web应用程序，该应用程序包含一些服务和选项配置，并启动应用程序的主循环以开始接收和处理请求。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line">public class Sample04</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 温度</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public interface ITemperatureCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int Get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 湿度</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public interface IHumidityCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int Get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 空气质量</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public interface IAirQualityCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int Get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public class Collector: ITemperatureCollector, IHumidityCollector, IAirQualityCollector</span><br><span class="line">    &#123;</span><br><span class="line">        int ITemperatureCollector.Get()</span><br><span class="line">        &#123;</span><br><span class="line">            var random = new Random();</span><br><span class="line">            return random.Next(0, 100);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int IHumidityCollector.Get()</span><br><span class="line">        &#123;</span><br><span class="line">            var random = new Random();</span><br><span class="line">            return random.Next(0, 100);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int IAirQualityCollector.Get()</span><br><span class="line">        &#123;</span><br><span class="line">            var random = new Random();</span><br><span class="line">            return random.Next(0, 100);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class AirEnvironmentOptions</span><br><span class="line">    &#123;</span><br><span class="line">        public long Interval &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class AirEnvironmentPublisher</span><br><span class="line">    &#123;</span><br><span class="line">        private const string Template = &quot;温度：&#123;temperature, -10&#125;&quot; +</span><br><span class="line">                                         &quot;湿度：&#123;humidity, -10&#125;&quot; +</span><br><span class="line">                                         &quot;空气质量：&#123;airQuality, -10&#125;&quot; +</span><br><span class="line">                                         &quot;时间:&#123;now&#125;&quot;;</span><br><span class="line">        private readonly Action&lt;ILogger, int,int,int,string, Exception&gt; _logAction;</span><br><span class="line">        private readonly ILogger _logger;</span><br><span class="line"></span><br><span class="line">        public AirEnvironmentPublisher(ILogger&lt;AirEnvironmentPublisher&gt; logger)</span><br><span class="line">        &#123;</span><br><span class="line">            _logger = logger;</span><br><span class="line">            _logAction = LoggerMessage.Define&lt;int, int, int, string&gt;(LogLevel.Information, 0, Template);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void Publish(int temp, int humi, int airq)</span><br><span class="line">        &#123;</span><br><span class="line">            _logAction(_logger, temp, humi, airq, DateTime.Now.ToLongTimeString(), null);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class AirEnvironmentService : IHostedService</span><br><span class="line">    &#123;</span><br><span class="line">        private readonly ITemperatureCollector _temperatureCollector;</span><br><span class="line">        private readonly IHumidityCollector _humidityCollector;</span><br><span class="line">        private readonly IAirQualityCollector _airQualityCollector;</span><br><span class="line">        private readonly AirEnvironmentPublisher _publisher;</span><br><span class="line">        private readonly AirEnvironmentOptions _options;</span><br><span class="line"></span><br><span class="line">        private Timer _timer;</span><br><span class="line"></span><br><span class="line">        public AirEnvironmentService(</span><br><span class="line">            ITemperatureCollector temperatureCollector,</span><br><span class="line">            IHumidityCollector humidityCollector,</span><br><span class="line">            IAirQualityCollector airQualityCollector,</span><br><span class="line">            AirEnvironmentPublisher publisher,</span><br><span class="line">            IOptions&lt;AirEnvironmentOptions&gt; options</span><br><span class="line">        )</span><br><span class="line">        &#123;</span><br><span class="line">            _temperatureCollector = temperatureCollector;</span><br><span class="line">            _humidityCollector = humidityCollector;</span><br><span class="line">            _airQualityCollector = airQualityCollector;</span><br><span class="line">            _publisher = publisher;</span><br><span class="line">            _options = options.Value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Task StartAsync(CancellationToken cancellationToken)</span><br><span class="line">        &#123;</span><br><span class="line">            _timer = new Timer(state =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                _publisher.Publish(</span><br><span class="line">                    _temperatureCollector.Get(),</span><br><span class="line">                    _humidityCollector.Get(), </span><br><span class="line">                    _airQualityCollector.Get());</span><br><span class="line">            &#125;, null,0, _options.Interval);</span><br><span class="line"></span><br><span class="line">            return Task.CompletedTask;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Task StopAsync(CancellationToken cancellationToken)</span><br><span class="line">        &#123;</span><br><span class="line">            _timer?.Dispose();</span><br><span class="line">            return Task.CompletedTask;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        var collector = new Collector();</span><br><span class="line">        var host = new HostBuilder()</span><br><span class="line">            .ConfigureAppConfiguration((context,builder) =&gt; builder.AddJsonFile(&quot;appsettings.json&quot;))</span><br><span class="line">            .ConfigureServices((context, collection) =&gt; collection</span><br><span class="line">                .AddSingleton&lt;ITemperatureCollector&gt;(collector)</span><br><span class="line">                .AddSingleton&lt;IHumidityCollector&gt;(collector)</span><br><span class="line">                .AddSingleton&lt;IAirQualityCollector&gt;(collector)</span><br><span class="line">                .AddSingleton&lt;AirEnvironmentPublisher&gt;()</span><br><span class="line">                .AddHostedService&lt;AirEnvironmentService&gt;()</span><br><span class="line">                .AddOptions()</span><br><span class="line">                .Configure&lt;AirEnvironmentOptions&gt;(</span><br><span class="line">                    context.Configuration.GetSection(&quot;AirEnvironment&quot;))</span><br><span class="line">            )</span><br><span class="line">            .ConfigureLogging(builder =&gt; builder.AddConsole())</span><br><span class="line">            .Build();</span><br><span class="line"></span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="Web-主机管道"><a href="#Web-主机管道" class="headerlink" title="Web 主机管道"></a>Web 主机管道</h1><ul>
+<li><p>这段代码是一个简单的ASP.NET Core应用程序的入口点。它使用ASP.NET Core的内置主机API来创建一个默认主机，并配置它以运行一个简单的Web应用程序。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample01</span><br><span class="line">&#123;</span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        //使用Host.CreateDefaultBuilder()方法创建一个默认主机配置。这会提供很多常见的配置选项，使得开发人员可以快速地开始开发。</span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            // 使用ConfigureWebHost方法来配置Web主机的特定设置。</span><br><span class="line">            .ConfigureWebHost(builder =&gt; builder</span><br><span class="line">            // 使用Kestrel作为应用程序的HTTP服务器。Kestrel是一个轻量级的、跨平台的HTTP服务器，常用于ASP.NET Core应用程序。</span><br><span class="line">                .UseKestrel()</span><br><span class="line">                //使用Configure方法来配置请求处理管道</span><br><span class="line">                .Configure(app =&gt;</span><br><span class="line">                    // 在请求处理管道中运行一个简单的操作，该操作将响应写入&quot;Hello!&quot;字符串。</span><br><span class="line">                    app.Run(context =&gt; </span><br><span class="line">                        context.Response.WriteAsync(&quot;Hello!&quot;))</span><br><span class="line">                )</span><br><span class="line">            ).Build();</span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这段代码定义了一个名为Sample02的静态类，并在其中实现了一个ASP.NET Core应用程序的入口点。该代码使用了ASP.NET Core的中间件模式来处理HTTP请求。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample02</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        //这部分配置了Web主机的默认设置，并使用.Configure方法来配置请求处理管道。这里注册了两个中间件：Middleware1和Middleware2。</span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .Use(Middleware1)</span><br><span class="line">                    .Use(Middleware2)</span><br><span class="line">                )</span><br><span class="line">            ).Build();</span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static RequestDelegate Middleware1(RequestDelegate next)</span><br><span class="line">    &#123;</span><br><span class="line">        async Task App(HttpContext context)</span><br><span class="line">        &#123;</span><br><span class="line">            await context.Response.WriteAsync(&quot;Middleware 1 Begin.&quot;);</span><br><span class="line">            await next(context);</span><br><span class="line">            await context.Response.WriteAsync(&quot;Middleware 1 End.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return App;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static RequestDelegate Middleware2(RequestDelegate next)</span><br><span class="line">    &#123;</span><br><span class="line">        async Task App(HttpContext context)</span><br><span class="line">        &#123;</span><br><span class="line">            await context.Response.WriteAsync(&quot;Middleware 2 Begin.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return App;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在之前的代码示例中，中间件是直接作为一个方法实现的，并通过app.Use(Middleware1)和app.Use(Middleware2)注册到请求处理管道中。而在这个新的代码示例中，中间件被定义为一个单独的类HelloMiddleware，并且实现了IMiddleware接口。然后，这个中间件通过app.UseMiddleware<HelloMiddleware>()被注册到请求处理管道中。此外，新代码示例还使用了依赖注入来注册中间件，通过ConfigureServices方法中的AddSingleton<HelloMiddleware>()将中间件添加到服务容器中，使其在整个应用程序生命周期中保持单例状态。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class Sample03</span><br><span class="line">&#123;</span><br><span class="line">    public class HelloMiddleware : IMiddleware</span><br><span class="line">    &#123;</span><br><span class="line">        public async Task InvokeAsync(HttpContext context, RequestDelegate next)</span><br><span class="line">        &#123;</span><br><span class="line">            await context.Response.WriteAsync(&quot;Hello&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(collection =&gt; collection.AddSingleton&lt;HelloMiddleware&gt;())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UseMiddleware&lt;HelloMiddleware&gt;()</span><br><span class="line">                )</span><br><span class="line">            ).Build();</span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>新代码实例<blockquote>
+<p>在新的代码示例中，HelloMiddleware类具有更多的灵活性和可配置性。它具有三个构造函数参数：RequestDelegate next、string content和bool isToNext，分别表示下一个中间件、要写入的内容以及是否继续传递请求给下一个中间件。<br>在构造函数中，这些参数被初始化并存储在类的私有字段中，以便在InvokeAsync方法中使用。<br>InvokeAsync方法现在接受一个HttpContext参数，该参数包含当前HTTP请求的上下文信息。在该方法中，它首先向响应中异步写入包含_content字段内容的字符串，然后根据_isToNext字段的值决定是否调用下一个中间件（通过调用_next(httpContext)）。<br>在启动方法中，新的代码示例使用.UseMiddleware<HelloMiddleware>(“Rick”, true)和.UseMiddleware<HelloMiddleware>(“Motry”)来注册两个不同的实例化中间件。这意味着可以为每个中间件实例提供不同的参数，并在请求处理管道中按照定义的顺序执行它们。<br>与前一个示例相比，新的代码示例提供了更大的灵活性和可配置性，因为它允许通过构造函数传递参数来定制中间件的行为，并使用依赖注入来注册中间件实例。</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class Sample04</span><br><span class="line">&#123;</span><br><span class="line">    public class HelloMiddleware</span><br><span class="line">    &#123;</span><br><span class="line">        private readonly RequestDelegate _next;</span><br><span class="line">        private readonly string _content;</span><br><span class="line">        private readonly bool _isToNext;</span><br><span class="line"></span><br><span class="line">        public HelloMiddleware(RequestDelegate next, string content, bool isToNext = false)</span><br><span class="line">        &#123;</span><br><span class="line">            _next = next;</span><br><span class="line">            _content = content;</span><br><span class="line">            _isToNext = isToNext;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public async Task InvokeAsync(HttpContext httpContext)</span><br><span class="line">        &#123;</span><br><span class="line">            await httpContext.Response.WriteAsync($&quot;Hello &#123;_content&#125;!\r\n&quot;);</span><br><span class="line">            if (_isToNext) await _next(httpContext);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UseMiddleware&lt;HelloMiddleware&gt;(&quot;Rick&quot;, true)</span><br><span class="line">                    .UseMiddleware&lt;HelloMiddleware&gt;(&quot;Motry&quot;)</span><br><span class="line">                )</span><br><span class="line">            ).Build();</span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这段代码是一个简化版的ASP.NET Core应用程序的启动过程。与前一个示例相比，这段代码展示了如何使用Startup类来配置应用程序服务和请求处理管道。</p>
+<blockquote>
+<p>Startup类包含两个方法：ConfigureServices和Configure。这两个方法分别用于配置应用程序的服务和请求处理管道。在ConfigureServices方法中，你可以注册服务到服务容器中，例如添加数据库连接字符串或配置依赖注入容器。在Configure方法中，你可以配置请求处理管道，例如添加中间件或定义路由。 2. <strong>定义Strat&#96;方法</strong>:</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class Sample05</span><br><span class="line">&#123;</span><br><span class="line">    public class Startup</span><br><span class="line">    &#123;</span><br><span class="line">        public Startup(IConfiguration configuration, IHostEnvironment hostingEnvironment)</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Assert(configuration != null);</span><br><span class="line">            Debug.Assert(hostingEnvironment != null);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void ConfigureServices(IServiceCollection services)</span><br><span class="line">        &#123;</span><br><span class="line">            </span><br><span class="line">            foreach (var service in services)</span><br><span class="line">            &#123;</span><br><span class="line">                var serviceName = service.ServiceType.Name;</span><br><span class="line">                var implType = service.ImplementationType;</span><br><span class="line">                if (implType != null)</span><br><span class="line">                &#123;</span><br><span class="line">                    Console.WriteLine($&quot;&#123;service.Lifetime, -15&#125;&#123;serviceName,-40&#125;&#123;implType.Name&#125;&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void Configure(IApplicationBuilder app)</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Strat()</span><br><span class="line">    &#123;</span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .UseStartup&lt;Startup&gt;())</span><br><span class="line">            .Build();</span><br><span class="line">        </span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Test1 类在 ConfigureServices 方法中被注册，而在 Configure 方法中被作为参数传递。Test2 在 ConfigureServices 方法中被注册为单例服务，并在 Configure 方法中被作为参数传递。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public class Sample08</span><br><span class="line">&#123;</span><br><span class="line">    public class Test1&#123; &#125;;</span><br><span class="line">    public class Test2&#123; &#125;;</span><br><span class="line"></span><br><span class="line">    public class Startup</span><br><span class="line">    &#123;</span><br><span class="line">        public Startup(Test1 test1)</span><br><span class="line">        &#123;</span><br><span class="line">   </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //在这段代码中，Test1 类在 ConfigureServices 方法中被注册，而在 Configure 方法中被作为参数传递。这意味着在应用程序启动时，Test1 的单例实例会被创建并注入到服务容器中，然后在配置请求处理管道时被传递给 Configure 方法。</span><br><span class="line">        //类似地，Test2 在 ConfigureServices 方法中被注册为单例服务，并在 Configure 方法中被作为参数传递。</span><br><span class="line">        public void ConfigureServices(IServiceCollection services)</span><br><span class="line">        &#123;</span><br><span class="line">            services.AddSingleton&lt;Test2&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void Configure(IApplicationBuilder app, Test1 test1, Test2 test2)</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Assert(test1 != null);</span><br><span class="line">            Debug.Assert(test2 != null);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureServices(collection =&gt; collection.AddSingleton&lt;Test1&gt;())</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .UseStartup&lt;Startup&gt;())</span><br><span class="line">            .Build();</span><br><span class="line">        </span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这段代码是一个简化版的ASP.NET Core应用程序，其中包含了一些中间件组件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">public class Sample09</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public class Test1&#123; &#125;;</span><br><span class="line">    public class Test2&#123; &#125;;</span><br><span class="line"></span><br><span class="line">    public class TestMiddleware</span><br><span class="line">    &#123;</span><br><span class="line">        //它包含一个 _next 属性，该属性是一个 RequestDelegate 类型的委托，用于将请求传递给下一个中间件组件。</span><br><span class="line">        private readonly RequestDelegate _next;</span><br><span class="line"></span><br><span class="line">        //构造函数接收 RequestDelegate 类型的参数 next 以及两个 Test1 和 Test2 类型的参数，并对它们进行断言检查以确保它们不为空。</span><br><span class="line">        public TestMiddleware(RequestDelegate next, Test1 test1, Test2 test2)</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Assert(test1 != null);</span><br><span class="line">            Debug.Assert(test2 != null);</span><br><span class="line">            _next = next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //InvokeAsync 方法是中间件处理HTTP请求的主要逻辑。它通过 httpContext.Response.WriteAsync 方法向HTTP响应写入字符串 &quot;Test&quot;。</span><br><span class="line">        public async Task InvokeAsync(HttpContext httpContext)</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Assert(_next != null);</span><br><span class="line">            await httpContext.Response.WriteAsync(&quot;Test&quot;);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class Startup</span><br><span class="line">    &#123;</span><br><span class="line">        //ConfigureServices 方法用于注册应用程序的服务。在这里，它注册了 Test1 和 Test2 类型的单例服务。</span><br><span class="line">        public void ConfigureServices(IServiceCollection services)</span><br><span class="line">        &#123;</span><br><span class="line">            services</span><br><span class="line">                .AddSingleton&lt;Test1&gt;()</span><br><span class="line">                .AddSingleton&lt;Test2&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        //Configure 方法用于配置请求处理管道。在这里，它使用 app.UseMiddleware&lt;TestMiddleware&gt;() 来添加自定义的中间件组件。</span><br><span class="line">        public void Configure(IApplicationBuilder app)</span><br><span class="line">        &#123;</span><br><span class="line">            app.UseMiddleware&lt;TestMiddleware&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .UseStartup&lt;Startup&gt;())</span><br><span class="line">            .Build();</span><br><span class="line">        </span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>这段代码是一个简单的ASP.NET Core应用程序，它演示了如何使用依赖注入来注入服务和控制器之间的交互</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">public class Sample11</span><br><span class="line">&#123;</span><br><span class="line">    public class Test1&#123; &#125;</span><br><span class="line">    public class Test2&#123; &#125;       </span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        //在服务配置中，它使用 AddSingleton 方法将 Test1 和 Test2 注册为单例服务，并使用 AddControllersWithViews 方法添加控制器和视图支持。</span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(collection =&gt; collection</span><br><span class="line">                    .AddSingleton&lt;Test1&gt;()</span><br><span class="line">                    .AddSingleton&lt;Test2&gt;()</span><br><span class="line">                    .AddControllersWithViews())</span><br><span class="line">                //在请求处理管道配置中，它使用 UseRouting 和 UseEndpoints 方法来配置路由。</span><br><span class="line">                .Configure(app=&gt;app</span><br><span class="line">                    .UseRouting()</span><br><span class="line">                    .UseEndpoints(routeBuilder =&gt; routeBuilder.MapControllers()))</span><br><span class="line">            )</span><br><span class="line">            .Build();</span><br><span class="line">        </span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Startup</span><br><span class="line">&#123;</span><br><span class="line">    public void Configure(IApplicationBuilder app)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void ConfigureServices(IServiceCollection services)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class HomeController : Controller</span><br><span class="line">&#123;</span><br><span class="line">    private readonly Sample11.Test1 _test1;</span><br><span class="line"></span><br><span class="line">    public HomeController(Sample11.Test1 test1)</span><br><span class="line">    &#123;</span><br><span class="line">        _test1 = test1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [HttpGet(&quot;/&quot;)]</span><br><span class="line">    public IActionResult Index()</span><br><span class="line">    &#123;</span><br><span class="line">        ViewBag.Test1 = _test1;</span><br><span class="line">        return View();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="中间件容器，管道"><a href="#中间件容器，管道" class="headerlink" title="中间件容器，管道"></a>中间件容器，管道</h1><ul>
+<li>创建一个类库</li>
+<li>创建 ApplicationBuilder 类<blockquote>
+<p>实现的功能：<br>中间件管理：这个类提供了一种机制来注册、管理和组合多个中间件组件。<br>扩展中间件：通过第一个Use方法，你可以使用一个扩展点来定义自己的中间件。这个扩展点接受一个HttpContext和一个返回Task的函数，并返回一个任务。<br>原始中间件：通过第二个Use方法，你可以添加标准中间件，这些中间件接受一个请求委托并返回一个新的请求委托。<br>构建请求处理管道：Build方法用于构建最终的请求处理管道。它首先创建一个默认的请求委托（在这个例子中，它只是输出”默认中间件”并完成任务），然后逆序应用所有注册的中间件。<br>核心代码介绍：<br>_components 列表：这个列表用于存储所有注册的中间件。每个中间件都是一个函数，它接受一个请求委托并返回一个新的请求委托。<br>第一个 Use 方法：这个方法允许你添加自定义扩展点中间件。它扩展了Use方法以接受一个不同的签名，并使用了一个lambda表达式来创建并返回一个新的请求委托。<br>第二个 Use 方法：这个方法用于添加标准的中间件组件。它直接将中间件添加到_components列表中。<br>Build 方法：这个方法负责构建最终的请求处理管道。它首先创建一个默认的请求委托，然后逆序遍历_components列表，将每个中间件应用到默认的请求委托上，从而构建出完整的请求处理管道。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">public class ApplicationBuilder</span><br><span class="line">&#123;</span><br><span class="line">    private static readonly IList&lt;Func&lt;RequestDelegate, RequestDelegate&gt;&gt; _components = </span><br><span class="line">        new List&lt;Func&lt;RequestDelegate, RequestDelegate&gt;&gt;();</span><br><span class="line"></span><br><span class="line">    // 扩展Use</span><br><span class="line">    public ApplicationBuilder Use(Func&lt;HttpContext, Func&lt;Task&gt;, Task&gt; middleware)</span><br><span class="line">    &#123;</span><br><span class="line">        return Use(next =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            return context =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                Task SimpleNext() =&gt; next(context);</span><br><span class="line">                return middleware(context, SimpleNext );</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 原始Use</span><br><span class="line">    public ApplicationBuilder Use(Func&lt;RequestDelegate, RequestDelegate&gt; middleware)</span><br><span class="line">    &#123;</span><br><span class="line">        _components.Add(middleware);</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public RequestDelegate Build()</span><br><span class="line">    &#123;</span><br><span class="line">        RequestDelegate app = context =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;默认中间件&quot;);</span><br><span class="line">            return Task.CompletedTask;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        foreach (var component in _components.Reverse())</span><br><span class="line">        &#123;</span><br><span class="line">            app = component(app);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return app;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>创建 HttpContext 类 ，内容空。</li>
+<li>修改 Program 类<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">namespace PipelineDemo</span><br><span class="line">&#123;</span><br><span class="line">    public delegate Task RequestDelegate(HttpContext context);</span><br><span class="line"></span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            var app = new ApplicationBuilder();</span><br><span class="line"></span><br><span class="line">            app.Use(async (context, next) =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(&quot;中间件1号 Begin&quot;);</span><br><span class="line">                await next();</span><br><span class="line">                Console.WriteLine(&quot;中间件1号 End&quot;);</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            app.Use(async (context, next) =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(&quot;中间件2号 Begin&quot;);</span><br><span class="line">                await next();</span><br><span class="line">                Console.WriteLine(&quot;中间件2号 End&quot;);</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            var firstMiddleware = app.Build();</span><br><span class="line"></span><br><span class="line">            // 主机就拿到管道的第一个中间件</span><br><span class="line">            // 请求进来的时候，</span><br><span class="line">            firstMiddleware(new HttpContext());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/Net-%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/" rel="tag"># .Net 基础理论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/06/abc/6%E3%80%81%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%8E%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9/" rel="prev" title="6、文件系统与配置选项">
+      <i class="fa fa-chevron-left"></i> 6、文件系统与配置选项
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/09/abc/9%E3%80%81%E8%B7%AF%E7%94%B1%E4%B8%8E%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" rel="next" title="9、路由与异常处理">
+      9、路由与异常处理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Web-%E4%B8%BB%E6%9C%BA%E7%AE%A1%E9%81%93"><span class="nav-number">1.</span> <span class="nav-text">Web 主机管道</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AE%B9%E5%99%A8%EF%BC%8C%E7%AE%A1%E9%81%93"><span class="nav-number">2.</span> <span class="nav-text">中间件容器，管道</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/muse.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

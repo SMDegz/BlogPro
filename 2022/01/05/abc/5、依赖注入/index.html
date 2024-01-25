@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="展示了如何使用 .NET Core 的依赖注入（DI）系统来创建和配置服务。 123456789101112131415161718192021222324252627282930public static class Sample01&#123;    public interface IAccount&#123; &#125;    public interface IMessage&amp;#12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5、依赖注入">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/01/05/abc/5%E3%80%81%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="展示了如何使用 .NET Core 的依赖注入（DI）系统来创建和配置服务。 123456789101112131415161718192021222324252627282930public static class Sample01&#123;    public interface IAccount&#123; &#125;    public interface IMessage&amp;#12">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-01-05T01:11:12.000Z">
+<meta property="article:modified_time" content="2024-01-25T06:38:57.182Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content=".Net 基础理论">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/01/05/abc/5%E3%80%81%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>5、依赖注入 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/01/05/abc/5%E3%80%81%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          5、依赖注入
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-01-05 09:11:12" itemprop="dateCreated datePublished" datetime="2022-01-05T09:11:12+08:00">2022-01-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-01-25 14:38:57" itemprop="dateModified" datetime="2024-01-25T14:38:57+08:00">2024-01-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><p>展示了如何使用 .NET Core 的依赖注入（DI）系统来创建和配置服务。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample01</span><br><span class="line">&#123;</span><br><span class="line">    public interface IAccount&#123; &#125;</span><br><span class="line">    public interface IMessage&#123; &#125;</span><br><span class="line">    public interface ITool&#123; &#125;</span><br><span class="line"></span><br><span class="line">    public class Account: IAccount&#123;&#125;</span><br><span class="line">    public class Message: IMessage&#123;&#125;</span><br><span class="line">    public class Tool: ITool&#123;&#125;</span><br><span class="line"></span><br><span class="line">    /*这是静态类中的一个静态方法，用于演示依赖注入的配置和实现。</span><br><span class="line">    使用 ServiceCollection 来创建一个服务集合。这个集合可以用来添加和配置服务及其生命周期。</span><br><span class="line">    AddTransient&lt;TService, TImplementation&gt;()：表示当每次解析 TService 类型的实例时，都会创建一个新的 TImplementation 实例。这里，每次请求 IAccount 都会得到一个新的 Account 实例。</span><br><span class="line">    AddScoped&lt;TService, TImplementation&gt;()：表示在同一个 HTTP 请求或单元测试的上下文中，每次解析 TService 类型的实例时，都会得到同一个 TImplementation 实例。这里没有使用这个方法，因为上下文没有被明确地定义。</span><br><span class="line">    AddSingleton&lt;TService, TImplementation&gt;()：表示在整个应用程序的生命周期中，每次解析 TService 类型的实例时，都会得到同一个 TImplementation 实例。在这里，每次请求 ITool 都会得到同一个 Tool 实例。</span><br><span class="line">    最后，使用 BuildServiceProvider() 方法来构建一个服务提供者，该提供者可以解析（即创建）上面配置的服务。*/</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        var provider = new ServiceCollection()</span><br><span class="line">            .AddTransient&lt;IAccount, Account&gt;()</span><br><span class="line">            .AddScoped&lt;IMessage, Message&gt;()</span><br><span class="line">            .AddSingleton&lt;ITool, Tool&gt;()</span><br><span class="line">            .BuildServiceProvider();</span><br><span class="line"></span><br><span class="line">        //这个方法是用来断言某个条件是否为真。如果条件为假，则抛出一个异常。在这里，它被用来验证通过服务提供者解析的服务是否为预期的类型。</span><br><span class="line">        Debug.Assert(provider.GetService&lt;IAccount&gt;() is Account);</span><br><span class="line">        Debug.Assert(provider.GetService&lt;IMessage&gt;() is Message);</span><br><span class="line">        Debug.Assert(provider.GetService&lt;ITool&gt;() is Tool);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这段代码演示了如何使用 .NET Core 的依赖注入系统为多个类配置服务，并确保可以通过服务提供者解析这些服务。此外，它还展示了如何使用基类和接口来组织和配置这些服务。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample02</span><br><span class="line">&#123;</span><br><span class="line">    public interface IAccount&#123; &#125;</span><br><span class="line">    public interface IMessage&#123; &#125;</span><br><span class="line">    public interface ITool&#123; &#125;</span><br><span class="line"></span><br><span class="line">    public class Base</span><br><span class="line">    &#123;</span><br><span class="line">        public Base()</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine($&quot;&#123;GetType().Name&#125; 已创建&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class Account:Base, IAccount&#123;&#125;</span><br><span class="line">    public class Message:Base, IMessage&#123;&#125;</span><br><span class="line">    public class Tool:Base, ITool&#123;&#125;</span><br><span class="line"></span><br><span class="line">    //与前一个示例类似，使用 ServiceCollection 来配置和创建服务。</span><br><span class="line">    //使用 AddTransient&lt;Base, TImplementation&gt;() 方法为所有继承自 Base 的类配置服务。这意味着每次解析继承自 Base 的类型时，都会得到一个新的实例。</span><br><span class="line">    //使用 BuildServiceProvider() 方法构建服务提供者。</span><br><span class="line">    //使用 GetServices&lt;Base&gt;().ToList() 方法获取所有继承自 Base 的服务的列表。这返回一个包含 Account、Message 和 Tool 实例的列表。</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        var services = new ServiceCollection()</span><br><span class="line">            .AddTransient&lt;Base, Account&gt;()</span><br><span class="line">            .AddTransient&lt;Base, Message&gt;()</span><br><span class="line">            .AddTransient&lt;Base, Tool&gt;()</span><br><span class="line">            .BuildServiceProvider()</span><br><span class="line">            .GetServices&lt;Base&gt;().ToList();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Debug.Assert(services.OfType&lt;Account&gt;().Any());</span><br><span class="line">        Debug.Assert(services.OfType&lt;Message&gt;().Any());</span><br><span class="line">        Debug.Assert(services.OfType&lt;Tool&gt;().Any());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这段代码演示了如何使用 .NET Core 的依赖注入系统为多个类配置服务，并确保可以通过服务提供者解析这些服务。此外，它还展示了如何创建子范围和使用服务的可重用性。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample03</span><br><span class="line">&#123;</span><br><span class="line">    public interface IAccount&#123; &#125;</span><br><span class="line">    public interface IMessage&#123; &#125;</span><br><span class="line">    public interface ITool&#123; &#125;</span><br><span class="line"></span><br><span class="line">    public class Base</span><br><span class="line">    &#123;</span><br><span class="line">        public Base()</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine($&quot;Created:&#123;GetType().Name&#125;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class Account: Base, IAccount&#123;&#125;</span><br><span class="line">    public class Message:Base, IMessage&#123;&#125;</span><br><span class="line">    public class Tool:Base, ITool&#123;&#125;</span><br><span class="line"></span><br><span class="line">    //与前两个示例类似，使用 ServiceCollection 来配置和创建服务。</span><br><span class="line">    //使用 AddTransient&lt;IAccount, Account&gt;()、AddScoped&lt;IMessage, Message&gt;() 和 AddSingleton&lt;ITool, Tool&gt;() 方法为接口和实现类配置服务。</span><br><span class="line">    //使用 BuildServiceProvider() 方法构建服务提供者。</span><br><span class="line">    //使用 CreateScope() 方法创建两个子范围（child scopes）。在依赖注入中，范围是描述服务生命周期的一种方式。有三种范围：Transient（每次请求都创建新的实例）、Scoped（每个作用域一个实例）和Singleton（整个应用程序生命周期中只有一个实例）。</span><br><span class="line">    //在每个子范围中，使用 GetService&lt;T&gt;() 方法获取服务实例，并调用两次以确保服务的可重用性。</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        var root = new ServiceCollection()</span><br><span class="line">            .AddTransient&lt;IAccount, Account&gt;()</span><br><span class="line">            .AddScoped&lt;IMessage, Message&gt;()</span><br><span class="line">            .AddSingleton&lt;ITool, Tool&gt;()</span><br><span class="line">            .BuildServiceProvider();</span><br><span class="line"></span><br><span class="line">        var child1 = root.CreateScope().ServiceProvider;</span><br><span class="line">        var child2 = root.CreateScope().ServiceProvider;</span><br><span class="line"></span><br><span class="line">        GetService&lt;IAccount&gt;(child1);</span><br><span class="line">        GetService&lt;IMessage&gt;(child1);</span><br><span class="line">        GetService&lt;ITool&gt;(child1);</span><br><span class="line">        Console.WriteLine();</span><br><span class="line">        GetService&lt;IAccount&gt;(child2);</span><br><span class="line">        GetService&lt;IMessage&gt;(child2);</span><br><span class="line">        GetService&lt;ITool&gt;(child2);</span><br><span class="line">    &#125;</span><br><span class="line">    //这是一个静态方法，它接受一个 IServiceProvider 参数，并使用该提供者两次获取相同类型的服务实例。这确保了在同一个范围中，服务是可重用的。</span><br><span class="line">    public static void GetService&lt;T&gt;(IServiceProvider provider)</span><br><span class="line">    &#123;</span><br><span class="line">        provider.GetService&lt;T&gt;();</span><br><span class="line">        provider.GetService&lt;T&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码演示了如何使用 .NET Core 的依赖注入系统为多个类配置服务，并确保可以通过服务提供者解析这些服务。此外，它还展示了如何使用作用域和使用实现了 IDisposable 接口的类来释放资源。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample04</span><br><span class="line">&#123;</span><br><span class="line">    public interface IAccount&#123; &#125;</span><br><span class="line">    public interface IMessage&#123; &#125;</span><br><span class="line">    public interface ITool&#123; &#125;</span><br><span class="line"></span><br><span class="line">    public class Base : IDisposable</span><br><span class="line">    &#123;</span><br><span class="line">        public Base()</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine($&quot;Created:&#123;GetType().Name&#125;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        public void Dispose()</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine($&quot;Disposed: &#123;GetType().Name&#125;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class Account: Base, IAccount&#123;&#125;</span><br><span class="line">    public class Message:Base, IMessage&#123;&#125;</span><br><span class="line">    public class Tool:Base, ITool&#123;&#125;</span><br><span class="line"></span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        //使用 ServiceCollection 来配置和创建服务。</span><br><span class="line">        //使用 AddTransient&lt;IAccount, Account&gt;()、AddScoped&lt;IMessage, Message&gt;() 和 AddSingleton&lt;ITool, Tool&gt;() 方法为接口和实现类配置服务。</span><br><span class="line">        //使用 BuildServiceProvider() 方法构建服务提供者。</span><br><span class="line">        //使用 CreateScope() 方法创建了一个作用域（scope）。作用域在依赖注入中描述了服务的生命周期。在这里，我们创建了一个子作用域。</span><br><span class="line">        //使用 GetService&lt;T&gt;() 方法获取服务实例。</span><br><span class="line">        //使用 using 语句确保服务提供者和作用域的正确释放。当离开 using 块的范围时，作用域和提供者将被自动释放，并且会调用 Dispose 方法（如果实现了 IDisposable 接口）。</span><br><span class="line">        using (var root = new ServiceCollection()</span><br><span class="line">            .AddTransient&lt;IAccount, Account&gt;()</span><br><span class="line">            .AddScoped&lt;IMessage, Message&gt;()</span><br><span class="line">            .AddSingleton&lt;ITool, Tool&gt;()</span><br><span class="line">            .BuildServiceProvider())</span><br><span class="line">        &#123;</span><br><span class="line">            //当离开每个 using 块的范围时，相应的资源（服务提供者或作用域）会被自动释放，并且会调用相应的 Dispose 方法（如果实现了该接口）。</span><br><span class="line">            using (var scope = root.CreateScope())</span><br><span class="line">            &#123;</span><br><span class="line">                var child = scope.ServiceProvider;</span><br><span class="line">                child.GetService&lt;IAccount&gt;();</span><br><span class="line">                child.GetService&lt;IMessage&gt;();</span><br><span class="line">                child.GetService&lt;ITool&gt;();</span><br><span class="line">                Console.WriteLine(&quot;释放子容器&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            Console.WriteLine(&quot;释放根容器&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>用于演示依赖注入和接口的使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample05</span><br><span class="line">&#123;</span><br><span class="line">    public interface IAccount&#123; &#125;</span><br><span class="line">    public interface IMessage&#123; &#125;</span><br><span class="line">    public interface ITool&#123; &#125;</span><br><span class="line"></span><br><span class="line">    public interface ITest&#123; &#125;</span><br><span class="line"></span><br><span class="line">    public class Account: IAccount&#123;&#125;</span><br><span class="line">    public class Message: IMessage&#123;&#125;</span><br><span class="line">    public class Tool: ITool&#123;&#125;</span><br><span class="line">    public class Test: ITest</span><br><span class="line">    &#123;</span><br><span class="line">        public Test(IAccount account)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine($&quot;Ctor:Test(IAccount)&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Test(IAccount account, IMessage message)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine($&quot;Ctor:Test(IAccount,IMessage)&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //ServiceCollection 是 .NET Core 中用于配置依赖注入的类。</span><br><span class="line">    //使用 AddTransient&lt;T, U&gt;() 方法将实现类 U 注册为类型 T 的瞬时依赖项。这意味着每次解析类型 T 时，都会创建一个新的实现类 U 的实例。</span><br><span class="line">    //在 Run 方法中，通过调用 BuildServiceProvider() 方法来构建服务提供者。</span><br><span class="line">    //使用服务提供者通过 GetService&lt;T&gt;() 方法解析类型为 ITest 的服务实例。由于 ITest 被注册为瞬时依赖项，每次调用 GetService&lt;ITest&gt;() 时都会创建一个新的 Test 实例。</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        var test = new ServiceCollection()</span><br><span class="line">            .AddTransient&lt;IAccount, Account&gt;()</span><br><span class="line">            .AddTransient&lt;IMessage, Message&gt;()</span><br><span class="line">            .AddTransient&lt;ITest, Test&gt;()</span><br><span class="line">            .BuildServiceProvider()</span><br><span class="line">            .GetService&lt;ITest&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这段代码展示了如何使用 Autofac 作为依赖注入容器来注册和解析服务，以及如何使用接口与实现解耦来提高代码的灵活性和可测试性。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">    public static class Sample01</span><br><span class="line">    &#123;</span><br><span class="line">        public interface IAccount&#123; &#125;</span><br><span class="line">        public interface IMessage&#123; &#125;</span><br><span class="line">        public interface ITool&#123; &#125;</span><br><span class="line"></span><br><span class="line">        public class Base</span><br><span class="line">        &#123;</span><br><span class="line">            public Base()</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine($&quot;Created:&#123;GetType().Name&#125;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public class Account:Base, IAccount&#123;&#125;</span><br><span class="line">        public class Message:Base, IMessage&#123;&#125;</span><br><span class="line">        public class Tool:Base, ITool&#123;&#125;</span><br><span class="line"></span><br><span class="line">        public static void Run()</span><br><span class="line">        &#123;</span><br><span class="line">            //使用 Autofac 作为依赖注入容器。首先，创建一个 ServiceCollection 并添加服务的生命周期为 Transient，这意味着每次请求服务时都会创建一个新的实例。</span><br><span class="line">//接着，使用 ContainerBuilder 来配置和注册服务。首先，将前面创建的 ServiceCollection 添加到 ContainerBuilder 中，然后注册 Tool 类为 ITool 接口的实现。</span><br><span class="line">//最后，使用 Build 方法构建容器。</span><br><span class="line">            var serviceCollection = new ServiceCollection()</span><br><span class="line">                .AddTransient&lt;IAccount, Account&gt;()</span><br><span class="line">                .AddTransient&lt;IMessage, Message&gt;();</span><br><span class="line"></span><br><span class="line">            var containerBuilder = new ContainerBuilder();</span><br><span class="line"></span><br><span class="line">            containerBuilder.Populate(serviceCollection);</span><br><span class="line"></span><br><span class="line">            containerBuilder.RegisterType&lt;Tool&gt;().As&lt;ITool&gt;();</span><br><span class="line"></span><br><span class="line">            var container = containerBuilder.Build();</span><br><span class="line"></span><br><span class="line">            //创建一个 AutofacServiceProvider 实例，它是一个实现了 IServiceProvider 接口的对象，可以用来解析服务。</span><br><span class="line">            IServiceProvider provider = new AutofacServiceProvider(container);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这段代码是使用Autofac作为依赖注入容器来注册和解析服务的示例。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample02</span><br><span class="line">&#123;</span><br><span class="line">    public interface IAccount&#123; &#125;</span><br><span class="line">    public interface IMessage&#123; &#125;</span><br><span class="line">    public interface ITool&#123; &#125;</span><br><span class="line"></span><br><span class="line">    public interface ITest</span><br><span class="line">    &#123;</span><br><span class="line">        public IMessage Message &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public class Base</span><br><span class="line">    &#123;</span><br><span class="line">        public Base()</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine($&quot;Created:&#123;GetType().Name&#125;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class Account:Base, IAccount&#123;&#125;</span><br><span class="line">    public class Message:Base, IMessage&#123;&#125;</span><br><span class="line"></span><br><span class="line">    public class Tool : Base, ITool &#123; &#125;</span><br><span class="line"></span><br><span class="line">    public class Test: ITest</span><br><span class="line">    &#123;</span><br><span class="line">        public IMessage Message &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        public Test(IAccount account, ITool tool)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine($&quot;Ctor:Test(IAccount, ITool)&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        //这里创建了一个新的ServiceCollection，并添加了一个服务，其中ITool是接口，Tool是该接口的实现。服务被设置为Transient生命周期，意味着每次请求这个服务时，都会创建一个新的Tool实例。</span><br><span class="line">        var serviceCollection = new ServiceCollection()</span><br><span class="line">            .AddTransient&lt;ITool, Tool&gt;();</span><br><span class="line"></span><br><span class="line">        //创建一个新的ContainerBuilder，并使用之前创建的serviceCollection填充它。这意味着ContainerBuilder现在知道如何解析ITool接口。</span><br><span class="line">        var containerBuilder = new ContainerBuilder();</span><br><span class="line">        containerBuilder.Populate(serviceCollection);</span><br><span class="line"></span><br><span class="line">        // 属性注入 注册了一个类型Test为ITest接口，并设置了属性注入。这意味着Autofac将自动解析并设置Test类的所有属性依赖。</span><br><span class="line">        containerBuilder.RegisterType&lt;Test&gt;().As&lt;ITest&gt;().PropertiesAutowired();</span><br><span class="line"></span><br><span class="line">        //这部分代码从当前执行的程序集中注册所有基类为Base的类型，并将它们暴露为第一个接口。这些服务被设置为InstancePerLifetimeScope生命周期，意味着每个请求都会获得一个新的实例，但这个实例在整个生命周期内是共享的。</span><br><span class="line">        // 程序集注入</span><br><span class="line">        containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())</span><br><span class="line">            // 筛选基类为Base</span><br><span class="line">            .Where(t =&gt; t.BaseType == typeof(Base))</span><br><span class="line">            // 暴露第一个接口</span><br><span class="line">            .As(t =&gt; t.GetInterfaces()[0])</span><br><span class="line">            // 生命周期模式为Scope</span><br><span class="line">            .InstancePerLifetimeScope();</span><br><span class="line"></span><br><span class="line">        //使用ContainerBuilder构建容器，并使用该容器创建一个AutofacServiceProvider实例。这个实例可以用来解析服务。</span><br><span class="line">        var container = containerBuilder.Build();</span><br><span class="line">        IServiceProvider provider = new AutofacServiceProvider(container);</span><br><span class="line">        </span><br><span class="line">        Debug.Assert(provider.GetService&lt;IAccount&gt;() is Account);</span><br><span class="line">        Debug.Assert(provider.GetService&lt;IMessage&gt;() is Message);</span><br><span class="line">        Debug.Assert(provider.GetService&lt;ITool&gt;() is Tool);</span><br><span class="line"></span><br><span class="line">        var test = provider.GetService&lt;ITest&gt;();</span><br><span class="line">        Debug.Assert(test.Message is Message);</span><br><span class="line">        Console.Read();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="MVC项目依赖注入"><a href="#MVC项目依赖注入" class="headerlink" title="MVC项目依赖注入"></a>MVC项目依赖注入</h1><ul>
+<li><p>创建一个Services 类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public interface IAccount&#123; &#125;</span><br><span class="line"></span><br><span class="line">public interface IMessage</span><br><span class="line">&#123;</span><br><span class="line">    public string Text &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br><span class="line">public interface ITool&#123; &#125;</span><br><span class="line"></span><br><span class="line">public class Account: IAccount&#123;&#125;</span><br><span class="line">public class Message: IMessage</span><br><span class="line">&#123;</span><br><span class="line">    public string Text &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public Message()</span><br><span class="line">    &#123;</span><br><span class="line">        Text = &quot;Hello Message&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Tool: ITool&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改Program类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">    public static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        CreateHostBuilder(args).Build().Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //.UseServiceProviderFactory(...): 这是ASP.NET Core的DI配置的一个部分。它告诉DI容器使用特定的服务提供者工厂。</span><br><span class="line">    //new AutofacServiceProviderFactory() : 这是创建一个新的AutofacServiceProviderFactory实例的代码。AutofacServiceProviderFactory是Autofac库中的一个类，它实现了IServiceProviderFactory接口，用于告诉ASP.NET Core使用Autofac作为其依赖注入容器。</span><br><span class="line">    public static IHostBuilder CreateHostBuilder(string[] args) =&gt;</span><br><span class="line">        Host.CreateDefaultBuilder(args)</span><br><span class="line">            .ConfigureWebHostDefaults(webBuilder =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                webBuilder.UseStartup&lt;Startup&gt;();</span><br><span class="line">            &#125;)</span><br><span class="line">            .UseServiceProviderFactory(new AutofacServiceProviderFactory());</span><br><span class="line">            </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改 Startup类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">public class Startup</span><br><span class="line">&#123;</span><br><span class="line">    public Startup(IConfiguration configuration)</span><br><span class="line">    &#123;</span><br><span class="line">        Configuration = configuration;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public IConfiguration Configuration &#123; get; &#125;</span><br><span class="line"></span><br><span class="line">    public void ConfigureServices(IServiceCollection services)</span><br><span class="line">    &#123;</span><br><span class="line">        services.AddControllers();</span><br><span class="line">        services.AddSingleton&lt;IAccount, Account&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //这是一个公共方法，名为ConfigureContainer，它接收一个参数builder，类型为ContainerBuilder。ContainerBuilder是Autofac依赖注入库中的一个类，用于构建和配置依赖注入容器。</span><br><span class="line">    public void ConfigureContainer(ContainerBuilder builder)</span><br><span class="line">    &#123;</span><br><span class="line">        //这行代码获取当前正在执行的程序集（通常是包含此方法的程序集）。</span><br><span class="line">        var assembly = Assembly.GetExecutingAssembly();</span><br><span class="line">        // 程序集注册 使用RegisterAssemblyTypes方法注册当前程序集中所有的类型。</span><br><span class="line">        builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())</span><br><span class="line">            // 筛选命名空间为 Services 这个方法告诉DI容器，对于上一步筛选出来的每一个类型，都应该注册其公开的接口以及该类型实现的任何接口。这意味着如果一个类实现了两个接口，并且这两个接口都在筛选范围内，那么这两个接口都会被注册到DI容器中。</span><br><span class="line">            .Where(t =&gt; t.Namespace == assembly.GetName().Name + &quot;.Services&quot;)</span><br><span class="line">            // 暴露注册类型的接口 这个方法告诉DI容器，对于上一步筛选出来的每一个类型，都应该注册其公开的接口以及该类型实现的任何接口。这意味着如果一个类实现了两个接口，并且这两个接口都在筛选范围内，那么这两个接口都会被注册到DI容器中。</span><br><span class="line">            .AsImplementedInterfaces()</span><br><span class="line">            // 生命周期模式为Scope 这个方法设置了这些注册类型的生命周期策略。InstancePerLifetimeScope意味着每次请求时都会创建一个新的实例。这通常用于短生命周期的服务，如HTTP请求服务。</span><br><span class="line">            .InstancePerLifetimeScope();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)</span><br><span class="line">    &#123;</span><br><span class="line">        if (env.IsDevelopment())</span><br><span class="line">        &#123;</span><br><span class="line">            app.UseDeveloperExceptionPage();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        app.UseHttpsRedirection();</span><br><span class="line"></span><br><span class="line">        app.UseRouting();</span><br><span class="line"></span><br><span class="line">        app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">        app.UseEndpoints(endpoints =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            endpoints.MapControllers();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>控制器实现注入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[Route(&quot;api/[controller]&quot;)]</span><br><span class="line">[ApiController]</span><br><span class="line">public class MessageController : ControllerBase</span><br><span class="line">&#123;</span><br><span class="line">    private readonly IMessage _message;</span><br><span class="line"></span><br><span class="line">    public MessageController(IMessage message)</span><br><span class="line">    &#123;</span><br><span class="line">        _message = message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public IActionResult Get()</span><br><span class="line">    &#123;</span><br><span class="line">        return Ok(_message.Text);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/Net-%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/" rel="tag"># .Net 基础理论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/04/abc/4%E3%80%81%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C/" rel="prev" title="4、异步操作">
+      <i class="fa fa-chevron-left"></i> 4、异步操作
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/06/abc/6%E3%80%81%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%8E%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9/" rel="next" title="6、文件系统与配置选项">
+      6、文件系统与配置选项 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MVC%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5"><span class="nav-number">1.</span> <span class="nav-text">MVC项目依赖注入</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/muse.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="获取混合锁 获取异步锁  AsyncSample 尝试连接到指定的IP地址和端口，然后发送一个”Hello”消息，并在完成后关闭连接。如果在尝试连接或发送数据时发生任何错误，它将捕获该异常并打印其详细信息。 123456789101112131415161718public static void Send(IPAddress address, int port)&#123;    var tc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4、异步操作">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/01/04/abc/4%E3%80%81%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="获取混合锁 获取异步锁  AsyncSample 尝试连接到指定的IP地址和端口，然后发送一个”Hello”消息，并在完成后关闭连接。如果在尝试连接或发送数据时发生任何错误，它将捕获该异常并打印其详细信息。 123456789101112131415161718public static void Send(IPAddress address, int port)&#123;    var tc">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/%E8%8E%B7%E5%8F%96%E6%B7%B7%E5%90%88%E9%94%81.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/%E9%87%8A%E6%94%BE%E6%B7%B7%E5%90%88%E9%94%81.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image205.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image206.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image207.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image208.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image209.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image210.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image211.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image212.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image213.png">
+<meta property="article:published_time" content="2022-01-04T01:11:12.000Z">
+<meta property="article:modified_time" content="2024-01-25T06:38:57.182Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content=".Net 基础理论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/%E8%8E%B7%E5%8F%96%E6%B7%B7%E5%90%88%E9%94%81.png">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/01/04/abc/4%E3%80%81%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>4、异步操作 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/01/04/abc/4%E3%80%81%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          4、异步操作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-01-04 09:11:12" itemprop="dateCreated datePublished" datetime="2022-01-04T09:11:12+08:00">2022-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-01-25 14:38:57" itemprop="dateModified" datetime="2024-01-25T14:38:57+08:00">2024-01-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li>获取混合锁<br><img src="/BlogPro/%E8%8E%B7%E5%8F%96%E6%B7%B7%E5%90%88%E9%94%81.png" alt="Alt text"></li>
+<li>获取异步锁<br><img src="/BlogPro/%E9%87%8A%E6%94%BE%E6%B7%B7%E5%90%88%E9%94%81.png" alt="Alt text"></li>
+</ul>
+<h1 id="AsyncSample"><a href="#AsyncSample" class="headerlink" title="AsyncSample"></a>AsyncSample</h1><ul>
+<li><p>尝试连接到指定的IP地址和端口，然后发送一个”Hello”消息，并在完成后关闭连接。如果在尝试连接或发送数据时发生任何错误，它将捕获该异常并打印其详细信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public static void Send(IPAddress address, int port)</span><br><span class="line">&#123;</span><br><span class="line">    var tcp = new TcpClient();</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        tcp.Connect(address, port);</span><br><span class="line">        tcp.GetStream().Write(Encoding.ASCII.GetBytes(&quot;Hello&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">    catch (Exception e)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(e);</span><br><span class="line">        throw;</span><br><span class="line">    &#125;</span><br><span class="line">    finally</span><br><span class="line">    &#123;</span><br><span class="line">        tcp.Close();    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用.NET框架中的TcpClient类来创建一个简单的TCP客户端，并实现异步连接到远程服务器和发送数据</p>
+<blockquote>
+<p>异步连接到远程服务器：通过TcpClient的BeginConnect方法，该客户端尝试异步连接到指定的IP地址和端口。一旦连接成功或失败，它都会调用提供的回调函数。<br>发送数据：在成功连接到服务器后，它会通过GetStream方法获取数据流，然后使用BeginWrite方法异步地将字符串”Hello”的ASCII编码字节写入到这个数据流中。<br>异常处理：该代码包含异常处理逻辑，用于捕获和处理可能在连接和发送数据过程中发生的任何异常。如果发生异常，它将关闭与远程服务器的连接并打印异常信息。</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public static void Send(IPAddress address, int port)</span><br><span class="line">&#123;</span><br><span class="line">    var client = new TcpClient();</span><br><span class="line">    // 开始异步连接</span><br><span class="line">    client.BeginConnect(address, port, ar =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        // 无论成功失败都会调用这个回调</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            client.EndConnect(ar);</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(e);</span><br><span class="line">            client.Close();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        var bytes = Encoding.ASCII.GetBytes(&quot;Hello&quot;);</span><br><span class="line">        var stream = client.GetStream();</span><br><span class="line">        stream.BeginWrite(bytes, 0, bytes.Length, result =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            try</span><br><span class="line">            &#123;</span><br><span class="line">                stream.EndWrite(result);</span><br><span class="line">            &#125;</span><br><span class="line">            catch (Exception e)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(e);</span><br><span class="line">            &#125;</span><br><span class="line">            finally</span><br><span class="line">            &#123;</span><br><span class="line">                client.Close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,null);</span><br><span class="line"></span><br><span class="line">    &#125;,null);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>TCP客户端的异步操作，包括异步连接到服务器和异步发送数据<blockquote>
+<p>在SendAsync方法中，首先创建了一个TcpClient实例并尝试异步连接到服务器。连接的结果被封装在一个Task对象中，该对象可以用来表示异步操作并允许等待其完成。<br>一旦连接建立，代码通过调用ContinueWith方法来创建一个新的Task，该任务在原始连接任务完成后开始执行。在这个新的任务中，它获取数据流并尝试异步写入数据。<br>注意，由于.Unwrap()方法的使用，这里实际上创建了一个嵌套的Task<Task>结构。Unwrap方法会返回一个外部任务，它会等待内部任务完成。<br>在第二个ContinueWith中，它处理发送数据的异步结果。如果任务因为异常而失败，它将做一些错误处理（这部分代码没有给出）。如果任务完成，它将关闭与远程服务器的连接。<br>在Run方法中，它创建了1万个这样的异步任务并等待它们全部完成。</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">public static Task SendAsync(IPAddress address, int port)</span><br><span class="line">&#123;</span><br><span class="line">    var client = new TcpClient();</span><br><span class="line">    // 异步连接</span><br><span class="line">    var task = client.ConnectAsync(address, port);</span><br><span class="line">    </span><br><span class="line">    var a = new TaskFactory();</span><br><span class="line"></span><br><span class="line">    // 异步发送数据</span><br><span class="line">    var task1 = task.ContinueWith(t =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        var bytes = Encoding.ASCII.GetBytes(&quot;Hello&quot;);</span><br><span class="line">        var stream = client.GetStream();</span><br><span class="line">        // 返回一个新的task</span><br><span class="line">        // 这里会产生Task&lt;Task&gt;嵌套</span><br><span class="line">        // 在外部使用Unwrap方法解包</span><br><span class="line">        return stream.WriteAsync(bytes, 0, bytes.Length);</span><br><span class="line">    &#125;).Unwrap();</span><br><span class="line"></span><br><span class="line">    // 异步处理发送结果</span><br><span class="line">    var task2 = task1.ContinueWith(t =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        if (t.IsFaulted)</span><br><span class="line">        &#123;</span><br><span class="line">            // 失败</span><br><span class="line">        &#125;</span><br><span class="line">        else if (t.IsCompleted)</span><br><span class="line">        &#123;</span><br><span class="line">            // 完成</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        client.Close();</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return task2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void Run(IPAddress address, int port)</span><br><span class="line">&#123;</span><br><span class="line">    // 创建1万个Task</span><br><span class="line">    var tasks = new Task[10000];</span><br><span class="line">    for (var i = 0; i &lt; tasks.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        // SendAsync 本身就是一个异步方法</span><br><span class="line">        tasks[i] = SendAsync(address, port);</span><br><span class="line">    &#125;</span><br><span class="line">    // 等待所有异步操作执行完成</span><br><span class="line">    Task.WaitAll(tasks);</span><br><span class="line"></span><br><span class="line">    // Promise模式  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实现异步连接的静态方法。它使用了TaskCompletionSource<T>类，这是一个可以用于从异步操作（如本例中的TcpClient.BeginConnect）创建返回Task对象的类</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public static Task ConnectAsync(TcpClient client,IPAddress address, int port)</span><br><span class="line">&#123;</span><br><span class="line">    // 创建一个承诺对象，</span><br><span class="line">    var promise = new TaskCompletionSource&lt;object&gt;();</span><br><span class="line">    </span><br><span class="line">    // 获取将来对象</span><br><span class="line">    var future = promise.Task;</span><br><span class="line"></span><br><span class="line">    client.BeginConnect(address, port, ar =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            client.EndConnect(ar);</span><br><span class="line"></span><br><span class="line">            promise.SetResult(null);</span><br><span class="line">        &#125;</span><br><span class="line">        catch (OperationCanceledException)</span><br><span class="line">        &#123;</span><br><span class="line">            promise.SetCanceled();</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            promise.SetException(ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,null);</span><br><span class="line"></span><br><span class="line">    return future;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/image205.png" alt="Alt text"></p>
+<ul>
+<li>使用C#的Task类来创建和管理异步任务。它创建了一个父任务，并在这个父任务中创建了两个子任务。这些子任务是附加到父任务的，这意味着它们只有在父任务完成后才会完成。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public static Task Run()</span><br><span class="line">&#123;</span><br><span class="line">    // 创建一个父任务</span><br><span class="line">    var parent = Task.Factory.StartNew(() =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        // 创建子任务1</span><br><span class="line">        var child1 = Task.Factory.StartNew(() =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            // 子任务1</span><br><span class="line">        &#125;,TaskCreationOptions.AttachedToParent);</span><br><span class="line">        </span><br><span class="line">        // 创建子任务2</span><br><span class="line">        var child2 = Task.Factory.StartNew(() =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            // 子任务2</span><br><span class="line">        &#125;, TaskCreationOptions.AttachedToParent);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    // 父任务会等待子任务1和2完成以后在调用回调</span><br><span class="line">    // 子任务中发生的异常也会传递到父任务的回调中 </span><br><span class="line">    return parent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="/BlogPro/image206.png" alt="Alt text"></p>
+<ul>
+<li>这是一个异步方法，用于通过TCP连接向指定的IP地址和端口发送数据。代码使用async和await关键字来实现异步操作，这有助于提高应用程序的响应性和性能。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// async关键字是给编译器看的，我就要为生产状态机</span><br><span class="line">public static async Task SendAsync(IPAddress address, int port)</span><br><span class="line">&#123;</span><br><span class="line">    var client = new TcpClient();</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        // 异步连接</span><br><span class="line">        await client.ConnectAsync(address, port);</span><br><span class="line">        // 连接成功后会从这里继续开始执行</span><br><span class="line">        // 失败时会抛出异常并在下面的catch块中被捕捉</span><br><span class="line"></span><br><span class="line">        var bytes = Encoding.ASCII.GetBytes(&quot;Hello&quot;);</span><br><span class="line">        var stream = client.GetStream();</span><br><span class="line">        // 异步发送数据</span><br><span class="line">        await stream.WriteAsync(bytes, 0, bytes.Length);</span><br><span class="line">        // 发送成功后会从这里继续开始执行</span><br><span class="line">        // 失败时同样会抛出异常，也在下面的catch块中被捕捉</span><br><span class="line">        Console.WriteLine(&quot;发送完成&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    catch (Exception e)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(e);</span><br><span class="line">    &#125;</span><br><span class="line">    finally</span><br><span class="line">    &#123;</span><br><span class="line">        client.Close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/image207.png" alt="Alt text"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">private static readonly ThreadLocal&lt;int&gt; ThreadLocal = new ThreadLocal&lt;int&gt;();</span><br><span class="line">private static readonly AsyncLocal&lt;int&gt; AsyncLocal = new AsyncLocal&lt;int&gt;();</span><br><span class="line"></span><br><span class="line">- 这段代码主要展示了.NET中ThreadLocal&lt;T&gt;和AsyncLocal&lt;T&gt;两种线程局部存储机制的区别。</span><br><span class="line">public static async Task Run()</span><br><span class="line">&#123;</span><br><span class="line">    ThreadLocal.Value = 10;</span><br><span class="line">    AsyncLocal.Value = 10;</span><br><span class="line"></span><br><span class="line">    Console.WriteLine($&quot;Tid=&#123;Thread.CurrentThread.ManagedThreadId&#125;;&quot; +</span><br><span class="line">                      $&quot;ThreadLocal=&#123;ThreadLocal.Value&#125;;&quot; +</span><br><span class="line">                      $&quot;AsyncLocal=&#123;AsyncLocal.Value&#125;&quot;);</span><br><span class="line"></span><br><span class="line">    await Task.Delay(1000);</span><br><span class="line"></span><br><span class="line">    Console.WriteLine($&quot;Tid=&#123;Thread.CurrentThread.ManagedThreadId&#125;;&quot; +</span><br><span class="line">                      $&quot;ThreadLocal=&#123;ThreadLocal.Value&#125;;&quot; +</span><br><span class="line">                      $&quot;AsyncLocal=&#123;AsyncLocal.Value&#125;&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/image208.png" alt="Alt text"></p>
+<ul>
+<li><p>展示了AsyncLocal<T>的使用。AsyncLocal<T>是C#中用于在异步操作中存储数据的局部变量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">private static readonly AsyncLocal&lt;int&gt; AsyncLocal = new AsyncLocal&lt;int&gt;();</span><br><span class="line"></span><br><span class="line">public static async Task ParentTask()</span><br><span class="line">&#123;</span><br><span class="line">    AsyncLocal.Value = 111;</span><br><span class="line">    Console.WriteLine($&quot;ParentTask Begin:AsyncLocal=&#123;AsyncLocal.Value&#125;&quot;);</span><br><span class="line">    await ChildTask();</span><br><span class="line">    Console.WriteLine($&quot;ParentTask End:AsyncLocal=&#123;AsyncLocal.Value&#125;&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static async Task ChildTask()</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine($&quot;ChildTask Begin:AsyncLocal=&#123;AsyncLocal.Value&#125;&quot;);</span><br><span class="line">    AsyncLocal.Value = 222;</span><br><span class="line">    await Task.Delay(1000);</span><br><span class="line">    Console.WriteLine($&quot;ChildTask End:AsyncLocal=&#123;AsyncLocal.Value&#125;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/image209.png" alt="Alt text"></p>
+</li>
+<li><p>这段代码演示了如何使用AsyncLocal<T>在异步方法之间传递数据。</p>
+<blockquote>
+<p>在ParentTask方法中，创建一个新的Test实例，并将它的Id设置为111，然后将这个实例赋值给AsyncLocal.Value。接着，输出AsyncLocal.Value.Id的值（应为111）。然后，等待ChildTask执行完成。最后，再次输出AsyncLocal.Value.Id的值。由于在等待过程中，这个值可能被修改，所以输出值可能会改变。<br>在ChildTask方法中，首先输出当前AsyncLocal.Value.Id的值。由于这个值是在父任务中设置的，所以输出值应为111。然后，将AsyncLocal.Value.Id的值设置为222。这意味着，这个值在等待的1秒钟内被修改为222。接着，等待1秒钟。最后，输出当前AsyncLocal.Value.Id的值，应为222。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public class Test</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static readonly AsyncLocal&lt;Test&gt; AsyncLocal = new AsyncLocal&lt;Test&gt;();</span><br><span class="line"></span><br><span class="line">public static async Task ParentTask()</span><br><span class="line">&#123;</span><br><span class="line">    AsyncLocal.Value = new Test&#123;Id = 111&#125;;</span><br><span class="line">    Console.WriteLine($&quot;ParentTask Begin:AsyncLocal=&#123;AsyncLocal.Value.Id&#125;&quot;);</span><br><span class="line">    await ChildTask();</span><br><span class="line">    Console.WriteLine($&quot;ParentTask End:AsyncLocal=&#123;AsyncLocal.Value.Id&#125;&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static async Task ChildTask()</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine($&quot;ChildTask Begin:AsyncLocal=&#123;AsyncLocal.Value.Id&#125;&quot;);</span><br><span class="line">    AsyncLocal.Value.Id= 222;</span><br><span class="line">    await Task.Delay(1000);</span><br><span class="line">    Console.WriteLine($&quot;ChildTask End:AsyncLocal=&#123;AsyncLocal.Value.Id&#125;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>展示了AsyncLocal<T>的使用，它是在异步方法中存储数据的局部变量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">private static readonly AsyncLocal&lt;int&gt; AsyncLocal = new AsyncLocal&lt;int&gt;();</span><br><span class="line"></span><br><span class="line">public static async Task ParentTask()</span><br><span class="line">&#123;</span><br><span class="line">    AsyncLocal.Value = 111;</span><br><span class="line">    Console.WriteLine($&quot;ParentTask Begin:AsyncLocal=&#123;AsyncLocal.Value&#125;&quot;);</span><br><span class="line"></span><br><span class="line">    // 禁止捕捉执行上下文</span><br><span class="line">    ExecutionContext.SuppressFlow();</span><br><span class="line"></span><br><span class="line">    // 捕捉到的执行上下文为null</span><br><span class="line">    await Task.Delay(1000);</span><br><span class="line">    // 因为没有恢复执行上下文，所以设置的异步本地变量值不能传递到这里</span><br><span class="line"></span><br><span class="line">    Console.WriteLine($&quot;ParentTask End:AsyncLocal=&#123;AsyncLocal.Value&#125;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/image210.png" alt="Alt text"></p>
+</li>
+<li><p>展示了AsyncLocal<T>的使用，以及ExecutionContext的SuppressFlow和Undo方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">private static readonly AsyncLocal&lt;int&gt; AsyncLocal = new AsyncLocal&lt;int&gt;();</span><br><span class="line"></span><br><span class="line">public static async Task ParentTask()</span><br><span class="line">&#123;</span><br><span class="line">    AsyncLocal.Value = 111;</span><br><span class="line">    Console.WriteLine($&quot;ParentTask Begin:AsyncLocal=&#123;AsyncLocal.Value&#125;&quot;);</span><br><span class="line"></span><br><span class="line">    // 禁止捕捉执行上下文</span><br><span class="line">    var control = ExecutionContext.SuppressFlow();</span><br><span class="line"></span><br><span class="line">    Task.Delay(100).ContinueWith(task =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine($&quot;SuppressFlow:AsyncLocal=&#123;AsyncLocal.Value&#125;&quot;);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    // 恢复捕捉上下文</span><br><span class="line">    control.Undo();</span><br><span class="line"></span><br><span class="line">    // 捕捉到的执行上下文为null</span><br><span class="line">    await Task.Delay(100);</span><br><span class="line">    Console.WriteLine($&quot;Undo:AsyncLocal=&#123;AsyncLocal.Value&#125;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/image211.png" alt="Alt text"></p>
+</li>
+</ul>
+<h1 id="ThreadSample"><a href="#ThreadSample" class="headerlink" title="ThreadSample"></a>ThreadSample</h1><ul>
+<li><p>使用Mutex对象来实现线程同步，确保在多线程环境下对共享资源的正确访问。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">private static readonly Mutex Lock = new Mutex();</span><br><span class="line">private static int _counterA = 0;</span><br><span class="line">private static int _counterB = 0;</span><br><span class="line">public static void IncrementCounterA()</span><br><span class="line">&#123;</span><br><span class="line">    // 获取锁</span><br><span class="line">    Lock.WaitOne();</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        _counterA++;</span><br><span class="line">        _counterB++;</span><br><span class="line">    &#125;</span><br><span class="line">    finally</span><br><span class="line">    &#123;</span><br><span class="line">        // 释放锁</span><br><span class="line">        Lock.ReleaseMutex();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void IncrementCounterB()</span><br><span class="line">&#123;</span><br><span class="line">    // 获取锁</span><br><span class="line">    Lock.WaitOne();</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        _counterA++;</span><br><span class="line">        _counterB++;</span><br><span class="line">    &#125;</span><br><span class="line">    finally</span><br><span class="line">    &#123;</span><br><span class="line">        // 释放锁</span><br><span class="line">        Lock.ReleaseMutex();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void IncrementCounter()</span><br><span class="line">&#123;</span><br><span class="line">    // 获取锁</span><br><span class="line">    Lock.WaitOne();</span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        IncrementCounterA();</span><br><span class="line">        IncrementCounterB();</span><br><span class="line">    &#125;</span><br><span class="line">    finally</span><br><span class="line">    &#123;</span><br><span class="line">        // 释放锁</span><br><span class="line">        Lock.ReleaseMutex();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/image212.png" alt="Alt text"></p>
+</li>
+<li><p>定义了一个名为MonitorSample的静态类，其中包含两个静态方法IncrementCounterA和IncrementCounterB，以及两个静态整数变量_counterA和_counterB。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public static class MonitorSample</span><br><span class="line">&#123;</span><br><span class="line">    private static readonly object Lock = new object();</span><br><span class="line">    private static int _counterA = 0;</span><br><span class="line">    private static int _counterB = 0;</span><br><span class="line">    public static void IncrementCounterA()</span><br><span class="line">    &#123;</span><br><span class="line">        var lockObj = Lock;</span><br><span class="line">        var lockTaken = false;</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            // 获取锁</span><br><span class="line">            Monitor.Enter(lockObj, ref lockTaken);</span><br><span class="line"></span><br><span class="line">            // 锁保护</span><br><span class="line">            &#123;</span><br><span class="line">                _counterA++;</span><br><span class="line">                _counterB++;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            // 释放锁</span><br><span class="line">            if(lockTaken) Monitor.Exit(lockObj);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void IncrementCounterB()</span><br><span class="line">    &#123;</span><br><span class="line">        lock (Lock)</span><br><span class="line">        &#123;</span><br><span class="line">            _counterA++;</span><br><span class="line">            _counterB++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/image213.png" alt="Alt text"></p>
+</li>
+<li><p>这段代码实现了一个简单的线程池功能，使用Semaphore对象来控制同时进行的任务数量。</p>
+</li>
+</ul>
+<blockquote>
+<p>这个代码片段实现了一个简单的线程池功能。通过使用Semaphore，它可以控制同时执行的任务数量。当有新任务到达时，如果信号量为0（即没有空闲线程），则新线程会等待。当一个线程完成任务并释放信号量许可时，等待的线程可以开始执行任务。这个代码通过每秒释放3个许可来限制同时执行的任务数量为3。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public static class SemaphoreSample</span><br><span class="line">&#123;</span><br><span class="line">    // 初始信号量为0，最大数量为3</span><br><span class="line">    private static readonly Semaphore Sema = new Semaphore(0, 3);</span><br><span class="line"></span><br><span class="line">    public static void DoWork()</span><br><span class="line">    &#123;</span><br><span class="line">        while (true)</span><br><span class="line">        &#123;</span><br><span class="line">            // 减少1个信号量</span><br><span class="line">            // 如果信号量为0，则等待</span><br><span class="line">            Sema.WaitOne();</span><br><span class="line">            Console.WriteLine(&quot;Do Work&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        for (var i = 0; i &lt; 5; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            var thread = new Thread(DoWork);</span><br><span class="line">            thread.Start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        while (true)</span><br><span class="line">        &#123;</span><br><span class="line">            // 增加3个信号量</span><br><span class="line">            Sema.Release(3);</span><br><span class="line">            Thread.Sleep(1000);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这段代码实现了一个简单的生产者-消费者模型，其中使用队列（Queue）来存储数据，使用锁（Lock）来同步对队列的访问，以及使用信号量（SemaphoreSlim）来控制同时进行的生产者和消费者数量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">public static class ProducerSample</span><br><span class="line">&#123;</span><br><span class="line">    //初始化了一个整数类型的队列Queue，用于存储生产者生产的数据。</span><br><span class="line">    private static readonly Queue&lt;int&gt; Queue = new Queue&lt;int&gt;();</span><br><span class="line">    //这里初始化了一个对象Lock作为锁，用于同步对队列的访问，确保在多线程环境下对队列的正确操作。</span><br><span class="line">    private static readonly object Lock = new object();</span><br><span class="line">    //这里初始化了一个信号量Sema，初始值为0，最大值为整数最大值。这个信号量用于控制同时进行的生产者和消费者数量。</span><br><span class="line">    private static readonly SemaphoreSlim Sema = new SemaphoreSlim(0, int.MaxValue);</span><br><span class="line"></span><br><span class="line">//Consumer方法是一个无限循环，它会等待信号量许可，然后尝试从队列中获取并删除一个元素。在获取元素的过程中使用锁来同步对队列的访问。获取元素后输出相关信息。</span><br><span class="line">    public static void Consumer()</span><br><span class="line">    &#123;</span><br><span class="line">        while (true)</span><br><span class="line">        &#123;</span><br><span class="line">            Sema.Wait();</span><br><span class="line">            lock (Lock)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine($&quot;Data=&#123;Queue.Dequeue()&#125;,ThreadId=&#123;Thread.CurrentThread.ManagedThreadId&#125;,Count=&#123;Queue.Count&#125;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // Producer方法也是一个无限循环，它会将数据添加到队列尾部，并释放一个信号量许可。释放许可后线程会暂停100毫秒，然后再次执行循环。在添加数据的过程中使用锁来同步对队列的访问。</span><br><span class="line">    public static void Producer()</span><br><span class="line">    &#123;</span><br><span class="line">        var job = 0;</span><br><span class="line">        while (true)</span><br><span class="line">        &#123;</span><br><span class="line">            lock (Lock)</span><br><span class="line">            &#123;</span><br><span class="line">                Queue.Enqueue(job++);</span><br><span class="line">            &#125;</span><br><span class="line">            Sema.Release(1);</span><br><span class="line">            Thread.Sleep(100);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //Run方法首先创建并启动了5个消费者线程，每个线程都执行Consumer方法。然后它启动一个生产者线程执行Producer方法。这样就有5个消费者线程和1个生产者线程在运行。</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">        for (var i = 0; i &lt; 5; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            var consumer = new Thread(Consumer);</span><br><span class="line">            consumer.Start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Producer();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>实现了一个使用 Monitor 的生产者-消费者模型。Monitor 是一个同步原语，它提供了等待&#x2F;通知机制，用于线程之间的协调。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">public static class MonitorProducerSample</span><br><span class="line">&#123;</span><br><span class="line">    //Queue和Lock初始化:</span><br><span class="line"></span><br><span class="line">    //Queue 是一个整数类型的队列，用于存储生产者生产的数据。</span><br><span class="line">    //Lock 是一个对象，用作 Monitor 的基础，用于同步对队列的访问。</span><br><span class="line">    private static readonly Queue&lt;int&gt; Queue = new Queue&lt;int&gt;();</span><br><span class="line">    private static readonly object Lock = new object();</span><br><span class="line"></span><br><span class="line">    //这是一个无限循环，用于消费数据。</span><br><span class="line">    //线程首先尝试获取 Lock 的锁。如果队列为空（Queue.Count == 0），则当前线程会被添加到等待队列中，并释放锁。这允许其他线程（如生产者）执行。</span><br><span class="line">    //当线程被唤醒时（通过 Monitor.Pulse），它会重新获取锁，并从队列中获取并删除一个元素。然后它会输出相关信息。</span><br><span class="line">    public static void Consumer()</span><br><span class="line">    &#123;</span><br><span class="line">        while (true)</span><br><span class="line">        &#123;</span><br><span class="line">            lock (Lock)</span><br><span class="line">            &#123;</span><br><span class="line">                while (Queue.Count == 0)</span><br><span class="line">                &#123;</span><br><span class="line">                    // 添加当前线程到等待队列，并且释放锁</span><br><span class="line">                    // 线程一致等待被唤醒</span><br><span class="line">                    Monitor.Wait(Lock);</span><br><span class="line"></span><br><span class="line">                    // 唤醒以后，线程会重新获取锁，继续执行代码</span><br><span class="line">                    </span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                Console.WriteLine($&quot;Data=&#123;Queue.Dequeue()&#125;,ThreadId=&#123;Thread.CurrentThread.ManagedThreadId&#125;,Count=&#123;Queue.Count&#125;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 这也是一个无限循环，用于生产数据。</span><br><span class="line">    //线程在获取 Lock 的锁后，将数据添加到队列中，并通过 Monitor.Pulse 唤醒等待队列中的一个线程（如果存在）。然后线程会暂停100毫秒，然后再次执行循环。</span><br><span class="line">    public static void Producer()</span><br><span class="line">    &#123;</span><br><span class="line">        var job = 0;</span><br><span class="line">        while (true)</span><br><span class="line">        &#123;</span><br><span class="line">            lock (Lock)</span><br><span class="line">            &#123;</span><br><span class="line">                Queue.Enqueue(job++);</span><br><span class="line">                // 唤醒 锁的线程等待列中的1个消费线程</span><br><span class="line">                Monitor.Pulse(Lock);</span><br><span class="line">            &#125;</span><br><span class="line">            Thread.Sleep(100);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //创建并启动5个消费者线程。</span><br><span class="line">    //启动一个生产者线程。</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        for (var i = 0; i &lt; 5; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            var consumer = new Thread(Consumer);</span><br><span class="line">            consumer.Start();</span><br><span class="line">        &#125;</span><br><span class="line">        Producer();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>现了一个使用 ReaderWriterLockSlim 的多线程日志写入程序。ReaderWriterLockSlim 是一个轻量级的读写锁，它允许多个线程同时读取共享资源，但在写入时只允许一个线程进行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">public static class ReaderWriterLockSample</span><br><span class="line">&#123;</span><br><span class="line">   /* ReaderWriterLockSlim Lock：定义了一个读写锁对象。</span><br><span class="line">    string FilePath：定义了日志文件的路径。</span><br><span class="line">    int LogCount：定义了要写入的日志数量。</span><br><span class="line">    _writedCount 和 _failedCount：分别用于记录成功写入和失败写入的日志数量。*/</span><br><span class="line"></span><br><span class="line">    //读写锁，当资源处于写入模式时，其他线程写入需要等待本次写入结束之后才能继续写入</span><br><span class="line">    private static readonly ReaderWriterLockSlim Lock = new ReaderWriterLockSlim();</span><br><span class="line"></span><br><span class="line">    private const string FilePath = &quot;log.txt&quot;;</span><br><span class="line">    private const int LogCount = 100;</span><br><span class="line">    private static int _writedCount;</span><br><span class="line">    private static int _failedCount;</span><br><span class="line"></span><br><span class="line">    //此方法负责写日志。它首先获取写入锁，然后尝试写入日志。如果写入成功，它会增加 _writedCount 的计数；如果写入失败（例如由于异常），它会增加 _failedCount 的计数。在完成写入后，无论成功还是失败，都会释放写入锁。</span><br><span class="line">    private static void WriteLog()</span><br><span class="line">    &#123;</span><br><span class="line">        // 获取写入锁</span><br><span class="line">        Lock.EnterWriteLock();</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            var now = DateTime.Now;</span><br><span class="line">            var logContent =</span><br><span class="line">                $&quot;ThreadId=&#123;Thread.CurrentThread.ManagedThreadId&#125;,&#123;now.ToLongTimeString()&#125;\r\n&quot;;</span><br><span class="line"></span><br><span class="line">            File.AppendAllText(FilePath, logContent);</span><br><span class="line">            _writedCount++;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception)</span><br><span class="line">        &#123;</span><br><span class="line">            _failedCount++;</span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            // 释放写入锁</span><br><span class="line">            Lock.ExitWriteLock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //这是程序的入口点。它使用 Parallel.For 启动多个线程（由 LogCount 决定）来并行执行 WriteLog 方法。这意味着多个线程将同时尝试写入日志文件。</span><br><span class="line">    //程序完成后，它会输出成功写入和失败写入的日志数量。</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        // 并行执行，等待执行结果</span><br><span class="line">        Parallel.For(0, LogCount, e =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            WriteLog();</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Console.WriteLine($&quot;Write Count:&#123;_writedCount&#125;;Failed Count:&#123;_failedCount&#125;&quot;);</span><br><span class="line">        Console.Read();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/Net-%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/" rel="tag"># .Net 基础理论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/03/abc/3%E3%80%81%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%8E%9F%E7%90%86/" rel="prev" title="3、多线程原理">
+      <i class="fa fa-chevron-left"></i> 3、多线程原理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/05/abc/5%E3%80%81%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="next" title="5、依赖注入">
+      5、依赖注入 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AsyncSample"><span class="nav-number">1.</span> <span class="nav-text">AsyncSample</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ThreadSample"><span class="nav-number">2.</span> <span class="nav-text">ThreadSample</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/muse.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
