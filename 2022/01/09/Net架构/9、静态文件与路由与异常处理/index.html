@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="静态文件 创建content 文件夹，里面存放html，js，css 文件  这段代码创建了一个ASP.NET Core应用程序，配置了静态文件中间件，并启动了应用程序来监听HTTP请求。 123456789101112public static class Sample01&#123;    public static void Run()    &#123;        Host.Creat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="9、静态文件与路由与异常处理">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/01/09/Net%E6%9E%B6%E6%9E%84/9%E3%80%81%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E4%B8%8E%E8%B7%AF%E7%94%B1%E4%B8%8E%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="静态文件 创建content 文件夹，里面存放html，js，css 文件  这段代码创建了一个ASP.NET Core应用程序，配置了静态文件中间件，并启动了应用程序来监听HTTP请求。 123456789101112public static class Sample01&#123;    public static void Run()    &#123;        Host.Creat">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-09T01:11:12.000Z">
+<meta property="article:modified_time" content="2024-01-25T07:50:20.512Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content=".Net 基础理论">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/01/09/Net%E6%9E%B6%E6%9E%84/9%E3%80%81%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E4%B8%8E%E8%B7%AF%E7%94%B1%E4%B8%8E%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>9、静态文件与路由与异常处理 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/01/09/Net%E6%9E%B6%E6%9E%84/9%E3%80%81%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E4%B8%8E%E8%B7%AF%E7%94%B1%E4%B8%8E%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          9、静态文件与路由与异常处理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-09 09:11:12" itemprop="dateCreated datePublished" datetime="2022-01-09T09:11:12+08:00">2022-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-25 15:50:20" itemprop="dateModified" datetime="2024-01-25T15:50:20+08:00">2024-01-25</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/01/09/Net%E6%9E%B6%E6%9E%84/9%E3%80%81%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E4%B8%8E%E8%B7%AF%E7%94%B1%E4%B8%8E%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/01/09/Net%E6%9E%B6%E6%9E%84/9%E3%80%81%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E4%B8%8E%E8%B7%AF%E7%94%B1%E4%B8%8E%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="静态文件"><a href="#静态文件" class="headerlink" title="静态文件"></a>静态文件</h1><ul>
+<li><p>创建content 文件夹，里面存放html，js，css 文件</p>
+</li>
+<li><p>这段代码创建了一个ASP.NET Core应用程序，配置了静态文件中间件，并启动了应用程序来监听HTTP请求。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample01</span><br><span class="line">&#123;</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder.Configure(</span><br><span class="line">                //这个中间件用于服务静态文件（如HTML、CSS、JavaScript文件等）。</span><br><span class="line">                app =&gt; app.UseStaticFiles()))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这段代码是一个ASP.NET Core应用程序的入口点，主要实现了对静态文件的配置和提供。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample02</span><br><span class="line">&#123;</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        var path = Path.Combine(Directory.GetCurrentDirectory(), &quot;content&quot;);</span><br><span class="line"></span><br><span class="line">        // 静态文件中间件配置</span><br><span class="line">        var options = new StaticFileOptions</span><br><span class="line">        &#123;</span><br><span class="line">            FileProvider = new PhysicalFileProvider(path),</span><br><span class="line">            RequestPath = &quot;/content&quot;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder.Configure(</span><br><span class="line">                app=&gt;app</span><br><span class="line">                    // 静态文件中间件</span><br><span class="line">                    .UseStaticFiles()</span><br><span class="line">                    .UseStaticFiles(options)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>与上一个相比，这个静态文件中间件和目录浏览中间件的配置是分开的。这使得代码更清晰，并允许有更多的自定义配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample03</span><br><span class="line">&#123;</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        var path = Path.Combine(Directory.GetCurrentDirectory(), &quot;content&quot;);</span><br><span class="line">        var fileProvider = new PhysicalFileProvider(path);</span><br><span class="line"></span><br><span class="line">        var staticFileOptions = new StaticFileOptions</span><br><span class="line">        &#123;</span><br><span class="line">            FileProvider = fileProvider,</span><br><span class="line">            RequestPath = &quot;/content&quot;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        // 目录浏览中间件配置 </span><br><span class="line">        //引入了 DirectoryBrowserOptions 类，用于配置目录浏览中间件。</span><br><span class="line">        var directoryBrowserOptions = new DirectoryBrowserOptions</span><br><span class="line">        &#123;</span><br><span class="line">            FileProvider = fileProvider,</span><br><span class="line">            RequestPath = &quot;/content&quot;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder.Configure(</span><br><span class="line">                app=&gt;app</span><br><span class="line">                    // 目录浏览中间件</span><br><span class="line">                    .UseStaticFiles()</span><br><span class="line">                    .UseStaticFiles(staticFileOptions)</span><br><span class="line">                    .UseDirectoryBrowser()</span><br><span class="line">                    .UseDirectoryBrowser(directoryBrowserOptions)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新代码添加了对默认页面中间件的配置，并提供了更多的自定义选项和模块化的结构，使得代码更加清晰和易于维护。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class Sample04</span><br><span class="line">&#123;</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        var path = Path.Combine(Directory.GetCurrentDirectory(), &quot;content&quot;);</span><br><span class="line">        var fileProvider = new PhysicalFileProvider(path);</span><br><span class="line"></span><br><span class="line">        var staticFileOptions = new StaticFileOptions</span><br><span class="line">        &#123;</span><br><span class="line">            FileProvider = fileProvider,</span><br><span class="line">            RequestPath = &quot;/content&quot;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        var directoryBrowserOptions = new DirectoryBrowserOptions</span><br><span class="line">        &#123;</span><br><span class="line">            FileProvider = fileProvider,</span><br><span class="line">            RequestPath = &quot;/content&quot;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        // 默认页面中间件配置</span><br><span class="line">        var defaultFilesOptions = new DefaultFilesOptions</span><br><span class="line">        &#123;</span><br><span class="line">            FileProvider = fileProvider,</span><br><span class="line">            RequestPath = &quot;/content&quot;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder.Configure(</span><br><span class="line">                app=&gt;app</span><br><span class="line">                    // 默认页面中间件</span><br><span class="line">                    .UseDefaultFiles()</span><br><span class="line">                    .UseDefaultFiles(defaultFilesOptions)</span><br><span class="line">                    .UseStaticFiles()</span><br><span class="line">                    .UseStaticFiles(staticFileOptions)</span><br><span class="line">                    .UseDirectoryBrowser()</span><br><span class="line">                    .UseDirectoryBrowser(directoryBrowserOptions)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加了新的配置选项并简化了中间件的配置方式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample05</span><br><span class="line">&#123;</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        //ServeUnknownFileTypes 意味着应用程序将能够为未知文件类型提供服务。</span><br><span class="line">        //对于无法识别的文件类型，将默认使用&quot;image/jpg&quot;作为内容类型</span><br><span class="line">        var options = new StaticFileOptions</span><br><span class="line">        &#123;</span><br><span class="line">            ServeUnknownFileTypes = true,</span><br><span class="line">            DefaultContentType = &quot;image/jpg&quot;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder.Configure(</span><br><span class="line">                app=&gt;app</span><br><span class="line">                    .UseStaticFiles(options)</span><br><span class="line">                    .UseDirectoryBrowser()))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这段代码通过自定义内容类型提供程序提供了更灵活的文件内容类型处理机制。它允许你根据文件扩展名自定义内容类型，而不是依赖于默认设置或固定设置。这种灵活性使得应用程序能够更好地处理不同类型的静态文件请求。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public static void Run()</span><br><span class="line">&#123;</span><br><span class="line">    //这段代码中创建了一个FileExtensionContentTypeProvider的实例，并为其添加了一个映射，将文件扩展名“.abc”与“image/jpg”内容类型相关联。这意味着当请求一个带有“.abc”扩展名的文件时，应用程序将返回“image/jpg”内容类型。</span><br><span class="line">    var contentTypeProvider = new FileExtensionContentTypeProvider();</span><br><span class="line">    contentTypeProvider.Mappings.Add(&quot;.abc&quot;, &quot;images/jpg&quot;);</span><br><span class="line"></span><br><span class="line">    var options = new StaticFileOptions</span><br><span class="line">    &#123;</span><br><span class="line">        ContentTypeProvider = contentTypeProvider</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    Host.CreateDefaultBuilder()</span><br><span class="line">        .ConfigureWebHostDefaults(builder =&gt; builder.Configure(</span><br><span class="line">            app=&gt;app</span><br><span class="line">                .UseStaticFiles(options)</span><br><span class="line">                .UseDirectoryBrowser()))</span><br><span class="line">        .Build()</span><br><span class="line">        .Run();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h1><ul>
+<li>创建 WeatherReport类<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public class WeatherReport</span><br><span class="line">&#123;</span><br><span class="line">    private static readonly string[] Conditions = &#123;&quot;晴&quot;, &quot;多云&quot;, &quot;小雨&quot;&#125;;</span><br><span class="line">    private static readonly Random Random = new Random();</span><br><span class="line">    public string City &#123; get; &#125;</span><br><span class="line">    public IDictionary&lt;DateTime, WeatherInfo&gt; WeatherInfos &#123; get; &#125;</span><br><span class="line"></span><br><span class="line">    public class WeatherInfo</span><br><span class="line">    &#123;</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 天气状况</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        public string Condition &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 最高温度</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        public double HighTemperature &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 最低温度</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        public double LowTemperature &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public WeatherReport(string city, int days)</span><br><span class="line">    &#123;</span><br><span class="line">        City = city;</span><br><span class="line">        WeatherInfos = new Dictionary&lt;DateTime, WeatherInfo&gt;();</span><br><span class="line">        for (var i = 0; i &lt; days; i++)</span><br><span class="line">            WeatherInfos[DateTime.Today.AddDays(i + 1)] = new WeatherInfo</span><br><span class="line">            &#123;</span><br><span class="line">                Condition = Conditions[Random.Next(0, 2)],</span><br><span class="line">                HighTemperature = Random.Next(20, 30),</span><br><span class="line">                LowTemperature = Random.Next(10, 20)</span><br><span class="line">            &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>简单的路由实现<ul>
+<li>Cities字典: 存储城市区号和对应的城市名称  </li>
+<li>Run方法: 配置和启动应用程序的方法  <ul>
+<li>ConfigureWebHostDefaults: 配置Web主机的默认值，包括路由服务、中间件等  </li>
+<li>UseRouting: 使用路由中间件处理路由逻辑  </li>
+<li>MapGet: 将GET请求映射到特定的处理程序（WeatherForecast）上，基于定义的路由模板</li>
+</ul>
+</li>
+<li>WeatherForecast方法: 处理天气预报请求的方法  <ul>
+<li>从路由数据中获取城市和天数信息  </li>
+<li>根据这些信息创建WeatherReport对象  </li>
+<li>调用RendWeatherAsync方法呈现天气报告为HTML格式并发送给客户端</li>
+</ul>
+</li>
+<li>RendWeatherAsync方法: 将天气报告呈现为HTML格式并发送给客户端的方法  <ul>
+<li>设置响应的内容类型为HTML格式  </li>
+<li>构建HTML响应，包括城市名称和天气信息（遍历报告中的天气信息）</li>
+</ul>
+</li>
+<li>Host.CreateDefaultBuilder方法: 创建默认宿主实例并配置其默认值的方法（包括路由服务等）<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample01</span><br><span class="line">&#123;</span><br><span class="line">    private static readonly Dictionary&lt;string, string&gt; Cities = new Dictionary&lt;string, string&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        [&quot;010&quot;] = &quot;北京&quot;,</span><br><span class="line">        [&quot;027&quot;] = &quot;武汉&quot;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        const string template = @&quot;weather/&#123;city:regex(^&#123;0\d&#123;&#123;2,3&#125;&#125;$)&#125;/&#123;days:int:range(1,4)&#125;&quot;; </span><br><span class="line"></span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(csv =&gt; csv.AddRouting())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UseRouting()</span><br><span class="line">                    .UseEndpoints(endpoints =&gt; endpoints.MapGet(template, WeatherForecast))))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static async Task WeatherForecast(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        var city = (string) context.GetRouteData().Values[&quot;city&quot;];</span><br><span class="line">        city = Cities[city];</span><br><span class="line">        var days = int.Parse(context.GetRouteData().Values[&quot;days&quot;].ToString() ?? string.Empty);</span><br><span class="line">        var report = new WeatherReport(city, days);</span><br><span class="line">        await RendWeatherAsync(context, report);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static async Task RendWeatherAsync(HttpContext context, WeatherReport report)</span><br><span class="line">    &#123;</span><br><span class="line">        context.Response.ContentType = &quot;text/html;charset=utf-8&quot;;</span><br><span class="line">        await context.Response.WriteAsync(&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;天气&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&quot;);</span><br><span class="line">        await context.Response.WriteAsync($&quot;&lt;h3&gt;&#123;report.City&#125;&lt;/h3&gt;&quot;);</span><br><span class="line">        foreach (var (key, value) in report.WeatherInfos)</span><br><span class="line">        &#123;</span><br><span class="line">            await context.Response.WriteAsync($&quot;&#123;key:yyyy-MM-dd&#125;:&quot;);</span><br><span class="line">            await context.Response.WriteAsync(</span><br><span class="line">                $&quot;&#123;value.Condition&#125;(&#123;value.LowTemperature&#125;℃ ~ &#123;value.HighTemperature&#125;℃)&lt;br/&gt;&lt;br/&gt; &quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        await context.Response.WriteAsync(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h1 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h1><ul>
+<li><p>这段代码创建了一个ASP.NET Core应用程序，每当有请求到达时，它都会抛出一个异常。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample01</span><br><span class="line">&#123;</span><br><span class="line">    //Run方法指定了当接收到请求时应该执行的代码。在这里，它直接返回一个Task，该Task将抛出一个InvalidOperationException异常。这意味着每当有请求到达时，这个异常都会被抛出。</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .Run(context =&gt; Task.FromException(new InvalidOperationException(&quot;这是一个异常&quot;)))</span><br><span class="line">                ))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这段代码创建了一个ASP.NET Core应用程序，当用户访问应用程序的根URL时，它会抛出一个异常并显示一个详细的错误页面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample02</span><br><span class="line">&#123;</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">            //在服务集合中添加路由服务。路由服务用于定义应用程序的URL路由规则。</span><br><span class="line">                .ConfigureServices(services =&gt; services.AddRouting())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    //使用开发者异常页面中间件，这会在发生异常时显示详细的错误页面</span><br><span class="line">                    .UseDeveloperExceptionPage()</span><br><span class="line">                    //使用路由中间件，它负责根据定义的路由规则将请求分发到相应的处理程序</span><br><span class="line">                    .UseRouting()</span><br><span class="line">                    //配置端点，将GET请求映射到HandleAsync方法。</span><br><span class="line">                    .UseEndpoints(routeBuilder =&gt; routeBuilder.MapGet(&quot;/&quot;, HandleAsync))</span><br><span class="line">                ))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static Task HandleAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        return Task.FromException(new InvalidOperationException(&quot;This is Exception&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这段代码创建了一个ASP.NET Core应用程序，当用户访问应用程序时，它会抛出一个InvalidOperationException异常，并使用自定义的异常处理程序将消息”Hello Exception!”写入响应中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample03</span><br><span class="line">&#123;</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        //: 创建一个ExceptionHandlerOptions对象，用于配置异常处理的行为。</span><br><span class="line">        var options = new ExceptionHandlerOptions</span><br><span class="line">        &#123;</span><br><span class="line">            ExceptionHandler = context =&gt; context.Response.WriteAsync(&quot;Hello Exception!&quot;)</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    //使用之前定义的异常处理选项。这意味着当应用程序抛出异常时，会调用我们定义的异常处理程序。</span><br><span class="line">                    .UseExceptionHandler(options)</span><br><span class="line">                    //当应用程序启动并开始接收请求时，这个方法会被调用。这里，它直接返回一个表示异步操作的任务</span><br><span class="line">                    .Run(context =&gt; Task.FromException(new InvalidOperationException(&quot;Throw Exception&quot;)))</span><br><span class="line">                ))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上一个代码的简写</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample04</span><br><span class="line">&#123;</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UseExceptionHandler(applicationBuilder =&gt; applicationBuilder</span><br><span class="line">                        .Run(context =&gt; context.Response.WriteAsync(&quot;Hello Exception!&quot;))</span><br><span class="line">                    )</span><br><span class="line">                    .Run(context =&gt; Task.FromException(new InvalidOperationException(&quot;这是一个异常&quot;)))</span><br><span class="line">                ))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当用户访问应用程序的根URL时，它会抛出一个异常并显示一个自定义的错误页面（重定向到&#x2F;error路径）。当用户访问这个错误页面时，它会返回”Hello Exception”字符串作为响应内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample05</span><br><span class="line">&#123;</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(services =&gt; services.AddRouting())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    // 使用异常处理中间件，它将捕获的异常重定向到/error路径</span><br><span class="line">                    .UseExceptionHandler(&quot;/error&quot;)</span><br><span class="line">                    .UseRouting()</span><br><span class="line">                    //配置端点，将GET请求映射到/error路径，并指定使用HandleAsync方法处理该请求</span><br><span class="line">                    .UseEndpoints(routeBuilder =&gt; routeBuilder.MapGet(&quot;error&quot;, HandleAsync))</span><br><span class="line">                    //它返回一个表示异步操作的任务，该任务立即抛出一个InvalidOperationException异常</span><br><span class="line">                    .Run(context =&gt; Task.FromException(new InvalidOperationException(&quot;Throw Exception&quot;)))</span><br><span class="line">                ))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static Task HandleAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        return context.Response.WriteAsync(&quot;Hello Exception&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当用户访问应用程序的根URL时，它会返回一个HTTP状态码为500的响应，并使用中间件映射到一个简单的错误页面，该页面显示”Error”和状态码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample06</span><br><span class="line">&#123;</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    //使用状态码页面中间件，它负责将HTTP响应的状态码映射到一个特定的错误页面。</span><br><span class="line">                    .UseStatusCodePages(&quot;text/plain&quot;, &quot;Error (&#123;0&#125;)&quot;)</span><br><span class="line">                    .Run(context =&gt; Task.Run(() =&gt; context.Response.StatusCode = 500))</span><br><span class="line">                ))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>与上一个代码相似,对错误码进行判断</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> public static class Sample08</span><br><span class="line">&#123;</span><br><span class="line">    private static readonly Random Random = new Random();</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(collection =&gt; collection.AddRouting())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UseStatusCodePagesWithRedirects(&quot;/error/&#123;0&#125;&quot;)</span><br><span class="line">                    .UseRouting()</span><br><span class="line">                    .UseEndpoints(routeBuilder =&gt; routeBuilder.MapGet(&quot;error/&#123;status_code&#125;&quot;, HandlerError))</span><br><span class="line">                    .Run(context =&gt; Task.Run(() =&gt; context.Response.StatusCode = Random.Next(400,599)))</span><br><span class="line">                ))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static async Task HandlerError(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        var code = context.GetRouteData().Values[&quot;status_code&quot;];</span><br><span class="line">        await context.Response.WriteAsync($&quot;Error (&#123;code&#125;)&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这种处理方式可以为用户提供一个更友好的错误页面，该页面可以根据返回的状态码显示相应的错误信息。例如，如果返回的状态码是404（表示未找到资源），则用户将被重定向到一个带有状态码的错误页面，如&#x2F;error&#x2F;404，从而明确告知用户出现了什么错误。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample09</span><br><span class="line">&#123;</span><br><span class="line">    private static readonly Random Random = new Random();</span><br><span class="line">    public static void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(collection =&gt; collection.AddRouting())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    //这是ASP.NET Core中用于处理HTTP状态码的中间件方法。它允许你自定义如何响应特定状态码的请求。</span><br><span class="line">                    .UseStatusCodePagesWithReExecute(&quot;/error/&#123;0&#125;&quot;)</span><br><span class="line">                    .UseRouting()</span><br><span class="line">                    .UseEndpoints(routeBuilder =&gt; routeBuilder.MapGet(&quot;error/&#123;status_code&#125;&quot;, HandlerError))</span><br><span class="line">                    .Run(context =&gt; Task.Run(() =&gt; context.Response.StatusCode = Random.Next(400,599)))</span><br><span class="line">                ))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static async Task HandlerError(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        var code = context.GetRouteData().Values[&quot;status_code&quot;];</span><br><span class="line">        await context.Response.WriteAsync($&quot;Error (&#123;code&#125;)&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/Net-%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/" rel="tag"># .Net 基础理论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/08/Net%E6%9E%B6%E6%9E%84/8%E3%80%81Hosting%E4%B8%8E%E7%AE%A1%E9%81%93/" rel="prev" title="8、Hosting与管道">
+      <i class="fa fa-chevron-left"></i> 8、Hosting与管道
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/10/Net%E6%9E%B6%E6%9E%84/10%E3%80%81%E8%AE%A4%E8%AF%81%E4%B8%8E%E6%8E%88%E6%9D%83/" rel="next" title="10、认证与授权">
+      10、认证与授权 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">静态文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1"><span class="nav-number">2.</span> <span class="nav-text">路由</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">异常处理</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

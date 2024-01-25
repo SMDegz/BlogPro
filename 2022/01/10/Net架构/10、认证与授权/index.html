@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="会话 这个方法使用了会话上下文（HttpContext.Session）来获取或设置会话数据。 1234567891011121314151617181920212223242526272829303132333435363738394041public static class Sample01&#123;    public static void Start()    &#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10、认证与授权">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/01/10/Net%E6%9E%B6%E6%9E%84/10%E3%80%81%E8%AE%A4%E8%AF%81%E4%B8%8E%E6%8E%88%E6%9D%83/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="会话 这个方法使用了会话上下文（HttpContext.Session）来获取或设置会话数据。 1234567891011121314151617181920212223242526272829303132333435363738394041public static class Sample01&#123;    public static void Start()    &#123;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-10T01:11:12.000Z">
+<meta property="article:modified_time" content="2024-01-25T08:52:15.228Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content=".Net 基础理论">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/01/10/Net%E6%9E%B6%E6%9E%84/10%E3%80%81%E8%AE%A4%E8%AF%81%E4%B8%8E%E6%8E%88%E6%9D%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>10、认证与授权 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/01/10/Net%E6%9E%B6%E6%9E%84/10%E3%80%81%E8%AE%A4%E8%AF%81%E4%B8%8E%E6%8E%88%E6%9D%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          10、认证与授权
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-10 09:11:12" itemprop="dateCreated datePublished" datetime="2022-01-10T09:11:12+08:00">2022-01-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-25 16:52:15" itemprop="dateModified" datetime="2024-01-25T16:52:15+08:00">2024-01-25</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/01/10/Net%E6%9E%B6%E6%9E%84/10%E3%80%81%E8%AE%A4%E8%AF%81%E4%B8%8E%E6%8E%88%E6%9D%83/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/01/10/Net%E6%9E%B6%E6%9E%84/10%E3%80%81%E8%AE%A4%E8%AF%81%E4%B8%8E%E6%8E%88%E6%9D%83/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="会话"><a href="#会话" class="headerlink" title="会话"></a>会话</h1><ul>
+<li><p>这个方法使用了会话上下文（HttpContext.Session）来获取或设置会话数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample01</span><br><span class="line">&#123;</span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                //使用ConfigureServices方法来添加分布式内存缓存和会话服务。</span><br><span class="line">                .ConfigureServices(collection =&gt; collection</span><br><span class="line">                    .AddDistributedMemoryCache()</span><br><span class="line">                    .AddSession())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    //启用会话功能。</span><br><span class="line">                    .UseSession()</span><br><span class="line">                    .Run(ProcessAsync)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line"></span><br><span class="line">        //定义了一个异步方法ProcessAsync，该方法处理传入的HTTP请求。这个方法使用了会话上下文（HttpContext.Session）来获取或设置会话数据。</span><br><span class="line">        static async Task ProcessAsync(HttpContext context)</span><br><span class="line">        &#123;</span><br><span class="line">            var session = context.Session;</span><br><span class="line">            await session.LoadAsync();</span><br><span class="line">            string sessionStartTime;</span><br><span class="line"></span><br><span class="line">            if (session.TryGetValue(&quot;SessionStartTime&quot;, out var value))</span><br><span class="line">            &#123;</span><br><span class="line">                sessionStartTime = Encoding.UTF8.GetString(value);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                sessionStartTime = DateTime.Now.ToString(CultureInfo.InvariantCulture);</span><br><span class="line">                session.SetString(&quot;SessionStartTime&quot;, sessionStartTime);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            context.Response.ContentType = &quot;text/html&quot;;</span><br><span class="line">            await context.Response.WriteAsync($&quot;&lt;html&gt;&lt;body&gt;&lt;ul&gt;&lt;li&gt;Session ID:&#123;session.Id&#125;&lt;/li&gt;&quot;);</span><br><span class="line">            await context.Response.WriteAsync($&quot;&lt;li&gt;Session Start Time:&#123;sessionStartTime&#125;&lt;/li&gt;&quot;);</span><br><span class="line">            await context.Response.WriteAsync($&quot;&lt;li&gt;Current Time:&#123;DateTime.Now&#125;&lt;/li&gt;&lt;/ul&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上一个方法的进阶，通过反射获取Sessionkey</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample02</span><br><span class="line">&#123;</span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(collection =&gt; collection</span><br><span class="line">                    .AddDistributedMemoryCache()</span><br><span class="line">                    .AddSession())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UseSession()</span><br><span class="line">                    .Run(ProcessAsync)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line"></span><br><span class="line">        static async Task ProcessAsync(HttpContext context)</span><br><span class="line">        &#123;</span><br><span class="line">            var session = context.Session;</span><br><span class="line">            await session.LoadAsync();</span><br><span class="line">            string sessionStartTime;</span><br><span class="line"></span><br><span class="line">            if (session.TryGetValue(&quot;SessionStartTime&quot;, out var value))</span><br><span class="line">            &#123;</span><br><span class="line">                sessionStartTime = Encoding.UTF8.GetString(value);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                sessionStartTime = DateTime.Now.ToString(CultureInfo.InvariantCulture);</span><br><span class="line">                session.SetString(&quot;SessionStartTime&quot;, sessionStartTime);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // 使用反射获取Session Key</span><br><span class="line">            var field = typeof(DistributedSession).GetTypeInfo().GetField(&quot;_sessionKey&quot;, BindingFlags.Instance | BindingFlags.NonPublic);</span><br><span class="line">            var sessionKey = field?.GetValue(session);</span><br><span class="line"></span><br><span class="line">            context.Response.ContentType = &quot;text/html&quot;;</span><br><span class="line">            await context.Response.WriteAsync($&quot;&lt;html&gt;&lt;body&gt;&lt;ul&gt;&lt;li&gt;Session ID:&#123;session.Id&#125;&lt;/li&gt;&quot;);</span><br><span class="line">            await context.Response.WriteAsync($&quot;&lt;li&gt;Session Key:&#123;sessionKey&#125;&lt;/li&gt;&quot;);</span><br><span class="line">            await context.Response.WriteAsync($&quot;&lt;li&gt;Session Start Time:&#123;sessionStartTime&#125;&lt;/li&gt;&quot;);</span><br><span class="line">            await context.Response.WriteAsync($&quot;&lt;li&gt;Current Time:&#123;DateTime.Now&#125;&lt;/li&gt;&lt;/ul&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h1><ul>
+<li><p>这段代码是一个简单的ASP.NET Core应用程序，用于处理身份验证和登录逻辑</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    private static readonly Dictionary&lt;string, string&gt; Accounts = new Dictionary&lt;string, string&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        &#123;&quot;Admin&quot;, &quot;123&quot;&#125;, &#123;&quot;UserA&quot;, &quot;123&quot;&#125;, &#123;&quot;UserB&quot;, &quot;123&quot;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    public static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(collection =&gt; collection</span><br><span class="line">                    //启用身份验证和路由功能</span><br><span class="line">                    .AddRouting()</span><br><span class="line">                    .AddAuthentication(options =&gt;</span><br><span class="line">                        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)</span><br><span class="line">                    .AddCookie())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UseAuthentication()</span><br><span class="line">                    .UseRouting()</span><br><span class="line">                    .UseEndpoints(endpoints =&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        endpoints.Map(&quot;/&quot;, RenderHomePageAsync);</span><br><span class="line">                        endpoints.Map(&quot;Account/Login&quot;, SignInAsync);</span><br><span class="line">                        endpoints.Map(&quot;Account/Logout&quot;, SignOutAsync);</span><br><span class="line">                    &#125;)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static async Task RenderHomePageAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        //检查用户是否已通过身份验证</span><br><span class="line">        if (context?.User?.Identity?.IsAuthenticated == true)</span><br><span class="line">        &#123;</span><br><span class="line">            await context.Response.WriteAsync(</span><br><span class="line">                @&quot;&lt;html&gt;</span><br><span class="line">                &lt;head&gt;&lt;title&gt;Index&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">                &lt;body&gt;&quot; +</span><br><span class="line">                $&quot;&lt;h3&gt;Welcome &#123;context.User.Identity.Name&#125;&lt;/h3&gt;&quot; +</span><br><span class="line">                @&quot;&lt;a href=&#x27;/Account/Logout&#x27;&gt;Sign Out&lt;/a&gt;</span><br><span class="line">                &lt;/body&gt;</span><br><span class="line">            &lt;/html&gt;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            //重定向到登录页面。</span><br><span class="line">            await context.ChallengeAsync();</span><br><span class="line">        &#125;</span><br><span class="line">           </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static async Task SignInAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        //如果请求方法是GET（通常用于获取页面），它会调用 RenderLoginPageAsync 方法来渲染登录页面。对于POST请求（通常用于提交表单数据），它会尝试从表单中获取用户名，并可能进行进一步的验证或登录逻辑。</span><br><span class="line">        if (string.CompareOrdinal(context.Request.Method, &quot;GET&quot;) == 0)</span><br><span class="line">        &#123;</span><br><span class="line">            await RenderLoginPageAsync(context, null, null, null);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            var userName = context.Request.Form[&quot;username&quot;];</span><br><span class="line">            var password = context.Request.Form[&quot;password&quot;];</span><br><span class="line">            if (Accounts.TryGetValue(userName, out var pwd) &amp;&amp; pwd == password)</span><br><span class="line">            &#123;</span><br><span class="line">                var identity = new GenericIdentity(userName, &quot;Passord&quot;);</span><br><span class="line">                var principal = new ClaimsPrincipal(identity);</span><br><span class="line">                await context.SignInAsync(principal);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                await RenderLoginPageAsync(context, userName, password, &quot;Invalid user name or password!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static Task RenderLoginPageAsync(HttpContext context, string userName, string password,</span><br><span class="line">        string errorMessage)</span><br><span class="line">    &#123;</span><br><span class="line">        context.Response.ContentType = &quot;text/html&quot;;</span><br><span class="line">        return context.Response.WriteAsync(</span><br><span class="line">            @&quot;&lt;html&gt;</span><br><span class="line">            &lt;head&gt;&lt;title&gt;Login&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">            &lt;body&gt;</span><br><span class="line">                &lt;form method=&#x27;post&#x27;&gt;&quot; +</span><br><span class="line">            $&quot;&lt;input type=&#x27;text&#x27; name=&#x27;username&#x27; placeholder=&#x27;User name&#x27; value = &#x27;&#123;userName&#125;&#x27; /&gt; &quot; +</span><br><span class="line">            $&quot;&lt;input type=&#x27;password&#x27; name=&#x27;password&#x27; placeholder=&#x27;Password&#x27; value = &#x27;&#123;password&#125;&#x27; /&gt; &quot; +</span><br><span class="line">            @&quot;&lt;input type=&#x27;submit&#x27; value=&#x27;Sign In&#x27; /&gt;</span><br><span class="line">                &lt;/form&gt;&quot; +</span><br><span class="line">            $&quot;&lt;p style=&#x27;color:red&#x27;&gt;&#123;errorMessage&#125;&lt;/p&gt;&quot; +</span><br><span class="line">            @&quot;&lt;/body&gt;</span><br><span class="line">        &lt;/html&gt;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static async Task SignOutAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        await context.SignOutAsync();</span><br><span class="line">        context.Response.Redirect(&quot;/&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>上一个代码的进阶，多了 AddAuthentication 中间件，使用了ASP.NET Core的内置身份验证功能，特别是基于Cookie的身份验证。以及使用了数据库上下文，和实体检查</p>
+</li>
+<li><p>创建 UserDbContext 数据库上下文类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">public sealed class UserDbContext : DbContext</span><br><span class="line">&#123;</span><br><span class="line">    public DbSet&lt;User&gt; Users &#123; get; set; &#125;</span><br><span class="line">    public DbSet&lt;Role&gt; Roles &#123; get; set; &#125;</span><br><span class="line">    public DbSet&lt;UserRole&gt; UserRoles &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    protected override void OnModelCreating(ModelBuilder modelBuilder)</span><br><span class="line">    &#123;</span><br><span class="line">        modelBuilder.Entity&lt;User&gt;(builder =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            builder.HasKey(user =&gt; user.NormalizedUserName);</span><br><span class="line">            builder.HasMany(user =&gt; user.Roles).WithOne().HasForeignKey(</span><br><span class="line">                userRole =&gt; userRole.NormalizedUserName);</span><br><span class="line">        &#125;);</span><br><span class="line">        modelBuilder.Entity&lt;Role&gt;(builder =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            builder.HasKey(role =&gt; role.NormalizedRoleName);</span><br><span class="line">            builder.HasMany(role =&gt; role.Users).WithOne().HasForeignKey(</span><br><span class="line">                userRole =&gt; userRole.NormalizedRoleName);</span><br><span class="line">        &#125;);</span><br><span class="line">        modelBuilder.Entity&lt;UserRole&gt;(builder =&gt; builder.HasKey(</span><br><span class="line">            userRole =&gt; new &#123; userRole.NormalizedUserName, userRole.NormalizedRoleName &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">    public UserDbContext(DbContextOptions options) : base(options)</span><br><span class="line">    &#123;</span><br><span class="line">        Database.EnsureCreated();</span><br><span class="line">        if (Users.Find(&quot;User1&quot;) != null) return;</span><br><span class="line"></span><br><span class="line">        Users.Add(new User(&quot;User1&quot;, &quot;123&quot;));</span><br><span class="line">        Users.Add(new User(&quot;User2&quot;, &quot;123&quot;));</span><br><span class="line">        Roles.Add(new Role(&quot;Admin&quot;));</span><br><span class="line">        UserRoles.Add(new UserRole</span><br><span class="line">        &#123;</span><br><span class="line">            NormalizedUserName = &quot;USER1&quot;,</span><br><span class="line">            NormalizedRoleName = &quot;ADMIN&quot;</span><br><span class="line">        &#125;);</span><br><span class="line">        SaveChanges();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(collection =&gt; collection</span><br><span class="line">                    .AddDbContext&lt;UserDbContext&gt;(options =&gt; options</span><br><span class="line">                        .UseSqlServer(&quot;Server=(localdb)\\mssqllocaldb;Database=AuthorizationDemo;Trusted_Connection=True;MultipleActiveResultSets=true&quot;)</span><br><span class="line">                    )</span><br><span class="line">                    .AddRouting()</span><br><span class="line">                    .AddAuthorization()</span><br><span class="line">                    //这部分代码添加了身份验证功能，并设置其默认方案（Scheme）为Cookie。</span><br><span class="line">                    .AddAuthentication(options =&gt; options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme).AddCookie())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UseAuthentication()</span><br><span class="line">                    .UseRouting()</span><br><span class="line">                    .UseEndpoints(endpoints =&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        endpoints.Map(&quot;/&quot;, RenderHomePageAsync);</span><br><span class="line">                        endpoints.Map(&quot;Account/Login&quot;, SignInAsync);</span><br><span class="line">                        endpoints.Map(&quot;Account/Logout&quot;, SignOutAsync);</span><br><span class="line">                        endpoints.Map(&quot;Account/AccessDenied&quot;, DenyAccessAsync);</span><br><span class="line">                    &#125;)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static async Task RenderHomePageAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        if (context?.User?.Identity?.IsAuthenticated == true)</span><br><span class="line">        &#123;</span><br><span class="line">            var requirement = new RolesAuthorizationRequirement(new [] &#123; &quot;ADMIN&quot; &#125;);</span><br><span class="line">            var authorizationService = context.RequestServices.GetRequiredService&lt;IAuthorizationService&gt;();</span><br><span class="line">            var result = await authorizationService.AuthorizeAsync(context.User, null, new IAuthorizationRequirement[] &#123; requirement &#125;);</span><br><span class="line">            if (result.Succeeded)</span><br><span class="line">            &#123;</span><br><span class="line">                await context.Response.WriteAsync(</span><br><span class="line">                    @&quot;&lt;html&gt;</span><br><span class="line">                &lt;head&gt;&lt;title&gt;Index&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">                &lt;body&gt;&quot; +</span><br><span class="line">                    $&quot;&lt;h3&gt;&#123;context.User.Identity.Name&#125;, you are authorized.&lt;/h3&gt;&quot; +</span><br><span class="line">                    @&quot;&lt;a href=&#x27;Account/Logout&#x27;&gt;Sign Out&lt;/a&gt;</span><br><span class="line">                &lt;/body&gt;</span><br><span class="line">            &lt;/html&gt;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                await context.ForbidAsync();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            await context.ChallengeAsync();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">      public static async Task SignInAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        if (string.Compare(context.Request.Method, &quot;GET&quot;) == 0)</span><br><span class="line">        &#123;</span><br><span class="line">            await RenderLoginPageAsync(context, null, null, null);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            string userName = context.Request.Form[&quot;username&quot;];</span><br><span class="line">            string password = context.Request.Form[&quot;password&quot;];</span><br><span class="line">            var dbContext = context.RequestServices.GetRequiredService&lt;UserDbContext&gt;();</span><br><span class="line">            var user = await dbContext.Users.Include(it =&gt; it.Roles).SingleOrDefaultAsync(it =&gt; it.UserName == userName.ToUpper());</span><br><span class="line">            if (user?.Password == password)</span><br><span class="line">            &#123;</span><br><span class="line">                var identity = new GenericIdentity(userName, CookieAuthenticationDefaults.AuthenticationScheme);</span><br><span class="line">                foreach (var role in user.Roles)</span><br><span class="line">                &#123;</span><br><span class="line">                    identity.AddClaim(new Claim(ClaimTypes.Role, role.NormalizedRoleName));</span><br><span class="line">                &#125;</span><br><span class="line">                var principal = new ClaimsPrincipal(identity);</span><br><span class="line">                await context.SignInAsync(principal);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                await RenderLoginPageAsync(context, userName, password, &quot;Invalid user name or password!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static Task RenderLoginPageAsync(HttpContext context, string userName, string password, string errorMessage)</span><br><span class="line">    &#123;</span><br><span class="line">        context.Response.ContentType = &quot;text/html&quot;;</span><br><span class="line">        return context.Response.WriteAsync(</span><br><span class="line">            @&quot;&lt;html&gt;</span><br><span class="line">            &lt;head&gt;&lt;title&gt;Login&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">            &lt;body&gt;</span><br><span class="line">                &lt;form method=&#x27;post&#x27;&gt;&quot; +</span><br><span class="line">                        $&quot;&lt;input type=&#x27;text&#x27; name=&#x27;username&#x27; placeholder=&#x27;User name&#x27; value = &#x27;&#123;userName&#125;&#x27; /&gt; &quot; +</span><br><span class="line">                        $&quot;&lt;input type=&#x27;password&#x27; name=&#x27;password&#x27; placeholder=&#x27;Password&#x27; value = &#x27;&#123;password&#125;&#x27; /&gt; &quot; +</span><br><span class="line">                        @&quot;&lt;input type=&#x27;submit&#x27; value=&#x27;Sign In&#x27; /&gt;</span><br><span class="line">                &lt;/form&gt;&quot; +</span><br><span class="line">                        $&quot;&lt;p style=&#x27;color:red&#x27;&gt;&#123;errorMessage&#125;&lt;/p&gt;&quot; +</span><br><span class="line">                @&quot;&lt;/body&gt;</span><br><span class="line">        &lt;/html&gt;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static async Task SignOutAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        await context.SignOutAsync();</span><br><span class="line">        await context.ChallengeAsync(new AuthenticationProperties &#123; RedirectUri = &quot;/&quot; &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static Task DenyAccessAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        return context.Response.WriteAsync(</span><br><span class="line">            @&quot;&lt;html&gt;</span><br><span class="line">            &lt;head&gt;&lt;title&gt;Index&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">            &lt;body&gt;&quot; +</span><br><span class="line">            $&quot;&lt;h3&gt;&#123;context.User.Identity.Name&#125;, your access is denied.&lt;/h3&gt;&quot; +</span><br><span class="line">            @&quot;&lt;a href=&#x27;/Account/Logout&#x27;&gt;Sign Out&lt;/a&gt;</span><br><span class="line">            &lt;/body&gt;</span><br><span class="line">        &lt;/html&gt;&quot;);</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上一个代码的进阶，多了策略角色，只有指定策略的角色才能实现登录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(collection =&gt; collection</span><br><span class="line">                    .AddDbContext&lt;UserDbContext&gt;(options =&gt; options</span><br><span class="line">                        .UseSqlServer(&quot;Server=(localdb)\\mssqllocaldb;Database=AuthorizationDemo;Trusted_Connection=True;MultipleActiveResultSets=true&quot;)</span><br><span class="line">                    )</span><br><span class="line">                    .AddRouting()</span><br><span class="line">                    .AddAuthorization(options =&gt; &#123;</span><br><span class="line">                        var requirement = new RolesAuthorizationRequirement(new [] &#123; &quot;ADMIN&quot; &#125;);</span><br><span class="line">                        var policy = new AuthorizationPolicy(new IAuthorizationRequirement[] &#123; requirement &#125;, new string[0]);</span><br><span class="line">                        options.AddPolicy(&quot;HomePage&quot;, policy);</span><br><span class="line">                    &#125;)</span><br><span class="line">                    .AddAuthentication(options =&gt; options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme).AddCookie())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UseAuthentication()</span><br><span class="line">                    .UseRouting()</span><br><span class="line">                    .UseEndpoints(endpoints =&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        endpoints.Map(&quot;/&quot;, RenderHomePageAsync);</span><br><span class="line">                        endpoints.Map(&quot;Account/Login&quot;, SignInAsync);</span><br><span class="line">                        endpoints.Map(&quot;Account/Logout&quot;, SignOutAsync);</span><br><span class="line">                        endpoints.Map(&quot;Account/AccessDenied&quot;, DenyAccessAsync);</span><br><span class="line">                    &#125;)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static async Task RenderHomePageAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        if (context?.User?.Identity?.IsAuthenticated == true)</span><br><span class="line">        &#123;</span><br><span class="line">            var authorizationService = context.RequestServices.GetRequiredService&lt;IAuthorizationService&gt;();</span><br><span class="line">            var result = await authorizationService.AuthorizeAsync(context.User, &quot;HomePage&quot;);</span><br><span class="line">            if (result.Succeeded)</span><br><span class="line">            &#123;</span><br><span class="line">                await context.Response.WriteAsync(</span><br><span class="line">                    @&quot;&lt;html&gt;</span><br><span class="line">                &lt;head&gt;&lt;title&gt;Index&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">                &lt;body&gt;&quot; +</span><br><span class="line">                    $&quot;&lt;h3&gt;&#123;context.User.Identity.Name&#125;, you are authorized.&lt;/h3&gt;&quot; +</span><br><span class="line">                    @&quot;&lt;a href=&#x27;Account/Logout&#x27;&gt;Sign Out&lt;/a&gt;</span><br><span class="line">                &lt;/body&gt;</span><br><span class="line">            &lt;/html&gt;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                await context.ForbidAsync();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            await context.ChallengeAsync();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">      public static async Task SignInAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        if (string.Compare(context.Request.Method, &quot;GET&quot;) == 0)</span><br><span class="line">        &#123;</span><br><span class="line">            await RenderLoginPageAsync(context, null, null, null);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            string userName = context.Request.Form[&quot;username&quot;];</span><br><span class="line">            string password = context.Request.Form[&quot;password&quot;];</span><br><span class="line">            var dbContext = context.RequestServices.GetRequiredService&lt;UserDbContext&gt;();</span><br><span class="line">            var user = await dbContext.Users.Include(it =&gt; it.Roles).SingleOrDefaultAsync(it =&gt; it.UserName == userName.ToUpper());</span><br><span class="line">            if (user?.Password == password)</span><br><span class="line">            &#123;</span><br><span class="line">                var identity = new GenericIdentity(userName, CookieAuthenticationDefaults.AuthenticationScheme);</span><br><span class="line">                foreach (var role in user.Roles)</span><br><span class="line">                &#123;</span><br><span class="line">                    identity.AddClaim(new Claim(ClaimTypes.Role, role.NormalizedRoleName));</span><br><span class="line">                &#125;</span><br><span class="line">                var principal = new ClaimsPrincipal(identity);</span><br><span class="line">                await context.SignInAsync(principal);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                await RenderLoginPageAsync(context, userName, password, &quot;Invalid user name or password!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static Task RenderLoginPageAsync(HttpContext context, string userName, string password, string errorMessage)</span><br><span class="line">    &#123;</span><br><span class="line">        context.Response.ContentType = &quot;text/html&quot;;</span><br><span class="line">        return context.Response.WriteAsync(</span><br><span class="line">            @&quot;&lt;html&gt;</span><br><span class="line">            &lt;head&gt;&lt;title&gt;Login&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">            &lt;body&gt;</span><br><span class="line">                &lt;form method=&#x27;post&#x27;&gt;&quot; +</span><br><span class="line">                        $&quot;&lt;input type=&#x27;text&#x27; name=&#x27;username&#x27; placeholder=&#x27;User name&#x27; value = &#x27;&#123;userName&#125;&#x27; /&gt; &quot; +</span><br><span class="line">                        $&quot;&lt;input type=&#x27;password&#x27; name=&#x27;password&#x27; placeholder=&#x27;Password&#x27; value = &#x27;&#123;password&#125;&#x27; /&gt; &quot; +</span><br><span class="line">                        @&quot;&lt;input type=&#x27;submit&#x27; value=&#x27;Sign In&#x27; /&gt;</span><br><span class="line">                &lt;/form&gt;&quot; +</span><br><span class="line">                        $&quot;&lt;p style=&#x27;color:red&#x27;&gt;&#123;errorMessage&#125;&lt;/p&gt;&quot; +</span><br><span class="line">                @&quot;&lt;/body&gt;</span><br><span class="line">        &lt;/html&gt;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static async Task SignOutAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        await context.SignOutAsync();</span><br><span class="line">        await context.ChallengeAsync(new AuthenticationProperties &#123; RedirectUri = &quot;/&quot; &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static Task DenyAccessAsync(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        return context.Response.WriteAsync(</span><br><span class="line">            @&quot;&lt;html&gt;</span><br><span class="line">            &lt;head&gt;&lt;title&gt;Index&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">            &lt;body&gt;&quot; +</span><br><span class="line">            $&quot;&lt;h3&gt;&#123;context.User.Identity.Name&#125;, your access is denied.&lt;/h3&gt;&quot; +</span><br><span class="line">            @&quot;&lt;a href=&#x27;/Account/Logout&#x27;&gt;Sign Out&lt;/a&gt;</span><br><span class="line">            &lt;/body&gt;</span><br><span class="line">        &lt;/html&gt;&quot;);</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提供一个API端点，返回一个联系人列表。它使用了CORS（跨来源资源共享）来限制哪些源可以访问此API。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">    public static void Main()</span><br><span class="line">    &#123;</span><br><span class="line">        var allowedOrigins = new HashSet&lt;string&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;www.four.com&quot;,</span><br><span class="line">            &quot;www.three.com&quot;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .UseUrls(&quot;http://*:8080&quot;)</span><br><span class="line">                .ConfigureServices(collection =&gt; collection.AddCors(options =&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    options.AddPolicy(&quot;four&quot;,</span><br><span class="line">                        policyBuilder =&gt; policyBuilder.SetIsOriginAllowed(origin =&gt;</span><br><span class="line">                            allowedOrigins.Contains(new Uri(origin).Host)));</span><br><span class="line">                    </span><br><span class="line">                &#125;))</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UsePathBase(&quot;/contacts&quot;)</span><br><span class="line">                    .UseCors()</span><br><span class="line">                    .Run(ProcessAsync)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line"></span><br><span class="line">        static Task ProcessAsync(HttpContext httpContext)</span><br><span class="line">        &#123;</span><br><span class="line">            var response = httpContext.Response;</span><br><span class="line">            response.ContentType = &quot;application/json&quot;;</span><br><span class="line">            var contacts = new Contact[]</span><br><span class="line">            &#123;</span><br><span class="line">                new Contact(&quot;张三&quot;, &quot;123&quot;, &quot;zhangsan@qq.com&quot;),</span><br><span class="line">                new Contact(&quot;李四&quot;,&quot;456&quot;, &quot;lisi@qq.com&quot;),</span><br><span class="line">                new Contact(&quot;王五&quot;, &quot;789&quot;, &quot;wangwu@qq.com&quot;)</span><br><span class="line">            &#125;;</span><br><span class="line">            return response.WriteAsync(JsonConvert.SerializeObject(contacts));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建一个80端口的项目，访问上面的接口<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">    public static void Main()</span><br><span class="line">    &#123;</span><br><span class="line">        Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .UseUrls(&quot;http://*:80&quot;)</span><br><span class="line">                </span><br><span class="line">                .Configure(app =&gt; app.Run(ProcessAsync)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line"></span><br><span class="line">        static async Task ProcessAsync(HttpContext httpContext)</span><br><span class="line">        &#123;</span><br><span class="line">            httpContext.Response.ContentType = &quot;text/html&quot;;</span><br><span class="line">            var html =</span><br><span class="line">            @&quot;&lt;html&gt;</span><br><span class="line">            &lt;body&gt;</span><br><span class="line">                &lt;ul id=&#x27;contacts&#x27;&gt;&lt;/ul&gt;</span><br><span class="line">                &lt;script src=&#x27;http://code.jquery.com/jquery-3.3.1.min.js&#x27;&gt;&lt;/script&gt;</span><br><span class="line">                &lt;script&gt;</span><br><span class="line">                $(function()</span><br><span class="line">                &#123;</span><br><span class="line">                    var url = &#x27;http://www.one.com:8080/contacts&#x27;;</span><br><span class="line">                    $.getJSON(url, null, function(contacts) &#123;</span><br><span class="line">                        $.each(contacts, function(index, contact)</span><br><span class="line">                        &#123;</span><br><span class="line">                            var html = &#x27;&lt;li&gt;&lt;ul&gt;&#x27;;</span><br><span class="line">                            html += &#x27;&lt;li&gt;Name: &#x27; + contact.Name + &#x27;&lt;/li&gt;&#x27;;</span><br><span class="line">                            html += &#x27;&lt;li&gt;Phone No:&#x27; + contact.PhoneNo + &#x27;&lt;/li&gt;&#x27;;</span><br><span class="line">                            html += &#x27;&lt;li&gt;Email Address: &#x27; + contact.EmailAddress + &#x27;&lt;/li&gt;&#x27;;</span><br><span class="line">                            html += &#x27;&lt;/ul&gt;&#x27;;</span><br><span class="line">                            $(&#x27;#contacts&#x27;).append($(html));</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;);</span><br><span class="line">                &lt;/script &gt;</span><br><span class="line">            &lt;/body&gt;</span><br><span class="line">            &lt;/html&gt;&quot;;</span><br><span class="line">            await httpContext.Response.WriteAsync(html);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/Net-%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/" rel="tag"># .Net 基础理论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/09/Net%E6%9E%B6%E6%9E%84/9%E3%80%81%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%E4%B8%8E%E8%B7%AF%E7%94%B1%E4%B8%8E%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" rel="prev" title="9、静态文件与路由与异常处理">
+      <i class="fa fa-chevron-left"></i> 9、静态文件与路由与异常处理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/11/Net%E6%9E%B6%E6%9E%84/11%E3%80%81WebApi%E6%95%B0%E6%8D%AE%E5%8D%8F%E8%AE%AE/" rel="next" title="11、WebApi数据协议">
+      11、WebApi数据协议 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D"><span class="nav-number">1.</span> <span class="nav-text">会话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A4%E8%AF%81"><span class="nav-number">2.</span> <span class="nav-text">认证</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

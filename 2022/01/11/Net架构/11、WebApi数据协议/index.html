@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="ODataWhat – OData是什么？ OData - Open Data Protocol，是一个设计和使用RESTful API的标准。REST本身只是一个构建web服务的思想和理念，其没有规定一个统一的标准来限制开发人员该如何设计RESTful API。其实我们实际开发中的确也没有遵循某个统一的标准去设计WebAPI。因为大多数场景下，遵循一个统一的标准并不是必要的。但在某些场景下，有这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="11、WebApi数据协议">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/01/11/Net%E6%9E%B6%E6%9E%84/11%E3%80%81WebApi%E6%95%B0%E6%8D%AE%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="ODataWhat – OData是什么？ OData - Open Data Protocol，是一个设计和使用RESTful API的标准。REST本身只是一个构建web服务的思想和理念，其没有规定一个统一的标准来限制开发人员该如何设计RESTful API。其实我们实际开发中的确也没有遵循某个统一的标准去设计WebAPI。因为大多数场景下，遵循一个统一的标准并不是必要的。但在某些场景下，有这">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image214.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image215.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image216.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image217.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image218.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image219.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image220.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image221.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image222.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image223.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image224.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image225.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image226.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image227.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image228.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image229.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image230.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image231.png">
+<meta property="article:published_time" content="2022-01-11T01:11:12.000Z">
+<meta property="article:modified_time" content="2024-01-25T09:22:03.576Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content=".Net 基础理论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image214.png">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/01/11/Net%E6%9E%B6%E6%9E%84/11%E3%80%81WebApi%E6%95%B0%E6%8D%AE%E5%8D%8F%E8%AE%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>11、WebApi数据协议 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/01/11/Net%E6%9E%B6%E6%9E%84/11%E3%80%81WebApi%E6%95%B0%E6%8D%AE%E5%8D%8F%E8%AE%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          11、WebApi数据协议
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-11 09:11:12" itemprop="dateCreated datePublished" datetime="2022-01-11T09:11:12+08:00">2022-01-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-25 17:22:03" itemprop="dateModified" datetime="2024-01-25T17:22:03+08:00">2024-01-25</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/01/11/Net%E6%9E%B6%E6%9E%84/11%E3%80%81WebApi%E6%95%B0%E6%8D%AE%E5%8D%8F%E8%AE%AE/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/01/11/Net%E6%9E%B6%E6%9E%84/11%E3%80%81WebApi%E6%95%B0%E6%8D%AE%E5%8D%8F%E8%AE%AE/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="OData"><a href="#OData" class="headerlink" title="OData"></a>OData</h1><p>What – OData是什么？</p>
+<p>OData - Open Data Protocol，是一个设计和使用RESTful API的标准。REST本身只是一个构建web服务的思想和理念，其没有规定一个统一的标准来限制开发人员该如何设计RESTful API。其实我们实际开发中的确也没有遵循某个统一的标准去设计WebAPI。因为大多数场景下，遵循一个统一的标准并不是必要的。但在某些场景下，有这样一个标准却能带来很大的好处。</p>
+<p>OData的理想是, 无论哪个组织构建的RESTful API，只要其符合OData标准。其他组织就可以按照OData标准中定义的方式去使用这个API获取&#x2F;修改资源。这个可以类比SQL标准之于RDBMS关系。无论什么关系型数据库，如果其声称支持SQL 标准，任何人就可以使用标准SQL查询语句来查询数据。</p>
+<p>标准化的另一个好处：可以将Odata协议实现到一个通用的类库中，通过这个类库去创建和访问RESTful API可以减少开发人员的工作量。官网上有很多这样的组件。</p>
+<p>Who - 谁发布了OData？</p>
+<p>该标准由微软发起，前三个版本1.0、2.0、3.0都是微软开放标准。</p>
+<p>When - 什么时候成为了工业标准？</p>
+<p>第四个版本4.0于2014年3月17日在OASIS投票通过成为开放工业标准</p>
+<p>Why – 为什么需要OData？</p>
+<p>OData是一个协议，一个标准。所以这个问题等同于为什么我们需要协议。类比TCP协议就可以理解一般。假设你开发的组件必须要和某个第三方组件通信，如果第三方组件不支持TCP而只支持其内部开发的一个私有协议，你就肯定头大了，你必须在你的组件里单独为其实现这个私有协议。如果大家都支持TCP协议，不就省事了么。这就是标准协议的作用：协议和标准用于制定一个统一通用的规则。 我们只需要按照这个协议或标准生产组件，那么这个组件就可以方便的和其他组件集成&#x2F;协作。而无须根据其他组件的私有标准定制化组件。</p>
+<p>前面说到Rest只是一种设计Web服务的思想，不是一种标准化的协议。正由于缺乏标准化，从而导致各家公布的Restful API 统一通用方面的欠缺。OData就是为弥补这种欠缺而被提出来的标准协议。</p>
+<p>下面全是延伸阅读可略过。</p>
+<p>Web服务有两种实现方式，一是SOAP协议方式，二是REST方式。SOAP是一套完整的实现Web服务的解决方案。这里有必要先简单了解SOAP方式的Web服务，然后对比SOAP方式，我们会发现REST方式欠缺了什么。</p>
+<p>SOAP方式的Web服务中的Web服务描述语言（WSDL）和简单对象访问协议（SOAP）一起构成了SOAP方式下的Web服务的结构单元。客户端通过WSDL可以了解Web服务公开了那些可以被执行的方法以及Web服务可以发送或接收的消息格式（解决了公布访问资源方法的问题）。客户端按照SOAP将调用位于远程系统上的服务所需信息序列化为消息（解决了如何调用远程方法的问题）。注意WSDL描述的服务以及SOAP消息都是符合统一标准的，都是机器可读的.</p>
+<p>WSDL基于XML格式，用来描述Web服务。WSDL文档可以看成是客户端和服务器之间的一个协约。使用WSDL工具，你可以自动处理这个过程，几乎不用手工编写代码就能够让应用程序整合新的服务。因此WSDL是Web服务体系结构的基础，因为它提供了一个通用语言，用来描述服务和整合这些服务的平台。</p>
+<p>SOAP本身提供了与Web服务交换信息的方法。SOAP是序列化调用位于远程系统上的服务所需信息的标准方法，这些信息可以使用一种远程系统能够读懂的格式通过网络发送到远程系统，而不必关心远程系统运行于何种平台或者使用何种语言编写。SOAP以XML格式提供了一个简单、轻量的用于在分散或分布环境中交换结构化和类型信息的机制。实际上它通过提供一个有标准组件的包模型和在模块中编码数据的机制，定义了一个简单的表示应用程序语义的机制。</p>
+<p>对照SOAP方式的Web服务，REST中没有用于描述资源（服务）列表，资源元数据的类似于WSDL的东东。所以有人在2009年提出了一个标准WADL去描述REST方式的Web服务，但至今没有被标准化。个人认为使用WSDL&#x2F;WADL去描述REST方式的Web服务太别扭，这是典型的RPC思路，而REST是一种把服务抽象为资源的架构思想。用描述RPC的WSDL去描述REST方式的Web服务并不合适。我们需要其他策略去代替WSDL实现“公布访问资源方法的问题”。</p>
+<p>由于没有类似于SOAP的权威性协议作为规范，因此各个网站的REST实现都自有一套，也正是因为这种各自实现的情况，在性能和可用性上会大大高于SOAP发布的web service，但细节方面有太多没有约束的地方，其统一通用方面远远不及SOAP。</p>
+<p>举个例子：假设A组织，B组织都实现了Restful API来通过工号查询人员信息，因为没有统一的规范。</p>
+<p>A的API 可能是这样：<a target="_blank" rel="noopener" href="http://a/api/person/001">http://A/api/person/001</a></p>
+<p>B的API 可能是这样：<a target="_blank" rel="noopener" href="http://a/api/person/id=001">http://A/api/person/id=001</a></p>
+<p>第三方客户端在实现远程调用的时候就必须考虑这些API的差异，分别查看A，B的API文档。</p>
+<p>如果有个权威性协议作为规范做指导，规定这个API应该实现成下面这样，那么第三方客户端也只需按照这个标准去调用远程API，而不用查看A，B的API文档：</p>
+<p><a target="_blank" rel="noopener" href="http://a/api/person/%7B001%7D">http://A/api/person/{001}</a></p>
+<p>解释了这么多，就是为了引出：OData是这样的一个设计和使用Restful API 的权威性协议. OData定义了一些标准规则（像一个接口定义一堆方法一样），实现Restful API时候，必须实现这些标准规则（就像实现一个接口必须实现其所有方法一样）。第三方就可以根据Odata协议定义的规则去访问Restful API。</p>
+<p>Where –什么样的场景下可以考虑使用OData？</p>
+<p>并不是说你创建的所有RESTful API都需要符合OData协议。只有在需要Open Data（开放数据给其他组织）时候，才有必要按照OData协议设计RESTful API。这里的Open Data是指开放数据给第三方使用，并且你并不知道谁是第三方。比如博客园的RSS，谁订阅了RSS，博客园是不清楚的。如果你的数据只被你自家公司的客户端使用， OData就是一个可选项，你完全有理由不按照OData规范去设计RESTful API。</p>
+<p>How – 如何使用OData？</p>
+<p>首先看一下C#客户端调用符合OData标准的WebApi是多么的方便（官网<a target="_blank" rel="noopener" href="http://www.odata.org/%E4%B8%8A%E4%B9%9F%E6%9C%89js%E7%9A%84%E7%B1%BB%E5%BA%93%EF%BC%89%E3%80%82">http://www.odata.org/上也有js的类库）。</a></p>
+<p>第一步，通过Nuget安装OData Client for .Net包。</p>
+<p><img src="/BlogPro/image214.png" alt="Alt text"></p>
+<p>第二步，安装VS插件：OData v4 Client Code Generator。</p>
+<p><img src="/BlogPro/image215.png" alt="Alt text"></p>
+<p>第三步：假设存在一个可用的WebApi（后面介绍如何创建） - <a target="_blank" rel="noopener" href="http://localhost:33189/Odata">http://localhost:33189/Odata</a>. 我们修改代码模板中的MetadataDocumentUri如下， 然后保存。T4会访问<a target="_blank" rel="noopener" href="http://localhost:33189/Odata%E8%8E%B7%E5%BE%97%E8%B5%84%E6%BA%90%E7%9A%84%E5%85%83%E6%95%B0%E6%8D%AE%EF%BC%8C%E7%84%B6%E5%90%8E%E6%A0%B9%E6%8D%AE%E5%85%83%E6%95%B0%E6%8D%AE%E7%94%9F%E6%88%90%E8%B5%84%E6%BA%90%E5%AF%B9%E5%BA%94%E7%9A%84C#%E7%B1%BB%E3%80%82T4%E5%8F%AF%E4%BB%A5%E6%80%8E%E4%B9%88%E5%81%9A%E6%98%AF%E5%9B%A0%E4%B8%BAWebApi%E6%98%AF%E6%8C%89%E7%85%A7OData%E7%9A%84%E6%A0%87%E5%87%86%E5%8E%BB%E5%85%AC%E5%B8%83%E8%B5%84%E6%BA%90%E5%88%97%E8%A1%A8%E5%92%8C%E8%B5%84%E6%BA%90%E7%9A%84%E5%85%83%E6%95%B0%E6%8D%AE%E3%80%82">http://localhost:33189/Odata获得资源的元数据，然后根据元数据生成资源对应的C#类。T4可以怎么做是因为WebApi是按照OData的标准去公布资源列表和资源的元数据。</a></p>
+<p><img src="/BlogPro/image216.png" alt="Alt text"></p>
+<p>第四步：在我们的代码中就可以操作CLR对象来消费远程的webAPI了。体验到Odata标准的力量了吧。</p>
+<p><img src="/BlogPro/image217.png" alt="Alt text"></p>
+<p>接下来看一下C#服务端如何实现上面客户端需要调用的OData的WebAPI，有两种方式，有点细微的差别。</p>
+<p>第一步：创建一个空的WebApi项目。</p>
+<p>第二步: 通过Nuget引入EF6 和 WebApi 2.2 for OData v4.0. 如下图。</p>
+<p><img src="/BlogPro/image218.png" alt="Alt text"></p>
+<p>第三步：创建Entity和DbContext类，以及配置数据库连接。并通过enable migration完成数据库的创建，可在Configuration的seed的方法中，添加一些初始化的数据。</p>
+<p><img src="/BlogPro/image219.png" alt="Alt text"><br><img src="/BlogPro/image220.png" alt="Alt text"><br><img src="/BlogPro/image221.png" alt="Alt text"></p>
+<p>第四步：配置WebApiConfig如下</p>
+<p><img src="/BlogPro/image222.png" alt="Alt text"></p>
+<p>第五步：创建ProductsController</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Data;</span><br><span class="line">using System.Data.Entity;</span><br><span class="line">using System.Data.Entity.Infrastructure;</span><br><span class="line">using System.Linq;using System.Net;</span><br><span class="line">using System.Net.Http;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line">using System.Web.Http;</span><br><span class="line">using System.Web.Http.ModelBinding;</span><br><span class="line">using ODataAPI.Models;</span><br><span class="line">using System.Web.OData;</span><br><span class="line">namespace ODataAPI.Controllers &#123;    </span><br><span class="line">    public class ProductsController : ODataController &#123;</span><br><span class="line">        private ODataAPIContext db = new ODataAPIContext();        </span><br><span class="line">        [EnableQuery]        </span><br><span class="line">        public IQueryable&lt;Product&gt; GetProducts()        </span><br><span class="line">        &#123;            </span><br><span class="line">            return db.Products;        </span><br><span class="line">        &#125;            </span><br><span class="line">        [EnableQuery]        </span><br><span class="line">        public SingleResult&lt;Product&gt; GetProduct([FromODataUri] int key)        </span><br><span class="line">        &#123;            </span><br><span class="line">            return SingleResult.Create(db.Products.Where(product =&gt; product.ID == key));        </span><br><span class="line">        &#125;       </span><br><span class="line">        public async Task&lt;IHttpActionResult&gt; Put([FromODataUri] int key, Product product)        &#123;            </span><br><span class="line">            if (!ModelState.IsValid)            </span><br><span class="line">            &#123;               </span><br><span class="line">                return BadRequest(ModelState);           </span><br><span class="line">            &#125;            </span><br><span class="line">            if (key != product.ID)            </span><br><span class="line">            &#123;               </span><br><span class="line">                return BadRequest();            </span><br><span class="line">            &#125;            </span><br><span class="line">            db.Entry(product).State = EntityState.Modified;            </span><br><span class="line">            try            </span><br><span class="line">            &#123;                </span><br><span class="line">                await db.SaveChangesAsync();            </span><br><span class="line">            &#125;            </span><br><span class="line">            catch (DbUpdateConcurrencyException)            </span><br><span class="line">            &#123;                </span><br><span class="line">                if (!ProductExists(key))                </span><br><span class="line">                &#123;                    </span><br><span class="line">                    return NotFound();               </span><br><span class="line">                &#125;               </span><br><span class="line">                else                </span><br><span class="line">                &#123;                   </span><br><span class="line">                    throw;                </span><br><span class="line">                &#125;            </span><br><span class="line">            &#125;            </span><br><span class="line">            return Updated(product);        </span><br><span class="line">        &#125;       </span><br><span class="line">        public async Task&lt;IHttpActionResult&gt; Post(Product product)       </span><br><span class="line">        &#123;            </span><br><span class="line">            if (!ModelState.IsValid)      </span><br><span class="line">            &#123;                </span><br><span class="line">                return BadRequest(ModelState);    </span><br><span class="line">            &#125;            db.Products.Add(product);   </span><br><span class="line">            await db.SaveChangesAsync();        </span><br><span class="line">            return Created(product);       </span><br><span class="line">        &#125;      </span><br><span class="line">        [AcceptVerbs(&quot;PATCH&quot;, &quot;MERGE&quot;)]       </span><br><span class="line">        public async Task&lt;IHttpActionResult&gt; Patch([FromODataUri] int key, Delta&lt;Product&gt; patch)        &#123;           </span><br><span class="line">            if (!ModelState.IsValid)           </span><br><span class="line">            &#123;                </span><br><span class="line">                return BadRequest(ModelState);         </span><br><span class="line">            &#125;            </span><br><span class="line">            Product product = await db.Products.FindAsync(key);      </span><br><span class="line">            if (product == null)          </span><br><span class="line">            &#123;               </span><br><span class="line">                return NotFound();    </span><br><span class="line">            &#125;         </span><br><span class="line">            patch.Patch(product);        </span><br><span class="line">            try            </span><br><span class="line">            &#123;              </span><br><span class="line">                await db.SaveChangesAsync();    </span><br><span class="line">            &#125;           </span><br><span class="line">            catch (DbUpdateConcurrencyException)      </span><br><span class="line">            &#123;             </span><br><span class="line">                if (!ProductExists(key))         </span><br><span class="line">                &#123;                   </span><br><span class="line">                    return NotFound();     </span><br><span class="line">                &#125;              </span><br><span class="line">                else          </span><br><span class="line">                &#123;                </span><br><span class="line">                    throw;      </span><br><span class="line">                &#125;          </span><br><span class="line">            &#125;           </span><br><span class="line">            return Updated(product);</span><br><span class="line">        &#125;        </span><br><span class="line">        public async Task&lt;IHttpActionResult&gt; Delete([FromODataUri] int key)  </span><br><span class="line">        &#123;           </span><br><span class="line">            Product product = await db.Products.FindAsync(key);   </span><br><span class="line">            if (product == null)       </span><br><span class="line">            &#123;              </span><br><span class="line">                return NotFound();       </span><br><span class="line">            &#125;         </span><br><span class="line">            db.Products.Remove(product);    </span><br><span class="line">            await db.SaveChangesAsync();       </span><br><span class="line">            return StatusCode(HttpStatusCode.NoContent);  </span><br><span class="line">        &#125;       </span><br><span class="line">        protected override void Dispose(bool disposing)   </span><br><span class="line">        &#123;           </span><br><span class="line">            if (disposing)          </span><br><span class="line">            &#123;               </span><br><span class="line">                db.Dispose();      </span><br><span class="line">            &#125;           </span><br><span class="line">            base.Dispose(disposing);   </span><br><span class="line">        &#125;        </span><br><span class="line">        private bool ProductExists(int key)   </span><br><span class="line">        &#123;           </span><br><span class="line">            return db.Products.Count(e =&gt; e.ID == key) &gt; 0;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>第六步：F5运行，接着客户端就可以调用了。可以通过访问<a target="_blank" rel="noopener" href="http://localhost/#/OData/">http://localhost:#/OData/</a> 和 <a target="_blank" rel="noopener" href="http://localhost/#/OData/$metadata">http://localhost:#/OData/$metadata</a> 看看resource list 和元数据长什么样。<br><img src="/BlogPro/image223.png" alt="Alt text"></p>
+<p>另外，我们可以通过VS的OData Controller模板来创建webAPIController（如下）。注意使用这种方式创建webAPIController时，不可以导入WebApi 2.2 for OData v4.0这个类库，否则会出现dll冲突。</p>
+<p><img src="/BlogPro/image224.png" alt="Alt text"></p>
+<p><img src="/BlogPro/image225.png" alt="Alt text"></p>
+<h1 id="GraphQL"><a href="#GraphQL" class="headerlink" title="GraphQL"></a>GraphQL</h1><p>ASP.NET Core 系列之 GraphQL - 完全教程（译）</p>
+<p>原文地址：Getting Started with GraphQL in ASP.NET Core – Complete Guide</p>
+<p>在这篇文章中，我们主要讨论一下 GraphQL 的趋势，这是一项由 Facebook 开发并进行开源的酷技术。我们将与 REST API 进行对比，并理解 GraphQL 的使用场景。同时，我们也将建立一个小的示例程序来演示如果将 GraphQL 集成到 ASP.NET Core 中，您可以在文章模块找到源代码。下面步入正题！</p>
+<p>什么是 GraphQL？#<br>GraphQL（或者叫图形化查询语言）是由 Facebook 发明和开源的 API 标准。它基本上是对 REST API 的一种替代。GraphQL 不像传统的 REST API，它将控制权交由给客户端，以便客户端应用&#x2F;用户能够请求他自己想要的特定数据。简单来讲，它是一种可以取代 REST API 以构建高性能 API 的技术。话虽如此，但这并不意味着 REST API 将很快被取消。在大多数情况下， GraphQL 要优于 REST API。</p>
+<p>GraphQL 是 API 的查询语言，它为 API 中的数据提供了定义（和 Swagger 类似，但可以做更多）。它本质上是一种技术，运行客户访问他们需要的数据，不会多，也不会少。这为客户端和开发人员提供了很大的权力和灵活性。</p>
+<p>设计 GraphQL 背后的主要目标是使查询更智能。到目前为止，使用传统的 REST API 方法，我们可能经历了数据 过度提取（API返回 10 个字段，但我们只需要 2 个字段）或 抓取不足（API 仅返回 ID，但我们需要更多的相关数据，这迫使我们进行第二次 API 资源调用）。这意味着请求和响应始总是修改，并在应用程序的整个生命周期内保持固定，是这样的吗？GraphQL 使您的系统更智能，只提供所需的内容，从而减少到服务器的路由请求数量。</p>
+<p>让我们说得更透彻一些。</p>
+<p>以下是 REST API 的工作方式。</p>
+<p>api&#x2F;player&#x2F; – 从数据库中获取所有玩家<br>api&#x2F;player&#x2F;10 – 返回玩家 10 的所有详细信息。在恢复响应时，我们必须手动映射&#x2F;分配所需的属性。服务器不会为您执行此工作。</p>
+<p>几个例子，我们需要获取 id 为 10 的用户数据，只需要他的名字和年龄。</p>
+<p>REST API 的请求和响应看起来是这样的：</p>
+<p>请求：api&#x2F;user&#x2F;10<br>响应：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;userName&quot; : &quot;Mukesh&quot;,</span><br><span class="line">    &quot;Name&quot; : &quot;Mukesh Murugan&quot;,</span><br><span class="line">    &quot;Destination&quot; :&quot;Trivandrum&quot;,</span><br><span class="line">    &quot;age&quot; : 25,</span><br><span class="line">    &quot;email&quot; : &quot;mukesh@codewithmukesh.com&quot;,</span><br><span class="line">    &quot;something-else&quot;: &quot;more data&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，我们得到该响应，接着必须要处理它，以筛选出当前所需字段的内容。这不是一项巨大的任务和资源浪费，但想象一下，将这个影响扩到到整个应用程序，如 Fackbook，这将产生昂贵的服务器开销。</p>
+<p>让我们看一下 GraphQL 查询是什么样的。这是一个请求，客户可以问他到底需要什么。（我们将在文章的稍后介绍该如何查询和编写。这里只是一个例子。）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    user(id: 10)</span><br><span class="line">   &#123;</span><br><span class="line">        name,</span><br><span class="line">        age</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>并且，响应不多也不少</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;data&quot;:</span><br><span class="line">   &#123;</span><br><span class="line">       &quot;user&quot;:</span><br><span class="line">       &#123;</span><br><span class="line">           &quot;name&quot; : &quot;Mukesh Murugan&quot;,</span><br><span class="line">           &quot;age&quot; : 25</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这可能是我们从未考虑的地方。我们忙于使代码更智能，但从未真正想过 API 终结点的静态性。同样，这并不意味着您必须放弃 REST API 并转到 GraphQL，但 GraphQL 可以节省服务器资源&#x2F;时间的消耗，如 Facebook 进行这样的扩展意义是巨大的。</p>
+<p>您将需要了解 GraphQL 要解决的问题，以及它是如何与 REST API 进行比较，我们将在下一节中介绍这些问题。</p>
+<p>GraphQL 解决的问题#<br>我们从 GraphQL 如何出现开始讲起。我们将看到一个真实的场景。早在 2012 年左右， Facebook 发布了它自己的 Android &#x2F; ios 应用程序。随着 Facebook 等面向客户服务的复杂性，人们很快注意到，这些应用消耗了太多的带宽、内存、RAM 使用量，并且时刻会进行十几次 API 调用。如果您在那个特定时间在 Facebook 工作， 您可能也会亲身经历过。这最终导致差评和 UX。</p>
+<p>为什么它会进行多次 API 调用？这是显而易见的，对吧？例如，请考虑 Facebook 在移动设备上的新闻源。它有与您的个人资料相关的数据，来自您朋友的通知，来自你的朋友&#x2F;页面&#x2F;群的更新&#x2F;帖子，以及大约一百万个😛其他内容，Facebook有一个API端点。现在，在加载新闻源时，将调用所有这些终结点，获取数据（包含大约 40-50% 未使用的字段），并在应用上显示。这产生了几个往返请求。一定会有更好的解决办法，对吧？</p>
+<p>因此，GraphQL 引入了将所有这些百万个 API 终结点都凝结到单个终结点。现在，客户可以询问他&#x2F;她&#x2F;它到底想要什么，并得到所需的响应。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Facebook 关于其实施 GraphQL 的相关链接：https://developers.facebook.com/docs/graph-api</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>GraphQL VS REST API#<br>GraphQL 和 REST API 之间有很多区别。让我们看看主要的区别：</p>
+<p>使用 GraphQL，您只需要使用一个终结点，而使用 REST API 的 API 终结点只有 100 个。GraphQL 技术的工作原理是很酷的。这使得企业级 API 中 GraphQL 性能比 REST API 好得多。此外，由于应用中只有一个终结点，因此在应用程序扩展时维护 GraphQL 会更加容易。<br>GraphQL 不需要 HTTP 来运行，而 REST API 需要 HTTP。<br>GraphQL 仅支持后发自外服务请求，与 REST 模式不同，后跟 RESTPI。<br>GraphQL 和 REST API 都有 JSON 响应。<br>GraphQL 允许客户端&#x2F;使用者以所需的格式对数据进行塑型。它给客户端提供完全控制，以定义请求和响应。如您所了解，使用 REST API 时，响应和请求始终在代码中的服务器端定义。基本上，GraphQL 允许您在数据方面拥有您想要的。<br>基于上一点，使用 GraphQL 基本上不会接收不会使用的数据。例如，假设您对 api&#x2F;product&#x2F;2 发出请求，并且响应具有产品实体的所有字段。在 10 个案例中的 9 种情况下，您不会使用产品的所有字段，对吗？现在使用 GraphQL，您可以选择设计请求，以便只收到请求的响应。这使得整个系统效率高，并大大减少了带宽消耗。<br>有了所有这些令人敬畏的功能，你真的不必担心 API 版本控制。每个客户都保留自己的版本！使用 REST API 是会有相应限制。<br>在 ASP.NET Core 中使用 GraphQL#<br>创建新的 ASP.NET Core WebAPI 解决方案。</p>
+<p><img src="/BlogPro/image226.png" alt="Alt text"></p>
+<p>对于本示例，我们将有一个简单的实体。创建一个新类并命名它为 Models&#x2F;Customer。类似这样的定义：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Customer</span><br><span class="line">&#123;</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line">    public string FirstName &#123; get; set; &#125;</span><br><span class="line">    public string LastName &#123; get; set; &#125;</span><br><span class="line">    public string Contact &#123; get; set; &#125;</span><br><span class="line">    public string Email &#123; get; set; &#125;</span><br><span class="line">    public DateTime DateOfBirth &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于此示例更侧重于 ASP.NET Core 中 GraphQL 的实现，所以我将跳过使用 Entity Framework Core 连接到数据库并获取客户记录的步骤。请记住，我们不会在这里创建任何 API 控制器。我提前将一堆示例客户数据输入我的数据库以进行测试。</p>
+<p>如果您是初次使用 Entity Framework Core，我强烈建议您阅读以下文章来掌握 EF Core Entity Framework Core in ASP.NET Core – Getting Started</p>
+<p>安装依赖包#<br>打开包管理器对应的控制台，安装如下依赖包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Install-Package GraphQL</span><br><span class="line">Install-Package GraphQL.Server.Transports.AspNetCore</span><br><span class="line">Install-Package GraphQL.Server.Ui.Playground</span><br><span class="line">Install-Package Newtonsoft.Json</span><br></pre></td></tr></table></figure>
+<p>这里解释一下为什么需要安装上述包。</p>
+<p>GraphQL：在 .NET 中启用 GraphQL 相关服务的核心包<br>GraphQL.Server.Transports.AspNetCore：GraphQL 的 HTTP 中间件<br>GraphQL.Server.Ui.Playground：现在我们需要一种 UI 来使用 GraphQL 并执行一些测试。这更像是 Swagger，您可以访问 API 的 POST 方法。相反， Rather Playground 也支持智能感知，智能建议和更多其它内容<br>我们将必须在 ASP.NET Core 的容器中配hi服务，但由于我们创建了需要用到的 GraphQL 类，所以这一步放到最后再操作。</p>
+<p>GraphQL 的类型#<br>GraphQL 不了解 Models&#x2F;Entities 或任何 C# 的 POCO。相反，它需要类型。如前所述，我们已经在 “Models” 文件夹中有一个创建了客户定义的类。要从 GraphQL 终结点获取数据，我们必须使用 ObjectGraphType 来进行扩展，其中 T 是客户的类型。</p>
+<p>让我们创建一个新类，并取名为 GraphQL&#x2F;Types&#x2F;CustomerGraphType.cs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class CustomerGraphType : ObjectGraphType&lt;Customer&gt;</span><br><span class="line">&#123;</span><br><span class="line">    public CustomerGraphType()</span><br><span class="line">    &#123;</span><br><span class="line">        Name = &quot;Customer&quot;;</span><br><span class="line">        Field(x =&gt; x.Id, type: typeof(IdGraphType)).Description(&quot;Customer Id&quot;);</span><br><span class="line">        Field(x =&gt; x.FirstName).Description(&quot;Customer&#x27;s First Name&quot;);</span><br><span class="line">        Field(x =&gt; x.LastName).Description(&quot;Customer&#x27;s Last Name&quot;);</span><br><span class="line">        Field(x =&gt; x.Contact).Description(&quot;Customer&#x27;s Contact&quot;);</span><br><span class="line">        Field(x =&gt; x.Email).Description(&quot;Customer&#x27;s Email&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>您可以看到，我们将类定义为客户对象图类型。在这里，我们将映射所有应该公开给客户端的字段。这也增加了一个很好的抽象层。API 的安全性。我们还可以向属性添加说明，以帮助客户端更好地了解 GraphQL。</p>
+<p>接下来，我们需要定义受支持的查询。这些查询必不可少地返回客户列表或单个客户实体。</p>
+<p>创建一个新类并取名为 GraphQL&#x2F;Queries&#x2F;CustomerQuery.cs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class CustomerQuery : ObjectGraphType</span><br><span class="line">&#123;</span><br><span class="line">    private readonly ApplicationDbContext _appContext;</span><br><span class="line">    public CustomerQuery(ApplicationDbContext appContext)</span><br><span class="line">    &#123;</span><br><span class="line">        this._appContext = appContext;</span><br><span class="line">        Name = &quot;Query&quot;;</span><br><span class="line">        Field&lt;ListGraphType&lt;CustomerGraphType&gt;&gt;(&quot;customers&quot;, &quot;Returns a list of Customer&quot;, resolve: context =&gt; _appContext.Customers.ToList());</span><br><span class="line">        Field&lt;CustomerGraphType&gt;(&quot;customer&quot;, &quot;Returns a Single Customer&quot;,</span><br><span class="line">            new QueryArguments(new QueryArgument&lt;NonNullGraphType&lt;IntGraphType&gt;&gt; &#123; Name = &quot;id&quot;, Description = &quot;Customer Id&quot; &#125;),</span><br><span class="line">                context =&gt; _appContext.Customers.Single(x =&gt; x.Id == context.Arguments[&quot;id&quot;].GetPropertyValue&lt;int&gt;()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Line #3 – 6 – 注入应用数据库上下文用于对象访问<br>Line #7 – 在这里，我们设置查询的名称属性<br>在上面的查询类中，我们基本上定义了两个查询。</p>
+<p>Line #8 – 查询以返回所有客户作为列表。我们使用附加上下文的方式负责获取数据的 dbContext 变量。<br>Line #9 – 查询以基于 ID （int） 返回特定客户。<br>GraphQL Schema#<br>由于我们已经定义了查询，因此在 GraphQL 实例 Schema 中包括此查询非常重要。GraphQL Schema 包含以下属性：</p>
+<p>Query – 只能获取数据的查询类。<br>Mutations – 更改数据的方法（编辑&#x2F;删除&#x2F;添加）。<br>Subscriptions – 通知客户端更改。这更像是一个基于事件的订阅。<br>对于本示例，我们将只关注 Schema 的查询部分。让我们添加新类并将其命名 GraphQL&#x2F;DemoSchema.cs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class DemoSchema : Schema</span><br><span class="line">&#123;</span><br><span class="line">    public DemoSchema(IDependencyResolver resolver) : base(resolver)</span><br><span class="line">    &#123;</span><br><span class="line">        Query = resolver.Resolve&lt;CustomerQuery&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了这个查询 Schema 的定义，，我们可以在 ASP.NET Core 的服务容器中注入我们的服务了。打开 Startup,cs 并添加以下内容到 ConfigureServices 方法中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">services.AddTransient&lt;IDependencyResolver&gt;(x =&gt;new FuncDependencyResolver(x.GetRequiredService));</span><br><span class="line">services.AddTransient&lt;DemoSchema&gt;();</span><br><span class="line">services.AddGraphQL(o =&gt; o.ExposeExceptions = true)</span><br><span class="line">        .AddGraphTypes(ServiceLifetime.Transient);</span><br><span class="line">services.Configure&lt;KestrelServerOptions&gt;(options =&gt; options.AllowSynchronousIO = true);</span><br><span class="line">services.Configure&lt;IISServerOptions&gt;(options =&gt; options.AllowSynchronousIO = true);</span><br></pre></td></tr></table></figure>
+<p>接下来，将以下内容添加到 “Configure” 方法。在这里，我们将注册我们的 Schema，并配置 GraphQLPlayground。在执行应用程序时，我们将了解更多关于 GraphQL Playground 的信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app.UseGraphQL&lt;DemoSchema&gt;();</span><br><span class="line">app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());</span><br></pre></td></tr></table></figure>
+<p>这就是我们需要在 ASP.NET Core 中做的事情，准备启动我们的应用程序，并导航至 localhost:5001&#x2F;ui&#x2F;playground</p>
+<p><img src="/BlogPro/image227.png" alt="Alt text"></p>
+<p>关于 GraphQL Playground#<br>GraphQL Playground 更多地像是将你的 GraphQL API 进行可视化的界面。它提供各种强大的功能，如智能感知，智能推荐，实时错误语法通知，请求格式化等。</p>
+<p>点击右侧的 “Schema” 的 Tab 标签页，还记得我们之前为 GraphQL 创建的一个 Schema 查询么？你可以在这找到相关定义。在查询 Tab 标签页，你可以找到受支持的方法，即 GetALLCustomer 和 GetALLCustomer。</p>
+<p>这里面提到的 Customer 类型，看起来和 Swagger UI 非常相似。</p>
+<p><img src="/BlogPro/image228.png" alt="Alt text"></p>
+<p>接着看一下每个查询的定义和字段，点击 Docs 你可以看到每个查询的更多详细信息，比如取消名称，描述信息，类型。客户端可以使用这些文档作为了解 GraphQL 功能的参考文案。</p>
+<p><img src="/BlogPro/image229.png" alt="Alt text"></p>
+<p>测试 GraphQL#<br>让我们开始测试我们创建的两个查询</p>
+<p>获取所有 Customers#<br>假设我们需要获得所有客户，但只有某些字段，如名字，姓氏，电子邮件。GraphQL 正是为了解决这个问题，记得吗？</p>
+<p>你的查询请求类似这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  customers&#123;</span><br><span class="line">    firstName,</span><br><span class="line">    lastName,</span><br><span class="line">    email</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加请求后，只需点击 Play 按钮即可。这将针对数据库执行您的请求。您可以看到返回的结果正是您想要的，😀您也可以通过向请求对象添加新字段来进行测试。</p>
+<p><img src="/BlogPro/image230.png" alt="Alt text"></p>
+<p>通过 ID 获取某个 Customer#<br>接下来，让我们测试一下基于我们传递的 ID 作为参数来获取单一 Customer 对象。我们将 20 作为要传递的 ID 参数来进行请求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  customer(id: 20) &#123;</span><br><span class="line">    id,</span><br><span class="line">    firstName,</span><br><span class="line">    lastName,</span><br><span class="line">    email</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/image231.png" alt="Alt text"></p>
+<p>很好！正如我们所期望的那样。这是一种相当酷的技术， 是吗？现在让我们把文章总结一下。我们将在另一篇文章讨论 GraphQL 在 ASP.NET Core 中的一些更多的先进概念。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/Net-%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/" rel="tag"># .Net 基础理论</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/10/Net%E6%9E%B6%E6%9E%84/10%E3%80%81%E8%AE%A4%E8%AF%81%E4%B8%8E%E6%8E%88%E6%9D%83/" rel="prev" title="10、认证与授权">
+      <i class="fa fa-chevron-left"></i> 10、认证与授权
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/12/Net%E6%9E%B6%E6%9E%84/12%E3%80%81%E5%B8%B8%E7%94%A8%E7%B1%BB%E5%BA%93/" rel="next" title="12、常用类库">
+      12、常用类库 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OData"><span class="nav-number">1.</span> <span class="nav-text">OData</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GraphQL"><span class="nav-number">2.</span> <span class="nav-text">GraphQL</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
