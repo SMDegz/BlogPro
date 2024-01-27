@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="工厂、抽象工厂、策略模式设计原则什么是设计原则设计原则是一套设计原则的行为准则，用来约束代码设计的。 就好比国家的法律，法律是用来约束人民的，为了使人民能够和谐相处，所以是一个好的约束。 那么同理，设计原则也是一个好的约束，是为了让我们设计出更好的代码。所以也是一个好的约束。 在设计代码里面一共分为6个原则，也即6个约束! 设计原则类型单一职责原则要点：一个方法一个类只负责一个事情 核心条件：一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1、工厂、抽象工厂、策略模式">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/05/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/1%E3%80%81%E5%B7%A5%E5%8E%82%E3%80%81%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E3%80%81%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="工厂、抽象工厂、策略模式设计原则什么是设计原则设计原则是一套设计原则的行为准则，用来约束代码设计的。 就好比国家的法律，法律是用来约束人民的，为了使人民能够和谐相处，所以是一个好的约束。 那么同理，设计原则也是一个好的约束，是为了让我们设计出更好的代码。所以也是一个好的约束。 在设计代码里面一共分为6个原则，也即6个约束! 设计原则类型单一职责原则要点：一个方法一个类只负责一个事情 核心条件：一个">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-01T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-26T11:32:50.699Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="设计模式">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/05/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/1%E3%80%81%E5%B7%A5%E5%8E%82%E3%80%81%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E3%80%81%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>1、工厂、抽象工厂、策略模式 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/05/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/1%E3%80%81%E5%B7%A5%E5%8E%82%E3%80%81%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E3%80%81%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          1、工厂、抽象工厂、策略模式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-01 10:48:57" itemprop="dateCreated datePublished" datetime="2022-05-01T10:48:57+08:00">2022-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-26 19:32:50" itemprop="dateModified" datetime="2024-01-26T19:32:50+08:00">2024-01-26</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/05/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/1%E3%80%81%E5%B7%A5%E5%8E%82%E3%80%81%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E3%80%81%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/05/01/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/1%E3%80%81%E5%B7%A5%E5%8E%82%E3%80%81%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E3%80%81%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="工厂、抽象工厂、策略模式"><a href="#工厂、抽象工厂、策略模式" class="headerlink" title="工厂、抽象工厂、策略模式"></a><a href="#%E5%B7%A5%E5%8E%82-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F">工厂、抽象工厂、策略模式</a></h1><h2 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a><a href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99">设计原则</a></h2><h3 id="什么是设计原则"><a href="#什么是设计原则" class="headerlink" title="什么是设计原则"></a><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99">什么是设计原则</a></h3><p>设计原则是一套设计原则的行为准则，用来约束代码设计的。</p>
+<p>就好比国家的法律，法律是用来约束人民的，为了使人民能够和谐相处，所以是一个好的约束。</p>
+<p>那么同理，设计原则也是一个好的约束，是为了让我们设计出更好的代码。所以也是一个好的约束。</p>
+<p>在设计代码里面一共分为6个原则，也即6个约束!</p>
+<h3 id="设计原则类型"><a href="#设计原则类型" class="headerlink" title="设计原则类型"></a><a href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E7%B1%BB%E5%9E%8B">设计原则类型</a></h3><h4 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a><a href="#%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99">单一职责原则</a></h4><p>要点：一个方法一个类只负责一个事情</p>
+<p>核心条件：一个类只有一个类似的功能方法。</p>
+<p>定义：不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。<br>问题由来：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
+<p>解决方案：遵循单一职责原则。分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。</p>
+<h4 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a><a href="#%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99">依赖倒置原则</a></h4><p>要点：依赖抽象，不依赖具体</p>
+<p>核心条件：使用接口编程</p>
+<p>定义：高层模块不应该依赖低层模块，二者都应该依赖其抽象；抽象不应该依赖细节；细节应该依赖抽象。</p>
+<p>问题由来：类A直接依赖类B，假如要将类A改为依赖类C，则必须通过修改类A的代码来达成。这种场景下，类A一般是高层模块，负责复杂的业务逻辑；类B和类C是低层模块，负责基本的原子操作；假如修改类A，会给程序带来不必要的风险。</p>
+<p>解决方案：将类A修改为依赖接口I，类B和类C各自实现接口I，类A通过接口I间接与类B或者类C发生联系，则会大大降低修改类A的几率。</p>
+<p>例如：</p>
+<p>我们给小孩讲故事书上面的故事 父母 故事书，小孩长大了，需要讲电视上的故事，父母不会讲了，所以我们需要抽象出讲故事的接口，分别让父母依赖讲故事接口就可以了。这就是依赖倒置。</p>
+<ul>
+<li>代码例子<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line"></span><br><span class="line">// 定义一个抽象接口</span><br><span class="line">public interface IWriter</span><br><span class="line">&#123;</span><br><span class="line">    void Write(string data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 高层模块（业务逻辑）</span><br><span class="line">public class App</span><br><span class="line">&#123;</span><br><span class="line">    private readonly IWriter writer;</span><br><span class="line"></span><br><span class="line">    public App(IWriter writer)</span><br><span class="line">    &#123;</span><br><span class="line">        this.writer = writer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Run()</span><br><span class="line">    &#123;</span><br><span class="line">        string data = &quot;Hello, Dependency Inversion Principle!&quot;;</span><br><span class="line">        writer.Write(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 低层模块1（实现抽象接口）</span><br><span class="line">public class ConsoleWriter : IWriter</span><br><span class="line">&#123;</span><br><span class="line">    public void Write(string data)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine($&quot;Writing to console: &#123;data&#125;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 低层模块2（实现抽象接口）</span><br><span class="line">public class FileWriter : IWriter</span><br><span class="line">&#123;</span><br><span class="line">    private readonly string filePath;</span><br><span class="line"></span><br><span class="line">    public FileWriter(string filePath)</span><br><span class="line">    &#123;</span><br><span class="line">        this.filePath = filePath;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Write(string data)</span><br><span class="line">    &#123;</span><br><span class="line">        System.IO.File.WriteAllText(filePath, data);</span><br><span class="line">        Console.WriteLine($&quot;Writing to file &#x27;&#123;filePath&#125;&#x27;: &#123;data&#125;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 应用程序入口</span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main()</span><br><span class="line">    &#123;</span><br><span class="line">        // 在应用中使用依赖倒置原则</span><br><span class="line">        var consoleWriter = new ConsoleWriter();</span><br><span class="line">        var fileWriter = new FileWriter(&quot;output.txt&quot;);</span><br><span class="line"></span><br><span class="line">        var appWithConsole = new App(consoleWriter);</span><br><span class="line">        var appWithFile = new App(fileWriter);</span><br><span class="line"></span><br><span class="line">        appWithConsole.Run();</span><br><span class="line">        appWithFile.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在这个例子中，抽象接口 IWriter 定义了一个 Write 方法，而高层模块 App 依赖于这个抽象接口而非具体的实现。ConsoleWriter 和 FileWriter 分别是低层模块，它们实现了 IWriter 接口。在应用程序入口中，我们实例化了不同的 IWriter 实现，然后将它们传递给 App 类，演示了依赖倒置原则。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a><a href="#%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99">开闭原则</a></h4><p>要点：对扩展开发，对修改关闭</p>
+<p>核心条件：使用接口和抽象类</p>
+<p>定义：一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。</p>
+<p>问题由来：在软件的生命周期内，因为变化、升级和维护等原因需要对软件原有代码进行修改时，可能会给旧代码中引入错误，也可能会使我们不得不对整个功能进行重构，并且需要原有代码经过重新测试。</p>
+<p>解决方案：当软件需要变化时，尽量通过扩展软件实体的行为来实现变化，而不是通过修改已有的代码来实现变化。</p>
+<ul>
+<li>代码实例<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line"></span><br><span class="line">// 定义一个抽象类或接口，表示图形</span><br><span class="line">public abstract class Shape</span><br><span class="line">&#123;</span><br><span class="line">    public abstract double Area();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体图形类1：矩形</span><br><span class="line">public class Rectangle : Shape</span><br><span class="line">&#123;</span><br><span class="line">    public double Width &#123; get; set; &#125;</span><br><span class="line">    public double Height &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public override double Area()</span><br><span class="line">    &#123;</span><br><span class="line">        return Width * Height;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体图形类2：圆形</span><br><span class="line">public class Circle : Shape</span><br><span class="line">&#123;</span><br><span class="line">    public double Radius &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public override double Area()</span><br><span class="line">    &#123;</span><br><span class="line">        return Math.PI * Radius * Radius;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 计算图形面积的类</span><br><span class="line">public class AreaCalculator</span><br><span class="line">&#123;</span><br><span class="line">    // 开闭原则的体现：通过扩展 Shape 类的子类来新增图形类型，而不需要修改 AreaCalculator 类的代码。</span><br><span class="line">    public double CalculateArea(List&lt;Shape&gt; shapes)</span><br><span class="line">    &#123;</span><br><span class="line">        double totalArea = 0;</span><br><span class="line"></span><br><span class="line">        foreach (var shape in shapes)</span><br><span class="line">        &#123;</span><br><span class="line">            totalArea += shape.Area();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return totalArea;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 应用程序入口</span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main()</span><br><span class="line">    &#123;</span><br><span class="line">        // 创建不同类型的图形</span><br><span class="line">        var rectangle = new Rectangle &#123; Width = 5, Height = 10 &#125;;</span><br><span class="line">        var circle = new Circle &#123; Radius = 7 &#125;;</span><br><span class="line"></span><br><span class="line">        // 使用 AreaCalculator 计算总面积</span><br><span class="line">        var areaCalculator = new AreaCalculator();</span><br><span class="line">        var totalArea = areaCalculator.CalculateArea(new List&lt;Shape&gt; &#123; rectangle, circle &#125;);</span><br><span class="line"></span><br><span class="line">        Console.WriteLine($&quot;Total Area: &#123;totalArea&#125;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在这个示例中，Shape 是一个抽象类，表示各种图形。Rectangle 和 Circle 是具体的图形类，它们继承自 Shape 并实现了 Area 方法。AreaCalculator 类通过接收一个包含不同类型图形的列表，计算它们的总面积。通过新增其他图形类而无需修改 AreaCalculator 类，我们遵循了开闭原则。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="接口隔离原则"><a href="#接口隔离原则" class="headerlink" title="接口隔离原则"></a><a href="#%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99">接口隔离原则</a></h4><p>要点：使用多个隔离的接口，比使用单个接口要好</p>
+<p>核心条件：将接口按照功能进行拆分成多个子接口</p>
+<p>定义：客户端不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。<br>问题由来：类A通过接口I依赖类B，类C通过接口I依赖类D，如果接口I对于类A和类B来说不是最小接口，则类B和类D必须去实现他们不需要的方法。</p>
+<p>解决方案：将臃肿的接口I拆分为独立的几个接口，类A和类C分别与他们需要的接口建立依赖关系。也就是采用接口隔离原则。</p>
+<p>例如：</p>
+<p>天空的鸟，有两个功能，会飞，吃虫子</p>
+<p>这个时候，我们人类模仿鸟类实现了飞行的功能。这个时候肯定会继承鸟类的所有功QQ能，可是人吃饭不能吃虫子啊，所有必须讲鸟类的会飞和吃虫子功能拆分开，然后各取所需</p>
+<h4 id="里氏代换原则"><a href="#里氏代换原则" class="headerlink" title="里氏代换原则"></a><a href="#%E9%87%8C%E6%B0%8F%E4%BB%A3%E6%8D%A2%E5%8E%9F%E5%88%99">里氏代换原则</a></h4><p>要点：使用子类代替基类(不能重写父类的方法)</p>
+<p>核心条件：使用子类</p>
+<p>问题由来：有一功能P1，由类A完成。现需要将功能P1进行扩展，扩展后的功能为P，其中P由原有功能P1与新功能P2组成。新功能P由类A的子类B来完成，则子类B在完成新功能P2的同时，有可能会导致原有功能P1发生故障。</p>
+<p>解决方案：当使用继承时，遵循里氏替换原则。类B继承类A时，除添加新的方法完成新增功能P2外，尽量不要重写父类A的方法，也尽量不要重载父类A的方法。</p>
+<p>继承包含这样一层含义：父类中凡是已经实现好的方法（相对于抽象方法而言），实际上是在设定一系列的规范和契约，虽然它不强制要求所有的子类必须遵从这些契约，但是如果子类对这些非抽象方法任意修改，就会对整个继承体系造成破坏。而里氏替换原则就是表达了这一层含义。</p>
+<p>例如：</p>
+<p>子女继承父母的爱哭的性格特点，但是在改变的时候，子女只能改变自己的性格特点，不能改变父母的性格特点。</p>
+<h4 id="迪米特法则，又称最少知道原则"><a href="#迪米特法则，又称最少知道原则" class="headerlink" title="迪米特法则，又称最少知道原则"></a><a href="#%E8%BF%AA%E7%B1%B3%E7%89%B9%E6%B3%95%E5%88%99-%E5%8F%88%E7%A7%B0%E6%9C%80%E5%B0%91%E7%9F%A5%E9%81%93%E5%8E%9F%E5%88%99">迪米特法则，又称最少知道原则</a></h4><p>要点：类与类之间相互调用尽量少</p>
+<p>核心条件：一个类暴露的信息越少越好(封装)。提供层次尽量少</p>
+<p>定义：一个对象应该对其他对象保持最少的了解。</p>
+<p>问题由来：类与类之间的关系越密切，耦合度越大，当一个类发生改变时，对另一个类的影响也越大。</p>
+<p>解决方案：尽量降低类与类之间的耦合。</p>
+<p>迪米特法则又叫最少知道原则，最早是在1987年由美国Northeastern University的Ian Holland提出。通俗的来讲，就是一个类对自己依赖的类知道的越少越好。也就是说，对于被依赖的类来说，无论逻辑多么复杂，都尽量地的将逻辑封装在类的内部，对外除了提供的public方法，不对外泄漏任何信息。迪米特法则还有一个更简单的定义：只与直接的朋友通信。首先来解释一下什么是直接的朋友：每个对象都会与其他对象有耦合关系，只要两个对象之间有耦合关系，我们就说这两个对象之间是朋友关系。耦合的方式很多，依赖、关联、组合、聚合等。其中，我们称出现成员变量、方法参数、方法返回值中的类为直接的朋友，而出现在局部变量中的类则不是直接的朋友。也就是说，陌生的类最好不要作为局部变量的形式出现在类的内部。</p>
+<p>例如：</p>
+<p>公司有老板，有部分经理，有员工，老板和经理通信，不能直接和员工通信。</p>
+<h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a><a href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式</a></h2><h3 id="什么是设计模式"><a href="#什么是设计模式" class="headerlink" title="什么是设计模式"></a><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">什么是设计模式</a></h3><p>设计模式就是设计开发软件的套路，就是告诉你们如何玩软件</p>
+<p>代表了最佳的实践，同时呢，是代码设计经验的总结。也称作为程序内功心法。</p>
+<h3 id="为什么要使用设计模式"><a href="#为什么要使用设计模式" class="headerlink" title="为什么要使用设计模式"></a><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">为什么要使用设计模式</a></h3><p>由于设计模式是一套心法，让我们在设计代码的过程中少走很多弯路，是走向架构的必备前提条件</p>
+<h3 id="设计模式类型"><a href="#设计模式类型" class="headerlink" title="设计模式类型"></a><a href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9E%8B">设计模式类型</a></h3><p>创建型</p>
+<p>作用：创建对象</p>
+<p>优点：创建对象更加灵活</p>
+<p>结构型：</p>
+<p>作用：动态提供类和的组合</p>
+<p>优点：提高类和对象的复用性，增加扩展性</p>
+<p>行为型</p>
+<p>作用：对象之间交互</p>
+<p>优点：将对象之间关系进行解耦，独立扩展性高</p>
+<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a><a href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F">工厂模式</a></h3><h4 id="什么是工厂模式"><a href="#什么是工厂模式" class="headerlink" title="什么是工厂模式"></a><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F">什么是工厂模式</a></h4><p>定义：</p>
+<p>工厂模式就是我们需要一个对象，不是直接创建，而是从一个工厂对象获取。</p>
+<p>举例：</p>
+<p>好比您需要一辆汽车，可以直接从工厂里面提货，而不用去管这辆汽车是怎么做出来的，以及这个汽车里面的具体实现。</p>
+<p>总结：</p>
+<p>工厂模式属于创建型模式，它提供了一种创建对象的最佳方式。</p>
+<p>工厂模式关心的是最终产出(创建)的对象, 而不关心创建的过程。</p>
+<h4 id="为什么要使用工厂模式"><a href="#为什么要使用工厂模式" class="headerlink" title="为什么要使用工厂模式"></a><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F">为什么要使用工厂模式</a></h4><p>我们平时都是直接new对象的，为什么还要使用工厂模式呢，我们来看一下一个简单的例子</p>
+<p>验证码场景</p>
+<p>实现一个验证码</p>
+<p>条件</p>
+<p>1、区域</p>
+<p>2、数字</p>
+<p>对于验证码的区域，客户需要我们画一个矩形区域，过一段时间后，客户又需要画一个圆形区域，又过一段时间，客户又需要我们画一个正方形区域，大家都明白，客户的需求是无止境的。那么我们一个个改代码，把原有的代码去掉。</p>
+<p>聪明的我们，为了保留以前的代码，所以我们进行了抽象。为了适应代码的变化</p>
+<p>这个时候，客户又说，我想自动选择区域。所以使用工厂模式来解决</p>
+<p>总结：工厂模式就是用来解决动态选择接口的问题</p>
+<h4 id="如何实现工厂模式"><a href="#如何实现工厂模式" class="headerlink" title="如何实现工厂模式"></a><a href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F">如何实现工厂模式</a></h4><p>条件</p>
+<p>1、工厂类</p>
+<p>2、接口选择方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line"></span><br><span class="line">// 抽象产品</span><br><span class="line">public interface IProduct</span><br><span class="line">&#123;</span><br><span class="line">    void Create();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体产品1</span><br><span class="line">public class ConcreteProduct1 : IProduct</span><br><span class="line">&#123;</span><br><span class="line">    public void Create()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;Creating ConcreteProduct1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体产品2</span><br><span class="line">public class ConcreteProduct2 : IProduct</span><br><span class="line">&#123;</span><br><span class="line">    public void Create()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;Creating ConcreteProduct2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 抽象工厂</span><br><span class="line">public interface IFactory</span><br><span class="line">&#123;</span><br><span class="line">    IProduct CreateProduct();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体工厂1</span><br><span class="line">public class ConcreteFactory1 : IFactory</span><br><span class="line">&#123;</span><br><span class="line">    public IProduct CreateProduct()</span><br><span class="line">    &#123;</span><br><span class="line">        return new ConcreteProduct1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体工厂2</span><br><span class="line">public class ConcreteFactory2 : IFactory</span><br><span class="line">&#123;</span><br><span class="line">    public IProduct CreateProduct()</span><br><span class="line">    &#123;</span><br><span class="line">        return new ConcreteProduct2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 客户端代码</span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main()</span><br><span class="line">    &#123;</span><br><span class="line">        // 使用工厂1创建产品1</span><br><span class="line">        IFactory factory1 = new ConcreteFactory1();</span><br><span class="line">        IProduct product1 = factory1.CreateProduct();</span><br><span class="line">        product1.Create();</span><br><span class="line"></span><br><span class="line">        // 使用工厂2创建产品2</span><br><span class="line">        IFactory factory2 = new ConcreteFactory2();</span><br><span class="line">        IProduct product2 = factory2.CreateProduct();</span><br><span class="line">        product2.Create();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在这个示例中，IProduct 是一个抽象产品接口，定义了产品的创建方法。ConcreteProduct1 和 ConcreteProduct2 分别是具体产品类，实现了 IProduct 接口。<br>IFactory 是一个抽象工厂接口，定义了创建产品的方法。ConcreteFactory1 和 ConcreteFactory2 是具体工厂类，分别实现了 IFactory 接口，负责创建相应的产品。<br>在客户端代码中，我们通过实例化不同的工厂对象，调用其 CreateProduct 方法创建不同的产品对象，并调用其 Create 方法执行具体产品的操作。这种方式可以方便地扩展和替换具体产品和工厂类，实现了工厂模式的灵活性。</p>
+</blockquote>
+<h3 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a><a href="#%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F">抽象工厂模式</a></h3><h4 id="什么是抽象工厂模式"><a href="#什么是抽象工厂模式" class="headerlink" title="什么是抽象工厂模式"></a><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F">什么是抽象工厂模式</a></h4><p>定义：</p>
+<p>抽象工厂模式就是我们需要一个工厂，不是直接通过new一个工厂，而是从一个超级工厂对象来获取这个工厂</p>
+<p>举例：</p>
+<p>好比您需要一辆汽车，可以直接从汽车工厂里面提货，而不用去管这辆汽车是怎么做出来的，以及这个汽车里面的具体实现。</p>
+<p>好比您需要一辆摩托车，可以直接从摩托车工厂里面提货，而不用去管这辆汽车是怎么做出来的，以及这个汽车里面的具体实现。</p>
+<p>好比您需要一辆电动车，可以直接从电动车工厂里面提货，而不用去管这辆汽车是怎么做出来的，以及这个汽车里面的具体实现。</p>
+<p>如果我们从淘宝一起将汽车、摩托车、电动车一起提出来，淘宝就是抽象工厂</p>
+<p>总结：</p>
+<p>抽象工厂模式（Abstract Factory Pattern）是围绕一个超级工厂创建其他工厂。</p>
+<p>该超级工厂又称为其他工厂的工厂。</p>
+<p>这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。</p>
+<h4 id="为什么要使用抽象工厂模式"><a href="#为什么要使用抽象工厂模式" class="headerlink" title="为什么要使用抽象工厂模式"></a><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F">为什么要使用抽象工厂模式</a></h4><p>验证的画区域完成后，需要填充颜色。画区域和填充颜色是一样的原理。</p>
+<p>如果客户端需要动态选择工厂，那我们就需要使用抽象工厂模式</p>
+<h4 id="如何实现抽象工厂模式"><a href="#如何实现抽象工厂模式" class="headerlink" title="如何实现抽象工厂模式"></a><a href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F">如何实现抽象工厂模式</a></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line"></span><br><span class="line">// 抽象产品A</span><br><span class="line">public interface IProductA</span><br><span class="line">&#123;</span><br><span class="line">    void Display();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体产品A1</span><br><span class="line">public class ConcreteProductA1 : IProductA</span><br><span class="line">&#123;</span><br><span class="line">    public void Display()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;ProductA1 is displayed&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体产品A2</span><br><span class="line">public class ConcreteProductA2 : IProductA</span><br><span class="line">&#123;</span><br><span class="line">    public void Display()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;ProductA2 is displayed&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 抽象产品B</span><br><span class="line">public interface IProductB</span><br><span class="line">&#123;</span><br><span class="line">    void Show();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体产品B1</span><br><span class="line">public class ConcreteProductB1 : IProductB</span><br><span class="line">&#123;</span><br><span class="line">    public void Show()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;ProductB1 is shown&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体产品B2</span><br><span class="line">public class ConcreteProductB2 : IProductB</span><br><span class="line">&#123;</span><br><span class="line">    public void Show()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;ProductB2 is shown&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 抽象工厂接口</span><br><span class="line">public interface IAbstractFactory</span><br><span class="line">&#123;</span><br><span class="line">    IProductA CreateProductA();</span><br><span class="line">    IProductB CreateProductB();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体工厂1</span><br><span class="line">public class ConcreteFactory1 : IAbstractFactory</span><br><span class="line">&#123;</span><br><span class="line">    public IProductA CreateProductA()</span><br><span class="line">    &#123;</span><br><span class="line">        return new ConcreteProductA1();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public IProductB CreateProductB()</span><br><span class="line">    &#123;</span><br><span class="line">        return new ConcreteProductB1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体工厂2</span><br><span class="line">public class ConcreteFactory2 : IAbstractFactory</span><br><span class="line">&#123;</span><br><span class="line">    public IProductA CreateProductA()</span><br><span class="line">    &#123;</span><br><span class="line">        return new ConcreteProductA2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public IProductB CreateProductB()</span><br><span class="line">    &#123;</span><br><span class="line">        return new ConcreteProductB2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 客户端代码</span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main()</span><br><span class="line">    &#123;</span><br><span class="line">        // 使用具体工厂1创建一组产品</span><br><span class="line">        IAbstractFactory factory1 = new ConcreteFactory1();</span><br><span class="line">        IProductA productA1 = factory1.CreateProductA();</span><br><span class="line">        IProductB productB1 = factory1.CreateProductB();</span><br><span class="line"></span><br><span class="line">        productA1.Display();</span><br><span class="line">        productB1.Show();</span><br><span class="line"></span><br><span class="line">        Console.WriteLine();</span><br><span class="line"></span><br><span class="line">        // 使用具体工厂2创建一组产品</span><br><span class="line">        IAbstractFactory factory2 = new ConcreteFactory2();</span><br><span class="line">        IProductA productA2 = factory2.CreateProductA();</span><br><span class="line">        IProductB productB2 = factory2.CreateProductB();</span><br><span class="line"></span><br><span class="line">        productA2.Display();</span><br><span class="line">        productB2.Show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在这个示例中，IProductA 和 IProductB 分别是两个抽象产品接口，定义了不同种类产品的操作。ConcreteProductA1、ConcreteProductA2、ConcreteProductB1 和 ConcreteProductB2 是具体产品类，实现了对应的抽象产品接口。<br>IAbstractFactory 是抽象工厂接口，定义了创建不同种类产品的方法。ConcreteFactory1 和 ConcreteFactory2 是具体工厂类，实现了 IAbstractFactory 接口，分别负责创建一组相关的产品。</p>
+</blockquote>
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a><a href="#%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F">策略模式</a></h3><h4 id="什么是策略模式"><a href="#什么是策略模式" class="headerlink" title="什么是策略模式"></a><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F">什么是策略模式</a></h4><p>定义：</p>
+<p>策略模式就是用来代替if….else的一种设计模式，属于行为型设计模式。</p>
+<p>举例：</p>
+<p>我们去上班，如果是太阳，我们选择走路去上班。如果是阴天，我们选择骑自行车。如果是下雨天，我们选择开车。等等</p>
+<p>走路，骑自行车，开车，这就是上班的策略。</p>
+<p>总结：</p>
+<p>在策略模式（Strategy Pattern）中，一个类的行为或其算法可以在运行时更改。这种类型的设计模式属于行为型模式。</p>
+<p>在策略模式中，我们创建表示各种策略的对象和一个行为随着策略对象改变而改变的 context 对象。策略对象改变 context 对象的执行算法。</p>
+<h4 id="为什么要使用策略模式"><a href="#为什么要使用策略模式" class="headerlink" title="为什么要使用策略模式"></a><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F">为什么要使用策略模式</a></h4><p>少儿编程中</p>
+<p>数字的4则运算</p>
+<p>如果少儿5个月，6个月，7个月，8个月，一岁，需要增加开根号，2岁，需要计算平方了。三岁，需要弄三叫函数了等等</p>
+<p>如果我们都是写在一个代码里面，每需求修改一次，都是修改这个运算类，是无止境的，当我修改加法运算的时候，又会修改这个类，导致这个类永远在被修改，无法提供良好的扩展性。</p>
+<p>所有就出现了策略模式代替</p>
+<p><strong>优点：</strong> 1、算法可以自由切换。 2、避免使用多重条件判断。 3、扩展性良好。</p>
+<p><strong>缺点：</strong> 1、策略类会增多。 2、所有策略类都需要对外暴露。</p>
+<h4 id="如何实现策略模式"><a href="#如何实现策略模式" class="headerlink" title="如何实现策略模式"></a><a href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F">如何实现策略模式</a></h4><p>条件</p>
+<p>1、策略接口</p>
+<p>2、策略选择类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line"></span><br><span class="line">// 策略接口</span><br><span class="line">public interface IStrategy</span><br><span class="line">&#123;</span><br><span class="line">    void Execute();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体策略1</span><br><span class="line">public class ConcreteStrategy1 : IStrategy</span><br><span class="line">&#123;</span><br><span class="line">    public void Execute()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;Executing Strategy 1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体策略2</span><br><span class="line">public class ConcreteStrategy2 : IStrategy</span><br><span class="line">&#123;</span><br><span class="line">    public void Execute()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;Executing Strategy 2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 上下文类，用于设置和执行策略</span><br><span class="line">public class Context</span><br><span class="line">&#123;</span><br><span class="line">    private IStrategy strategy;</span><br><span class="line"></span><br><span class="line">    public Context(IStrategy strategy)</span><br><span class="line">    &#123;</span><br><span class="line">        this.strategy = strategy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void SetStrategy(IStrategy strategy)</span><br><span class="line">    &#123;</span><br><span class="line">        this.strategy = strategy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void ExecuteStrategy()</span><br><span class="line">    &#123;</span><br><span class="line">        strategy.Execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 客户端代码</span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main()</span><br><span class="line">    &#123;</span><br><span class="line">        // 创建具体策略对象</span><br><span class="line">        IStrategy strategy1 = new ConcreteStrategy1();</span><br><span class="line">        IStrategy strategy2 = new ConcreteStrategy2();</span><br><span class="line"></span><br><span class="line">        // 使用策略1</span><br><span class="line">        Context context = new Context(strategy1);</span><br><span class="line">        context.ExecuteStrategy();</span><br><span class="line"></span><br><span class="line">        Console.WriteLine();</span><br><span class="line"></span><br><span class="line">        // 切换到策略2</span><br><span class="line">        context.SetStrategy(strategy2);</span><br><span class="line">        context.ExecuteStrategy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在这个示例中，IStrategy 是策略接口，定义了一个执行策略的方法 Execute。ConcreteStrategy1 和 ConcreteStrategy2 是具体策略类，实现了 IStrategy 接口，分别表示两种不同的策略。<br>Context 类是上下文类，它包含一个成员变量 strategy，用于保存当前的策略。通过 SetStrategy 方法可以在运行时切换不同的策略，并通过 ExecuteStrategy 方法执行当前策略。<br>在客户端代码中，我们创建了两个具体的策略对象 strategy1 和 strategy2，并分别传递给 Context 对象，然后通过 ExecuteStrategy 方法执行当前的策略。通过调用 SetStrategy 方法，我们还可以在运行时切换不同的策略，实现了策略模式的灵活性。</p>
+</blockquote>
+<h3 id="综合案例IOC"><a href="#综合案例IOC" class="headerlink" title="综合案例IOC"></a><a href="#%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8Bioc">综合案例IOC</a></h3><h4 id="什么是IOC"><a href="#什么是IOC" class="headerlink" title="什么是IOC"></a><a href="#%E4%BB%80%E4%B9%88%E6%98%AFioc">什么是IOC</a></h4><p>IOC，就是控制反转。对象由工厂创建，这个过程就叫做IOC,没有工厂之前，我们都是自己创建对象，然后使用，现在由工厂创建对象，这个过程就是IOC。</p>
+<p>对象由三个阶段组成，对象创建，对象使用，对象销毁。控制的是什么，控制的是对象创建和对象销毁。</p>
+<p>那么什么是IOC容器，能够创建n个对象，然后能够存储起来，就是IOC容器。</p>
+<p>什么是DI，DI就是对象属性由IOC容器赋值的过程就。</p>
+<p>例如：容器有对象A和对象B，将对象B值赋值给对象A就是DI</p>
+<p>有两层意思</p>
+<p>1、对象的创建由工厂创建</p>
+<p>2、对象的属性由工厂赋值</p>
+<p>3、对象的代理由工厂代理</p>
+<p>这三个功能合起来就是IOC</p>
+<h4 id="为什么要使用IOC"><a href="#为什么要使用IOC" class="headerlink" title="为什么要使用IOC"></a><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8ioc">为什么要使用IOC</a></h4><p>目的：提高通用性和扩展性。</p>
+<p>1、降低耦合度</p>
+<p>2、提高扩展性</p>
+<h4 id="如何实现IOC"><a href="#如何实现IOC" class="headerlink" title="如何实现IOC"></a><a href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0ioc">如何实现IOC</a></h4><p>条件</p>
+<p>1、工厂</p>
+<p>2、集合</p>
+<p>3、反射</p>
+<p>4、配置</p>
+<p>步骤</p>
+<p>1、创建工厂对象和容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">  </span><br><span class="line">class DefaultIOCFactory</span><br><span class="line">&#123;</span><br><span class="line">        /// 1、IOC容器(存储对象)</span><br><span class="line">        private Dictionary&lt;string, object&gt; iocContainer = new Dictionary&lt;string, object&gt;();</span><br><span class="line"></span><br><span class="line">        public DefaultIOCFactory()&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>2、程序集加载</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">class DefaultIOCFactory</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 1、IOC容器(存储对象)</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    private Dictionary&lt;string, object&gt; iocContainer = new Dictionary&lt;string, object&gt;();</span><br><span class="line">        public DefaultIOCFactory()&#123;</span><br><span class="line">            // 1、加载程序集</span><br><span class="line">            Assembly assembly = Assembly.LoadFrom(&quot;RuanMou.ArchitectRelax.DesignMode1&quot;);</span><br><span class="line">           &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、创建对象</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">  class DefaultIOCFactory</span><br><span class="line">&#123;</span><br><span class="line"> /// &lt;summary&gt;</span><br><span class="line">        /// 1、IOC容器(存储对象)</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        private Dictionary&lt;string, object&gt; iocContainer = new Dictionary&lt;string, object&gt;();</span><br><span class="line">   public DefaultIOCFactory()&#123;</span><br><span class="line">        // 1、加载程序集</span><br><span class="line">            Assembly assembly = Assembly.Load(&quot;RuanMou.ArchitectRelax.DesignMode1&quot;);</span><br><span class="line">         // 2、使用反射从程序集获取对象类型</span><br><span class="line">            Type[] types = assembly.GetTypes();</span><br><span class="line">             foreach (var type in types)</span><br><span class="line">            &#123;</span><br><span class="line">                // 3.1 创建对象/对象属性赋值</span><br><span class="line">                object _obejct = Activator.CreateInstance(type);</span><br><span class="line"></span><br><span class="line">                // 3.2 对象存储</span><br><span class="line">                iocContainer.Add(type.Name, _obejct);</span><br><span class="line">            &#125;</span><br><span class="line">           &#125; </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>4、对象依赖注入<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">       </span><br><span class="line">  ///  递归创建对象</span><br><span class="line">///  1、先找出抽象通用逻辑</span><br><span class="line">///  2、然后找出通用逻辑里面通用的参数</span><br><span class="line">///  3、最后封装成函数，自己调用自己</span><br></pre></td></tr></table></figure></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">   class DefaultIOCFactory</span><br><span class="line">&#123;</span><br><span class="line"> /// &lt;summary&gt;</span><br><span class="line">        /// 1、IOC容器(存储对象)</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        private Dictionary&lt;string, object&gt; iocContainer = new Dictionary&lt;string, object&gt;();</span><br><span class="line">   public DefaultIOCFactory()&#123;</span><br><span class="line">        // 1、加载程序集</span><br><span class="line">            Assembly assembly = Assembly.Load(&quot;RuanMou.ArchitectRelax.DesignMode1&quot;);</span><br><span class="line">         // 2、使用反射从程序集获取对象类型</span><br><span class="line">            Type[] types = assembly.GetTypes();</span><br><span class="line">            foreach (var type in types)</span><br><span class="line">            &#123;</span><br><span class="line">                // 3.1 创建对象/对象属性赋值</span><br><span class="line">                object _obejct = Activator.CreateInstance(type);</span><br><span class="line"></span><br><span class="line">                // 3.2 属性赋值</span><br><span class="line">                PropertyInfo[] propertyInfos = type.GetProperties();</span><br><span class="line">                foreach (var item in propertyInfos)</span><br><span class="line">                &#123;</span><br><span class="line">                    foreach (var type1 in types)</span><br><span class="line">                    &#123;</span><br><span class="line">                        if (item.PropertyType.Name.Equals(type1.Name))</span><br><span class="line">                        &#123;</span><br><span class="line">                            object _obejct1 = Activator.CreateInstance(type1);</span><br><span class="line">                            item.SetValue(_obejct, _obejct1);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">           // 3.2 对象存储</span><br><span class="line">            iocContainer.Add(type.Name, _obejct);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>5、递归进行依赖注入​ 
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">  class DefaultIOCFactory</span><br><span class="line">&#123;</span><br><span class="line"> /// &lt;summary&gt;</span><br><span class="line">        /// 1、IOC容器(存储对象)</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        private Dictionary&lt;string, object&gt; iocContainer = new Dictionary&lt;string, object&gt;();</span><br><span class="line">   public DefaultIOCFactory()&#123;</span><br><span class="line">         // 1、加载程序集</span><br><span class="line">            Assembly assembly = Assembly.Load(&quot;RuanMou.ArchitectRelax.DesignMode1&quot;);</span><br><span class="line">         // 2、使用反射从程序集获取对象类型</span><br><span class="line">            Type[] types = assembly.GetTypes();</span><br><span class="line">             foreach (var type in types)</span><br><span class="line">            &#123;</span><br><span class="line">              object _obejct = CreateObject(type, types);</span><br><span class="line"></span><br><span class="line">             // 3.2 对象存储</span><br><span class="line">             iocContainer.Add(type.Name, _obejct);</span><br><span class="line">           &#125;</span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">   //递归进行对象依赖注入</span><br><span class="line">   public object CreateObject(Type type,Type[] types)</span><br><span class="line">        &#123;</span><br><span class="line">            // 3.1 创建对象/对象属性赋值</span><br><span class="line">            object _obejct = Activator.CreateInstance(type);</span><br><span class="line"></span><br><span class="line">            // 3.2 属性赋值</span><br><span class="line">            PropertyInfo[] propertyInfos = type.GetProperties();</span><br><span class="line">            foreach (var item in propertyInfos)</span><br><span class="line">            &#123;</span><br><span class="line">                foreach (var type1 in types)</span><br><span class="line">                &#123;</span><br><span class="line">                    if (item.PropertyType.Name.Equals(type1.Name))</span><br><span class="line">                    &#123;</span><br><span class="line">                        item.SetValue(_obejct, CreateObject(item.PropertyType, types));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return _obejct;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+<pre><code>6、Type容器递归进行对象依赖注入()
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">  class DefaultIOCFactory</span><br><span class="line">&#123;</span><br><span class="line"> /// &lt;summary&gt;</span><br><span class="line">        /// 1、IOC容器(存储对象)</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        private Dictionary&lt;string, object&gt; iocContainer = new Dictionary&lt;string, object&gt;();</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 2、IOC TYPE容器(存储对象)</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        private Dictionary&lt;string, Type&gt; iocTypeContainer = new Dictionary&lt;string, Type&gt;();</span><br><span class="line">   public DefaultIOCFactory()&#123;</span><br><span class="line">        // 1、加载程序集</span><br><span class="line">            Assembly assembly = Assembly.Load(&quot;RuanMou.ArchitectRelax.DesignMode1&quot;);</span><br><span class="line">         // 2、使用反射从程序集获取对象类型</span><br><span class="line">            Type[] types = assembly.GetTypes();</span><br><span class="line">              foreach (var type in types)</span><br><span class="line">            &#123;</span><br><span class="line">                iocTypeContainer.Add(type.Name, type);</span><br><span class="line">            &#125;</span><br><span class="line">             foreach (var type in types)</span><br><span class="line">            &#123;</span><br><span class="line">              object _obejct = CreateObject(type.Name);// 3.2 对象存储</span><br><span class="line">              iocContainer.Add(type.Name, _obejct);</span><br><span class="line">            &#125;</span><br><span class="line">         &#125; </span><br><span class="line"></span><br><span class="line">   //递归进行对象依赖注入</span><br><span class="line">  public object CreateObject(string typeName)</span><br><span class="line">        &#123;</span><br><span class="line">            // 1、从type容器获取Type</span><br><span class="line">            Type type = iocTypeContainer[typeName];</span><br><span class="line">            // 3.1 创建对象/对象属性赋值</span><br><span class="line">            object _obejct = Activator.CreateInstance(type);</span><br><span class="line"></span><br><span class="line">            // 3.2属性赋值</span><br><span class="line">            PropertyInfo[] propertyInfos = type.GetProperties();</span><br><span class="line">            foreach (var item in propertyInfos)</span><br><span class="line">            &#123;</span><br><span class="line">                 item.SetValue(_obejct, CreateObject(item.PropertyType.Name));</span><br><span class="line">            &#125;</span><br><span class="line">            return _obejct;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;   </span><br></pre></td></tr></table></figure>
+<pre><code>7、如何防止重复创建
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">  class DefaultIOCFactory</span><br><span class="line">&#123;</span><br><span class="line"> /// &lt;summary&gt;</span><br><span class="line">        /// 1、IOC容器(存储对象)</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        private Dictionary&lt;string, object&gt; iocContainer = new Dictionary&lt;string, object&gt;();</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 2、IOC TYPE容器(存储对象)</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        private Dictionary&lt;string, Type&gt; iocTypeContainer = new Dictionary&lt;string, Type&gt;();</span><br><span class="line">   public DefaultIOCFactory()&#123;</span><br><span class="line">        // 1、加载程序集</span><br><span class="line">            Assembly assembly = Assembly.Load(&quot;RuanMou.ArchitectRelax.DesignMode1&quot;);</span><br><span class="line">         // 2、使用反射从程序集获取对象类型</span><br><span class="line">            Type[] types = assembly.GetTypes();</span><br><span class="line">              foreach (var type in types)</span><br><span class="line">            &#123;</span><br><span class="line">                iocTypeContainer.Add(type.Name, type);</span><br><span class="line">            &#125;</span><br><span class="line">             foreach (var type in types)</span><br><span class="line">            &#123;</span><br><span class="line">              object _obejct = CreateObject(type.Name);// 3.2 对象存储</span><br><span class="line">    iocContainer.Add(type.Name, _obejct);</span><br><span class="line">   &#125;</span><br><span class="line">         &#125; </span><br><span class="line"></span><br><span class="line">   //递归进行对象依赖注入</span><br><span class="line">  public object CreateObject(string typeName)</span><br><span class="line">        &#123;</span><br><span class="line">           // 2、防止重复创建</span><br><span class="line">            if (iocContainer.ContainsKey(typeName))</span><br><span class="line">            &#123;</span><br><span class="line">                return iocContainer[typeName];</span><br><span class="line">            &#125;</span><br><span class="line">            // 1、从type容器获取Type</span><br><span class="line">            Type type = iocTypeContainer[typeName];</span><br><span class="line">            // 3.1 创建对象/对象属性赋值</span><br><span class="line">            object _obejct = Activator.CreateInstance(type);</span><br><span class="line"></span><br><span class="line">       // 3.2属性赋值</span><br><span class="line">        PropertyInfo[] propertyInfos = type.GetProperties();</span><br><span class="line">        foreach (var item in propertyInfos)</span><br><span class="line">        &#123;</span><br><span class="line">             item.SetValue(_obejct, CreateObject(item.PropertyType.Name));</span><br><span class="line">        &#125;</span><br><span class="line">        return _obejct;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+<pre><code>8、需要时创建对象
+</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">   </span><br><span class="line">     class DefaultIOCFactory</span><br><span class="line">&#123;</span><br><span class="line"> /// &lt;summary&gt;</span><br><span class="line">        /// 1、IOC容器(存储对象)</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        private Dictionary&lt;string, object&gt; iocContainer = new Dictionary&lt;string, object&gt;();</span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 2、IOC TYPE容器(存储对象)</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        private Dictionary&lt;string, Type&gt; iocTypeContainer = new Dictionary&lt;string, Type&gt;();</span><br><span class="line">   public DefaultIOCFactory()&#123;</span><br><span class="line">        // 1、加载程序集</span><br><span class="line">            Assembly assembly = Assembly.Load(&quot;RuanMou.ArchitectRelax.DesignMode1&quot;);</span><br><span class="line">         // 2、使用反射从程序集获取对象类型</span><br><span class="line">            Type[] types = assembly.GetTypes();</span><br><span class="line">              foreach (var type in types)</span><br><span class="line">            &#123;</span><br><span class="line">                iocTypeContainer.Add(type.Name, type);</span><br><span class="line">            &#125;</span><br><span class="line">             foreach (var type in types)</span><br><span class="line">            &#123;</span><br><span class="line">              object _obejct = CreateObject(type.Name);// 3.2 对象存储</span><br><span class="line">    iocContainer.Add(type.Name, _obejct);</span><br><span class="line">   &#125;</span><br><span class="line">         &#125; </span><br><span class="line"></span><br><span class="line">   //递归进行对象依赖注入</span><br><span class="line">  public object CreateObject(string typeName)</span><br><span class="line">        &#123;</span><br><span class="line">           // 2、防止重复创建</span><br><span class="line">            if (iocContainer.ContainsKey(typeName))</span><br><span class="line">            &#123;</span><br><span class="line">                return iocContainer[typeName];</span><br><span class="line">            &#125;</span><br><span class="line">            // 1、从type容器获取Type</span><br><span class="line">            Type type = iocTypeContainer[typeName];</span><br><span class="line">            // 3.1 创建对象/对象属性赋值</span><br><span class="line">            object _obejct = Activator.CreateInstance(type);</span><br><span class="line"></span><br><span class="line">   // 3.2属性赋值</span><br><span class="line">    PropertyInfo[] propertyInfos = type.GetProperties();</span><br><span class="line">    foreach (var item in propertyInfos)</span><br><span class="line">    &#123;</span><br><span class="line">         item.SetValue(_obejct, CreateObject(item.PropertyType.Name));</span><br><span class="line">    &#125;</span><br><span class="line">    return _obejct;</span><br><span class="line">&#125;</span><br><span class="line">       /// &lt;summary&gt;</span><br><span class="line">        /// 2、获取对象</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">       public object GetObject(string typeName)</span><br><span class="line">        &#123;</span><br><span class="line">            // 3.1 创建对象/对象属性赋值</span><br><span class="line">            object _obejct = CreateObject(typeName);</span><br><span class="line"></span><br><span class="line">            // 3.2 对象存储</span><br><span class="line">            iocContainer.Add(typeName, _obejct);</span><br><span class="line"></span><br><span class="line">            return _obejct;</span><br><span class="line">       &#125;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<p>9、如何进行对象过滤</p>
+<p>10、如何进行循环引用</p>
+<p>总结</p>
+<p>1、架构师修养</p>
+<p>2、6大设计原则</p>
+<p>3、设计模式</p>
+<p>​ 3.1 工厂模式</p>
+<p>​ 3.2 抽象工厂模式</p>
+<p>​ 3.3 策略模式</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag"># 设计模式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/01/23/hello-world/" rel="prev" title="欢迎来到我的技术博客！">
+      <i class="fa fa-chevron-left"></i> 欢迎来到我的技术博客！
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/05/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2%E3%80%81%E6%89%8B%E5%86%99IOC%E5%AE%B9%E5%99%A8/" rel="next" title="2、手写IOC容器">
+      2、手写IOC容器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B7%A5%E5%8E%82%E3%80%81%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E3%80%81%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">工厂、抽象工厂、策略模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">1.1.</span> <span class="nav-text">设计原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">1.1.1.</span> <span class="nav-text">什么是设计原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">设计原则类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">单一职责原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">依赖倒置原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">开闭原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">接口隔离原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8C%E6%B0%8F%E4%BB%A3%E6%8D%A2%E5%8E%9F%E5%88%99"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">里氏代换原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%AA%E7%B1%B3%E7%89%B9%E6%B3%95%E5%88%99%EF%BC%8C%E5%8F%88%E7%A7%B0%E6%9C%80%E5%B0%91%E7%9F%A5%E9%81%93%E5%8E%9F%E5%88%99"><span class="nav-number">1.1.2.6.</span> <span class="nav-text">迪米特法则，又称最少知道原则</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">什么是设计模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">为什么要使用设计模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.3.</span> <span class="nav-text">设计模式类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.4.</span> <span class="nav-text">工厂模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">什么是工厂模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">为什么要使用工厂模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">如何实现工厂模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.5.</span> <span class="nav-text">抽象工厂模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">什么是抽象工厂模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.5.2.</span> <span class="nav-text">为什么要使用抽象工厂模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.5.3.</span> <span class="nav-text">如何实现抽象工厂模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.6.</span> <span class="nav-text">策略模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">什么是策略模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">为什么要使用策略模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.6.3.</span> <span class="nav-text">如何实现策略模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8BIOC"><span class="nav-number">1.2.7.</span> <span class="nav-text">综合案例IOC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFIOC"><span class="nav-number">1.2.7.1.</span> <span class="nav-text">什么是IOC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8IOC"><span class="nav-number">1.2.7.2.</span> <span class="nav-text">为什么要使用IOC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0IOC"><span class="nav-number">1.2.7.3.</span> <span class="nav-text">如何实现IOC</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
