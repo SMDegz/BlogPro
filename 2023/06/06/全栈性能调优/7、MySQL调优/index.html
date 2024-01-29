@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="慢sql语句查询mysqld.exe –defaults-file&#x3D;D:\work\net\mysql\MySQL-Server-5.7\my.ini mysqld install MySQL –defaults-file&#x3D;D:\work\net\mysql\MySQL-Server-5.7\my.ini MySQL 慢查询的相关参数解释： slow_query_log ：是否">
+<meta property="og:type" content="article">
+<meta property="og:title" content="7、MySQL调优">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/7%E3%80%81MySQL%E8%B0%83%E4%BC%98/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="慢sql语句查询mysqld.exe –defaults-file&#x3D;D:\work\net\mysql\MySQL-Server-5.7\my.ini mysqld install MySQL –defaults-file&#x3D;D:\work\net\mysql\MySQL-Server-5.7\my.ini MySQL 慢查询的相关参数解释： slow_query_log ：是否">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-39.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-40.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-41.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-42.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-43.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-44.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-45.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-46.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-47.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-48.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-49.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-50.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-51.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-52.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-53.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-54.png">
+<meta property="article:published_time" content="2023-06-06T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-29T16:40:18.823Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="全栈性能调优">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images%E8%B0%83%E4%BC%98/image-39.png">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/7%E3%80%81MySQL%E8%B0%83%E4%BC%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>7、MySQL调优 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/7%E3%80%81MySQL%E8%B0%83%E4%BC%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          7、MySQL调优
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-06-06 10:48:57" itemprop="dateCreated datePublished" datetime="2023-06-06T10:48:57+08:00">2023-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-30 00:40:18" itemprop="dateModified" datetime="2024-01-30T00:40:18+08:00">2024-01-30</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/7%E3%80%81MySQL%E8%B0%83%E4%BC%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/7%E3%80%81MySQL%E8%B0%83%E4%BC%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="慢sql语句查询"><a href="#慢sql语句查询" class="headerlink" title="慢sql语句查询"></a>慢sql语句查询</h1><p>mysqld.exe –defaults-file&#x3D;D:\work\net\mysql\MySQL-Server-5.7\my.ini</p>
+<p>mysqld install MySQL –defaults-file&#x3D;D:\work\net\mysql\MySQL-Server-5.7\my.ini</p>
+<p>MySQL 慢查询的相关参数解释：</p>
+<p>slow_query_log ：是否开启慢查询日志，1表示开启，0表示关闭。</p>
+<p>log-slow-queries ：旧版（5.6以下版本）MySQL数据库慢查询日志存储路径。可以不设置该参数，系统则会默认给一个缺省的文件host_name-slow.log</p>
+<p>slow-query-log-file：新版（5.6及以上版本）MySQL数据库慢查询日志存储路径。可以不设置该参数，系统则会默认给一个缺省的文件host_name-slow.log</p>
+<p>long_query_time ：慢查询阈值，当查询时间多于设定的阈值时，记录日志。</p>
+<p>log_queries_not_using_indexes：未使用索引的查询也被记录到慢查询日志中（可选项）。</p>
+<p>log_output：日志存储方式。log_output&#x3D;‘FILE’表示将日志存入文件，默认值是’FILE’。log_output&#x3D;‘TABLE’表示将日志存入数据库，这样日志信息就会被写入到mysql.slow_log表中。MySQL数据库支持同时两种日志存储方式，配置的时候以逗号隔开即可，如：log_output&#x3D;‘FILE,TABLE’。日志记录到系统的专用日志表中，要比记录到文件耗费更多的系统资源，因此对于需要启用慢查询日志，又需要能够获得更高的系统性能，那么建议优先记录到文件。</p>
+<h1 id="查看慢查询日志"><a href="#查看慢查询日志" class="headerlink" title="查看慢查询日志"></a>查看慢查询日志</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like ‘%slow_query_log%’</span><br></pre></td></tr></table></figure>
+<p>开启慢查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global slow_query_log=1</span><br></pre></td></tr></table></figure>
+<p>关闭慢查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global slow_query_log=0</span><br></pre></td></tr></table></figure>
+<p>慢查询记录时间</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &#x27;long_query_time%&#x27;;</span><br></pre></td></tr></table></figure>
+<p>设置慢查询时间</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global long_query_time=4;</span><br></pre></td></tr></table></figure>
+<p>执行慢查询sql</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sleep(3);</span><br></pre></td></tr></table></figure>
+<p>日志分析工具<strong>mysqldumpslow</strong></p>
+<p>在生产环境中，如果要手工分析日志，查找、分析SQL，显然是个体力活，MySQL提供了日志分析工具mysqldumpslow</p>
+<p>查看mysqldumpslow的帮助信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@DB-Server ~]# mysqldumpslow --help mysqldump --help</span><br><span class="line">Usage: mysqldumpslow [ OPTS... ] [ LOGS... ]</span><br><span class="line"> </span><br><span class="line">Parse and summarize the MySQL slow query log. Options are</span><br><span class="line"> </span><br><span class="line">  --verbose    verbose</span><br><span class="line">  --debug      debug</span><br><span class="line">  --help       write this text to standard output</span><br><span class="line"> </span><br><span class="line">  -v           verbose</span><br><span class="line">  -d           debug</span><br><span class="line">  -s ORDER     what to sort by (al, at, ar, c, l, r, t), &#x27;at&#x27; is default</span><br><span class="line">                al: average lock time</span><br><span class="line">                ar: average rows sent</span><br><span class="line">                at: average query time</span><br><span class="line">                 c: count</span><br><span class="line">                 l: lock time</span><br><span class="line">                 r: rows sent</span><br><span class="line">                 t: query time  </span><br><span class="line">  -r           reverse the sort order (largest last instead of first)</span><br><span class="line">  -t NUM       just show the top n queries</span><br><span class="line">  -a           don&#x27;t abstract all numbers to N and strings to &#x27;S&#x27;</span><br><span class="line">  -n NUM       abstract numbers with at least n digits within names</span><br><span class="line">  -g PATTERN   grep: only consider stmts that include this string</span><br><span class="line">  -h HOSTNAME  hostname of db server for *-slow.log filename (can be wildcard),</span><br><span class="line">               default is &#x27;*&#x27;, i.e. match all</span><br><span class="line">  -i NAME      name of server instance (if using mysql.server startup script)</span><br><span class="line">  -l           don&#x27;t subtract lock time from total time</span><br></pre></td></tr></table></figure>
+<p>-s, 是表示按照何种方式排序，</p>
+<pre><code>c: 访问计数
+
+l: 锁定时间
+
+r: 返回记录
+
+t: 查询时间
+
+al:平均锁定时间
+
+ar:平均返回记录数
+
+at:平均查询时间
+</code></pre>
+<p>-t, 是top n的意思，即为返回前面多少条的数据；</p>
+<p>-g, 后边可以写一个正则匹配模式，大小写不敏感的；</p>
+<p>比如</p>
+<p>得到返回记录集最多的10个SQL。</p>
+<p>mysqldumpslow -s r -t 10 &#x2F;database&#x2F;mysql&#x2F;mysql06_slow.log</p>
+<p>得到访问次数最多的10个SQL</p>
+<p>mysqldumpslow -s c -t 10 &#x2F;database&#x2F;mysql&#x2F;mysql06_slow.log</p>
+<p>得到按照时间排序的前10条里面含有左连接的查询语句。</p>
+<p>mysqldumpslow -s t -t 10 -g “left join” &#x2F;database&#x2F;mysql&#x2F;mysql06_slow.log</p>
+<p>另外建议在使用这些命令时结合 | 和more 使用 ，否则有可能出现刷屏的情况。</p>
+<p>mysqldumpslow -s r -t 20 &#x2F;mysqldata&#x2F;mysql&#x2F;mysql06-slow.log | more</p>
+<h1 id="Sql语句查询计划Explain"><a href="#Sql语句查询计划Explain" class="headerlink" title="Sql语句查询计划Explain"></a>Sql语句查询计划Explain</h1><h2 id="什么是Explain"><a href="#什么是Explain" class="headerlink" title="什么是Explain"></a>什么是Explain</h2><p>分析sql语句执行计划。</p>
+<h2 id="为什么要使用Explain"><a href="#为什么要使用Explain" class="headerlink" title="为什么要使用Explain"></a>为什么要使用Explain</h2><p>目的：了解sql语句如何从表中查询到目标数据</p>
+<h2 id="如何使用Explain分析sql"><a href="#如何使用Explain分析sql" class="headerlink" title="如何使用Explain分析sql"></a>如何使用Explain分析sql</h2><p>条件</p>
+<p>1、Explain</p>
+<p>步骤</p>
+<p>1、先执行Sql,然后通过Explain分析</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN</span><br><span class="line"> SELECT `s`.`ProductId`, `s`.`SeckillDescription`, `s`.`SeckillIstop`, `s`.`SeckillLimit`, `s`.`SeckillName`, `s`.`SeckillPercent`, `s`.`SeckillPrice`, `s`.`SeckillStatus`, `s`.`SeckillStock`, `s`.`SeckillType`, `s`.`SeckillUrl`, `s`.`TimeId` FROM `Seckills` AS `s`</span><br></pre></td></tr></table></figure>
+<p>2、然后分析语句详细细节</p>
+<pre><code>id: 查询的唯一标识
+select_type: 查询的类型
+table: 查询的表, 可能是数据库中的表/视图，也可能是 FROM 中的子查询
+type: 搜索数据的方法
+possible_keys: 可能使用的索引
+key: 最终决定要使用的key
+key_len: 查询索引使用的字节数。通常越少越好
+ref: 查询的列或常量
+rows: 需要扫描的行数，估计值。通常越少越好
+filtered：过滤rows返回的数据。
+extra: 额外的信息
+</code></pre>
+<h3 id="执行计划-ID"><a href="#执行计划-ID" class="headerlink" title="执行计划-ID"></a>执行计划-ID</h3><p>select查询的序列号,包含一组数字，表示查询中执行select子句或操作表的顺序</p>
+<p>有三种情况：<br>（1）、id相同，执行顺序由上至下<br>（2）、id不同，如果是子查询，id的序号会递增，id值越大优先级越高，越先被执行<br>（3）、id相同不同，同时存在</p>
+<p>执行计划-select-type</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SIMPLE: 简单查询，不包含子查询和union</span><br><span class="line">PRIMRARY: 包含子查询时的最外层查询; 使用union时的第一个查询</span><br><span class="line">UNION: 包含union的查询中非第一个查询</span><br><span class="line">UNION RESULT 临时结果</span><br><span class="line">DEPENDENT UNION: 与 UNION 相同，但依赖外层查询的结果 次要</span><br><span class="line">SUBQUERY: 子查询</span><br><span class="line">DEPENDENT SUBQUERY: 依赖外层查询的子查询</span><br><span class="line">DERIVED: 用于 FROM 中的子查询(中间表)</span><br></pre></td></tr></table></figure>
+<p>联合查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Explain</span><br><span class="line">SELECT `s`.`ProductId`, `s`.`SeckillDescription`, `s`.`SeckillIstop`, `s`.`SeckillLimit`, `s`.`SeckillName`, `s`.`SeckillPercent`, `s`.`SeckillPrice`, `s`.`SeckillStatus`, `s`.`SeckillStock`, `s`.`SeckillType`, `s`.`SeckillUrl`, `s`.`TimeId` FROM `Seckills` AS `s` </span><br><span class="line">  union</span><br><span class="line">  SELECT `s`.`ProductId`, `s`.`SeckillDescription`, `s`.`SeckillIstop`, `s`.`SeckillLimit`, `s`.`SeckillName`, `s`.`SeckillPercent`, `s`.`SeckillPrice`, `s`.`SeckillStatus`, `s`.`SeckillStock`, `s`.`SeckillType`, `s`.`SeckillUrl`, `s`.`TimeId`</span><br><span class="line">  FROM `Seckills` AS `s`</span><br></pre></td></tr></table></figure>
+
+<p>子查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  Explain</span><br><span class="line">  SELECT * FROM Seckills WHERE Id = (</span><br><span class="line">SELECT SeckillId FROM seckillrecords WHERE SeckillNum = 1</span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
+
+<p>子查询依赖查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Explain</span><br><span class="line">SELECT * FROM Seckills WHERE Id = (</span><br><span class="line">  SELECT SeckillId FROM seckillrecords WHERE SeckillNum = 1 and Seckills.Id = 		seckillrecords.SeckillId</span><br><span class="line"> );</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>联合查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Explain</span><br><span class="line">SELECT `s`.`Id`, `s`.`ProductId`, `s`.`SeckillDescription`, `s`.`SeckillIstop`, `s`.`SeckillLimit`, `s`.`SeckillName`, `s`.`SeckillPercent`, `s`.`SeckillPrice`, `s`.`SeckillStatus`, `s`.`SeckillStock`, `s`.`SeckillType`, `s`.`SeckillUrl`, `s`.`TimeId`, `s0`.`Id`, `s0`.`Createtime`, `s0`.`OrderSn`, `s0`.`ProductPrice`, `s0`.`RecordStatus`, `s0`.`RecordTotalprice`, `s0`.`SeckillId`, `s0`.`SeckillNum`, `s0`.`SeckillPrice`, `s0`.`Updatetime`, `s0`.`UserId`</span><br><span class="line">      FROM `Seckills` AS `s`</span><br><span class="line">      LEFT JOIN `SeckillRecords` AS `s0` ON `s`.`Id` = `s0`.`SeckillId`</span><br><span class="line">      ORDER BY `s`.`Id`, `s0`.`Id`</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="执行计划-type"><a href="#执行计划-type" class="headerlink" title="执行计划-type"></a>执行计划-type</h1><p>type 字段描述了查询的方式，从好到坏为:</p>
+<p>null: 不需要访问索引和表即可完成, 示例: SELECT 1;</p>
+<p>const: 表中仅有一行匹配，在分解查询计划时直接将其读出作为常量使用。system 是 const 类型的特例。<br>示例:SELECT * FROM Seckills WHERE SeckillId &#x3D; 4;</p>
+<p>| id | select_type | table | type | possible_keys | key | key_len | ref | rows | Extra |<br>| —- | ———– | —– | —– | ————- | ——– | ——- | —– | —- | ———– |<br>| 1 | SIMPLE | user | const | uni_name | uni_name | 258 | const | 1 | Using index |</p>
+<p>UNIQUE KEY uni_name (name) ON user</p>
+<p>eq_ref: 使用 PRIMARY KEY 或 UNIQUE KEY 进行关联查询。<br>示例:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  SELECT *</span><br><span class="line"> FROM Seckills  left join seckillrecords </span><br><span class="line"> on Seckills .Id = seckillrecords .SeckillId </span><br><span class="line">where seckillrecords .SeckillNum = 1</span><br></pre></td></tr></table></figure>
+<p>| id | select_type | table | type | possible_keys | key | key_len | ref | rows | Extra |<br>| —- | ———– | ————– | —— | ————- | ——- | ——- | ——– | —– | ———– |<br>| 1 | SIMPLE | Seckills | ALL | idx_uid | 0 | 0 | 0 | 57796 | null |<br>| 1 | SIMPLE | seckillrecords | eq_ref | PRIMARY | PRIMARY | 8 | post.uid | 1 | Using where |</p>
+<p>ref: 使用允许重复的索引进行查询<br>示例: SELECT * FROM seckillrecords WHERE SeckillNum&#x3D;1;<br>| id | select_type | table | type | possible_keys | key | key_len | ref | rows | Extra |<br>| —- | ———– | —– | —- | ————- | ———- | ——- | —– | —- | ——————— |<br>| 1 | SIMPLE | user | ref | SeckillNum | SeckillNum | 4 | const | 1 | Using index condition |</p>
+<p>range: 使用索引进行范围查询:<br>示例: SELECT * FROM seckillrecords WHERE SeckillNum &gt; 2;<br>| id | select_type | table | type | possible_keys | key | key_len | ref | rows | Extra |<br>| —- | ———– | —– | —- | ————- | ——- | ——- | —– | —- | —– |<br>| 1 | SIMPLE | user | ref | idx_age | idx_age | 259 | const | 1 | null |</p>
+<p>index: 在索引上进行顺序扫描。常见于在多列索引中未使用最左列进行查询。<br>示例: SELECT * FROM seckillrecords WHERE OrderSn &#x3D; ‘sminit’;<br>| id | select_type | table | type | possible_keys | key | key_len | ref | rows | Extra |<br>| —- | ———– | —– | —- | ————- | ————- | ——- | —– | —- | ———– |<br>| 1 | SIMPLE | user | ref | idx_full_name | idx_full_name | 259 | const | 1 | Using where |</p>
+<p>all: 扫描全表，最坏的情况</p>
+<ul>
+<li>执行计划-possible_keys ：</li>
+</ul>
+<p>实际使用的索引。如果为NULL，则没有使用索引，查询中若使用了覆盖索引，则该索引和查询的select字段重叠</p>
+<ul>
+<li>执行计划-key_len</li>
+</ul>
+<p>索引使用的字节数，相当于长度</p>
+<p>char和varchar跟字符编码也有密切的联系,<br>​ latin1占用1个字节，gbk占用2个字节，utf8占用3个字节。（不同字符编码占用的存储空间不同）</p>
+<p><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-39.png" alt="Alt text"></p>
+<p><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-40.png" alt="Alt text"></p>
+<p><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-41.png" alt="Alt text"></p>
+<ul>
+<li><p>执行计划-ref ：<br>显示索引的哪一列被使用了，如果可能的话，是一个常数。哪些列或常量被用于查找索引列上的值</p>
+</li>
+<li><p>执行计划-rows：<br>根据表统计信息及索引选用情况，大致估算出找到所需的记录所需要读取的行数</p>
+</li>
+<li><p>执行计划-filtered</p>
+</li>
+<li><p>执行计划-Extra：<br>extra 列显示了查询过程中需要执行的其它操作，有些情况应尽力避免。</p>
+</li>
+</ul>
+<p>using filesort: 查询时执行了排序操作而无法使用索引排序。虽然名称为’file’但操作可能是在内存中执行的，取决是否有足够的内存进行排序。<br>应尽量避免这种filesort出现。<br>using temporary: 使用临时表存储中间结果，常见于ORDER BY和GROUP BY语句中。临时表可能在内存中也可能在硬盘中，应尽量避免这种操作出现。<br>using index: 索引中包含查询的所有列不需要查询数据表(回表)。可以加快查询速度。<br>using where: 使用了WHERE从句来限制哪些行将与下一张表匹配或者是返回给客户端<br>using index condition: 索引条件推送(MySQL 5.6 新特性)，服务器层将不能直接使用索引的查询条件推送给存储引擎，从而避免在服务器层进行过滤。<br>distinct: 优化distinct操作，查询到匹配的数据后停止继续搜索</p>
+<h1 id="sql语句性能Profile"><a href="#sql语句性能Profile" class="headerlink" title="sql语句性能Profile"></a>sql语句性能Profile</h1><h2 id="什么是Profile"><a href="#什么是Profile" class="headerlink" title="什么是Profile"></a>什么是Profile</h2><p>profile是sql性能监控工具，专门用来监控sql语句执行时间。用来达到sql性能监控目的</p>
+<h2 id="如何使用Profile监控sql语句"><a href="#如何使用Profile监控sql语句" class="headerlink" title="如何使用Profile监控sql语句"></a>如何使用Profile监控sql语句</h2><p>条件</p>
+<p>1、Profile</p>
+<p>步骤</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1、先在客户端打开Profile</span><br><span class="line"></span><br><span class="line">set profiling=1; </span><br><span class="line"></span><br><span class="line">2、然后执行sql语句</span><br><span class="line"></span><br><span class="line">select * from table</span><br><span class="line"></span><br><span class="line">update from table</span><br><span class="line"></span><br><span class="line">delete from table</span><br><span class="line"></span><br><span class="line">insert () table valus();</span><br><span class="line"></span><br><span class="line">3、然后统计执行时间</span><br><span class="line"></span><br><span class="line">show profiles; </span><br></pre></td></tr></table></figure>
+<p>   会展示sql语句执行时间<br>Profile 显示sql执行过程详细时间<br>条件</p>
+<p>1、profile</p>
+<p>步骤</p>
+<p>1、先执行;   </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show profile for query 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>1：为sql语句监控编号
+</code></pre>
+<p>2、然后统计出过程<br><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-42.png" alt="Alt text"></p>
+<p>上图中纵向栏意义<br>+———————-+———-+———-+————+<br>starting：开始<br>checking permissions：检查权限<br>Opening tables：打开表<br>init ： 初始化<br>System lock ：系统锁<br>optimizing ： 优化<br>statistics ： 统计<br>preparing ：准备<br>executing ：执行<br>Sending data ：发送数据<br>Sorting result ：排序<br>end ：结束<br>query end ：查询 结束<br>closing tables ： 关闭表 ／去除TMP 表<br>freeing items ： 释放物品<br>cleaning up ：清理</p>
+<h1 id="Profile-显示sql详细执行过程"><a href="#Profile-显示sql详细执行过程" class="headerlink" title="Profile 显示sql详细执行过程"></a>Profile 显示sql详细执行过程</h1><p>条件</p>
+<p>1、Profile</p>
+<p>步骤</p>
+<p>1、执行</p>
+<p>show profile all for query 1</p>
+<p>2、然后进行图形展示</p>
+<p><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-43.png" alt="Alt text"></p>
+<p>上图中横向栏意义<br>+———————-+———-+———-+————+<br>“Status”: “query end”, 状态<br>“Duration”: “1.751142”, 持续时间<br>“CPU_user”: “0.008999”, cpu用户<br>“CPU_system”: “0.003999”, cpu系统<br>“Context_voluntary”: “98”, 上下文主动切换<br>“Context_involuntary”: “0”, 上下文被动切换<br>“Block_ops_in”: “8”, 阻塞的输入操作<br>“Block_ops_out”: “32”, 阻塞的输出操作<br>“Messages_sent”: “0”, 消息发出<br>“Messages_received”: “0”, 消息接受<br>“Page_faults_major”: “0”, 主分页错误<br>“Page_faults_minor”: “0”, 次分页错误<br>“Swaps”: “0”, 交换次数<br>“Source_function”: “mysql_execute_command”, 源功能<br>“Source_file”: “sql_parse.cc”, 源文件<br>“Source_line”: “4465” 源代码行</p>
+<h1 id="Profile-关闭监控"><a href="#Profile-关闭监控" class="headerlink" title="Profile 关闭监控"></a>Profile 关闭监控</h1><p>条件</p>
+<p>1、profile</p>
+<p>步骤</p>
+<p>1、执行</p>
+<p>set profiling&#x3D;0;</p>
+<p>汇总操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">set profiling=1;                  //打开监控</span><br><span class="line"> </span><br><span class="line">run your sql1; #执行sql</span><br><span class="line"> </span><br><span class="line">run your sql2; #执行sql</span><br><span class="line"> </span><br><span class="line">show profiles;                    //查看sql1,sql2的语句分析</span><br><span class="line"> </span><br><span class="line">show profile for query 1;        //查看sql1的具体分析</span><br><span class="line"> </span><br><span class="line">show profile ALL for query 1;    //查看sql1相关的所有分析【主要看i/o与cpu,下边分析中有各项意义介绍】</span><br><span class="line"> </span><br><span class="line">set profiling=0;                  //关闭分析</span><br></pre></td></tr></table></figure>
+<h1 id="Sql语句优化"><a href="#Sql语句优化" class="headerlink" title="Sql语句优化"></a>Sql语句优化</h1><p>索引就是目录B+树<br><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-44.png" alt="Alt text"></p>
+<ul>
+<li>有一下SQL表，直接查询编号3数据。<blockquote>
+<p>1、for循环。一个一个判断。4次查询操作。每一次查询都需要消耗时间。<br>2、200万数据  for循环。200万。时间累加。时间边长。性能下降。原因：1、查询次数多了。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="需求：性能能够提升。方案：查询次数减少。"><a href="#需求：性能能够提升。方案：查询次数减少。" class="headerlink" title="需求：性能能够提升。方案：查询次数减少。"></a>需求：性能能够提升。方案：查询次数减少。</h3><p><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-45.png" alt="Alt text"></p>
+<h3 id="Mysql中如何使用索引"><a href="#Mysql中如何使用索引" class="headerlink" title="Mysql中如何使用索引"></a>Mysql中如何使用索引</h3><ul>
+<li><p>步骤1、先创建商品表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE product (  </span><br><span class="line">    Id bigint(8) NOT NULL,  </span><br><span class="line">    ProductName char(245) NOT NULL DEFAULT &#x27;1&#x27;, </span><br><span class="line">     ProductId char(255) NOT NULL DEFAULT &#x27;1&#x27;,  </span><br><span class="line">     ProductDescription char(255) NOT NULL DEFAULT &#x27;1&#x27;,  </span><br><span class="line">    ProductUrl char(255) NOT NULL DEFAULT &#x27;1&#x27;,  </span><br><span class="line">    PRIMARY KEY (id)) </span><br><span class="line">    ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、然后创建存储过程product_insert BEGIN</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 定义一个临时变量 </span><br><span class="line">declare i int default 0;</span><br><span class="line"># 提交一次</span><br><span class="line">set autocommit = 0;</span><br><span class="line">set i = start_num;</span><br><span class="line"># 开始循环</span><br><span class="line">loopname:loop    </span><br><span class="line">    if i &gt; max_num then  </span><br><span class="line">        leave loopname; </span><br><span class="line">    end if; </span><br><span class="line">    set i = i + 1; </span><br><span class="line">    insert into product(Id,ProductName,ProductId,ProductDescription,ProductUrl) values(i,CONCAT(&#x27;p6+架构班&#x27;,i),CONCAT(&#x27;ydt&#x27;,i),CONCAT(&#x27;2021&#x27;,i),CONCAT(&#x27;tony&#x27;,i));</span><br><span class="line">    end loop loopname;END</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、然后执行存储过程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">product_insert 插入1000万条数据CALL </span><br><span class="line">`product_insert`(&#x27;1&#x27;, &#x27;10000000&#x27;)</span><br><span class="line"></span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4、然后先直接根据商品Id查</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select Id,ProductName,ProductId,ProductDescription,ProductUrl from product a where a.ProductId = &#x27;rm8807&#x27; </span><br><span class="line">计算出时间： 查询计划分析：</span><br><span class="line">select Id,ProductName,ProductId,ProductDescription,ProductUrl from product a where a.ProductId = &#x27;rm8807&#x27;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5、然后使用索引优化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">5.1 在ProductId上创建索引    </span><br><span class="line">5.2 然后直接优化         </span><br><span class="line">计算出时间：         </span><br><span class="line">查询计划分析：</span><br><span class="line">select Id,ProductName,ProductId,ProductDescription,ProductUrl from product a where a.ProductId = &#x27;rm8807&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<p>  1、执行profile监控<br>  set profiling&#x3D;1;<br>  得出时间<br>  show profiles;<br>  2、执行查询计划<br>  得到是否走索引3、增加索引测试</p>
+</li>
+</ul>
+<h2 id="Mysql如何正确的使用索引"><a href="#Mysql如何正确的使用索引" class="headerlink" title="Mysql如何正确的使用索引"></a>Mysql如何正确的使用索引</h2><pre><code>- 存储引擎：对数据存取操作  索引
+</code></pre>
+<h3 id="Mysql-InnoDB存储引擎-数据文件"><a href="#Mysql-InnoDB存储引擎-数据文件" class="headerlink" title="Mysql InnoDB存储引擎 数据文件"></a>Mysql InnoDB存储引擎 数据文件</h3><pre><code>    - product.frm
+    - product.ibd
+</code></pre>
+<h3 id="Mysql搜索引擎如何组织数据Page（存储数据的容器）"><a href="#Mysql搜索引擎如何组织数据Page（存储数据的容器）" class="headerlink" title="Mysql搜索引擎如何组织数据Page（存储数据的容器）"></a>Mysql搜索引擎如何组织数据Page（存储数据的容器）</h3><pre><code>- Page：数据页
+</code></pre>
+<p><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-46.png" alt="Alt text"></p>
+<ul>
+<li>Page：索引页<br><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-47.png" alt="Alt text"></li>
+</ul>
+<p><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-48.png" alt="Alt text"></p>
+<h3 id="索引页和数据页关系"><a href="#索引页和数据页关系" class="headerlink" title="索引页和数据页关系"></a>索引页和数据页关系</h3><p><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-49.png" alt="Alt text"><br><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-50.png" alt="Alt text"></p>
+<h3 id="Mysql交互全局流程"><a href="#Mysql交互全局流程" class="headerlink" title="Mysql交互全局流程"></a>Mysql交互全局流程</h3><p><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-51.png" alt="Alt text"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看磁盘信息</span><br><span class="line">1、fsutil fsinfo ntfsinfo </span><br><span class="line">c:查看mysql文件信息</span><br><span class="line">java -jar innodbPageInfo.jar -path product.ibd -v 0</span><br></pre></td></tr></table></figure>
+
+<p><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-52.png" alt="Alt text"></p>
+<ul>
+<li><p>一页存储多少数据<br><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-53.png" alt="Alt text"></p>
+</li>
+<li><p>数据页Page内部结构</p>
+<p>  1、File Header，文件头，固定38字节；<br>  2、Page Header，页头，固定56字节；<br>  3、Infimum + supremum，固定26字节；<br>  4、User Records，用户记录，即行记录，大小不固定；<br>  5、Free Space，空闲空间，大小不固定；<br>  6、Page Directort，页目录，大小不固定；<br>  7、File Trailer，文件结尾信息，固定8字节。</p>
+</li>
+</ul>
+<h1 id="存储引擎底层原理意义"><a href="#存储引擎底层原理意义" class="headerlink" title="存储引擎底层原理意义"></a>存储引擎底层原理意义</h1><p><img src="/BlogPro/images%E8%B0%83%E4%BC%98/image-54.png" alt="Alt text"></p>
+<h1 id="索引使用策略"><a href="#索引使用策略" class="headerlink" title="索引使用策略"></a>索引使用策略</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、数字索引</span><br><span class="line">2、字符索引</span><br><span class="line">3、日期和时间索引</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" rel="tag"># 全栈性能调优</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2023/06/05/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/5%E3%80%81HttpClient%E8%B0%83%E4%BC%98/" rel="prev" title="5、HttpClient调优">
+      <i class="fa fa-chevron-left"></i> 5、HttpClient调优
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/6%E3%80%81EFCore%E6%A1%86%E6%9E%B6%E8%B0%83%E4%BC%98/" rel="next" title="6、EFCore框架调优">
+      6、EFCore框架调优 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%85%A2sql%E8%AF%AD%E5%8F%A5%E6%9F%A5%E8%AF%A2"><span class="nav-number">1.</span> <span class="nav-text">慢sql语句查询</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="nav-number">2.</span> <span class="nav-text">查看慢查询日志</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sql%E8%AF%AD%E5%8F%A5%E6%9F%A5%E8%AF%A2%E8%AE%A1%E5%88%92Explain"><span class="nav-number">3.</span> <span class="nav-text">Sql语句查询计划Explain</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFExplain"><span class="nav-number">3.1.</span> <span class="nav-text">什么是Explain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8Explain"><span class="nav-number">3.2.</span> <span class="nav-text">为什么要使用Explain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Explain%E5%88%86%E6%9E%90sql"><span class="nav-number">3.3.</span> <span class="nav-text">如何使用Explain分析sql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92-ID"><span class="nav-number">3.3.1.</span> <span class="nav-text">执行计划-ID</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92-type"><span class="nav-number">4.</span> <span class="nav-text">执行计划-type</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sql%E8%AF%AD%E5%8F%A5%E6%80%A7%E8%83%BDProfile"><span class="nav-number">5.</span> <span class="nav-text">sql语句性能Profile</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFProfile"><span class="nav-number">5.1.</span> <span class="nav-text">什么是Profile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Profile%E7%9B%91%E6%8E%A7sql%E8%AF%AD%E5%8F%A5"><span class="nav-number">5.2.</span> <span class="nav-text">如何使用Profile监控sql语句</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Profile-%E6%98%BE%E7%A4%BAsql%E8%AF%A6%E7%BB%86%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="nav-number">6.</span> <span class="nav-text">Profile 显示sql详细执行过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Profile-%E5%85%B3%E9%97%AD%E7%9B%91%E6%8E%A7"><span class="nav-number">7.</span> <span class="nav-text">Profile 关闭监控</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sql%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96"><span class="nav-number">8.</span> <span class="nav-text">Sql语句优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%EF%BC%9A%E6%80%A7%E8%83%BD%E8%83%BD%E5%A4%9F%E6%8F%90%E5%8D%87%E3%80%82%E6%96%B9%E6%A1%88%EF%BC%9A%E6%9F%A5%E8%AF%A2%E6%AC%A1%E6%95%B0%E5%87%8F%E5%B0%91%E3%80%82"><span class="nav-number">8.0.1.</span> <span class="nav-text">需求：性能能够提升。方案：查询次数减少。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95"><span class="nav-number">8.0.2.</span> <span class="nav-text">Mysql中如何使用索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mysql%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E7%9A%84%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95"><span class="nav-number">8.1.</span> <span class="nav-text">Mysql如何正确的使用索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql-InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E-%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6"><span class="nav-number">8.1.1.</span> <span class="nav-text">Mysql InnoDB存储引擎 数据文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E5%A6%82%E4%BD%95%E7%BB%84%E7%BB%87%E6%95%B0%E6%8D%AEPage%EF%BC%88%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AE%B9%E5%99%A8%EF%BC%89"><span class="nav-number">8.1.2.</span> <span class="nav-text">Mysql搜索引擎如何组织数据Page（存储数据的容器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E9%A1%B5%E5%92%8C%E6%95%B0%E6%8D%AE%E9%A1%B5%E5%85%B3%E7%B3%BB"><span class="nav-number">8.1.3.</span> <span class="nav-text">索引页和数据页关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql%E4%BA%A4%E4%BA%92%E5%85%A8%E5%B1%80%E6%B5%81%E7%A8%8B"><span class="nav-number">8.1.4.</span> <span class="nav-text">Mysql交互全局流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%84%8F%E4%B9%89"><span class="nav-number">9.</span> <span class="nav-text">存储引擎底层原理意义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5"><span class="nav-number">10.</span> <span class="nav-text">索引使用策略</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

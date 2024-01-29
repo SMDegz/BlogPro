@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="EFCore 自带缓存机制 EF Core 内部有实现缓存机制，每次查询SQL命令时，自动对结果数据进行缓存 Entity Framework Core (EF Core) 提供了一个内置的缓存机制，这个缓存机制主要用于在上下文中跟踪和管理实体对象的状态，以提高查询性能和减少数据库访问次数。以下是 EF Core 自带的缓存机制的一些基本原理：    Identity Map（标识映射）   唯一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6、EFCore框架调优">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/6%E3%80%81EFCore%E6%A1%86%E6%9E%B6%E8%B0%83%E4%BC%98/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="EFCore 自带缓存机制 EF Core 内部有实现缓存机制，每次查询SQL命令时，自动对结果数据进行缓存 Entity Framework Core (EF Core) 提供了一个内置的缓存机制，这个缓存机制主要用于在上下文中跟踪和管理实体对象的状态，以提高查询性能和减少数据库访问次数。以下是 EF Core 自带的缓存机制的一些基本原理：    Identity Map（标识映射）   唯一">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-06T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-29T15:48:18.675Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="全栈性能调优">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/6%E3%80%81EFCore%E6%A1%86%E6%9E%B6%E8%B0%83%E4%BC%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>6、EFCore框架调优 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/6%E3%80%81EFCore%E6%A1%86%E6%9E%B6%E8%B0%83%E4%BC%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          6、EFCore框架调优
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-06-06 10:48:57" itemprop="dateCreated datePublished" datetime="2023-06-06T10:48:57+08:00">2023-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-29 23:48:18" itemprop="dateModified" datetime="2024-01-29T23:48:18+08:00">2024-01-29</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/6%E3%80%81EFCore%E6%A1%86%E6%9E%B6%E8%B0%83%E4%BC%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/6%E3%80%81EFCore%E6%A1%86%E6%9E%B6%E8%B0%83%E4%BC%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="EFCore-自带缓存机制"><a href="#EFCore-自带缓存机制" class="headerlink" title="EFCore 自带缓存机制"></a>EFCore 自带缓存机制</h1><blockquote>
+<p>EF Core 内部有实现缓存机制，每次查询SQL命令时，自动对结果数据进行缓存<br> Entity Framework Core (EF Core) 提供了一个内置的缓存机制，这个缓存机制主要用于在上下文中跟踪和管理实体对象的状态，以提高查询性能和减少数据库访问次数。以下是 EF Core 自带的缓存机制的一些基本原理：</p>
+</blockquote>
+<ul>
+<li><ol>
+<li><p>Identity Map（标识映射）<br>   唯一性： EF Core 的缓存是一个 Identity Map，它确保在上下文中的每个实体对象仅有一个实例，即同一个实体在内存中的表示是唯一的。</p>
+<p>   跟踪变更： 通过 Identity Map，EF Core 能够追踪实体对象的变更，包括添加、修改和删除。这些变更在 SaveChanges 被调用时会被同步到数据库。</p>
+</li>
+</ol>
+</li>
+<li><ol start="2">
+<li><p>Change Tracking（变更跟踪）<br>   对象状态： EF Core 使用 Change Tracking 来记录实体对象的状态，包括 Added（新增）、Modified（修改）、Deleted（删除）和 Unchanged（未修改）等状态。</p>
+<p>   自动检测变更： 当你在代码中对实体属性进行更改时，EF Core 会自动检测并标记相应的实体状态为 Modified。</p>
+</li>
+</ol>
+</li>
+<li><ol start="3">
+<li><p>Local Cache（本地缓存）<br>   一级缓存： EF Core 在上下文中维护一个一级缓存（Local Cache），用于存储当前上下文中加载的实体。这个缓存可以减少对数据库的重复查询。</p>
+<p>   生命周期： 缓存的生命周期通常是在上下文的生命周期内，当上下文被销毁时，缓存中的实体对象也会被释放。</p>
+</li>
+</ol>
+</li>
+<li><ol start="4">
+<li><p>Query Cache（查询缓存）<br>   查询缓存： EF Core 还提供了一个查询缓存，用于存储已执行查询的结果，以便在相同的查询被再次执行时，能够直接从缓存中获取结果，而无需重新执行查询。</p>
+<p>   缓存策略： 缓存的生命周期通常是相对短暂的，而且可以通过配置来调整缓存策略，以满足具体应用的需求。</p>
+</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>AsNoTracking（关闭跟踪）<br>   禁用跟踪： 在某些场景下，你可能希望禁用 EF Core 的跟踪机制，以减轻上下文的内存压力，可以使用 AsNoTracking 方法来告诉 EF Core 不要追踪查询结果。<br>   csharp<br>   Copy code<br>   var entities &#x3D; dbContext.Entities.AsNoTracking().ToList();<br>   需要注意的是，EF Core 的缓存机制是针对上下文内部的数据状态管理，它并不是一个通用的查询结果缓存，如果需要更高级的缓存策略，你可能需要考虑使用其他缓存机制，如分布式缓存。</li>
+</ol>
+</li>
+<li><p>不要使用Contains()方法进行模糊查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">    //var result = SeckillContext.Seckills.ToList();</span><br><span class="line">    // 1、模糊查询商品列表。 1、全文索引</span><br><span class="line">    #region 1、根据条件模糊查询商品.通过商品名称</span><br><span class="line">    &#123;</span><br><span class="line">        // 匹配结束(会走索引) like</span><br><span class="line">        var Seckill2 = SeckillContext.Seckills.Where(p =&gt; p.SeckillName.EndsWith(&quot;P&quot;)).ToList();</span><br><span class="line"></span><br><span class="line">        // 匹配开始(会走索引) like</span><br><span class="line">        var Seckill1 = SeckillContext.Seckills.Where(p =&gt; p.SeckillName.StartsWith(&quot;P&quot;)).ToList();</span><br><span class="line"></span><br><span class="line">        // 匹配开始(不会走索引) like</span><br><span class="line">        var Seckill3 = SeckillContext.Seckills.Where(p =&gt; p.SeckillName.Contains(&quot;P&quot;)).ToList();</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>只返回必要的字段，字段越多，越浪费资源，所需时间也越多</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    // 2、客户端要求查询商品。只返回商品价格</span><br><span class="line">    #region 2、指定列查询。</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、所有列查询</span><br><span class="line">        /*foreach (var seckill in SeckillContext.Seckills)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;Seckill: &quot; + seckill.SeckillPrice);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 2、指定列查询</span><br><span class="line">        foreach (var SeckillPrice in SeckillContext.Seckills.Select(b =&gt;new &#123; b.SeckillPrice, b.SeckillName &#125;))</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;Seckill: &quot; + SeckillPrice);</span><br><span class="line">        &#125;*/</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>限制结果集，减少请求数量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    // 3、批量查询商品数据。</span><br><span class="line">    #region 3、限制结果集  Take limit</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、查询结果集</span><br><span class="line">        var seckills1 = SeckillContext.Seckills</span><br><span class="line">        .Where(p =&gt; p.SeckillName.StartsWith(&quot;P&quot;))</span><br><span class="line">        .ToList();</span><br><span class="line"></span><br><span class="line">        // 2、限制结果集</span><br><span class="line">        var seckills2 = SeckillContext.Seckills</span><br><span class="line">        .Where(p =&gt; p.SeckillName.StartsWith(&quot;P&quot;))</span><br><span class="line">        .Take(1) // 限制结果集数量。</span><br><span class="line">        .Skip(0) // 数据的偏移量</span><br><span class="line">        .ToList();</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查询数据时，尽量使用缓存或者缓冲，提高查询性能</p>
+</li>
+<li><p>缓存，可以多次存储，缓冲，只能存储一次，使用后会清空</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">    #region 4、缓冲和流式处理</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、流式处理(遍历查询每次查询数据库）</span><br><span class="line">        var seckills = SeckillContext.Seckills.Where(p =&gt; p.SeckillName.StartsWith(&quot;P&quot;));</span><br><span class="line">        foreach (var seckill in seckills)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(seckill.SeckillName);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 2、缓冲处理(分页查询。非常.ToList() ToArray())</span><br><span class="line">        var seckills1 = SeckillContext.Seckills.Where(p =&gt; p.SeckillName.StartsWith(&quot;P&quot;)).ToList();</span><br><span class="line">        var seckills2 = SeckillContext.Seckills.Where(p =&gt; p.SeckillName.StartsWith(&quot;P&quot;)).ToArray();</span><br><span class="line"></span><br><span class="line">        // 3、流式处理(内存资源)</span><br><span class="line">        var seckills3 = SeckillContext.Seckills</span><br><span class="line">        .Where(p =&gt; p.SeckillName.StartsWith(&quot;P&quot;))</span><br><span class="line">        .AsEnumerable();</span><br><span class="line">     &#125;</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>尽量使用非跟踪查询，节约操作及时间（跟踪会记录操作，非跟踪不会记录操作）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">     #region 5、尽量使用非跟踪查询</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、跟踪查询</span><br><span class="line">        var seckills1 = SeckillContext.Seckills.Where(p =&gt; p.SeckillName.StartsWith(&quot;P&quot;)).AsTracking().ToList();</span><br><span class="line">        seckills1[0].SeckillName = &quot;123123&quot;;</span><br><span class="line">        SeckillContext.SaveChanges();</span><br><span class="line"></span><br><span class="line">        // 2、非跟踪查询</span><br><span class="line">        var seckills2 = SeckillContext.Seckills.Where(p =&gt; p.SeckillName.StartsWith(&quot;P&quot;)).AsNoTracking().ToList();</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多使用异步查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">     #region 6、使用异步</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、同步处理</span><br><span class="line">        var sec = SeckillContext.Seckills.Where(b =&gt; b.SeckillName.StartsWith(&quot;P&quot;)).ToList();</span><br><span class="line"></span><br><span class="line">        // 2、异步处理。时间来获取先后顺序</span><br><span class="line">        var blogs = await SeckillContext.Seckills.Where(b =&gt; b.SeckillName.StartsWith(&quot;P&quot;)).ToListAsync();</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关联查询的时候，使用懒加载，需要的时候使用，不需要的时候为空</p>
+</li>
+<li><p>在 Startup 类的 ConfigService 方法里面添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 3、开启懒加载(导航属性需要就用，不需要就不用)</span><br><span class="line">options.UseLazyLoadingProxies();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    // 4、关联查询。查询商品--商品浏览记录。懒加载----&gt; </span><br><span class="line">    #region 7、关联查询尽量预加载  查询商品--商品浏览记录</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、关联延迟加载。会出现 1+N问题。1+N 一次商品。N次商品记录查询。</span><br><span class="line">        var seckills = SeckillContext.Seckills.ToList();</span><br><span class="line">        foreach (var seckill in seckills)</span><br><span class="line">        &#123;</span><br><span class="line">            foreach (var seckillRecord in seckill.seckillRecords)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine($&quot;seckillRecord &#123;seckillRecord.RecordTotalprice&#125;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 2、关联预先加载。一次性所有加载。</span><br><span class="line">        var seckills1 = SeckillContext.Seckills.Include(seckill =&gt; seckill.seckillRecords).ToList();</span><br><span class="line">        foreach (var seckill in seckills1)</span><br><span class="line">        &#123;</span><br><span class="line">            foreach (var seckillRecord in seckill.seckillRecords)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine($&quot;seckillRecord &#123;seckillRecord.RecordTotalprice&#125;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return seckills;</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关联查询的时候，使用 AsSplitQuery 分开查询，避免笛卡尔积的问题（笛卡尔积问题：关联查询时，副表没有数据，会把所有副表字段都查询出来，影响性能）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">    #region 8、关联查询(避免笛卡尔积) // 1、查询商品----&gt;商品记录返回</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、关联查询(预先加载)</span><br><span class="line">        var seckills1 = SeckillContext.Seckills</span><br><span class="line">        .Include(seckill =&gt; seckill.seckillRecords)</span><br><span class="line">        .ToList();</span><br><span class="line"></span><br><span class="line">        // 2、关联拆分查询(预先加载笛卡尔积的问题)</span><br><span class="line">        var seckills2 = SeckillContext.Seckills</span><br><span class="line">        .Include(seckills =&gt; seckills.seckillRecords)</span><br><span class="line">        .AsSplitQuery() // efcore 5.0 .AsSingleQuery()//分开查询。</span><br><span class="line">        .ToList();</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>尽量使用原始SQL语句查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">    #region 9、使用原始sql</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、sql查询</span><br><span class="line">        var seckills = SeckillContext.Seckills.FromSqlRaw(&quot;select * from seckills&quot;).ToList();</span><br><span class="line"></span><br><span class="line">        // 2、原始sql执行存储过程</span><br><span class="line">        var blogs = SeckillContext.Seckills</span><br><span class="line">        .FromSqlRaw(&quot;EXECUTE dbo.GetMostPopularBlogs&quot;)</span><br><span class="line">        .ToList();</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用批处理，不要一个个执行语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">     #region 10、批处理(默认执行42个。默认只会执行42个)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、多个sql语句操作（默认用的是：跟踪）</span><br><span class="line">        var seckill1 = SeckillContext.Seckills.Single(b =&gt; b.SeckillName == &quot;P6&quot;); // 单个数据查询</span><br><span class="line">        seckill1.SeckillName = &quot;iPhone&quot;;</span><br><span class="line">        SeckillContext.SaveChanges();</span><br><span class="line"></span><br><span class="line">        SeckillContext.Seckills.Add(new Seckill &#123; SeckillName = &quot;phone3&quot; &#125;);</span><br><span class="line">        SeckillContext.SaveChanges();</span><br><span class="line"></span><br><span class="line">        SeckillContext.Seckills.Add(new Seckill &#123; SeckillName = &quot;phone4&quot; &#125;);</span><br><span class="line">        SeckillContext.SaveChanges();</span><br><span class="line"></span><br><span class="line">        // 2、批处理(跟踪更新)</span><br><span class="line">        var seckill2 = SeckillContext.Seckills.Single(b =&gt; b.SeckillName == &quot;iPhone&quot;);</span><br><span class="line">        seckill2.SeckillName = &quot;iPhone 13&quot;;</span><br><span class="line">        SeckillContext.Add(new Seckill &#123; SeckillName = &quot;phone2&quot; &#125;);</span><br><span class="line">        SeckillContext.Add(new Seckill &#123; SeckillName = &quot;phone3&quot; &#125;);</span><br><span class="line">        // 41条批量语句</span><br><span class="line">        // 100000万条。直接sql</span><br><span class="line">        SeckillContext.SaveChanges();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>在Startup类的ConfigService方法配置批处理数量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 1、添加数据库上下文到IOC容器</span><br><span class="line">services.AddDbContextPool&lt;SeckillContext&gt;(options =&gt; &#123;</span><br><span class="line">    options.UseMySql(Configuration.GetConnectionString(&quot;DefaultConnection&quot;),</span><br><span class="line">        new MySqlServerVersion(&quot;5.7.22&quot;), o =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            o.MinBatchSize(1); // 更新批处理操作最小个数</span><br><span class="line">            o.MaxBatchSize(100); //更新批处理操作最大个数</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>大容量更新</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">     #region 11、大容量更新</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、默认批处理10万条。</span><br><span class="line">        foreach (var seckill in SeckillContext.Seckills)</span><br><span class="line">        &#123;</span><br><span class="line">            seckill.SeckillName = &quot;Tony&quot;; // 批量一个一个更新</span><br><span class="line">        &#125;</span><br><span class="line">        SeckillContext.SaveChanges();</span><br><span class="line"></span><br><span class="line">        // 2、直接sql处理（减少客户端数据）</span><br><span class="line">        SeckillContext.Seckills.FromSqlRaw(&quot;UPDATE [Seckills] SET [SeckillName] = &#x27;Tony&#x27;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>DbContext连接池</p>
+</li>
+<li><p>在 Startup 类的 ConfigService 方法里面添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">            services.AddDbContextPool&lt;BloggingContext&gt;(</span><br><span class="line">options =&gt; options.UseSqlServer(connectionString));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多使用参数化查询，使用复用语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">    // 高级性能主题 </span><br><span class="line">    #region 13、查询缓存和参数化(预编译) 编译预先的sql。复用sql语句，提升性能目的</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、固定值查询（生成2条sql）直接生成sql</span><br><span class="line">        var seckill1 = SeckillContext.Seckills.FirstOrDefault(p =&gt; p.SeckillName == &quot;iPhone 13&quot;);</span><br><span class="line">        var seckill2 = SeckillContext.Seckills.FirstOrDefault(p =&gt; p.SeckillName == &quot;123123&quot;);</span><br><span class="line"></span><br><span class="line">        // 2、参数化查询（生成一条sql）原理 ：sql参数缓存</span><br><span class="line">        var SeckillName = &quot;iPhone 13&quot;;</span><br><span class="line">        var seckill3 = SeckillContext.Seckills.FirstOrDefault(p =&gt; p.SeckillName == SeckillName);</span><br><span class="line">        SeckillName = &quot;123123&quot;;</span><br><span class="line">        var seckill4 = SeckillContext.Seckills.FirstOrDefault(p =&gt; p.SeckillName == SeckillName);</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用动态拼接查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 查询秒杀商品接口</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">public IEnumerable&lt;Seckill&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">     // 查询商品：商品名称，商品价格，商品ID</span><br><span class="line">    #region 14、动态拼接查询</span><br><span class="line">    &#123;</span><br><span class="line">        IQueryable&lt;Seckill&gt; seckills = SeckillContext.Seckills;</span><br><span class="line"></span><br><span class="line">        if (seckill.SeckillName != null &amp;&amp; seckill.SeckillName.Length &gt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            seckills = seckills.Where(b =&gt; b.SeckillName == seckill.SeckillName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" rel="tag"># 全栈性能调优</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/7%E3%80%81MySQL%E8%B0%83%E4%BC%98/" rel="prev" title="7、MySQL调优">
+      <i class="fa fa-chevron-left"></i> 7、MySQL调优
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2024/01/01/%E5%BE%AE%E6%9C%8D%E5%8A%A1/2%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-Docker%E5%9F%BA%E7%A1%80-%E7%AC%94%E8%AE%B0/" rel="next" title="2、容器化-Docker基础-笔记">
+      2、容器化-Docker基础-笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#EFCore-%E8%87%AA%E5%B8%A6%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">EFCore 自带缓存机制</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
