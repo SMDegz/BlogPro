@@ -609,7 +609,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-27 16:28:06" itemprop="dateModified" datetime="2024-01-27T16:28:06+08:00">2024-01-27</time>
+                <time title="修改时间：2024-01-30 00:47:29" itemprop="dateModified" datetime="2024-01-30T00:47:29+08:00">2024-01-30</time>
               </span>
 
           
@@ -637,8 +637,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>#手写.Net5 web API源码<br>###外观模式</p>
-<ul>
+          <h1 id="手写-Net5-web-API源码"><a href="#手写-Net5-web-API源码" class="headerlink" title="手写.Net5 web API源码"></a>手写.Net5 web API源码</h1><h3 id="外观模式"><a href="#外观模式" class="headerlink" title="外观模式"></a>外观模式</h3><ul>
 <li>外观模式（Facade Pattern）是一种结构型设计模式，它提供了一个简化接口，用于访问系统中的一组接口。外观模式定义了一个高层接口，使得子系统更容易使用。</li>
 </ul>
 <blockquote>
@@ -648,8 +647,7 @@
 <blockquote>
 <p>在上面的例子中，MultimediaPlayerFacade 类充当外观类，封装了音频播放、视频播放和图像显示等子系统。客户端只需与外观类交互，而不需要直接与子系统进行交互，从而简化了客户端的使用方式。</p>
 </blockquote>
-<p>###适配器模式</p>
-<ul>
+<h3 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h3><ul>
 <li>适配器模式（Adapter Pattern）是一种结构型设计模式，它允许接口不兼容的类之间进行协作。适配器充当两个不兼容接口之间的桥梁，使得它们能够一起工作。</li>
 </ul>
 <blockquote>
@@ -659,8 +657,7 @@
 <blockquote>
 <p>在这个例子中，ChineseSocket 是目标接口，BritishPlug 是被适配者。适配器 BritishToChineseAdapter 实现了目标接口，并在内部包含了被适配者的实例。通过适配器，我们可以将英国插头连接到中国插座，并通过调用适配器的 charge 方法来通电。</p>
 </blockquote>
-<p>###模板方法模式</p>
-<ul>
+<h3 id="模板方法模式"><a href="#模板方法模式" class="headerlink" title="模板方法模式"></a>模板方法模式</h3><ul>
 <li>模板方法模式（Template Method Pattern）是一种行为型设计模式，它定义了一个算法的骨架，而将一些步骤延迟到子类中实现。这样，可以在不改变算法结构的情况下，重新定义算法中的某些步骤。</li>
 </ul>
 <blockquote>
@@ -668,7 +665,7 @@
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line"></span><br><span class="line">// 模板类：饮料制作模板</span><br><span class="line">abstract class BeverageTemplate</span><br><span class="line">&#123;</span><br><span class="line">    // 模板方法，定义了制作饮料的算法骨架</span><br><span class="line">    public void MakeBeverage()</span><br><span class="line">    &#123;</span><br><span class="line">        BoilWater();</span><br><span class="line">        Brew();</span><br><span class="line">        PourInCup();</span><br><span class="line">        AddCondiments();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 具体步骤1：煮水</span><br><span class="line">    protected void BoilWater()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;煮沸水&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 具体步骤2：冲泡</span><br><span class="line">    protected abstract void Brew();</span><br><span class="line"></span><br><span class="line">    // 具体步骤3：倒入杯中</span><br><span class="line">    protected void PourInCup()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;倒入杯中&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 具体步骤4：添加调味料（可选）</span><br><span class="line">    protected abstract void AddCondiments();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体类1：制作咖啡</span><br><span class="line">class Coffee : BeverageTemplate</span><br><span class="line">&#123;</span><br><span class="line">    protected override void Brew()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;用沸水冲泡咖啡粉&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected override void AddCondiments()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;加入糖和牛奶&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体类2：制作茶</span><br><span class="line">class Tea : BeverageTemplate</span><br><span class="line">&#123;</span><br><span class="line">    protected override void Brew()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;用沸水冲泡茶叶&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected override void AddCondiments()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;加入柠檬&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 客户端代码</span><br><span class="line">class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;制作咖啡：&quot;);</span><br><span class="line">        BeverageTemplate coffee = new Coffee();</span><br><span class="line">        coffee.MakeBeverage();</span><br><span class="line"></span><br><span class="line">        Console.WriteLine(&quot;\n制作茶：&quot;);</span><br><span class="line">        BeverageTemplate tea = new Tea();</span><br><span class="line">        tea.MakeBeverage();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>#综合案例：手写.Net5 web API源码<br>.Net5 web API 思路</p>
+<h1 id="综合案例：手写-Net5-web-API源码"><a href="#综合案例：手写-Net5-web-API源码" class="headerlink" title="综合案例：手写.Net5 web API源码"></a>综合案例：手写.Net5 web API源码</h1><p>.Net5 web API 思路</p>
 <p>1、以点带面</p>
 <p>2、先抓住具体中核心逻辑。</p>
 <p>3、然后围绕核心逻辑实现扩扩展。</p>
