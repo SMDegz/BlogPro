@@ -194,152 +194,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="何锦祥 博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/" class="post-title-link" itemprop="url">4、ABP vNext-核心项目-项目模块</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-01-01 10:48:57" itemprop="dateCreated datePublished" datetime="2024-01-01T10:48:57+08:00">2024-01-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-23 20:06:49" itemprop="dateModified" datetime="2024-01-23T20:06:49+08:00">2024-01-23</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="引入-Volo-Abp。EntityFrameworkCore"><a href="#引入-Volo-Abp。EntityFrameworkCore" class="headerlink" title="引入 Volo.Abp。EntityFrameworkCore"></a>引入 Volo.Abp。EntityFrameworkCore</h3><ul>
-<li>在module 类 添加  typeof(AbpEntityFrameworkCoreModule),</li>
-<li>创建一个Context 数据库上下文</li>
-</ul>
-<p><img src="/BlogPro/image-45.png" alt="Alt text"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[ConnectionStringName(&quot;Default&quot;)]</span><br><span class="line">public class ABPEbusinessContext : AbpDbContext&lt;ABPEbusinessContext&gt;</span><br><span class="line">&#123;</span><br><span class="line">    public ABPEbusinessContext(DbContextOptions&lt;ABPEbusinessContext&gt; options) : base(options)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    public DbSet&lt;Product&gt; Products &#123; set; get; &#125;</span><br><span class="line">    public DbSet&lt;Order&gt; Orders &#123; set; get; &#125;</span><br><span class="line">    public DbSet&lt;Payment&gt; Payments &#123; set; get; &#125;</span><br><span class="line">    public DbSet&lt;User&gt; Users &#123; set; get; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>EbusinessContext加载到IOC容器</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">context.Services.AddDbContext&lt;EbusinessContext&gt;(options =&gt; &#123;</span><br><span class="line">    options.UseMySql(Configuration.GetConnectionString(&quot;Default&quot;), MySqlServerVersion.LatestSupportedServerVersion);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>加载ABPEbusinessContext到IOC容器</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.ServicesAddAbpDbContext&lt;ABPEbusinessContext&gt;();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>加载DbContext对应的MySQL数据库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Configure&lt;AbpDbContextOptions&gt;(options =&gt; &#123;</span><br><span class="line">    options.UseMySQL();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在Context 数据库上下文中添加<br>   [ConnectionStringName(“Default”)]<br>  用于连接数据库</p>
-</li>
-<li><p>执行命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migrations add ebusiness</span><br><span class="line"></span><br><span class="line">dotnet ef database update</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p><img src="/BlogPro/images/image.png" alt="Alt text"></p>
-<h2 id="重构项目为领域驱动项目"><a href="#重构项目为领域驱动项目" class="headerlink" title="重构项目为领域驱动项目"></a>重构项目为领域驱动项目</h2><ul>
-<li><p>安装包 VVolo.Abp.Ddd.Domain</p>
-</li>
-<li><p>在Module类中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpDddDomainModule),</span><br></pre></td></tr></table></figure>
-
-
-</li>
-<li><p>创建一个ABP的仓储接口类</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品仓储 用来实现abp提供的仓储</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line"></span><br><span class="line">public interface IProductABPRepository: IRepository&lt;Product,Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建一个ABP的仓储类</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品仓储实现</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[Dependency(ServiceLifetime.Singleton)]</span><br><span class="line">public class ProductABPRepository : EfCoreRepository&lt;ABPEbusinessContext, Product, Guid&gt;, IProductABPRepository</span><br><span class="line">&#123;</span><br><span class="line">    public ProductABPRepository(IDbContextProvider&lt;ABPEbusinessContext&gt; dbContextProvider) : base(dbContextProvider)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>实体类要继承自 Entity<Guid></p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品模型</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class Product : Entity&lt;Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    //public Guid Id &#123; set; get; &#125; // 商品主键</span><br><span class="line">    public string ProductCode &#123; set; get; &#125;    //商品编码</span><br><span class="line">    public string ProductUrl &#123; set; get; &#125;        </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<ul>
-<li>创建一个ABP Service 接口类</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品服务</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public interface IProductABPService : ICrudAppService&lt;ProductDto,Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<ul>
-<li>创建一个ABP Service 类</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品服务实现</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[Dependency(ServiceLifetime.Singleton)]</span><br><span class="line">public class ProductABPService : CrudAppService&lt;Product, ProductDto, Guid&gt;, IProductABPService</span><br><span class="line">&#123;</span><br><span class="line">   // public IProductABPRepository ProductABPRepository &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    public ProductABPService(IProductABPRepository ProductABPRepository) : base(ProductABPRepository)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>引入  Volo.Abp.Ddd.Application 包</li>
-<li>在module类添加对应应用<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpDddApplicationModule),</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>只用引用了这个包之后，上面的Serveice 类才可以继承自 CrudAppService&lt;Product, ProductDto, Guid&gt; 类</p>
-<ul>
-<li><p>实体类的 DTO 需要继承自 : EntityDto<Guid></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品Dto,主要是页面数据---&gt;需要转接成为实体</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class ProductDto: EntityDto&lt;Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line">    //public Guid Id &#123; set; get; &#125; // 商品主键</span><br><span class="line">    public string ProductCode &#123; set; get; &#125;   </span><br><span class="line">     //商品编码</span><br><span class="line">    public string ProductUrl &#123; set; get; &#125;    </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>引入 Volo.Abp.AutoMapper 包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpAutoMapperModule))]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // 5、加载AbpAutoMapper到IOC容器</span><br><span class="line"> context.Services.AddAutoMapperObjectMapper&lt;ABPEbusinessContext&gt;();</span><br><span class="line"></span><br><span class="line"> // 6、配置AutoMapper</span><br><span class="line"> Configure&lt;AbpAutoMapperOptions&gt;(options =&gt; &#123;</span><br><span class="line"></span><br><span class="line">     // 6.1、对整个项目进行映射</span><br><span class="line">     options.AddMaps&lt;EbusinessModule&gt;();</span><br><span class="line"> &#125;);</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2024/01/01/2%E3%80%81%E5%AE%B9%E5%99%A8%E5%8C%96-Docker%E5%9F%BA%E7%A1%80-%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -707,6 +561,152 @@ To learn more visit <a href='https://go.microsoft.com/fwlink/?linkid=2099216' ta
 2023-10-11 14:16:52.77 Server Did not find an existing master data file /var/opt/mssql/data/master.mdf, copying the missing default master and other system database files. If you have moved the database location, but not moved the database files, startup may fail. To repair: shutdown SQL Server, move the master database to configured location, and restart.</p><p>版本冲突：本身sqlserver。</p><h2><a name='header-n114' class='md-header-anchor '></a>14、题外：能不能在高级课中，开设一些 规范设计的课程，最近经常会和前端，有规范争议</h2><p>答案：扩展内容。</p><p>&nbsp;</p></div>
 </body>
 </html>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/" class="post-title-link" itemprop="url">4、ABP vNext-核心项目-项目模块</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-01-01 10:48:57" itemprop="dateCreated datePublished" datetime="2024-01-01T10:48:57+08:00">2024-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-23 20:06:49" itemprop="dateModified" datetime="2024-01-23T20:06:49+08:00">2024-01-23</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="引入-Volo-Abp。EntityFrameworkCore"><a href="#引入-Volo-Abp。EntityFrameworkCore" class="headerlink" title="引入 Volo.Abp。EntityFrameworkCore"></a>引入 Volo.Abp。EntityFrameworkCore</h3><ul>
+<li>在module 类 添加  typeof(AbpEntityFrameworkCoreModule),</li>
+<li>创建一个Context 数据库上下文</li>
+</ul>
+<p><img src="/BlogPro/image-45.png" alt="Alt text"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[ConnectionStringName(&quot;Default&quot;)]</span><br><span class="line">public class ABPEbusinessContext : AbpDbContext&lt;ABPEbusinessContext&gt;</span><br><span class="line">&#123;</span><br><span class="line">    public ABPEbusinessContext(DbContextOptions&lt;ABPEbusinessContext&gt; options) : base(options)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    public DbSet&lt;Product&gt; Products &#123; set; get; &#125;</span><br><span class="line">    public DbSet&lt;Order&gt; Orders &#123; set; get; &#125;</span><br><span class="line">    public DbSet&lt;Payment&gt; Payments &#123; set; get; &#125;</span><br><span class="line">    public DbSet&lt;User&gt; Users &#123; set; get; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>EbusinessContext加载到IOC容器</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">context.Services.AddDbContext&lt;EbusinessContext&gt;(options =&gt; &#123;</span><br><span class="line">    options.UseMySql(Configuration.GetConnectionString(&quot;Default&quot;), MySqlServerVersion.LatestSupportedServerVersion);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>加载ABPEbusinessContext到IOC容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.ServicesAddAbpDbContext&lt;ABPEbusinessContext&gt;();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>加载DbContext对应的MySQL数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Configure&lt;AbpDbContextOptions&gt;(options =&gt; &#123;</span><br><span class="line">    options.UseMySQL();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在Context 数据库上下文中添加<br>   [ConnectionStringName(“Default”)]<br>  用于连接数据库</p>
+</li>
+<li><p>执行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migrations add ebusiness</span><br><span class="line"></span><br><span class="line">dotnet ef database update</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="/BlogPro/images/image.png" alt="Alt text"></p>
+<h2 id="重构项目为领域驱动项目"><a href="#重构项目为领域驱动项目" class="headerlink" title="重构项目为领域驱动项目"></a>重构项目为领域驱动项目</h2><ul>
+<li><p>安装包 VVolo.Abp.Ddd.Domain</p>
+</li>
+<li><p>在Module类中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpDddDomainModule),</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>创建一个ABP的仓储接口类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品仓储 用来实现abp提供的仓储</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line"></span><br><span class="line">public interface IProductABPRepository: IRepository&lt;Product,Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建一个ABP的仓储类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品仓储实现</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[Dependency(ServiceLifetime.Singleton)]</span><br><span class="line">public class ProductABPRepository : EfCoreRepository&lt;ABPEbusinessContext, Product, Guid&gt;, IProductABPRepository</span><br><span class="line">&#123;</span><br><span class="line">    public ProductABPRepository(IDbContextProvider&lt;ABPEbusinessContext&gt; dbContextProvider) : base(dbContextProvider)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>实体类要继承自 Entity<Guid></p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品模型</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class Product : Entity&lt;Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    //public Guid Id &#123; set; get; &#125; // 商品主键</span><br><span class="line">    public string ProductCode &#123; set; get; &#125;    //商品编码</span><br><span class="line">    public string ProductUrl &#123; set; get; &#125;        </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li>创建一个ABP Service 接口类</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品服务</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public interface IProductABPService : ICrudAppService&lt;ProductDto,Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li>创建一个ABP Service 类</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品服务实现</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[Dependency(ServiceLifetime.Singleton)]</span><br><span class="line">public class ProductABPService : CrudAppService&lt;Product, ProductDto, Guid&gt;, IProductABPService</span><br><span class="line">&#123;</span><br><span class="line">   // public IProductABPRepository ProductABPRepository &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    public ProductABPService(IProductABPRepository ProductABPRepository) : base(ProductABPRepository)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>引入  Volo.Abp.Ddd.Application 包</li>
+<li>在module类添加对应应用<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpDddApplicationModule),</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>只用引用了这个包之后，上面的Serveice 类才可以继承自 CrudAppService&lt;Product, ProductDto, Guid&gt; 类</p>
+<ul>
+<li><p>实体类的 DTO 需要继承自 : EntityDto<Guid></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品Dto,主要是页面数据---&gt;需要转接成为实体</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class ProductDto: EntityDto&lt;Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line">    //public Guid Id &#123; set; get; &#125; // 商品主键</span><br><span class="line">    public string ProductCode &#123; set; get; &#125;   </span><br><span class="line">     //商品编码</span><br><span class="line">    public string ProductUrl &#123; set; get; &#125;    </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>引入 Volo.Abp.AutoMapper 包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpAutoMapperModule))]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> // 5、加载AbpAutoMapper到IOC容器</span><br><span class="line"> context.Services.AddAutoMapperObjectMapper&lt;ABPEbusinessContext&gt;();</span><br><span class="line"></span><br><span class="line"> // 6、配置AutoMapper</span><br><span class="line"> Configure&lt;AbpAutoMapperOptions&gt;(options =&gt; &#123;</span><br><span class="line"></span><br><span class="line">     // 6.1、对整个项目进行映射</span><br><span class="line">     options.AddMaps&lt;EbusinessModule&gt;();</span><br><span class="line"> &#125;);</span><br></pre></td></tr></table></figure></li>
+</ul>
+
       
     </div>
 
