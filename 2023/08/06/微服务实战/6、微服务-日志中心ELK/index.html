@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="6、微服务-日志中心ELK1、日志中心 日志中心：管理所有微服务的日志   例如：商品微服务日志“查询商品日志”：直接给日志中心管理  如图所示：  2、日志中心应用场景2.1、电商微服务系统​ 如图所示：   查询商品业务场景   实现流程：        客户端——电商网站—–API网关—–商品微服务——商品数据库  2.2、电商微服务系统日志架构图如下：  问题：当维护电商微服务系统中的每一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6、微服务-日志中心ELK">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/08/06/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/6%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83ELK/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="6、微服务-日志中心ELK1、日志中心 日志中心：管理所有微服务的日志   例如：商品微服务日志“查询商品日志”：直接给日志中心管理  如图所示：  2、日志中心应用场景2.1、电商微服务系统​ 如图所示：   查询商品业务场景   实现流程：        客户端——电商网站—–API网关—–商品微服务——商品数据库  2.2、电商微服务系统日志架构图如下：  问题：当维护电商微服务系统中的每一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-69.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-70.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-71.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-72.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-73.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-74.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-75.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-76.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-77.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-78.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-79.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-80.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-81.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-82.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-83.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-84.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-85.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-86.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-87.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-88.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-89.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-90.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-91.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-92.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-93.png">
+<meta property="article:published_time" content="2023-08-06T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-30T15:33:33.213Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="微服务实战">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-69.png">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2023/08/06/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/6%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83ELK/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>6、微服务-日志中心ELK | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/08/06/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/6%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83ELK/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          6、微服务-日志中心ELK
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-06 10:48:57" itemprop="dateCreated datePublished" datetime="2023-08-06T10:48:57+08:00">2023-08-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-30 23:33:33" itemprop="dateModified" datetime="2024-01-30T23:33:33+08:00">2024-01-30</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2023/08/06/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/6%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83ELK/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/08/06/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/6%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83ELK/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="6、微服务-日志中心ELK"><a href="#6、微服务-日志中心ELK" class="headerlink" title="6、微服务-日志中心ELK"></a>6、微服务-日志中心ELK</h1><h2 id="1、日志中心"><a href="#1、日志中心" class="headerlink" title="1、日志中心"></a>1、日志中心</h2><ul>
+<li>日志中心：管理所有微服务的日志</li>
+</ul>
+<blockquote>
+<p>例如：商品微服务日志“查询商品日志”：直接给日志中心管理</p>
+</blockquote>
+<p>如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-69.png" alt="Alt text"></p>
+<h2 id="2、日志中心应用场景"><a href="#2、日志中心应用场景" class="headerlink" title="2、日志中心应用场景"></a>2、日志中心应用场景</h2><h3 id="2-1、电商微服务系统"><a href="#2-1、电商微服务系统" class="headerlink" title="2.1、电商微服务系统"></a>2.1、电商微服务系统</h3><p>​ 如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-70.png" alt="Alt text"></p>
+<ul>
+<li>查询商品业务场景</li>
+</ul>
+<blockquote>
+<p>实现流程：<br>        客户端——电商网站—–API网关—–商品微服务——商品数据库</p>
+</blockquote>
+<h3 id="2-2、电商微服务系统日志"><a href="#2-2、电商微服务系统日志" class="headerlink" title="2.2、电商微服务系统日志"></a>2.2、电商微服务系统日志</h3><p>架构图如下：<br><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-71.png" alt="Alt text"></p>
+<blockquote>
+<p>问题：当维护电商微服务系统中的每一个日志文件时，如果微服务数量增多，微服务实例也变多，就会导致日志文件增多，增大维护量。导致维护效率下降。为了解决维护效率下降问题。</p>
+</blockquote>
+<ul>
+<li>方案：日志中心</li>
+</ul>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-72.png" alt="Alt text"></p>
+<blockquote>
+<p>思路：将电商微服务系统中所有日志都交给日志中心管理，由日志中心统一维护，将原本分散的配置，做成集中配置，从而提升配置文件维护效率。</p>
+</blockquote>
+<ul>
+<li>总结：以上是电商系统微服务系统中，使用日志中心的应用场景。</li>
+</ul>
+<blockquote>
+<p>好处：日志中心，将分散的日志管理做成集中的日志管理，提升了日志维护效率，电商微服务系统更加专注业务开发。</p>
+</blockquote>
+<h2 id="3、日志中心技术选项"><a href="#3、日志中心技术选项" class="headerlink" title="3、日志中心技术选项"></a>3、日志中心技术选项</h2><blockquote>
+<p>日志中心技术：ELK，Exceptionless</p>
+</blockquote>
+<blockquote>
+<p>默认选择：ELK<br>根据技术4个特点来进行选型。</p>
+</blockquote>
+<pre><code>1、功能多
+
+2、稳定强
+
+3、性能高
+
+4、使用简单
+</code></pre>
+<blockquote>
+<p>4个方面进行技术选型</p>
+</blockquote>
+<h2 id="4、日志中心落地"><a href="#4、日志中心落地" class="headerlink" title="4、日志中心落地"></a>4、日志中心落地</h2><blockquote>
+<p>含义：商品微服务“查询商品”日志交给日志中心管理<br>技术：ELK，NLog.Web.AspNetCore</p>
+</blockquote>
+<ul>
+<li>ELK分别由Elasticsearch logstash kibana三个技术组成</li>
+</ul>
+<blockquote>
+<p>Elasticsearch-7.10.1:存储日志。海量日志的存储和统计。<br>logstash- 7.10.1：传输日志。<br>kibana-7.10.1：查看日志。</p>
+</blockquote>
+<blockquote>
+<p>架构图：<br>商品微服务—-&gt; logstash —-&gt;Elasticsearch &lt;——kibaba<br>###4.1、Jdk准备<br>    Elasticsearch ，logstash 是基于java开发，运行<br>    Elasticsearch ，logstash之前，需要先安装jdk。</p>
+</blockquote>
+<ul>
+<li><p>1、下载jdk</p>
+<p>  地址：<a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/downloads/#java8">https://www.oracle.com/java/technologies/downloads/#java8</a></p>
+</li>
+</ul>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-73.png" alt="Alt text"></p>
+<ul>
+<li>2、安装jdk</li>
+</ul>
+<blockquote>
+<p>双击安装，然后添加到环境变量</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-74.png" alt="Alt text"></p>
+<h3 id="4-2、日志中心准备"><a href="#4-2、日志中心准备" class="headerlink" title="4.2、日志中心准备"></a>4.2、日志中心准备</h3><ul>
+<li><p>1、下载ELK</p>
+<p>  elasticsearc地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-7-10-1">https://www.elastic.co/cn/downloads/past-releases/elasticsearch-7-10-1</a></p>
+<p>  elasticsearch文档地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/7.10.1/index.html">https://www.elastic.co/guide/en/elasticsearch/reference/7.10.1/index.html</a></p>
+<p>  logstash地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/past-releases/logstash-7-10-1">https://www.elastic.co/cn/downloads/past-releases/logstash-7-10-1</a></p>
+<p>  logstash文档地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/logstash/7.10.1/index.html">https://www.elastic.co/guide/en/logstash/7.10.1/index.html</a></p>
+<p>  kibana地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/past-releases/kibana-7-10-1">https://www.elastic.co/cn/downloads/past-releases/kibana-7-10-1</a></p>
+<p>  kibana文档地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/kibana/7.10.1/index.html">https://www.elastic.co/guide/en/kibana/7.10.1/index.html</a></p>
+</li>
+</ul>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-75.png" alt="Alt text"></p>
+<ul>
+<li>2、启动elasticsearch</li>
+</ul>
+<blockquote>
+<p>在windows10 上直接启动，切换到F:\work.net_software\elk_new目录中。先解压elasticsearch-7.10.1-windows-x86_64。然后切换到F:\work.net_software\elk_new\elasticsearch-7.10.1\bin目录中，进入CMD，输入命令：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch.bat</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-76.png" alt="Alt text"></p>
+<ul>
+<li><p>3、启动logstash</p>
+<ul>
+<li>1、创建logstash.conf</li>
+</ul>
+<blockquote>
+<p>在windows10 上直接创建，切换到F:\work.net_software\elk_new目录中。先解压logstash-7.10.1-windows-x86_64.zip。然后切换到F:\work.net_software\elk_new\logstash-7.10.1\config目录中</p>
+</blockquote>
+<p>  <img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-77.png" alt="Alt text"></p>
+<ul>
+<li>2、配置logstash.conf</li>
+</ul>
+<blockquote>
+<p>在logstash.conf文件，配置内容，从logstash-sample.conf文件种直接复制过来，内容如下：<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># Sample Logstash configuration for creating a simple</span><br><span class="line"># Beats -&gt; Logstash -&gt; Elasticsearch pipeline.</span><br><span class="line"></span><br><span class="line">input &#123;</span><br><span class="line">tcp &#123;</span><br><span class="line">    port =&gt; &quot;9900&quot;</span><br><span class="line">    type =&gt; &quot;productservice-log&quot;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output &#123;</span><br><span class="line">elasticsearch &#123;</span><br><span class="line">    hosts =&gt; [&quot;http://localhost:9200&quot;]</span><br><span class="line">    index =&gt; &quot;productservice-%&#123;+YYYY.MM.dd&#125;&quot;</span><br><span class="line">    document_id =&gt; &quot;%&#123;@timestamp&#125;&quot;</span><br><span class="line">    #user =&gt; &quot;elastic&quot;</span><br><span class="line">    #password =&gt; &quot;changeme&quot;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>配置解析：</p>
+</blockquote>
+<pre><code>  input &#123; #从哪里接收日志
+  tcp &#123; #默认TCP接收日志
+      port =&gt; &quot;9900&quot; #接收端口为9900
+      type =&gt; &quot;productservice-log&quot;#接收类型为：商品微服务日志
+  &#125;
+  &#125;
+
+  output &#123; #接收到日志输出到哪里
+  elasticsearch &#123; #输出到elasticsearch
+      hosts =&gt; [&quot;http://localhost:9200&quot;] #elasticsearch连接地址
+      index =&gt; &quot;productservice-%&#123;+YYYY.MM.dd&#125;&quot;#elasticsearch数据库，
+      document_id =&gt; &quot;%&#123;@timestamp&#125;&quot;#elasticsearch 接收的日志唯一编号
+      #user =&gt; &quot;elastic&quot;
+      #password =&gt; &quot;changeme&quot;
+  &#125;
+  &#125;
+</code></pre>
+<ul>
+<li>3、启动logstash</li>
+</ul>
+<blockquote>
+<p>在windows10 上直接启动，切换到F:\work.net_software\elk_new\logstash-7.10.1\bin目录中，使用CMD，输入一下命令启动<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logstash -f  ../config/logstash.conf</span><br></pre></td></tr></table></figure><br>  <img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-78.png" alt="Alt text"></p>
+</blockquote>
+</li>
+<li><p>4、启动Kibana</p>
+<ul>
+<li>1、修改kibana.yml</li>
+</ul>
+<blockquote>
+<p>在windows10 上直接修改，切换到F:\work.net_software\elk_new目录中。先解压kibana-7.10.1-windows-x86_64.zip。然后切换到F:\work.net_software\elk_new\kibana-7.10.1-windows-x86_64\config目录中，修改</p>
+</blockquote>
+<p>  kibana.yml<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">......</span><br><span class="line"># Specifies locale to be used for all localizable strings, dates and number formats.</span><br><span class="line"># Supported languages are the following: English - en , by default , Chinese - zh-CN .</span><br><span class="line">#i18n.locale: &quot;en&quot;</span><br><span class="line">i18n.locale: &quot;zh-CN&quot;</span><br><span class="line">......</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>配置解析：<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i18n.locale: &quot;zh-CN&quot; 中文显示。默认是英文显示</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li>2、启动Kibana</li>
+</ul>
+<blockquote>
+<p>在windows10 上直接启动，切换到F:\work.net_software\elk_new\kibana-7.10.1-windows-x86_64\bin目录中，使用CMD，输入以下命令启动<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kibana.bat</span><br></pre></td></tr></table></figure><br>  <img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-79.png" alt="Alt text"></p>
+</blockquote>
+</li>
+<li><p>5、访问elasticsearch</p>
+</li>
+</ul>
+<blockquote>
+<p>浏览器中访问elasticsearch<br>地址：<a target="_blank" rel="noopener" href="http://localhost:9200/">http://localhost:9200/</a></p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-80.png" alt="Alt text"></p>
+<ul>
+<li>6、访问kibana</li>
+</ul>
+<blockquote>
+<p>浏览器中访问kibana<br>地址：<a target="_blank" rel="noopener" href="http://localhost:5601/">http://localhost:5601/</a></p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-81.png" alt="Alt text"></p>
+<h3 id="4-2、商品微服务准备"><a href="#4-2、商品微服务准备" class="headerlink" title="4.2、商品微服务准备"></a>4.2、商品微服务准备</h3><ul>
+<li>1、安装NLog.Web.AspNetCore</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中使用nuget安装NLog.Web.AspNetCore</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-82.png" alt="Alt text"></p>
+<ul>
+<li>2、集成NLog.Web.AspNetCore</li>
+</ul>
+<blockquote>
+<p>含义：商品微服务中集成NLog.Web.AspNetCore，为了能够使用<br>在YDT_ProductService项目中的Program类中集成NLog.Web.AspNetCore</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">using YDT_ProductService.Data;</span><br><span class="line">using Serilog;</span><br><span class="line">using Serilog.Events;</span><br><span class="line">using Volo.Abp.Data;</span><br><span class="line">using NLog.Web;</span><br><span class="line"></span><br><span class="line">namespace YDT_ProductService;</span><br><span class="line"></span><br><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">    public async static Task&lt;int&gt; Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        var loggerConfiguration = new LoggerConfiguration()</span><br><span class="line">#if DEBUG</span><br><span class="line">            .MinimumLevel.Debug()</span><br><span class="line">#else</span><br><span class="line">            .MinimumLevel.Information()</span><br><span class="line">#endif</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Information)</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft.EntityFrameworkCore&quot;, LogEventLevel.Warning)</span><br><span class="line">            .Enrich.FromLogContext()</span><br><span class="line">            .WriteTo.Async(c =&gt; c.File(&quot;Logs/logs.txt&quot;))</span><br><span class="line">            .WriteTo.Async(c =&gt; c.Console());</span><br><span class="line"></span><br><span class="line">        if (IsMigrateDatabase(args))</span><br><span class="line">        &#123;</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Volo.Abp&quot;, LogEventLevel.Warning);</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Warning);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Log.Logger = loggerConfiguration.CreateLogger();</span><br><span class="line"></span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            var builder = WebApplication.CreateBuilder(args);</span><br><span class="line">            builder.Host.AddAppSettingsSecretsJson()</span><br><span class="line">                .UseAutofac()/*</span><br><span class="line">                .UseSerilog()*/; // 3、Serilog和nlog日志冲突，导致无法写入日志</span><br><span class="line">            if (IsMigrateDatabase(args))</span><br><span class="line">            &#123;</span><br><span class="line">                builder.Services.AddDataMigrationEnvironment();</span><br><span class="line">            &#125;</span><br><span class="line">            await builder.AddApplicationAsync&lt;YDT_ProductServiceModule&gt;();</span><br><span class="line"></span><br><span class="line">            // 1、加载Nacos配置</span><br><span class="line">            var configuration = builder.Configuration;</span><br><span class="line">            configuration.AddNacosV2Configuration(configuration.GetSection(&quot;Nacos&quot;));// 加载Nacos配置。</span><br><span class="line"></span><br><span class="line">            //2、集成NLog</span><br><span class="line">            builder.WebHost.UseNLog();</span><br><span class="line"></span><br><span class="line">            var app = builder.Build();</span><br><span class="line">            await app.InitializeApplicationAsync();</span><br><span class="line"></span><br><span class="line">            Log.Information(&quot;Starting YDT_ProductService.&quot;);</span><br><span class="line">            await app.RunAsync();</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            if (ex is HostAbortedException)</span><br><span class="line">            &#123;</span><br><span class="line">                throw;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Log.Fatal(ex, &quot;YDT_ProductService terminated unexpectedly!&quot;);</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            Log.CloseAndFlush();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static bool IsMigrateDatabase(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        return args.Any(x =&gt; x.Contains(&quot;--migrate-database&quot;, StringComparison.OrdinalIgnoreCase));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、创建nlog.config</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中创建nlog.config文件</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-83.png" alt="Alt text"></p>
+<ul>
+<li>4、配置nlog.config</li>
+</ul>
+<blockquote>
+<p>在nlog.config添加配置内容</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;nlog xmlns=&quot;http://www.nlog-project.org/schemas/NLog.xsd&quot;</span><br><span class="line">      xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">      autoReload=&quot;true&quot;</span><br><span class="line">       internalLogLevel=&quot;Warn&quot;</span><br><span class="line">       internalLogFile=&quot;internal-nlog.txt&quot;&gt;</span><br><span class="line">	&lt;!--define various log targets  keepConnection--&gt;</span><br><span class="line">	&lt;!--2、查询商品日志写入到 logstash 0.0.0.0:9900--&gt;</span><br><span class="line">	&lt;targets&gt;</span><br><span class="line">		&lt;!--网络发送--&gt;</span><br><span class="line">		&lt;target name=&quot;logstash&quot; xsi:type=&quot;Network&quot; address=&quot;tcp://127.0.0.1:9900&quot;layout=&quot;$&#123;longdate&#125;|$&#123;logger&#125;|$&#123;uppercase:$&#123;level&#125;&#125;|$&#123;message&#125; $&#123;exception&#125;&quot; keepConnection=&quot;false&quot;/&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;/targets&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!--1、识别查询商品日志--&gt;</span><br><span class="line">	&lt;rules&gt;</span><br><span class="line">		&lt;logger name=&quot;*&quot; level=&quot;Info,Error&quot; writeTo=&quot;logstash&quot; /&gt;</span><br><span class="line">	&lt;/rules&gt;</span><br><span class="line">&lt;/nlog&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>5、加载nlog.config</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中Program类中加载nlog.config</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">using YDT_ProductService.Data;</span><br><span class="line">using Serilog;</span><br><span class="line">using Serilog.Events;</span><br><span class="line">using Volo.Abp.Data;</span><br><span class="line">using NLog.Web;</span><br><span class="line"></span><br><span class="line">namespace YDT_ProductService;</span><br><span class="line"></span><br><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">    public async static Task&lt;int&gt; Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        var loggerConfiguration = new LoggerConfiguration()</span><br><span class="line">#if DEBUG</span><br><span class="line">            .MinimumLevel.Debug()</span><br><span class="line">#else</span><br><span class="line">            .MinimumLevel.Information()</span><br><span class="line">#endif</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Information)</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft.EntityFrameworkCore&quot;, LogEventLevel.Warning)</span><br><span class="line">            .Enrich.FromLogContext()</span><br><span class="line">            .WriteTo.Async(c =&gt; c.File(&quot;Logs/logs.txt&quot;))</span><br><span class="line">            .WriteTo.Async(c =&gt; c.Console());</span><br><span class="line"></span><br><span class="line">        if (IsMigrateDatabase(args))</span><br><span class="line">        &#123;</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Volo.Abp&quot;, LogEventLevel.Warning);</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Warning);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Log.Logger = loggerConfiguration.CreateLogger();</span><br><span class="line"></span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            var builder = WebApplication.CreateBuilder(args);</span><br><span class="line">            builder.Host.AddAppSettingsSecretsJson()</span><br><span class="line">                .UseAutofac()/*</span><br><span class="line">                .UseSerilog()*/; // 3、Serilog和nlog日志冲突，导致无法写入日志</span><br><span class="line">            if (IsMigrateDatabase(args))</span><br><span class="line">            &#123;</span><br><span class="line">                builder.Services.AddDataMigrationEnvironment();</span><br><span class="line">            &#125;</span><br><span class="line">            await builder.AddApplicationAsync&lt;YDT_ProductServiceModule&gt;();</span><br><span class="line"></span><br><span class="line">            // 1、加载Nacos配置</span><br><span class="line">            var configuration = builder.Configuration;</span><br><span class="line">            configuration.AddNacosV2Configuration(configuration.GetSection(&quot;Nacos&quot;));// 加载Nacos配置。</span><br><span class="line"></span><br><span class="line">            // 3、加载nlog.config</span><br><span class="line">            builder.WebHost.ConfigureAppConfiguration((context, builder) =&gt; &#123;</span><br><span class="line">                // 3、根据变量加载NLog配置文件</span><br><span class="line">                NLogBuilder.ConfigureNLog($&quot;nlog.config&quot;);</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            //2、集成NLog</span><br><span class="line">            builder.WebHost.UseNLog();</span><br><span class="line"></span><br><span class="line">            var app = builder.Build();</span><br><span class="line">            await app.InitializeApplicationAsync();</span><br><span class="line"></span><br><span class="line">            Log.Information(&quot;Starting YDT_ProductService.&quot;);</span><br><span class="line">            await app.RunAsync();</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            if (ex is HostAbortedException)</span><br><span class="line">            &#123;</span><br><span class="line">                throw;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Log.Fatal(ex, &quot;YDT_ProductService terminated unexpectedly!&quot;);</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            Log.CloseAndFlush();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static bool IsMigrateDatabase(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        return args.Any(x =&gt; x.Contains(&quot;--migrate-database&quot;, StringComparison.OrdinalIgnoreCase));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>5、去掉Serilog</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中Program类中去掉Serilog</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">using YDT_ProductService.Data;</span><br><span class="line">using Serilog;</span><br><span class="line">using Serilog.Events;</span><br><span class="line">using Volo.Abp.Data;</span><br><span class="line">using NLog.Web;</span><br><span class="line"></span><br><span class="line">namespace YDT_ProductService;</span><br><span class="line"></span><br><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">    public async static Task&lt;int&gt; Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        var loggerConfiguration = new LoggerConfiguration()</span><br><span class="line">#if DEBUG</span><br><span class="line">            .MinimumLevel.Debug()</span><br><span class="line">#else</span><br><span class="line">            .MinimumLevel.Information()</span><br><span class="line">#endif</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Information)</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft.EntityFrameworkCore&quot;, LogEventLevel.Warning)</span><br><span class="line">            .Enrich.FromLogContext()</span><br><span class="line">            .WriteTo.Async(c =&gt; c.File(&quot;Logs/logs.txt&quot;))</span><br><span class="line">            .WriteTo.Async(c =&gt; c.Console());</span><br><span class="line"></span><br><span class="line">        if (IsMigrateDatabase(args))</span><br><span class="line">        &#123;</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Volo.Abp&quot;, LogEventLevel.Warning);</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Warning);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Log.Logger = loggerConfiguration.CreateLogger();</span><br><span class="line"></span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            var builder = WebApplication.CreateBuilder(args);</span><br><span class="line">            builder.Host.AddAppSettingsSecretsJson()</span><br><span class="line">                .UseAutofac()/*</span><br><span class="line">                .UseSerilog()*/; // 3、Serilog和nlog日志冲突，导致无法写入日志</span><br><span class="line">            if (IsMigrateDatabase(args))</span><br><span class="line">            &#123;</span><br><span class="line">                builder.Services.AddDataMigrationEnvironment();</span><br><span class="line">            &#125;</span><br><span class="line">            await builder.AddApplicationAsync&lt;YDT_ProductServiceModule&gt;();</span><br><span class="line"></span><br><span class="line">            // 1、加载Nacos配置</span><br><span class="line">            var configuration = builder.Configuration;</span><br><span class="line">            configuration.AddNacosV2Configuration(configuration.GetSection(&quot;Nacos&quot;));// 加载Nacos配置。</span><br><span class="line"></span><br><span class="line">            // 3、加载nlog.config</span><br><span class="line">            builder.WebHost.ConfigureAppConfiguration((context, builder) =&gt; &#123;</span><br><span class="line">                // 3、根据变量加载NLog配置文件</span><br><span class="line">                NLogBuilder.ConfigureNLog($&quot;nlog.config&quot;);</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            //2、集成NLog</span><br><span class="line">            builder.WebHost.UseNLog();</span><br><span class="line"></span><br><span class="line">            var app = builder.Build();</span><br><span class="line">            await app.InitializeApplicationAsync();</span><br><span class="line"></span><br><span class="line">            Log.Information(&quot;Starting YDT_ProductService.&quot;);</span><br><span class="line">            await app.RunAsync();</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            if (ex is HostAbortedException)</span><br><span class="line">            &#123;</span><br><span class="line">                throw;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Log.Fatal(ex, &quot;YDT_ProductService terminated unexpectedly!&quot;);</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            Log.CloseAndFlush();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static bool IsMigrateDatabase(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        return args.Any(x =&gt; x.Contains(&quot;--migrate-database&quot;, StringComparison.OrdinalIgnoreCase));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>7、创建添加商品日志</li>
+</ul>
+<blockquote>
+<p>含义：在YDT_ProductService项目中ProductController类中，创建添加商品日志<br>技术：ILogger</p>
+</blockquote>
+<blockquote>
+<p>流程：在YDT_ProductService项目ProductController类中的GetProductsAsync()方法里面，通过ILogger创建添加商品日志</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using YDT_ProductService.Services;</span><br><span class="line">using YDT_ProductService.Services.Dtos;</span><br><span class="line">using YDTProductService.Migrations;</span><br><span class="line"></span><br><span class="line">namespace YDT_ProductService.Controllers;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品控制器</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[ApiController]</span><br><span class="line">[Route(&quot;api/app/product&quot;)]</span><br><span class="line">public class ProductController : AbpController, IProductService</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 依赖注入IProductService</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public IProductService productService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 依赖注入IConfiguration</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public IConfiguration Configuration &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 依赖注入ILogger</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public ILogger&lt;ProductController&gt; logger &#123; get; set; &#125;  </span><br><span class="line"></span><br><span class="line">    .....</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 1、查询商品列表</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    [HttpGet(&quot;GetProducts&quot;)]</span><br><span class="line">    public async Task&lt;List&lt;ProductDto&gt;&gt; GetProductsAsync()</span><br><span class="line">    &#123;</span><br><span class="line">        await Console.Out.WriteLineAsync(&quot;查询商品&quot;);</span><br><span class="line"></span><br><span class="line">        // 2、查询Nacos配置文件中的内容</span><br><span class="line">        string tony = Configuration[&quot;tony&quot;];</span><br><span class="line">        // 2.1、获取appsettings.json中内容</span><br><span class="line">        string redis = Configuration[&quot;redis:config&quot;];</span><br><span class="line"></span><br><span class="line">        // 2.2、获取app.json中内容</span><br><span class="line">        string app = Configuration[&quot;app&quot;];</span><br><span class="line"></span><br><span class="line">        // 2.3、获取package.json中内容</span><br><span class="line">        string version = Configuration[&quot;version&quot;];</span><br><span class="line"></span><br><span class="line">        // 3、查询商品日志</span><br><span class="line">        logger.LogInformation(&quot;查询商品成功&quot;);</span><br><span class="line"></span><br><span class="line">        // 1、实现查询商品</span><br><span class="line">        return productService.GetListAsync(new PagedAndSortedResultRequestDto())</span><br><span class="line">            .Result.Items.ToList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8、启动商品微服务</li>
+</ul>
+<blockquote>
+<p>进入YDT_ProductService项目目录中。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br></pre></td></tr></table></figure>
+<ul>
+<li>9、访问商品微服务</li>
+</ul>
+<blockquote>
+<p>进入浏览器中商品微服务swagger界面中，访问<a target="_blank" rel="noopener" href="http://localhost:44378/api/app/product/GetProducts%E6%8E%A5%E5%8F%A3">http://localhost:44378/api/app/product/GetProducts接口</a></p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-84.png" alt="Alt text"></p>
+<h2 id="5、日志中心-高并发日志收集落地"><a href="#5、日志中心-高并发日志收集落地" class="headerlink" title="5、日志中心-高并发日志收集落地"></a>5、日志中心-高并发日志收集落地</h2><blockquote>
+<p>含义：微服务日志并发量非常大，使用ELk实现高并发日志收集<br>例如：商品微服务查询商品并发量大，就会 导致日志并发量大，进一步导致logstash并发量增大，如果日志并发量超过了logstash并发量，就会导致logstash宕机。为了解决高并发日志收集问题。</p>
+</blockquote>
+<blockquote>
+<p>技术：RabbitMQ，Nlog.RabbitMQ.Target</p>
+</blockquote>
+<p>高并发日志架构：</p>
+<blockquote>
+<p>微服务—-&gt;RabbitMQ——&gt;logstash—-&gt;Elasticsearch &lt;——kibaba</p>
+</blockquote>
+<h3 id="5-1、RabbitMQ准备"><a href="#5-1、RabbitMQ准备" class="headerlink" title="5.1、RabbitMQ准备"></a>5.1、RabbitMQ准备</h3><ul>
+<li><p>1、下载RabbitMQ</p>
+<p>  RabbitMQ地址：<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/download.html">https://www.rabbitmq.com/download.html</a></p>
+<p>  erlang地址：<a target="_blank" rel="noopener" href="https://www.erlang.org/downloads">https://www.erlang.org/downloads</a></p>
+</li>
+</ul>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-85.png" alt="Alt text"></p>
+<ul>
+<li>2、启动RabbitMQ</li>
+</ul>
+<blockquote>
+<p>在windows10 上直接启动，切换到D:\work\common_software\rabbitmq目录中。双击rabbitmq-server-3.9.13.exe 和otp_win64_24.2.1.exe。RabbitMQ和erlang安装成功后，然后切换到D:\work\common_software\rabbitmq\RabbitMQ Server\rabbitmq_server-3.9.13\sbin目录中，进入CMD，输入命令：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-server.bat</span><br></pre></td></tr></table></figure>
+
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-86.png" alt="Alt text"></p>
+<h3 id="5-2、商品微服务准备"><a href="#5-2、商品微服务准备" class="headerlink" title="5.2、商品微服务准备"></a>5.2、商品微服务准备</h3><ul>
+<li>1、安装Nlog.RabbitMQ.Target</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中使用nuget安装Nlog.RabbitMQ.Target</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-87.png" alt="Alt text"></p>
+<ul>
+<li>2、使用Nlog.RabbitMQ.Target</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中，nlog.config文件中使用Nlog.RabbitMQ.Target</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;nlog xmlns=&quot;http://www.nlog-project.org/schemas/NLog.xsd&quot;</span><br><span class="line">      xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">      autoReload=&quot;true&quot;</span><br><span class="line">       internalLogLevel=&quot;Warn&quot;</span><br><span class="line">       internalLogFile=&quot;internal-nlog.txt&quot;&gt;</span><br><span class="line">	&lt;!--define various log targets  keepConnection--&gt;</span><br><span class="line">	&lt;!--2、查询商品日志写入到 logstash 0.0.0.0:9900--&gt;</span><br><span class="line">	&lt;extensions&gt;</span><br><span class="line">		&lt;add assembly=&quot;Nlog.RabbitMQ.Target&quot; /&gt;</span><br><span class="line">	&lt;/extensions&gt;</span><br><span class="line">	&lt;targets&gt;</span><br><span class="line">		&lt;!--网络发送</span><br><span class="line">		&lt;target name=&quot;logstash&quot; xsi:type=&quot;Network&quot; address=&quot;tcp://127.0.0.1:9900&quot;layout=&quot;$&#123;longdate&#125;|$&#123;logger&#125;|$&#123;uppercase:$&#123;level&#125;&#125;|$&#123;message&#125; $&#123;exception&#125;&quot; keepConnection=&quot;false&quot;/&gt;--&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;!-- 2、查询商品日志写入到 RabbitMQ localhost:5672--&gt;</span><br><span class="line">		&lt;target name=&quot;RabbitMQTarget&quot;</span><br><span class="line">					  xsi:type=&quot;RabbitMQ&quot;</span><br><span class="line">				      hostname=&quot;localhost&quot;</span><br><span class="line">				      port=&quot;5672&quot;</span><br><span class="line">					  username=&quot;guest&quot;</span><br><span class="line">					  password=&quot;guest&quot;</span><br><span class="line">				      vhost=&quot;/&quot;</span><br><span class="line">					  exchange=&quot;productservice_logs&quot;</span><br><span class="line">					  exchangeType=&quot;direct&quot;</span><br><span class="line">				      topic=&quot;productservice&quot;</span><br><span class="line">					  layout=&quot;$&#123;longdate&#125;|$&#123;logger&#125;|$&#123;uppercase:$&#123;level&#125;&#125;|$&#123;message&#125; $&#123;exception&#125;&quot;</span><br><span class="line">					  UseLayoutAsMessage=&quot;true&quot;/&gt;</span><br><span class="line">	&lt;/targets&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!--1、识别查询商品日志--&gt;</span><br><span class="line">	&lt;rules&gt;</span><br><span class="line">		&lt;logger name=&quot;*&quot; level=&quot;Info,Error&quot; writeTo=&quot;RabbitMQTarget&quot; /&gt;</span><br><span class="line">	&lt;/rules&gt;</span><br><span class="line">&lt;/nlog&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>配置解析：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;extensions&gt;</span><br><span class="line">	&lt;add assembly=&quot;Nlog.RabbitMQ.Target&quot; /&gt;</span><br><span class="line">&lt;/extensions&gt;</span><br><span class="line">#指定Nlog.RabbitMQ.Target，方便加载Nlog.RabbitMQ.Target</span><br><span class="line">&lt;target name=&quot;RabbitMQTarget&quot;</span><br><span class="line">					  xsi:type=&quot;RabbitMQ&quot; #指定RabbitMQ类型</span><br><span class="line">				      hostname=&quot;localhost&quot; #指定RabbitMQ主机</span><br><span class="line">				      port=&quot;5672&quot;#指定RabbitMQ端口</span><br><span class="line">					  username=&quot;guest&quot;#指定RabbitMQ 用户名</span><br><span class="line">					  password=&quot;guest&quot;#指定RabbitMQ 密码</span><br><span class="line">				      vhost=&quot;/&quot;#指定RabbitMQ 虚拟主机</span><br><span class="line">					  exchange=&quot;productservice_logs&quot;#创建 RabbitMQ 交换机</span><br><span class="line">					  exchangeType=&quot;direct&quot;#创建 RabbitMQ 类型</span><br><span class="line">				      topic=&quot;productservice&quot;#创建 RabbitMQ 路由键</span><br><span class="line">					  layout=&quot;$&#123;longdate&#125;|$&#123;logger&#125;|$&#123;uppercase:$&#123;level&#125;&#125;|$&#123;message&#125; $&#123;exception&#125;&quot; #日志格式</span><br><span class="line">					  UseLayoutAsMessage=&quot;true&quot;/&gt; #使用日志格式</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="5-3、logstash准备"><a href="#5-3、logstash准备" class="headerlink" title="5.3、logstash准备"></a>5.3、logstash准备</h3><ul>
+<li>1、创建logstash-rabbitmq.conf</li>
+</ul>
+<blockquote>
+<p>在logstash中，config目录中创建logstash-rabbitmq.conf。切换到F:\work.net_software\elk_new\logstash-7.10.1\config</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-88.png" alt="Alt text"></p>
+<ul>
+<li>2、配置logstash-rabbitmq.conf</li>
+</ul>
+<blockquote>
+<p>在logstash中，config目录中logstash-rabbitmq.conf文件中配置logstash-rabbitmq.conf。切换到F:\work.net_software\elk_new\logstash-7.10.1\config，打开logstash-rabbitmq.conf文件，添加配置内容：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"># Sample Logstash configuration for creating a simple</span><br><span class="line"># Beats -&gt; Logstash -&gt; Elasticsearch pipeline.</span><br><span class="line"></span><br><span class="line">input &#123;</span><br><span class="line">  rabbitmq &#123; </span><br><span class="line">        # 队列的主机</span><br><span class="line">		host =&gt; &quot;localhost&quot;</span><br><span class="line">		# 消息服务器端口，默认为5672</span><br><span class="line">		port =&gt; 5672</span><br><span class="line">		# 默认为guest</span><br><span class="line">		password =&gt; &quot;guest&quot;</span><br><span class="line">		# 默认为&quot;&quot;</span><br><span class="line">		queue =&gt; &quot;&quot;</span><br><span class="line">		# 默认值为true</span><br><span class="line">		ack =&gt; true</span><br><span class="line">		# 默认值为&#123;&#125;</span><br><span class="line">		arguments =&gt; &#123; &quot;x-ha-policy&quot; =&gt; &quot;all&quot; &#125;</span><br><span class="line">		# 默认值为false</span><br><span class="line">		auto_delete =&gt; false</span><br><span class="line">		# 默认值为true</span><br><span class="line">		automatic_recovery =&gt; true</span><br><span class="line">		# 默认值为1秒</span><br><span class="line">		connect_retry_interval =&gt; 1</span><br><span class="line">		# 没有默认值，超时时间为无限</span><br><span class="line">		connection_timeout =&gt; 1000</span><br><span class="line">		# 默认值为false</span><br><span class="line">		durable =&gt; true</span><br><span class="line">		# 队列的交换器信息</span><br><span class="line">		exchange =&gt; &quot;productservice_logs&quot;</span><br><span class="line">		# 队列的交换器信息</span><br><span class="line">		exchange_type =&gt; &quot;direct&quot;</span><br><span class="line">		# 默认值为false</span><br><span class="line">		exclusive =&gt; false</span><br><span class="line">		# 没有默认值，但是不指定的时候未60秒，秒为单位</span><br><span class="line">		heartbeat =&gt; 60</span><br><span class="line">		# 默认值为logstash，路由键</span><br><span class="line">		key =&gt; productservice</span><br><span class="line">		# 默认值为false，启动此功能保存元数据会影响性能</span><br><span class="line">		metadata_enabled =&gt; false</span><br><span class="line">		# 默认值为false，当设置true的时候表明为被动队列，则在消息服务器上，此队列已经存在</span><br><span class="line">		passive =&gt; false</span><br><span class="line">		# 默认为256</span><br><span class="line">		prefetch_count =&gt; 256</span><br><span class="line">		# 下面是公共配置</span><br><span class="line">		# 设置了type为system</span><br><span class="line">		type =&gt; &quot;productservice&quot; </span><br><span class="line">		# 默认line</span><br><span class="line">		codec =&gt; &quot;json&quot;</span><br><span class="line">		# 默认值为true</span><br><span class="line">		enable_metric =&gt; false</span><br><span class="line">		# 指定此数据输入id为input1</span><br><span class="line">		id =&gt; input1</span><br><span class="line">		# 添加了键位key值为value的数据到时间</span><br><span class="line">		add_field =&gt; &#123;</span><br><span class="line">		  &quot;key&quot; =&gt; &quot;value&quot;</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output &#123;</span><br><span class="line">    elasticsearch &#123;</span><br><span class="line">		hosts =&gt; [&quot;http://localhost:9200&quot;]</span><br><span class="line">		index =&gt; &quot;productservice-%&#123;+YYYY.MM.dd&#125;&quot;</span><br><span class="line">		document_id =&gt; &quot;%&#123;@timestamp&#125;&quot;</span><br><span class="line">		#user =&gt; &quot;elastic&quot;</span><br><span class="line">		#password =&gt; &quot;changeme&quot;</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、重启logstash</li>
+</ul>
+<blockquote>
+<p>在logstash中，bin目录中使用logstash.bat重启logstash。切换到F:\work.net_software\elk_new\logstash-7.10.1\bin，进入CMD，输入以下命令启动：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logstash.bat -f ../config/logstash-rabbitmq.conf</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-89.png" alt="Alt text"></p>
+<h2 id="6、日志中心-多服务日志收集落地"><a href="#6、日志中心-多服务日志收集落地" class="headerlink" title="6、日志中心-多服务日志收集落地"></a>6、日志中心-多服务日志收集落地</h2><blockquote>
+<p>含义：电商网站中日志交给ELK管理<br>例如：电商网站中“首页查询商品”日志，统一交给ELK管理</p>
+</blockquote>
+<ul>
+<li><p>技术：</p>
+<p>  1、NLog.Web.AspNetCore</p>
+<p>  2、Nlog.RabbitMQ.Target</p>
+<p>  3、rabbitmq</p>
+<p>  4、ELK</p>
+</li>
+</ul>
+<blockquote>
+<p>架构图：<br>    电商网站—-&gt;rabbitmq—–&gt; logstash —-&gt;Elasticsearch &lt;——kibaba</p>
+</blockquote>
+<h3 id="6-1、电商网站准备"><a href="#6-1、电商网站准备" class="headerlink" title="6.1、电商网站准备"></a>6.1、电商网站准备</h3><ul>
+<li>1、安装NLog.Web.AspNetCore、Nlog.RabbitMQ.Target</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中使用nuget安装安装NLog.Web.AspNetCore、Nlog.RabbitMQ.Target，进入YDT_WebSites进行安装。</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-90.png" alt="Alt text"></p>
+<ul>
+<li>2、集成NLog.Web.AspNetCore</li>
+</ul>
+<blockquote>
+<p>含义：电商网站中集成NLog.Web.AspNetCore，为了能够使用<br>在YDT_WebSites项目中的Program类中集成NLog.Web.AspNetCore</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">using YDT_WebSites.Data;</span><br><span class="line">using Serilog;</span><br><span class="line">using Serilog.Events;</span><br><span class="line">using Volo.Abp.Data;</span><br><span class="line">using NLog.Web;</span><br><span class="line"></span><br><span class="line">namespace YDT_WebSites;</span><br><span class="line"></span><br><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">    public async static Task&lt;int&gt; Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        var loggerConfiguration = new LoggerConfiguration()</span><br><span class="line">#if DEBUG</span><br><span class="line">            .MinimumLevel.Debug()</span><br><span class="line">#else</span><br><span class="line">            .MinimumLevel.Information()</span><br><span class="line">#endif</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Information)</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft.EntityFrameworkCore&quot;, LogEventLevel.Warning)</span><br><span class="line">            .Enrich.FromLogContext()</span><br><span class="line">            .WriteTo.Async(c =&gt; c.File(&quot;Logs/logs.txt&quot;))</span><br><span class="line">            .WriteTo.Async(c =&gt; c.Console());</span><br><span class="line"></span><br><span class="line">        if (IsMigrateDatabase(args))</span><br><span class="line">        &#123;</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Volo.Abp&quot;, LogEventLevel.Warning);</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Warning);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Log.Logger = loggerConfiguration.CreateLogger();</span><br><span class="line"></span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            var builder = WebApplication.CreateBuilder(args);</span><br><span class="line">            builder.Host.AddAppSettingsSecretsJson()</span><br><span class="line">                .UseAutofac()/*</span><br><span class="line">                .UseSerilog()*/;// 取消Serilog</span><br><span class="line">            if (IsMigrateDatabase(args))</span><br><span class="line">            &#123;</span><br><span class="line">                builder.Services.AddDataMigrationEnvironment();</span><br><span class="line">            &#125;</span><br><span class="line">            await builder.AddApplicationAsync&lt;YDT_WebSitesModule&gt;();</span><br><span class="line"></span><br><span class="line">            // 1、加载Nacos配置</span><br><span class="line">            var configuration = builder.Configuration;</span><br><span class="line">            configuration.AddNacosV2Configuration(configuration.GetSection(&quot;Nacos&quot;));// 加载Nacos配置。</span><br><span class="line"></span><br><span class="line">            // 2、集成nlog</span><br><span class="line">            builder.WebHost.UseNLog();</span><br><span class="line"></span><br><span class="line">            var app = builder.Build();</span><br><span class="line">            await app.InitializeApplicationAsync();</span><br><span class="line"></span><br><span class="line">            Log.Information(&quot;Starting YDT_WebSites.&quot;);</span><br><span class="line">            await app.RunAsync();</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            if (ex is HostAbortedException)</span><br><span class="line">            &#123;</span><br><span class="line">                throw;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Log.Fatal(ex, &quot;YDT_WebSites terminated unexpectedly!&quot;);</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            Log.CloseAndFlush();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static bool IsMigrateDatabase(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        return args.Any(x =&gt; x.Contains(&quot;--migrate-database&quot;, StringComparison.OrdinalIgnoreCase));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、创建nlog.config</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中创建nlog.config文件</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-91.png" alt="Alt text"></p>
+<ul>
+<li>4、配置nlog.config</li>
+</ul>
+<blockquote>
+<p>在nlog.config添加配置内容</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;nlog xmlns=&quot;http://www.nlog-project.org/schemas/NLog.xsd&quot;</span><br><span class="line">      xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">      autoReload=&quot;true&quot;</span><br><span class="line">       internalLogLevel=&quot;Warn&quot;</span><br><span class="line">       internalLogFile=&quot;internal-nlog.txt&quot;&gt;</span><br><span class="line">	&lt;!--define various log targets  keepConnection--&gt;</span><br><span class="line">	&lt;!--2、查询商品日志写入到 logstash 0.0.0.0:9900--&gt;</span><br><span class="line">	&lt;extensions&gt;</span><br><span class="line">		&lt;add assembly=&quot;Nlog.RabbitMQ.Target&quot; /&gt;</span><br><span class="line">	&lt;/extensions&gt;</span><br><span class="line">	&lt;targets&gt;</span><br><span class="line">		&lt;!--网络发送</span><br><span class="line">		&lt;target name=&quot;logstash&quot; xsi:type=&quot;Network&quot; address=&quot;tcp://127.0.0.1:9900&quot;layout=&quot;$&#123;longdate&#125;|$&#123;logger&#125;|$&#123;uppercase:$&#123;level&#125;&#125;|$&#123;message&#125; $&#123;exception&#125;&quot; keepConnection=&quot;false&quot;/&gt;--&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;!-- 2、查询商品日志写入到 RabbitMQ localhost:5672--&gt;</span><br><span class="line">		&lt;target name=&quot;RabbitMQTarget&quot;</span><br><span class="line">					  xsi:type=&quot;RabbitMQ&quot;</span><br><span class="line">				      hostname=&quot;localhost&quot;</span><br><span class="line">				      port=&quot;5672&quot;</span><br><span class="line">					  username=&quot;guest&quot;</span><br><span class="line">					  password=&quot;guest&quot;</span><br><span class="line">				      vhost=&quot;/&quot;</span><br><span class="line">					  exchange=&quot;websites_logs&quot;</span><br><span class="line">					  exchangeType=&quot;direct&quot;</span><br><span class="line">				      topic=&quot;websites&quot;</span><br><span class="line">					  layout=&quot;$&#123;longdate&#125;|$&#123;logger&#125;|$&#123;uppercase:$&#123;level&#125;&#125;|$&#123;message&#125; $&#123;exception&#125;&quot;</span><br><span class="line">					  UseLayoutAsMessage=&quot;true&quot;/&gt;</span><br><span class="line">	&lt;/targets&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;!--1、识别查询商品日志--&gt;</span><br><span class="line">	&lt;rules&gt;</span><br><span class="line">		&lt;logger name=&quot;*&quot; level=&quot;Info,Error&quot; writeTo=&quot;RabbitMQTarget&quot; /&gt;</span><br><span class="line">	&lt;/rules&gt;</span><br><span class="line">&lt;/nlog&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>5、加载nlog.config</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中Program类中加载nlog.config</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">using YDT_WebSites.Data;</span><br><span class="line">using Serilog;</span><br><span class="line">using Serilog.Events;</span><br><span class="line">using Volo.Abp.Data;</span><br><span class="line">using NLog.Web;</span><br><span class="line"></span><br><span class="line">namespace YDT_WebSites;</span><br><span class="line"></span><br><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">    public async static Task&lt;int&gt; Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        var loggerConfiguration = new LoggerConfiguration()</span><br><span class="line">#if DEBUG</span><br><span class="line">            .MinimumLevel.Debug()</span><br><span class="line">#else</span><br><span class="line">            .MinimumLevel.Information()</span><br><span class="line">#endif</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Information)</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft.EntityFrameworkCore&quot;, LogEventLevel.Warning)</span><br><span class="line">            .Enrich.FromLogContext()</span><br><span class="line">            .WriteTo.Async(c =&gt; c.File(&quot;Logs/logs.txt&quot;))</span><br><span class="line">            .WriteTo.Async(c =&gt; c.Console());</span><br><span class="line"></span><br><span class="line">        if (IsMigrateDatabase(args))</span><br><span class="line">        &#123;</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Volo.Abp&quot;, LogEventLevel.Warning);</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Warning);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Log.Logger = loggerConfiguration.CreateLogger();</span><br><span class="line"></span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            var builder = WebApplication.CreateBuilder(args);</span><br><span class="line">            builder.Host.AddAppSettingsSecretsJson()</span><br><span class="line">                .UseAutofac()/*</span><br><span class="line">                .UseSerilog()*/;// 取消Serilog</span><br><span class="line">            if (IsMigrateDatabase(args))</span><br><span class="line">            &#123;</span><br><span class="line">                builder.Services.AddDataMigrationEnvironment();</span><br><span class="line">            &#125;</span><br><span class="line">            await builder.AddApplicationAsync&lt;YDT_WebSitesModule&gt;();</span><br><span class="line"></span><br><span class="line">            // 1、加载Nacos配置</span><br><span class="line">            var configuration = builder.Configuration;</span><br><span class="line">            configuration.AddNacosV2Configuration(configuration.GetSection(&quot;Nacos&quot;));// 加载Nacos配置。</span><br><span class="line"></span><br><span class="line">            // 3、加载nlog.config</span><br><span class="line">            builder.WebHost.ConfigureAppConfiguration((context, builder) =&gt; &#123;</span><br><span class="line">                // 3、根据变量加载NLog配置文件</span><br><span class="line">                NLogBuilder.ConfigureNLog($&quot;nlog.config&quot;);</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            // 2、集成nlog</span><br><span class="line">            builder.WebHost.UseNLog();</span><br><span class="line"></span><br><span class="line">            var app = builder.Build();</span><br><span class="line">            await app.InitializeApplicationAsync();</span><br><span class="line"></span><br><span class="line">            Log.Information(&quot;Starting YDT_WebSites.&quot;);</span><br><span class="line">            await app.RunAsync();</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            if (ex is HostAbortedException)</span><br><span class="line">            &#123;</span><br><span class="line">                throw;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Log.Fatal(ex, &quot;YDT_WebSites terminated unexpectedly!&quot;);</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            Log.CloseAndFlush();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static bool IsMigrateDatabase(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        return args.Any(x =&gt; x.Contains(&quot;--migrate-database&quot;, StringComparison.OrdinalIgnoreCase));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>5、去掉Serilog</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中Program类中去掉Serilog</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">using YDT_WebSites.Data;</span><br><span class="line">using Serilog;</span><br><span class="line">using Serilog.Events;</span><br><span class="line">using Volo.Abp.Data;</span><br><span class="line">using NLog.Web;</span><br><span class="line"></span><br><span class="line">namespace YDT_WebSites;</span><br><span class="line"></span><br><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">    public async static Task&lt;int&gt; Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        var loggerConfiguration = new LoggerConfiguration()</span><br><span class="line">#if DEBUG</span><br><span class="line">            .MinimumLevel.Debug()</span><br><span class="line">#else</span><br><span class="line">            .MinimumLevel.Information()</span><br><span class="line">#endif</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Information)</span><br><span class="line">            .MinimumLevel.Override(&quot;Microsoft.EntityFrameworkCore&quot;, LogEventLevel.Warning)</span><br><span class="line">            .Enrich.FromLogContext()</span><br><span class="line">            .WriteTo.Async(c =&gt; c.File(&quot;Logs/logs.txt&quot;))</span><br><span class="line">            .WriteTo.Async(c =&gt; c.Console());</span><br><span class="line"></span><br><span class="line">        if (IsMigrateDatabase(args))</span><br><span class="line">        &#123;</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Volo.Abp&quot;, LogEventLevel.Warning);</span><br><span class="line">            loggerConfiguration.MinimumLevel.Override(&quot;Microsoft&quot;, LogEventLevel.Warning);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Log.Logger = loggerConfiguration.CreateLogger();</span><br><span class="line"></span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            var builder = WebApplication.CreateBuilder(args);</span><br><span class="line">            builder.Host.AddAppSettingsSecretsJson()</span><br><span class="line">                .UseAutofac()/*</span><br><span class="line">                .UseSerilog()*/;// 取消Serilog</span><br><span class="line">            if (IsMigrateDatabase(args))</span><br><span class="line">            &#123;</span><br><span class="line">                builder.Services.AddDataMigrationEnvironment();</span><br><span class="line">            &#125;</span><br><span class="line">            await builder.AddApplicationAsync&lt;YDT_WebSitesModule&gt;();</span><br><span class="line"></span><br><span class="line">            // 1、加载Nacos配置</span><br><span class="line">            var configuration = builder.Configuration;</span><br><span class="line">            configuration.AddNacosV2Configuration(configuration.GetSection(&quot;Nacos&quot;));// 加载Nacos配置。</span><br><span class="line"></span><br><span class="line">            // 3、加载nlog.config</span><br><span class="line">            builder.WebHost.ConfigureAppConfiguration((context, builder) =&gt; &#123;</span><br><span class="line">                // 3、根据变量加载NLog配置文件</span><br><span class="line">                NLogBuilder.ConfigureNLog($&quot;nlog.config&quot;);</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            // 2、集成nlog</span><br><span class="line">            builder.WebHost.UseNLog();</span><br><span class="line"></span><br><span class="line">            var app = builder.Build();</span><br><span class="line">            await app.InitializeApplicationAsync();</span><br><span class="line"></span><br><span class="line">            Log.Information(&quot;Starting YDT_WebSites.&quot;);</span><br><span class="line">            await app.RunAsync();</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            if (ex is HostAbortedException)</span><br><span class="line">            &#123;</span><br><span class="line">                throw;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Log.Fatal(ex, &quot;YDT_WebSites terminated unexpectedly!&quot;);</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            Log.CloseAndFlush();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static bool IsMigrateDatabase(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        return args.Any(x =&gt; x.Contains(&quot;--migrate-database&quot;, StringComparison.OrdinalIgnoreCase));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>7、创建首页查询商品日志</li>
+</ul>
+<blockquote>
+<p>含义：在YDT_WebSites项目中ProductController类中，创建首页查询商品日志<br>技术：ILogger</p>
+</blockquote>
+<blockquote>
+<p>流程：在YDT_WebSites项目ProductController类中的GetProduct()方法里面，通过ILogger创建添加商品日志</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.Caching;</span><br><span class="line">using YDT_ProductService.Services;</span><br><span class="line">using YDT_ProductService.Services.Dtos;</span><br><span class="line"></span><br><span class="line">namespace YDT_WebSites.Controllers;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 首页控制器（查询商品数据）</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[ApiController]</span><br><span class="line">[Route(&quot;Index&quot;)]</span><br><span class="line">public class IndexController : AbpController</span><br><span class="line">&#123;</span><br><span class="line">    public IProductService productService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 依赖注入IConfiguration</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public IConfiguration Configuration &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 依赖注入IDistributedCache</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public IDistributedCache&lt;List&lt;ProductDto&gt;&gt; distributedCache &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 依赖注入ILogger</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public ILogger&lt;IndexController&gt; logger &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 获取页面上的商品数据</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    [HttpGet]</span><br><span class="line">    public List&lt;ProductDto&gt; GetProduct()</span><br><span class="line">    &#123;</span><br><span class="line">        // 2、获取appsetting.json文件中的内容</span><br><span class="line">        string website = Configuration[&quot;website&quot;];</span><br><span class="line"></span><br><span class="line">        //2.1、获取appsetting.json文件中的websiteDegrade内容</span><br><span class="line">        string websiteDegrade = Configuration[&quot;websiteDegrade&quot;];</span><br><span class="line"></span><br><span class="line">        //1、查询商品</span><br><span class="line">        // return productService.GetListAsync(new PagedAndSortedResultRequestDto()).Result.Items.ToList();</span><br><span class="line">        List&lt;ProductDto&gt; productDtos = null;</span><br><span class="line">        if (websiteDegrade.Equals(&quot;1&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            // 1、查询商品，从数据库</span><br><span class="line">             productDtos = productService.GetProductsAsync().Result;</span><br><span class="line">            // 2、商品数据存储到redis中</span><br><span class="line">            distributedCache.Set(&quot;productDtos&quot;, productDtos);</span><br><span class="line">        &#125;</span><br><span class="line">        else if(websiteDegrade.Equals(&quot;2&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            // 3、商品数据查询从redis中</span><br><span class="line">            productDtos = distributedCache.Get(&quot;productDtos&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 3、首页查询商品日志</span><br><span class="line">        logger.LogInformation(&quot;首页查询商品日志&quot;);</span><br><span class="line"></span><br><span class="line">        return productDtos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8、启动电商网站</li>
+</ul>
+<blockquote>
+<p>进入YDT_WebSites项目目录中。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br></pre></td></tr></table></figure>
+<ul>
+<li>9、访问电商网站</li>
+</ul>
+<blockquote>
+<p>进入浏览器中商品微服务swagger界面中，访问<a target="_blank" rel="noopener" href="https://localhost:44317/Index%E6%8E%A5%E5%8F%A3">https://localhost:44317/Index接口</a></p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-92.png" alt="Alt text"></p>
+<h3 id="6-2、logstash准备"><a href="#6-2、logstash准备" class="headerlink" title="6.2、logstash准备"></a>6.2、logstash准备</h3><ul>
+<li>1、配置logstash-rabbitmq.conf</li>
+</ul>
+<blockquote>
+<p>在logstash中，config目录中logstash-rabbitmq.conf文件中配置logstash-rabbitmq.conf。切换到F:\work.net_software\elk_new\logstash-7.10.1\config，打开logstash-rabbitmq.conf文件，添加配置内容：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"># Sample Logstash configuration for creating a simple</span><br><span class="line"># Beats -&gt; Logstash -&gt; Elasticsearch pipeline.</span><br><span class="line"></span><br><span class="line">input &#123;</span><br><span class="line"></span><br><span class="line">  rabbitmq &#123; </span><br><span class="line">        # 队列的主机</span><br><span class="line">		host =&gt; &quot;localhost&quot;</span><br><span class="line">		# 消息服务器端口，默认为5672</span><br><span class="line">		port =&gt; 5672</span><br><span class="line">		# 默认为guest</span><br><span class="line">		password =&gt; &quot;guest&quot;</span><br><span class="line">		# 默认为&quot;&quot;</span><br><span class="line">		queue =&gt; &quot;&quot;</span><br><span class="line">		# 默认值为true</span><br><span class="line">		ack =&gt; true</span><br><span class="line">		# 默认值为&#123;&#125;</span><br><span class="line">		arguments =&gt; &#123; &quot;x-ha-policy&quot; =&gt; &quot;all&quot; &#125;</span><br><span class="line">		# 默认值为false</span><br><span class="line">		auto_delete =&gt; false</span><br><span class="line">		# 默认值为true</span><br><span class="line">		automatic_recovery =&gt; true</span><br><span class="line">		# 默认值为1秒</span><br><span class="line">		connect_retry_interval =&gt; 1</span><br><span class="line">		# 没有默认值，超时时间为无限</span><br><span class="line">		connection_timeout =&gt; 1000</span><br><span class="line">		# 默认值为false</span><br><span class="line">		durable =&gt; true</span><br><span class="line">		# 队列的交换器信息</span><br><span class="line">		exchange =&gt; &quot;productservice_logs&quot;</span><br><span class="line">		# 队列的交换器信息</span><br><span class="line">		exchange_type =&gt; &quot;direct&quot;</span><br><span class="line">		# 默认值为false</span><br><span class="line">		exclusive =&gt; false</span><br><span class="line">		# 没有默认值，但是不指定的时候未60秒，秒为单位</span><br><span class="line">		heartbeat =&gt; 60</span><br><span class="line">		# 默认值为logstash，路由键</span><br><span class="line">		key =&gt; productservice</span><br><span class="line">		# 默认值为false，启动此功能保存元数据会影响性能</span><br><span class="line">		metadata_enabled =&gt; false</span><br><span class="line">		# 默认值为false，当设置true的时候表明为被动队列，则在消息服务器上，此队列已经存在</span><br><span class="line">		passive =&gt; false</span><br><span class="line">		# 默认为256</span><br><span class="line">		prefetch_count =&gt; 256</span><br><span class="line">		# 下面是公共配置</span><br><span class="line">		# 设置了type为system</span><br><span class="line">		type =&gt; &quot;productservice&quot; </span><br><span class="line">		# 默认line</span><br><span class="line">		codec =&gt; &quot;json&quot;</span><br><span class="line">		# 默认值为true</span><br><span class="line">		enable_metric =&gt; false</span><br><span class="line">		# 指定此数据输入id为input1</span><br><span class="line">		id =&gt; input1</span><br><span class="line">		# 添加了键位key值为value的数据到时间</span><br><span class="line">		add_field =&gt; &#123;</span><br><span class="line">		  &quot;key&quot; =&gt; &quot;value&quot;</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	rabbitmq &#123;</span><br><span class="line">            </span><br><span class="line">        # 队列的主机</span><br><span class="line">		host =&gt; &quot;localhost&quot;</span><br><span class="line">		# 默认为guest</span><br><span class="line">		password =&gt; &quot;guest&quot;</span><br><span class="line">		# 消息服务器端口，默认为5672</span><br><span class="line">		port =&gt; 5672</span><br><span class="line">		# 默认为&quot;&quot;</span><br><span class="line">		queue =&gt; &quot;&quot;</span><br><span class="line">		# 默认值为true</span><br><span class="line">		ack =&gt; true</span><br><span class="line">		# 默认值为&#123;&#125;</span><br><span class="line">		arguments =&gt; &#123;&#125;</span><br><span class="line">		# 默认值为false</span><br><span class="line">		auto_delete =&gt; false</span><br><span class="line">		# 默认值为true</span><br><span class="line">		automatic_recovery =&gt; true</span><br><span class="line">		# 默认值为1秒</span><br><span class="line">		connect_retry_interval =&gt; 1</span><br><span class="line">		# 没有默认值，超时时间为无限</span><br><span class="line">		connection_timeout =&gt; 1000</span><br><span class="line">		# 默认值为false</span><br><span class="line">		durable =&gt; true</span><br><span class="line">		# 队列的交换器信息</span><br><span class="line">		exchange =&gt; &quot;websites_logs&quot;</span><br><span class="line">		# 队列的交换器信息</span><br><span class="line">		exchange_type =&gt; &quot;direct&quot;</span><br><span class="line">		# 默认值为false</span><br><span class="line">		exclusive =&gt; false</span><br><span class="line">		# 没有默认值，但是不指定的时候未60秒，秒为单位</span><br><span class="line">		heartbeat =&gt; 60</span><br><span class="line">		# 默认值为logstash，路由键</span><br><span class="line">		key =&gt; &quot;websites&quot;</span><br><span class="line">		# 默认值为false，启动此功能保存元数据会影响性能</span><br><span class="line">		metadata_enabled =&gt; false</span><br><span class="line">		# 默认值为false，当设置true的时候表明为被动队列，则在消息服务器上，此队列已经存在</span><br><span class="line">		passive =&gt; false</span><br><span class="line">		# 默认为256</span><br><span class="line">		prefetch_count =&gt; 256</span><br><span class="line">		# 下面是公共配置</span><br><span class="line">		# 设置了type为system</span><br><span class="line">		type =&gt; &quot;websites&quot; </span><br><span class="line">		# 默认line</span><br><span class="line">		codec =&gt; &quot;json&quot;</span><br><span class="line">		# 默认值为true</span><br><span class="line">		enable_metric =&gt; false</span><br><span class="line">		# 指定此数据输入id为input1</span><br><span class="line">		id =&gt; input2           </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output &#123;</span><br><span class="line">  if [type] == &quot;productservice&quot; &#123;</span><br><span class="line">    elasticsearch &#123;</span><br><span class="line">		hosts =&gt; [&quot;http://localhost:9200&quot;]</span><br><span class="line">		index =&gt; &quot;productservice-%&#123;+YYYY.MM.dd&#125;&quot;</span><br><span class="line">		document_id =&gt; &quot;%&#123;@timestamp&#125;&quot;</span><br><span class="line">		#user =&gt; &quot;elastic&quot;</span><br><span class="line">		#password =&gt; &quot;changeme&quot;</span><br><span class="line">	  &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  if [type] == &quot;websites&quot; &#123;</span><br><span class="line">    elasticsearch &#123;</span><br><span class="line">		hosts =&gt; [&quot;http://localhost:9200&quot;]</span><br><span class="line">		index =&gt; &quot;websites-%&#123;+YYYY.MM.dd&#125;&quot;</span><br><span class="line">		document_id =&gt; &quot;%&#123;@timestamp&#125;&quot;</span><br><span class="line">		#user =&gt; &quot;elastic&quot;</span><br><span class="line">		#password =&gt; &quot;changeme&quot;</span><br><span class="line">	  &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置解析：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 下面是公共配置(商品微服务配置)</span><br><span class="line"># 设置了type为system</span><br><span class="line">type =&gt; &quot;productservice&quot;  #类型唯一</span><br><span class="line"># 默认line</span><br><span class="line"># 指定此数据输入id为input1</span><br><span class="line">id =&gt; input1 #id唯一</span><br><span class="line">		</span><br><span class="line"> # 下面是公共配置(电商网站配置)</span><br><span class="line"> # 设置了type为system</span><br><span class="line"> type =&gt; &quot;websites&quot; #类型唯一</span><br><span class="line"> # 指定此数据输入id为input1</span><br><span class="line"> id =&gt; input2	#id唯一</span><br></pre></td></tr></table></figure></li>
+<li>2、重启logstash</li>
+</ul>
+<blockquote>
+<p>在logstash中，bin目录中使用logstash.bat重启logstash。切换到F:\work.net_software\elk_new\logstash-7.10.1\bin，进入CMD，输入以下命令启动：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logstash.bat -f ../config/logstash-rabbitmq.conf</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-93.png" alt="Alt text"></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/" rel="tag"># 微服务实战</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2023/08/05/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/5%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83nacos/" rel="prev" title="5、微服务-配置中心nacos">
+      <i class="fa fa-chevron-left"></i> 5、微服务-配置中心nacos
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2023/08/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/7%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E9%93%BE%E8%B7%AF%E7%9B%91%E6%8E%A7SkyWalking/" rel="next" title="7、微服务-链路监控SkyWalking">
+      7、微服务-链路监控SkyWalking <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#6%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83ELK"><span class="nav-number">1.</span> <span class="nav-text">6、微服务-日志中心ELK</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83"><span class="nav-number">1.1.</span> <span class="nav-text">1、日志中心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.2.</span> <span class="nav-text">2、日志中心应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E3%80%81%E7%94%B5%E5%95%86%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1、电商微服务系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E3%80%81%E7%94%B5%E5%95%86%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2、电商微服务系统日志</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83%E6%8A%80%E6%9C%AF%E9%80%89%E9%A1%B9"><span class="nav-number">1.3.</span> <span class="nav-text">3、日志中心技术选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83%E8%90%BD%E5%9C%B0"><span class="nav-number">1.4.</span> <span class="nav-text">4、日志中心落地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2%E3%80%81%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83%E5%87%86%E5%A4%87"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.2、日志中心准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2%E3%80%81%E5%95%86%E5%93%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%87%86%E5%A4%87"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2、商品微服务准备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83-%E9%AB%98%E5%B9%B6%E5%8F%91%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86%E8%90%BD%E5%9C%B0"><span class="nav-number">1.5.</span> <span class="nav-text">5、日志中心-高并发日志收集落地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1%E3%80%81RabbitMQ%E5%87%86%E5%A4%87"><span class="nav-number">1.5.1.</span> <span class="nav-text">5.1、RabbitMQ准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2%E3%80%81%E5%95%86%E5%93%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%87%86%E5%A4%87"><span class="nav-number">1.5.2.</span> <span class="nav-text">5.2、商品微服务准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3%E3%80%81logstash%E5%87%86%E5%A4%87"><span class="nav-number">1.5.3.</span> <span class="nav-text">5.3、logstash准备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E3%80%81%E6%97%A5%E5%BF%97%E4%B8%AD%E5%BF%83-%E5%A4%9A%E6%9C%8D%E5%8A%A1%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86%E8%90%BD%E5%9C%B0"><span class="nav-number">1.6.</span> <span class="nav-text">6、日志中心-多服务日志收集落地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1%E3%80%81%E7%94%B5%E5%95%86%E7%BD%91%E7%AB%99%E5%87%86%E5%A4%87"><span class="nav-number">1.6.1.</span> <span class="nav-text">6.1、电商网站准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2%E3%80%81logstash%E5%87%86%E5%A4%87"><span class="nav-number">1.6.2.</span> <span class="nav-text">6.2、logstash准备</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/BlogPro/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

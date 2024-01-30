@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="8、微服务-事件总线Cap1、事件 微服务中的属性被修改一次，方法被调用一次。就是事件。  如图所示：  2、事件总线 事件总线 ：管理所有事件，主要包括两大内容   1、存储事件 （核心）：将事件存储到RabbitMQ或者本地消息表  2、处理事件（发送和消费）：接受生产者产生的事件，发送事件给消费者。  3、事件总线应用场景   3.1、电商微服务系统​ 如图所示：   场景：添加商品业务场景">
+<meta property="og:type" content="article">
+<meta property="og:title" content="8、微服务-事件总线Cap">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/08/08/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/8%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BFCap/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="8、微服务-事件总线Cap1、事件 微服务中的属性被修改一次，方法被调用一次。就是事件。  如图所示：  2、事件总线 事件总线 ：管理所有事件，主要包括两大内容   1、存储事件 （核心）：将事件存储到RabbitMQ或者本地消息表  2、处理事件（发送和消费）：接受生产者产生的事件，发送事件给消费者。  3、事件总线应用场景   3.1、电商微服务系统​ 如图所示：   场景：添加商品业务场景">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-121.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-122.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-123.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-124.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-125.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-126.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-127.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-128.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-129.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-130.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-131.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-132.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-133.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-134.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-135.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-136.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-137.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-138.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-139.png">
+<meta property="article:published_time" content="2023-08-08T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-30T15:33:33.213Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="微服务实战">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-121.png">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2023/08/08/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/8%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BFCap/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>8、微服务-事件总线Cap | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/08/08/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/8%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BFCap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          8、微服务-事件总线Cap
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-08 10:48:57" itemprop="dateCreated datePublished" datetime="2023-08-08T10:48:57+08:00">2023-08-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-30 23:33:33" itemprop="dateModified" datetime="2024-01-30T23:33:33+08:00">2024-01-30</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2023/08/08/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/8%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BFCap/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/08/08/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/8%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BFCap/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="8、微服务-事件总线Cap"><a href="#8、微服务-事件总线Cap" class="headerlink" title="8、微服务-事件总线Cap"></a>8、微服务-事件总线Cap</h1><h2 id="1、事件"><a href="#1、事件" class="headerlink" title="1、事件"></a>1、事件</h2><ul>
+<li>微服务中的属性被修改一次，方法被调用一次。就是事件。</li>
+</ul>
+<p>如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-121.png" alt="Alt text"></p>
+<h2 id="2、事件总线"><a href="#2、事件总线" class="headerlink" title="2、事件总线"></a>2、事件总线</h2><blockquote>
+<p>事件总线 ：管理所有事件，主要包括两大内容</p>
+</blockquote>
+<ul>
+<li><p>1、存储事件 （核心）：将事件存储到RabbitMQ或者本地消息表</p>
+</li>
+<li><p>2、处理事件（发送和消费）：接受生产者产生的事件，发送事件给消费者。</p>
+</li>
+<li><p>3、事件总线应用场景</p>
+</li>
+</ul>
+<h3 id="3-1、电商微服务系统"><a href="#3-1、电商微服务系统" class="headerlink" title="3.1、电商微服务系统"></a>3.1、电商微服务系统</h3><p>​ 如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-122.png" alt="Alt text"></p>
+<ul>
+<li>场景：添加商品业务场景</li>
+</ul>
+<blockquote>
+<p>实现流程：客户端——电商网站—–API网关—–商品微服务——商品数据库</p>
+</blockquote>
+<blockquote>
+<p>描述：由于API网关需要等到商品数据库执行完后，才返回结果。会导致数据库并发处理能力决定API网关并发处理能力。例如：如果商品数据数据库并发处理能力为100，就会决定API网关并发处理能力为100。进一步导致电商网站最多只能发起100个添加商品并发请求。如果客户端添加商品并发量，达到了200，电商网站并发量也会达到200，进一步导致API网关并发量也会达到200。API网关并发量大于并发处理，即200&gt;100，就会导致API网关宕机。为了能够处理200并发量，防止API网关宕机。</p>
+</blockquote>
+<pre><code>问题：并发量过大，导致API网关宕机
+
+原因：同步通信。
+
+方案：异步通信。
+
+技术：事件总线。
+</code></pre>
+<h3 id="3-2、电商微服务系统事件总线"><a href="#3-2、电商微服务系统事件总线" class="headerlink" title="3.2、电商微服务系统事件总线"></a>3.2、电商微服务系统事件总线</h3><p>事件总线架构图如下：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-123.png" alt="Alt text"></p>
+<ul>
+<li>场景：添加商品</li>
+</ul>
+<blockquote>
+<p>实现流程：客户端——电商网站—–事件总线—–商品微服务——商品数据库</p>
+</blockquote>
+<blockquote>
+<p>描述：客户端发起添加商品请求，交给电商网站。电商网站接受到请求后，然后将添加商品的请求，生成为添加商品事件，然后将添加商品事件发送给事件总线后。请求立马返回给客户端。接下来，事件总线再将添加商品事件发送给商品微服务，然后商品微服务再将请求发送给商品数据库，最后商品数据库将商品数据保存起来。如果商品微服务处理添加商品并发能力有限。事件总线会根据商品微服务最高并发处理能力，把添加商品事件批量的交给商品微服务。保证商品微服务不宕机的情况下，可以正常在数据库中添加商品。例如：如果商品微服务并发处理能力是100，那么事件总线就发送100个添加商品请求给商品微服务。没有被处理的请求，停留在事件总线中。</p>
+</blockquote>
+<blockquote>
+<p>好处：使用事件总线，将添加商品请求，由同步处理，变成了异步处理，提示了系统并发量。</p>
+</blockquote>
+<blockquote>
+<p>总结：以上是在电商系统微服务系统中，使用事件总线的应用场景。</p>
+</blockquote>
+<h2 id="4、事件总线技术选项"><a href="#4、事件总线技术选项" class="headerlink" title="4、事件总线技术选项"></a>4、事件总线技术选项</h2><blockquote>
+<p>事件总线中心技术：</p>
+</blockquote>
+<pre><code>1、CAP
+
+2、Volo.Abp.EventBus。
+</code></pre>
+<blockquote>
+<p>Volo.Abp.EventBus缺陷：</p>
+</blockquote>
+<pre><code>1、事件发送失败，事件会丢失
+
+2、事件消费失败，事件也会丢失
+</code></pre>
+<blockquote>
+<p>技术选项原则：</p>
+</blockquote>
+<pre><code>1、功能
+
+2、性能
+
+3、稳定
+
+4、使用
+</code></pre>
+<blockquote>
+<p>CAP 具有着4个特点。</p>
+</blockquote>
+<pre><code>1、功能多
+
+2、稳定强
+
+3、性能高
+
+4、使用简单
+</code></pre>
+<blockquote>
+<p>所有：选择CAP作为事件总线技术</p>
+</blockquote>
+<h2 id="5、事件总线-添加商品落地"><a href="#5、事件总线-添加商品落地" class="headerlink" title="5、事件总线-添加商品落地"></a>5、事件总线-添加商品落地</h2><p>含义：添加商品事件发送给事件总线。然后事件总线发送事件给商品微服务</p>
+<blockquote>
+<p>场景：添加商品业务场景</p>
+</blockquote>
+<ul>
+<li><p>技术：</p>
+<p>  1、RabbitMQ</p>
+<p>  2、DotNetCore.CAP</p>
+<p>  3、DotNetCore.CAP.RabbitMQ</p>
+<p>  4、DotNetCore.CAP.InMemoryStorage</p>
+</li>
+</ul>
+<h3 id="5-1、RabbitMQ准备"><a href="#5-1、RabbitMQ准备" class="headerlink" title="5.1、RabbitMQ准备"></a>5.1、RabbitMQ准备</h3><ul>
+<li><p>1、下载RabbitMQ</p>
+<p>  RabbitMQ地址：<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/download.html">https://www.rabbitmq.com/download.html</a></p>
+<p>  erlang地址：<a target="_blank" rel="noopener" href="https://www.erlang.org/downloads">https://www.erlang.org/downloads</a></p>
+</li>
+</ul>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-124.png" alt="Alt text"></p>
+<ul>
+<li>2、启动RabbitMQ</li>
+</ul>
+<blockquote>
+<p>在windows10 上直接启动，切换到D:\work\common_software\rabbitmq目录中。双击rabbitmq-server-3.9.13.exe 和otp_win64_24.2.1.exe。RabbitMQ和erlang安装成功后，然后切换到D:\work\common_software\rabbitmq\RabbitMQ Server\rabbitmq_server-3.9.13\sbin目录中，进入CMD，输入命令：</p>
+</blockquote>
+<pre><code>1、先安装插件
+rabbitmq-plugins.bat enable rabbitmq_management
+
+2、然后启动
+rabbitmq-server.bat
+</code></pre>
+<p>1702209589181</p>
+<h3 id="5-2、电商网站准备"><a href="#5-2、电商网站准备" class="headerlink" title="5.2、电商网站准备"></a>5.2、电商网站准备</h3><ul>
+<li>1、安装DotNetCore.CAP</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中使用nuget安装DotNetCore.CAP、DotNetCore.CAP.InMemoryStorage、DotNetCore.CAP.RabbitMQ</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-125.png" alt="Alt text"></p>
+<ul>
+<li>2、集成DotNetCore.CAP</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中、YDT_WebSitesModule类中、ConfigureServices方法中进行集成</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Cors;</span><br><span class="line">using Microsoft.AspNetCore.DataProtection;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection.Extensions;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using YDT_WebSites.Data;</span><br><span class="line">using YDT_WebSites.Localization;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Uow;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.Localization;</span><br><span class="line">using Volo.Abp.AspNetCore.Serilog;</span><br><span class="line">using Volo.Abp.Autofac;</span><br><span class="line">using Volo.Abp.AutoMapper;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore.MySQL;</span><br><span class="line">using Volo.Abp.Localization;</span><br><span class="line">using Volo.Abp.Localization.ExceptionHandling;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using Volo.Abp.MultiTenancy;</span><br><span class="line">using Volo.Abp.Swashbuckle;</span><br><span class="line">using Volo.Abp.UI.Navigation.Urls;</span><br><span class="line">using Volo.Abp.Validation.Localization;</span><br><span class="line">using Volo.Abp.VirtualFileSystem;</span><br><span class="line">using Volo.Abp.Http.Client;</span><br><span class="line">using Volo.Abp.Caching.StackExchangeRedis;</span><br><span class="line"></span><br><span class="line">namespace YDT_WebSites;</span><br><span class="line"></span><br><span class="line">[DependsOn(</span><br><span class="line">    // ABP Framework packages</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(AbpAutoMapperModule),</span><br><span class="line">    typeof(AbpEntityFrameworkCoreMySQLModule),</span><br><span class="line">    typeof(AbpSwashbuckleModule),</span><br><span class="line">    typeof(AbpAspNetCoreSerilogModule),</span><br><span class="line">    typeof(AbpHttpClientModule),</span><br><span class="line">    typeof(AbpCachingStackExchangeRedisModule) // 集成Volo.Abp.Caching.StackExchangeRedis</span><br><span class="line">)]</span><br><span class="line">public class YDT_WebSitesModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        ....</span><br><span class="line"></span><br><span class="line">        // 2、集成DotNetCore.CAP</span><br><span class="line">        context.Services.AddCap(options =&gt; &#123;</span><br><span class="line">            // 2.1、集成DotNetCore.CAP.RabbitMQ</span><br><span class="line">            options.UseRabbitMQ(rb =&gt; &#123;</span><br><span class="line">                rb.HostName = &quot;localhost&quot;;</span><br><span class="line">                rb.UserName = &quot;guest&quot;;</span><br><span class="line">                rb.Password = &quot;guest&quot;;</span><br><span class="line">                rb.Port = 5672;</span><br><span class="line">                rb.VirtualHost = &quot;/&quot;;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            // 2.2、集成DotNetCore.CAP.InMemoryStorage</span><br><span class="line">            options.UseInMemoryStorage();</span><br><span class="line">           </span><br><span class="line">        &#125;);</span><br><span class="line">		....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、创建AddProductController</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中、Controllers目录中、创建AddProductController控制器</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">using DotNetCore.CAP;</span><br><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using Microsoft.Extensions.Caching.Memory;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.Caching;</span><br><span class="line">using YDT_ProductService.Services;</span><br><span class="line">using YDT_ProductService.Services.Dtos;</span><br><span class="line"></span><br><span class="line">namespace YDT_WebSites.Controllers;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 添加商品控制器</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[ApiController]</span><br><span class="line">[Route(&quot;AddProduct&quot;)]</span><br><span class="line">public class AddProductController : AbpController</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 事件发送接口</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public ICapPublisher capPublisher &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 添加商品的方法</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    [HttpPost(&quot;AddProduct&quot;)]</span><br><span class="line">    public string AddProduct(ProductDto productDto)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、发送添加商品事件给CAP</span><br><span class="line">        capPublisher.Publish&lt;ProductDto&gt;(&quot;AddProduct&quot;, productDto);</span><br><span class="line"></span><br><span class="line">        return &quot;添加成功&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>4、启动商品微服务</li>
+</ul>
+<blockquote>
+<p>进入YDT_WebSites项目工作目录中。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br></pre></td></tr></table></figure>
+<h3 id="5-3、商品微服务准备"><a href="#5-3、商品微服务准备" class="headerlink" title="5.3、商品微服务准备"></a>5.3、商品微服务准备</h3><ul>
+<li>1、安装DotNetCore.CAP</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中使用nuget安装DotNetCore.CAP、DotNetCore.CAP.InMemoryStorage、DotNetCore.CAP.RabbitMQ</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-126.png" alt="Alt text"></p>
+<ul>
+<li>2、集成DotNetCore.CAP</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中、YDT_ProductService类中、ConfigureServices方法中进行集成</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Cors;</span><br><span class="line">using Microsoft.AspNetCore.DataProtection;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection.Extensions;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using YDT_ProductService.Data;</span><br><span class="line">using YDT_ProductService.Localization;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Uow;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.Localization;</span><br><span class="line">using Volo.Abp.AspNetCore.Serilog;</span><br><span class="line">using Volo.Abp.Autofac;</span><br><span class="line">using Volo.Abp.AutoMapper;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore.MySQL;</span><br><span class="line">using Volo.Abp.Localization;</span><br><span class="line">using Volo.Abp.Localization.ExceptionHandling;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using Volo.Abp.MultiTenancy;</span><br><span class="line">using Volo.Abp.Swashbuckle;</span><br><span class="line">using Volo.Abp.UI.Navigation.Urls;</span><br><span class="line">using Volo.Abp.Validation.Localization;</span><br><span class="line">using Volo.Abp.VirtualFileSystem;</span><br><span class="line">using YDT_ProductService.Registrys;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection;</span><br><span class="line"></span><br><span class="line">namespace YDT_ProductService;</span><br><span class="line"></span><br><span class="line">[DependsOn(</span><br><span class="line">    // ABP Framework packages</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(AbpAutoMapperModule),</span><br><span class="line">    typeof(AbpEntityFrameworkCoreMySQLModule),</span><br><span class="line">    typeof(AbpSwashbuckleModule),</span><br><span class="line">    typeof(AbpAspNetCoreSerilogModule)</span><br><span class="line">)]</span><br><span class="line">public class YDT_ProductServiceModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line">  </span><br><span class="line">    public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        var hostingEnvironment = context.Services.GetHostingEnvironment();</span><br><span class="line">        var configuration = context.Services.GetConfiguration();</span><br><span class="line">        </span><br><span class="line">        .....</span><br><span class="line"></span><br><span class="line">        // 5、集成DotNetCore.CAP</span><br><span class="line">        context.Services.AddCap(options =&gt; &#123;</span><br><span class="line">            // 5.1、集成DotNetCore.CAP.RabbitMQ</span><br><span class="line">            options.UseRabbitMQ(rb =&gt; &#123;</span><br><span class="line">                rb.HostName = &quot;localhost&quot;;</span><br><span class="line">                rb.UserName = &quot;guest&quot;;</span><br><span class="line">                rb.Password = &quot;guest&quot;;</span><br><span class="line">                rb.Port = 5672;</span><br><span class="line">                rb.VirtualHost = &quot;/&quot;;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            // 5.2、集成DotNetCore.CAP.InMemoryStorage</span><br><span class="line">            options.UseInMemoryStorage();</span><br><span class="line">        &#125;);</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、创建GetAddProductEvent方法</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中、Controllers目录中、在ProductController类中，创建GetAddProductEvent方法</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">using DotNetCore.CAP;</span><br><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using YDT_ProductService.Services;</span><br><span class="line">using YDT_ProductService.Services.Dtos;</span><br><span class="line">using YDTProductService.Migrations;</span><br><span class="line"></span><br><span class="line">namespace YDT_ProductService.Controllers;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品控制器</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[ApiController]</span><br><span class="line">[Route(&quot;api/app/product&quot;)]</span><br><span class="line">public class ProductController : AbpController, IProductService</span><br><span class="line">&#123;</span><br><span class="line">   </span><br><span class="line">    .....</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 接受添加商品事件的方法</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    [NonAction]</span><br><span class="line">    [CapSubscribe(&quot;AddProduct&quot;)] // 1、用来接收 添加商品事件</span><br><span class="line"></span><br><span class="line">    public string GetAddProductEvent(ProductDto productDto)</span><br><span class="line">    &#123;</span><br><span class="line">        // throw new Exception(&quot;添加数据库&quot;);</span><br><span class="line">        // 2、存储商品数据</span><br><span class="line">        productDto = productService.CreateAsync(productDto).Result;</span><br><span class="line"></span><br><span class="line">        return &quot;接受成功&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    .....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>代码解析：</p>
+<p>  1、[NonAction] ：方法注释为非Action<br>  2、[CapSubscribe(“AddProduct”)]: CapSubscribe作用：订阅添加商品事件。AddProduct为添加商品事件名。<br>  3、ProductDto 为添加商品事件中，商品数据<br>  4、启动商品微服务</p>
+<p>  进入YDT_ProductService项目工作目录中。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br></pre></td></tr></table></figure>
+<h2 id="6、事件总线-消息控制台落地"><a href="#6、事件总线-消息控制台落地" class="headerlink" title="6、事件总线-消息控制台落地"></a>6、事件总线-消息控制台落地</h2><blockquote>
+<p>含义：显示发送的事件和消费的事件。<br>例如：发送添加商品事件和消费添加商品事件显示出来<br>技术：DotNetCore.CAP.Dashboard</p>
+</blockquote>
+<h3 id="6-1、电商网站准备"><a href="#6-1、电商网站准备" class="headerlink" title="6.1、电商网站准备"></a>6.1、电商网站准备</h3><ul>
+<li>1、安装DotNetCore.CAP.Dashboard</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中使用nuget安装DotNetCore.CAP.Dashboard</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-127.png" alt="Alt text"></p>
+<ul>
+<li>2、集成DotNetCore.CAP.Dashboard</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中、YDT_WebSitesModule类中、ConfigureServices方法中进行集成</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Cors;</span><br><span class="line">using Microsoft.AspNetCore.DataProtection;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection.Extensions;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using YDT_WebSites.Data;</span><br><span class="line">using YDT_WebSites.Localization;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Uow;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.Localization;</span><br><span class="line">using Volo.Abp.AspNetCore.Serilog;</span><br><span class="line">using Volo.Abp.Autofac;</span><br><span class="line">using Volo.Abp.AutoMapper;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore.MySQL;</span><br><span class="line">using Volo.Abp.Localization;</span><br><span class="line">using Volo.Abp.Localization.ExceptionHandling;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using Volo.Abp.MultiTenancy;</span><br><span class="line">using Volo.Abp.Swashbuckle;</span><br><span class="line">using Volo.Abp.UI.Navigation.Urls;</span><br><span class="line">using Volo.Abp.Validation.Localization;</span><br><span class="line">using Volo.Abp.VirtualFileSystem;</span><br><span class="line">using Volo.Abp.Http.Client;</span><br><span class="line">using Volo.Abp.Caching.StackExchangeRedis;</span><br><span class="line"></span><br><span class="line">namespace YDT_WebSites;</span><br><span class="line"></span><br><span class="line">[DependsOn(</span><br><span class="line">    // ABP Framework packages</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(AbpAutoMapperModule),</span><br><span class="line">    typeof(AbpEntityFrameworkCoreMySQLModule),</span><br><span class="line">    typeof(AbpSwashbuckleModule),</span><br><span class="line">    typeof(AbpAspNetCoreSerilogModule),</span><br><span class="line">    typeof(AbpHttpClientModule),</span><br><span class="line">    typeof(AbpCachingStackExchangeRedisModule) // 集成Volo.Abp.Caching.StackExchangeRedis</span><br><span class="line">)]</span><br><span class="line">public class YDT_WebSitesModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        ....</span><br><span class="line"></span><br><span class="line">        // 2、集成DotNetCore.CAP</span><br><span class="line">        context.Services.AddCap(options =&gt; &#123;</span><br><span class="line">            // 2.1、集成DotNetCore.CAP.RabbitMQ</span><br><span class="line">            options.UseRabbitMQ(rb =&gt; &#123;</span><br><span class="line">                rb.HostName = &quot;localhost&quot;;</span><br><span class="line">                rb.UserName = &quot;guest&quot;;</span><br><span class="line">                rb.Password = &quot;guest&quot;;</span><br><span class="line">                rb.Port = 5672;</span><br><span class="line">                rb.VirtualHost = &quot;/&quot;;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            // 2.2、集成DotNetCore.CAP.InMemoryStorage</span><br><span class="line">            options.UseInMemoryStorage();</span><br><span class="line">           </span><br><span class="line">            // 2.3、集成DotNetCore.CAP.Dashboard</span><br><span class="line">			options.UseDashboard();</span><br><span class="line">        &#125;);</span><br><span class="line">		....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、访问DotNetCore.CAP.Dashboard</li>
+</ul>
+<blockquote>
+<p>启动商品微服务后，然后在浏览器中，输入地址访问CAP控制台</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://localhost:44317/Cap">https://localhost:44317/Cap</a></p>
+<h3 id="6-2、商品微服务准备"><a href="#6-2、商品微服务准备" class="headerlink" title="6.2、商品微服务准备"></a>6.2、商品微服务准备</h3><ul>
+<li>1、安装DotNetCore.CAP.Dashboard</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中使用nuget安装DotNetCore.CAP.Dashboard</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-128.png" alt="Alt text"></p>
+<ul>
+<li>2、集成DotNetCore.CAP.Dashboard</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中、YDT_WebSitesModule类中、ConfigureServices方法中进行集成</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Cors;</span><br><span class="line">using Microsoft.AspNetCore.DataProtection;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection.Extensions;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using YDT_ProductService.Data;</span><br><span class="line">using YDT_ProductService.Localization;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Uow;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.Localization;</span><br><span class="line">using Volo.Abp.AspNetCore.Serilog;</span><br><span class="line">using Volo.Abp.Autofac;</span><br><span class="line">using Volo.Abp.AutoMapper;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore.MySQL;</span><br><span class="line">using Volo.Abp.Localization;</span><br><span class="line">using Volo.Abp.Localization.ExceptionHandling;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using Volo.Abp.MultiTenancy;</span><br><span class="line">using Volo.Abp.Swashbuckle;</span><br><span class="line">using Volo.Abp.UI.Navigation.Urls;</span><br><span class="line">using Volo.Abp.Validation.Localization;</span><br><span class="line">using Volo.Abp.VirtualFileSystem;</span><br><span class="line">using YDT_ProductService.Registrys;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection;</span><br><span class="line"></span><br><span class="line">namespace YDT_ProductService;</span><br><span class="line"></span><br><span class="line">[DependsOn(</span><br><span class="line">    // ABP Framework packages</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(AbpAutoMapperModule),</span><br><span class="line">    typeof(AbpEntityFrameworkCoreMySQLModule),</span><br><span class="line">    typeof(AbpSwashbuckleModule),</span><br><span class="line">    typeof(AbpAspNetCoreSerilogModule)</span><br><span class="line">)]</span><br><span class="line">public class YDT_ProductServiceModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line">  </span><br><span class="line">    public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        var hostingEnvironment = context.Services.GetHostingEnvironment();</span><br><span class="line">        var configuration = context.Services.GetConfiguration();</span><br><span class="line">        </span><br><span class="line">        .....</span><br><span class="line"></span><br><span class="line">        // 5、集成DotNetCore.CAP</span><br><span class="line">        context.Services.AddCap(options =&gt; &#123;</span><br><span class="line">            // 5.1、集成DotNetCore.CAP.RabbitMQ</span><br><span class="line">            options.UseRabbitMQ(rb =&gt; &#123;</span><br><span class="line">                rb.HostName = &quot;localhost&quot;;</span><br><span class="line">                rb.UserName = &quot;guest&quot;;</span><br><span class="line">                rb.Password = &quot;guest&quot;;</span><br><span class="line">                rb.Port = 5672;</span><br><span class="line">                rb.VirtualHost = &quot;/&quot;;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            // 5.2、集成DotNetCore.CAP.InMemoryStorage</span><br><span class="line">            options.UseInMemoryStorage();</span><br><span class="line">            </span><br><span class="line">            // 5.3、集成DotNetCore.CAP.Dashboard</span><br><span class="line">			options.UseDashboard();</span><br><span class="line">        &#125;);</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、访问DotNetCore.CAP.Dashboard<blockquote>
+<p>启动商品微服务后，然后在浏览器中，输入地址访问CAP控制台</p>
+</blockquote>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://localhost:44317/Cap">https://localhost:44317/Cap</a></p>
+<h2 id="7、事件总线-本地消息表落地"><a href="#7、事件总线-本地消息表落地" class="headerlink" title="7、事件总线-本地消息表落地"></a>7、事件总线-本地消息表落地</h2><blockquote>
+<p>含义：将发送事件和消费事件存储到数据库中<br>例如：发送添加商品事件存储到数据库中，消费添加商品事件存储到数据库<br>好处：解决发送事件失败、消费事件失败后，导致事件丢失的问题<br>技术：DotNetCore.CAP.MySql</p>
+</blockquote>
+<h3 id="7-1、电商网站准备"><a href="#7-1、电商网站准备" class="headerlink" title="7.1、电商网站准备"></a>7.1、电商网站准备</h3><ul>
+<li>1、安装DotNetCore.CAP.MySql</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中使用nuget安装DotNetCore.CAP.MySql</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-129.png" alt="Alt text"></p>
+<ul>
+<li>2、集成DotNetCore.CAP.MySql</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中、YDT_WebSitesModule类中、ConfigureServices方法中进行集成</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Cors;</span><br><span class="line">using Microsoft.AspNetCore.DataProtection;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection.Extensions;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using YDT_WebSites.Data;</span><br><span class="line">using YDT_WebSites.Localization;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Uow;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.Localization;</span><br><span class="line">using Volo.Abp.AspNetCore.Serilog;</span><br><span class="line">using Volo.Abp.Autofac;</span><br><span class="line">using Volo.Abp.AutoMapper;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore.MySQL;</span><br><span class="line">using Volo.Abp.Localization;</span><br><span class="line">using Volo.Abp.Localization.ExceptionHandling;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using Volo.Abp.MultiTenancy;</span><br><span class="line">using Volo.Abp.Swashbuckle;</span><br><span class="line">using Volo.Abp.UI.Navigation.Urls;</span><br><span class="line">using Volo.Abp.Validation.Localization;</span><br><span class="line">using Volo.Abp.VirtualFileSystem;</span><br><span class="line">using Volo.Abp.Http.Client;</span><br><span class="line">using Volo.Abp.Caching.StackExchangeRedis;</span><br><span class="line"></span><br><span class="line">namespace YDT_WebSites;</span><br><span class="line"></span><br><span class="line">[DependsOn(</span><br><span class="line">    // ABP Framework packages</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(AbpAutoMapperModule),</span><br><span class="line">    typeof(AbpEntityFrameworkCoreMySQLModule),</span><br><span class="line">    typeof(AbpSwashbuckleModule),</span><br><span class="line">    typeof(AbpAspNetCoreSerilogModule),</span><br><span class="line">    typeof(AbpHttpClientModule),</span><br><span class="line">    typeof(AbpCachingStackExchangeRedisModule) // 集成Volo.Abp.Caching.StackExchangeRedis</span><br><span class="line">)]</span><br><span class="line">public class YDT_WebSitesModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        ....</span><br><span class="line"></span><br><span class="line">        // 2、集成DotNetCore.CAP</span><br><span class="line">        context.Services.AddCap(options =&gt; &#123;</span><br><span class="line">            // 2.1、集成DotNetCore.CAP.RabbitMQ</span><br><span class="line">            options.UseRabbitMQ(rb =&gt; &#123;</span><br><span class="line">                rb.HostName = &quot;localhost&quot;;</span><br><span class="line">                rb.UserName = &quot;guest&quot;;</span><br><span class="line">                rb.Password = &quot;guest&quot;;</span><br><span class="line">                rb.Port = 5672;</span><br><span class="line">                rb.VirtualHost = &quot;/&quot;;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            // 2.2、集成DotNetCore.CAP.InMemoryStorage</span><br><span class="line">            //options.UseInMemoryStorage();</span><br><span class="line">           </span><br><span class="line">            // 2.3、集成DotNetCore.CAP.Dashboard</span><br><span class="line">			options.UseDashboard();</span><br><span class="line">			</span><br><span class="line">			// 5.4、集成DotNetCore.CAP.MySql</span><br><span class="line">            // 5.5 使用EntityFramework进行存储操作</span><br><span class="line">            options.UseEntityFramework&lt;YDT_ProductServiceDbContext&gt;();</span><br><span class="line">            // 5.6 使用UseMySql创建本地消息表，和存储事件</span><br><span class="line">            options.UseMySql(configuration.GetConnectionString(&quot;Default&quot;));</span><br><span class="line">        &#125;);</span><br><span class="line">		....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、创建MySQL连接地址</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中、appsettings.json文件中，创建MySQL连接地址</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  ......</span><br><span class="line">  &quot;ConnectionStrings&quot;: &#123;</span><br><span class="line">    &quot;Default&quot;: &quot;Server=localhost;Port=3306;Database=YDT_WebSites;Uid=root;Pwd=root;&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>4、生成MySQL迁移文件</li>
+</ul>
+<blockquote>
+<p>进入到YDT_WebSites项目工作目录中，输入CMD、进入到命令行，然后再输入以下命令，生成迁移文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migrations add website</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-130.png" alt="Alt text"></p>
+<ul>
+<li>5、执行MySQL迁移文件</li>
+</ul>
+<blockquote>
+<p>进入到YDT_WebSites项目工作目录中，输入CMD、进入到命令行，然后再输入以下命令，生成迁移文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef database update</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-131.png" alt="Alt text"></p>
+<blockquote>
+<p>命令结果如下：创建了数据库</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-132.png" alt="Alt text"></p>
+<ul>
+<li>6、启动电商网站</li>
+</ul>
+<blockquote>
+<p>启动YDT_WebSites项目后，然后在数据库ydt_productservice中，会看到生成了两个表。</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-133.png" alt="Alt text"></p>
+<p>表解释：</p>
+<pre><code>cap.published：存储发送的事件
+cap.received：存储消费的事件
+</code></pre>
+<h2 id="7-2、商品微服务准备"><a href="#7-2、商品微服务准备" class="headerlink" title="7.2、商品微服务准备"></a>7.2、商品微服务准备</h2><ul>
+<li>1、安装DotNetCore.CAP.MySql</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中使用nuget安装DotNetCore.CAP.MySql</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-134.png" alt="Alt text"></p>
+<ul>
+<li>2、集成DotNetCore.CAP.MySql</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中、YDT_ProductServiceModule类中、ConfigureServices方法中进行集成</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Cors;</span><br><span class="line">using Microsoft.AspNetCore.DataProtection;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection.Extensions;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using YDT_ProductService.Data;</span><br><span class="line">using YDT_ProductService.Localization;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Uow;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.Localization;</span><br><span class="line">using Volo.Abp.AspNetCore.Serilog;</span><br><span class="line">using Volo.Abp.Autofac;</span><br><span class="line">using Volo.Abp.AutoMapper;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore.MySQL;</span><br><span class="line">using Volo.Abp.Localization;</span><br><span class="line">using Volo.Abp.Localization.ExceptionHandling;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using Volo.Abp.MultiTenancy;</span><br><span class="line">using Volo.Abp.Swashbuckle;</span><br><span class="line">using Volo.Abp.UI.Navigation.Urls;</span><br><span class="line">using Volo.Abp.Validation.Localization;</span><br><span class="line">using Volo.Abp.VirtualFileSystem;</span><br><span class="line">using YDT_ProductService.Registrys;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection;</span><br><span class="line"></span><br><span class="line">namespace YDT_ProductService;</span><br><span class="line"></span><br><span class="line">[DependsOn(</span><br><span class="line">    // ABP Framework packages</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(AbpAutoMapperModule),</span><br><span class="line">    typeof(AbpEntityFrameworkCoreMySQLModule),</span><br><span class="line">    typeof(AbpSwashbuckleModule),</span><br><span class="line">    typeof(AbpAspNetCoreSerilogModule)</span><br><span class="line">)]</span><br><span class="line">public class YDT_ProductServiceModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        var hostingEnvironment = context.Services.GetHostingEnvironment();</span><br><span class="line">        var configuration = context.Services.GetConfiguration();</span><br><span class="line"></span><br><span class="line">		......</span><br><span class="line">        // 5、集成DotNetCore.CAP</span><br><span class="line">        context.Services.AddCap(options =&gt; &#123;</span><br><span class="line">            // 5.1、集成DotNetCore.CAP.RabbitMQ</span><br><span class="line">            options.UseRabbitMQ(rb =&gt; &#123;</span><br><span class="line">                rb.HostName = &quot;localhost&quot;;</span><br><span class="line">                rb.UserName = &quot;guest&quot;;</span><br><span class="line">                rb.Password = &quot;guest&quot;;</span><br><span class="line">                rb.Port = 5672;</span><br><span class="line">                rb.VirtualHost = &quot;/&quot;;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            // 5.2、集成DotNetCore.CAP.InMemoryStorage</span><br><span class="line">           // options.UseInMemoryStorage();</span><br><span class="line"></span><br><span class="line">            // 5.3、集成DotNetCore.CAP.Dashboard</span><br><span class="line">            options.UseDashboard();</span><br><span class="line"></span><br><span class="line">            // 5.4、集成DotNetCore.CAP.MySql</span><br><span class="line">            // 5.5 使用EntityFramework进行存储操作</span><br><span class="line">            options.UseEntityFramework&lt;YDT_ProductServiceDbContext&gt;();</span><br><span class="line">            // 5.6 使用UseMySql创建本地消息表，和存储事件</span><br><span class="line">            options.UseMySql(configuration.GetConnectionString(&quot;Default&quot;));</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、启动商品微服务</li>
+</ul>
+<blockquote>
+<p>启动YDT_ProductService项目后，然后在MySQL数据库ydt_productservice中，会看到生成了两个表。</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-135.png" alt="Alt text"></p>
+<p>表解释：</p>
+<pre><code>cap.published：存储发送的事件
+cap.received：存储消费的事件
+</code></pre>
+<h2 id="8、事件总线-失败重试落地"><a href="#8、事件总线-失败重试落地" class="headerlink" title="8、事件总线-失败重试落地"></a>8、事件总线-失败重试落地</h2><blockquote>
+<p>失败重试：事件发送失败后，消费失败后，再次尝试发送失败事件，再次尝试消费失败事件，直到发送事件成功，消费事件成功。<br>例如：发送添加商品事件失败、消费添加商品事件失败。不断发送添加商品事件、不断消费添加商品事件。直到最后成功。<br>技术：定时器。<br>好处：防止事件发送失败和消费失败后，导致事件数据丢失的问题。</p>
+</blockquote>
+<h3 id="8-1、电商网站准备"><a href="#8-1、电商网站准备" class="headerlink" title="8.1、电商网站准备"></a>8.1、电商网站准备</h3><ul>
+<li>1、配置定时器</li>
+</ul>
+<blockquote>
+<p>在YDT_WebSites项目中、YDT_WebSitesModule类中、ConfigureServices方法中进行集成</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Cors;</span><br><span class="line">using Microsoft.AspNetCore.DataProtection;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection.Extensions;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using YDT_WebSites.Data;</span><br><span class="line">using YDT_WebSites.Localization;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Uow;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.Localization;</span><br><span class="line">using Volo.Abp.AspNetCore.Serilog;</span><br><span class="line">using Volo.Abp.Autofac;</span><br><span class="line">using Volo.Abp.AutoMapper;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore.MySQL;</span><br><span class="line">using Volo.Abp.Localization;</span><br><span class="line">using Volo.Abp.Localization.ExceptionHandling;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using Volo.Abp.MultiTenancy;</span><br><span class="line">using Volo.Abp.Swashbuckle;</span><br><span class="line">using Volo.Abp.UI.Navigation.Urls;</span><br><span class="line">using Volo.Abp.Validation.Localization;</span><br><span class="line">using Volo.Abp.VirtualFileSystem;</span><br><span class="line">using Volo.Abp.Http.Client;</span><br><span class="line">using Volo.Abp.Caching.StackExchangeRedis;</span><br><span class="line"></span><br><span class="line">namespace YDT_WebSites;</span><br><span class="line"></span><br><span class="line">[DependsOn(</span><br><span class="line">    // ABP Framework packages</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(AbpAutoMapperModule),</span><br><span class="line">    typeof(AbpEntityFrameworkCoreMySQLModule),</span><br><span class="line">    typeof(AbpSwashbuckleModule),</span><br><span class="line">    typeof(AbpAspNetCoreSerilogModule),</span><br><span class="line">    typeof(AbpHttpClientModule),</span><br><span class="line">    typeof(AbpCachingStackExchangeRedisModule) // 集成Volo.Abp.Caching.StackExchangeRedis</span><br><span class="line">)]</span><br><span class="line">public class YDT_WebSitesModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        ....</span><br><span class="line"></span><br><span class="line">        // 2、集成DotNetCore.CAP</span><br><span class="line">        context.Services.AddCap(options =&gt; &#123;</span><br><span class="line">            // 2.1、集成DotNetCore.CAP.RabbitMQ</span><br><span class="line">            options.UseRabbitMQ(rb =&gt; &#123;</span><br><span class="line">                rb.HostName = &quot;localhost&quot;;</span><br><span class="line">                rb.UserName = &quot;guest&quot;;</span><br><span class="line">                rb.Password = &quot;guest&quot;;</span><br><span class="line">                rb.Port = 5672;</span><br><span class="line">                rb.VirtualHost = &quot;/&quot;;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            // 2.2、集成DotNetCore.CAP.InMemoryStorage</span><br><span class="line">            //options.UseInMemoryStorage();</span><br><span class="line">           </span><br><span class="line">            // 2.3、集成DotNetCore.CAP.Dashboard</span><br><span class="line">			options.UseDashboard();</span><br><span class="line">			</span><br><span class="line">			// 5.4、集成DotNetCore.CAP.MySql</span><br><span class="line">            // 5.5 使用EntityFramework进行存储操作</span><br><span class="line">            options.UseEntityFramework&lt;YDT_ProductServiceDbContext&gt;();</span><br><span class="line">            // 5.6 使用UseMySql创建本地消息表，和存储事件</span><br><span class="line">            options.UseMySql(configuration.GetConnectionString(&quot;Default&quot;));</span><br><span class="line">            </span><br><span class="line">            // 2.7、配置失败重试</span><br><span class="line">			options.FailedRetryCount = 10; // 设置重试次数。</span><br><span class="line">			options.FailedRetryInterval = 3; // 默认3s</span><br><span class="line">        &#125;);</span><br><span class="line">		....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码配置解析：</p>
+<pre><code>options.FailedRetryCount = 10; // 设置重试次数。
+options.FailedRetryInterval = 3; // 默认3s
+</code></pre>
+<blockquote>
+<p>失败重试是默认开启的。以上是进行自定义失败重试</p>
+</blockquote>
+<h3 id="8-2、商品微服务准备"><a href="#8-2、商品微服务准备" class="headerlink" title="8.2、商品微服务准备"></a>8.2、商品微服务准备</h3><ul>
+<li>1、配置定时器</li>
+</ul>
+<blockquote>
+<p>在YDT_ProductService项目中、YDT_ProductServiceModule类中、ConfigureServices方法中进行集成</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Cors;</span><br><span class="line">using Microsoft.AspNetCore.DataProtection;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection.Extensions;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using YDT_ProductService.Data;</span><br><span class="line">using YDT_ProductService.Localization;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Uow;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.Localization;</span><br><span class="line">using Volo.Abp.AspNetCore.Serilog;</span><br><span class="line">using Volo.Abp.Autofac;</span><br><span class="line">using Volo.Abp.AutoMapper;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore.MySQL;</span><br><span class="line">using Volo.Abp.Localization;</span><br><span class="line">using Volo.Abp.Localization.ExceptionHandling;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using Volo.Abp.MultiTenancy;</span><br><span class="line">using Volo.Abp.Swashbuckle;</span><br><span class="line">using Volo.Abp.UI.Navigation.Urls;</span><br><span class="line">using Volo.Abp.Validation.Localization;</span><br><span class="line">using Volo.Abp.VirtualFileSystem;</span><br><span class="line">using YDT_ProductService.Registrys;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection;</span><br><span class="line"></span><br><span class="line">namespace YDT_ProductService;</span><br><span class="line"></span><br><span class="line">[DependsOn(</span><br><span class="line">    // ABP Framework packages</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(AbpAutoMapperModule),</span><br><span class="line">    typeof(AbpEntityFrameworkCoreMySQLModule),</span><br><span class="line">    typeof(AbpSwashbuckleModule),</span><br><span class="line">    typeof(AbpAspNetCoreSerilogModule)</span><br><span class="line">)]</span><br><span class="line">public class YDT_ProductServiceModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        var hostingEnvironment = context.Services.GetHostingEnvironment();</span><br><span class="line">        var configuration = context.Services.GetConfiguration();</span><br><span class="line"></span><br><span class="line">		......</span><br><span class="line">        // 5、集成DotNetCore.CAP</span><br><span class="line">        context.Services.AddCap(options =&gt; &#123;</span><br><span class="line">            // 5.1、集成DotNetCore.CAP.RabbitMQ</span><br><span class="line">            options.UseRabbitMQ(rb =&gt; &#123;</span><br><span class="line">                rb.HostName = &quot;localhost&quot;;</span><br><span class="line">                rb.UserName = &quot;guest&quot;;</span><br><span class="line">                rb.Password = &quot;guest&quot;;</span><br><span class="line">                rb.Port = 5672;</span><br><span class="line">                rb.VirtualHost = &quot;/&quot;;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            // 5.2、集成DotNetCore.CAP.InMemoryStorage</span><br><span class="line">           // options.UseInMemoryStorage();</span><br><span class="line"></span><br><span class="line">            // 5.3、集成DotNetCore.CAP.Dashboard</span><br><span class="line">            options.UseDashboard();</span><br><span class="line"></span><br><span class="line">            // 5.4、集成DotNetCore.CAP.MySql</span><br><span class="line">            // 5.5 使用EntityFramework进行存储操作</span><br><span class="line">            options.UseEntityFramework&lt;YDT_ProductServiceDbContext&gt;();</span><br><span class="line">            // 5.6 使用UseMySql创建本地消息表，和存储事件</span><br><span class="line">            options.UseMySql(configuration.GetConnectionString(&quot;Default&quot;));</span><br><span class="line">            </span><br><span class="line">            // 5.7、配置失败重试</span><br><span class="line">			options.FailedRetryCount = 10; // 设置重试次数。</span><br><span class="line">			options.FailedRetryInterval = 3; // 默认3s</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码配置解析：</p>
+<pre><code>options.FailedRetryCount = 10; // 设置重试次数。
+options.FailedRetryInterval = 3; // 默认3s
+</code></pre>
+<blockquote>
+<p>失败重试是默认开启的。以上是进行自定义失败重试</p>
+</blockquote>
+<h2 id="9、事件总线-人工失败重试落地"><a href="#9、事件总线-人工失败重试落地" class="headerlink" title="9、事件总线-人工失败重试落地"></a>9、事件总线-人工失败重试落地</h2><blockquote>
+<p>含义：手动对发送事件失败，消费事件失败处理<br>例如：发送添加商品事件失败，消费添加商品事件失败后，使用手动对失败事件进行处理<br>描述：发送添加商品事件失败，消费添加商品事件失败后，自动重试次数超过了设置的失败重试次数，导致自动失败重试失效，从而导致商品数据丢失。<br>问题：自动失败重试失效，导致商品数据丢失问题<br>方案：人工失败重试。<br>技术：CPA控制面板。</p>
+</blockquote>
+<h3 id="9-1、电商网站准备"><a href="#9-1、电商网站准备" class="headerlink" title="9.1、电商网站准备"></a>9.1、电商网站准备</h3><ul>
+<li><p>1、启动电商网站</p>
+<blockquote>
+<p>进入YDT_WebSites项目工作目录中。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、访问CAP控制面板</p>
+</li>
+</ul>
+<blockquote>
+<p>在浏览器中，输入CAP地址</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://localhost:44317/Cap">https://localhost:44317/Cap</a><br><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-136.png" alt="Alt text"></p>
+<ul>
+<li>3、实现人工失败重试</li>
+</ul>
+<blockquote>
+<p>在CAP控制面板中，点击重新发布按钮</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-137.png" alt="Alt text"></p>
+<h3 id="9-2、商品微服务准备"><a href="#9-2、商品微服务准备" class="headerlink" title="9.2、商品微服务准备"></a>9.2、商品微服务准备</h3><ul>
+<li>1、启动商品微服务</li>
+</ul>
+<blockquote>
+<p>进入YDT_ProductService项目工作目录中。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br></pre></td></tr></table></figure>
+<ul>
+<li>2、访问CAP控制面板</li>
+</ul>
+<blockquote>
+<p>在浏览器中，输入CAP地址</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://localhost:44378/Cap">http://localhost:44378/Cap</a><br><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-138.png" alt="Alt text"></p>
+<ul>
+<li>3、实现人工失败重试</li>
+</ul>
+<blockquote>
+<p>在CAP控制面板中，点击重新发布按钮<br><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-139.png" alt="Alt text"></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/" rel="tag"># 微服务实战</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2023/08/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/7%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E9%93%BE%E8%B7%AF%E7%9B%91%E6%8E%A7SkyWalking/" rel="prev" title="7、微服务-链路监控SkyWalking">
+      <i class="fa fa-chevron-left"></i> 7、微服务-链路监控SkyWalking
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2023/08/09/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/9%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E8%AE%A2%E5%8D%95%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%90%BD%E5%9C%B0/" rel="next" title="9、微服务-分布式事务-订单微服务落地">
+      9、微服务-分布式事务-订单微服务落地 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#8%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BFCap"><span class="nav-number">1.</span> <span class="nav-text">8、微服务-事件总线Cap</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">1、事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF"><span class="nav-number">1.2.</span> <span class="nav-text">2、事件总线</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1%E3%80%81%E7%94%B5%E5%95%86%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.1.</span> <span class="nav-text">3.1、电商微服务系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2%E3%80%81%E7%94%B5%E5%95%86%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%B3%BB%E7%BB%9F%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF"><span class="nav-number">1.2.2.</span> <span class="nav-text">3.2、电商微服务系统事件总线</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF%E6%8A%80%E6%9C%AF%E9%80%89%E9%A1%B9"><span class="nav-number">1.3.</span> <span class="nav-text">4、事件总线技术选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF-%E6%B7%BB%E5%8A%A0%E5%95%86%E5%93%81%E8%90%BD%E5%9C%B0"><span class="nav-number">1.4.</span> <span class="nav-text">5、事件总线-添加商品落地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1%E3%80%81RabbitMQ%E5%87%86%E5%A4%87"><span class="nav-number">1.4.1.</span> <span class="nav-text">5.1、RabbitMQ准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2%E3%80%81%E7%94%B5%E5%95%86%E7%BD%91%E7%AB%99%E5%87%86%E5%A4%87"><span class="nav-number">1.4.2.</span> <span class="nav-text">5.2、电商网站准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3%E3%80%81%E5%95%86%E5%93%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%87%86%E5%A4%87"><span class="nav-number">1.4.3.</span> <span class="nav-text">5.3、商品微服务准备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E3%80%81%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF-%E6%B6%88%E6%81%AF%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%90%BD%E5%9C%B0"><span class="nav-number">1.5.</span> <span class="nav-text">6、事件总线-消息控制台落地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1%E3%80%81%E7%94%B5%E5%95%86%E7%BD%91%E7%AB%99%E5%87%86%E5%A4%87"><span class="nav-number">1.5.1.</span> <span class="nav-text">6.1、电商网站准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2%E3%80%81%E5%95%86%E5%93%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%87%86%E5%A4%87"><span class="nav-number">1.5.2.</span> <span class="nav-text">6.2、商品微服务准备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7%E3%80%81%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF-%E6%9C%AC%E5%9C%B0%E6%B6%88%E6%81%AF%E8%A1%A8%E8%90%BD%E5%9C%B0"><span class="nav-number">1.6.</span> <span class="nav-text">7、事件总线-本地消息表落地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1%E3%80%81%E7%94%B5%E5%95%86%E7%BD%91%E7%AB%99%E5%87%86%E5%A4%87"><span class="nav-number">1.6.1.</span> <span class="nav-text">7.1、电商网站准备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2%E3%80%81%E5%95%86%E5%93%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%87%86%E5%A4%87"><span class="nav-number">1.7.</span> <span class="nav-text">7.2、商品微服务准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8%E3%80%81%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF-%E5%A4%B1%E8%B4%A5%E9%87%8D%E8%AF%95%E8%90%BD%E5%9C%B0"><span class="nav-number">1.8.</span> <span class="nav-text">8、事件总线-失败重试落地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1%E3%80%81%E7%94%B5%E5%95%86%E7%BD%91%E7%AB%99%E5%87%86%E5%A4%87"><span class="nav-number">1.8.1.</span> <span class="nav-text">8.1、电商网站准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2%E3%80%81%E5%95%86%E5%93%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%87%86%E5%A4%87"><span class="nav-number">1.8.2.</span> <span class="nav-text">8.2、商品微服务准备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9%E3%80%81%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF-%E4%BA%BA%E5%B7%A5%E5%A4%B1%E8%B4%A5%E9%87%8D%E8%AF%95%E8%90%BD%E5%9C%B0"><span class="nav-number">1.9.</span> <span class="nav-text">9、事件总线-人工失败重试落地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1%E3%80%81%E7%94%B5%E5%95%86%E7%BD%91%E7%AB%99%E5%87%86%E5%A4%87"><span class="nav-number">1.9.1.</span> <span class="nav-text">9.1、电商网站准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2%E3%80%81%E5%95%86%E5%93%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%87%86%E5%A4%87"><span class="nav-number">1.9.2.</span> <span class="nav-text">9.2、商品微服务准备</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/BlogPro/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
