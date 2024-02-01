@@ -100,7 +100,7 @@
       <h1 class="site-title">何锦祥 博客</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+      <p class="site-subtitle" itemprop="description">你知道的越多 你不知道的也就越多</p>
   </div>
 
   <div class="site-nav-right">
@@ -190,6 +190,114 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/06/04/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/4%E3%80%81WebApi%E8%B0%83%E4%BC%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/BlogPro/2023/06/04/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/4%E3%80%81WebApi%E8%B0%83%E4%BC%98/" class="post-title-link" itemprop="url">4、WebApi调优</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-06-04 10:48:57" itemprop="dateCreated datePublished" datetime="2023-06-04T10:48:57+08:00">2023-06-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-28 22:17:23" itemprop="dateModified" datetime="2024-01-28T22:17:23+08:00">2024-01-28</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2023/06/04/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/4%E3%80%81WebApi%E8%B0%83%E4%BC%98/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/06/04/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/4%E3%80%81WebApi%E8%B0%83%E4%BC%98/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="正常查询"><a href="#正常查询" class="headerlink" title="正常查询"></a>正常查询</h1><ul>
+<li>普通数据库查询<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[HttpGet]</span><br><span class="line">public ActionResult&lt;IEnumerable&lt;Seckill&gt;&gt; GetSeckills()</span><br><span class="line">&#123;</span><br><span class="line">    // 1、业务信息</span><br><span class="line">    Console.WriteLine(&quot;查询秒杀商品信息&quot;);</span><br><span class="line">    // 2、查询数据库</span><br><span class="line">    //List&lt;Seckill&gt; seckills = SeckillService.GetSeckills().ToList();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="本地缓存"><a href="#本地缓存" class="headerlink" title="本地缓存"></a>本地缓存</h1><ul>
+<li><p>引入 Microsoft.Extensions.Caching.Memory 包</p>
+</li>
+<li><p>修改 Startup 类的 ConfigureServices 方法，注册本地缓存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 6、添加本缓存依赖到IOC</span><br><span class="line">services.AddMemoryCache();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>控制器修改代码，对数据进行缓存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">private readonly IMemoryCache memoryCache;// 本地缓存</span><br><span class="line">  public SeckillsController(IMemoryCache memoryCache)</span><br><span class="line">  &#123;</span><br><span class="line">      this.memoryCache = memoryCache;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> [HttpGet]</span><br><span class="line"> public ActionResult&lt;IEnumerable&lt;Seckill&gt;&gt; GetSeckills()</span><br><span class="line"> &#123;</span><br><span class="line">        Console.WriteLine(&quot;获取秒杀数据&quot;);</span><br><span class="line">        List&lt;Seckill&gt; seckills = null;</span><br><span class="line">        bool flag = memoryCache.TryGetValue&lt;List&lt;Seckill&gt;&gt;(&quot;seckills&quot;, out seckills);</span><br><span class="line">        if (!flag)</span><br><span class="line">        &#123;</span><br><span class="line">            // 1.1 查询数据库</span><br><span class="line">            seckills = SeckillService.GetSeckills().ToList();</span><br><span class="line">            // 1.2 添加到缓存</span><br><span class="line">            MemoryCacheEntryOptions memoryCacheEntryOptions = new MemoryCacheEntryOptions();</span><br><span class="line">            // 1、过期时间(保证数据和源头一致)</span><br><span class="line">            memoryCacheEntryOptions.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(3);</span><br><span class="line">            // 2、设置缓存量大小。(保证系统不影响其他操作)</span><br><span class="line">            memoryCacheEntryOptions.SetSize(1024);</span><br><span class="line">            // 3、方案：使用异步更新。</span><br><span class="line">            memoryCacheEntryOptions.RegisterPostEvictionCallback((key, value, reason, state) =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                // 1、key = seckills</span><br><span class="line">                // 2、value = List&lt;Seckill&gt;</span><br><span class="line">                // 3、reason = 回收的原因</span><br><span class="line">                // 4、state = 是否成功，是否失败</span><br><span class="line">                Console.WriteLine($&quot;缓存自动失效：key:&#123;key&#125;,value:&#123;value&#125;,reason:&#123;reason&#125;,state:&#123;state&#125;&quot;);</span><br><span class="line"></span><br><span class="line">                // 1、查询数据库的代码。</span><br><span class="line">                // 自动同步：</span><br><span class="line">                // 1、根据key查询数据库，查询秒杀商品数据</span><br><span class="line">                // 2、然后把查询秒杀商品数据存储到数据库中。</span><br><span class="line">                // 扩展：数据异构形式。</span><br><span class="line">            &#125;);</span><br><span class="line">            // 4、如果数据量缓存数据量，比较大。1000条数据</span><br><span class="line">            //    都会设置过期时间。</span><br><span class="line"></span><br><span class="line">            // 5、优先级设置。</span><br><span class="line">            memoryCacheEntryOptions.Priority = CacheItemPriority.High;</span><br><span class="line"></span><br><span class="line">            memoryCache.Set&lt;List&lt;Seckill&gt;&gt;(&quot;seckills&quot;, seckills, memoryCacheEntryOptions);</span><br><span class="line">        &#125;</span><br><span class="line">        return seckills;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="分布式缓存"><a href="#分布式缓存" class="headerlink" title="分布式缓存"></a>分布式缓存</h1><ul>
+<li><p>引入 Microsoft.Extensions.Caching.Redis 包</p>
+</li>
+<li><p>修改 Startup 类的 ConfigureServices 方法，注册redis分布式缓存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 7、添加分布式缓存依赖到IOC容器</span><br><span class="line">services.AddDistributedRedisCache(options =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    options.Configuration = &quot;localhost:6379&quot;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>控制器修改代码，对数据进行缓存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">private readonly IDistributedCache distributedCache; // 分布式缓存</span><br><span class="line">  public SeckillsController(IDistributedCache distributedCache)</span><br><span class="line">  &#123;</span><br><span class="line">      this.distributedCache = distributedCache;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  [HttpGet]</span><br><span class="line"> public ActionResult&lt;IEnumerable&lt;Seckill&gt;&gt; GetSeckills()</span><br><span class="line"> &#123;</span><br><span class="line">         #region 3、分布式缓存</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;获取秒杀数据&quot;);</span><br><span class="line">            // 1、先查询redis分布式缓存</span><br><span class="line">            string seckillsString = distributedCache.GetString(&quot;seckills&quot;);</span><br><span class="line">            List&lt;Seckill&gt; seckills = null;</span><br><span class="line">            if (string.IsNullOrEmpty(seckillsString))</span><br><span class="line">            &#123;</span><br><span class="line">                // 1.1 查询数据库</span><br><span class="line">                seckills = SeckillService.GetSeckills().ToList();</span><br><span class="line">                seckillsString = JsonConvert.SerializeObject(seckills);</span><br><span class="line"></span><br><span class="line">                // 设置过期的时间。</span><br><span class="line">                var distributedCacheEntryOptions = new DistributedCacheEntryOptions();</span><br><span class="line">                distributedCacheEntryOptions.AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(3);</span><br><span class="line">                // 1.2 存储到redis中</span><br><span class="line">                distributedCache.SetString(&quot;seckills&quot;, seckillsString, distributedCacheEntryOptions);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // 1.3反序列化成对象</span><br><span class="line">            seckills = JsonConvert.DeserializeObject&lt;List&lt;Seckill&gt;&gt;(seckillsString);</span><br><span class="line">            return seckills;</span><br><span class="line">        &#125;</span><br><span class="line">        #endregion</span><br><span class="line"> &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="相应数据压缩"><a href="#相应数据压缩" class="headerlink" title="相应数据压缩"></a>相应数据压缩</h1><ul>
+<li><p>引入 Microsoft.AspNetCore.ResponseCompression 包</p>
+</li>
+<li><p>修改 Startup 类的 Configure 方法，开启响应数据压缩</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> // 1、开启响应数据压缩</span><br><span class="line">app.UseResponseCompression();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改 Startup 类的 ConfigureServices 方法，注册redis分布式缓存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 11、添加响应数据压缩</span><br><span class="line">services.AddResponseCompression(options =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    // 1、默认之支持http数据压缩</span><br><span class="line">    options.EnableForHttps = true;</span><br><span class="line"></span><br><span class="line">    // 2、指定数据类型数据压缩</span><br><span class="line">    options.MimeTypes = new[]</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;application/json; charset=utf-8&quot;,</span><br><span class="line">        &quot;application/xml; charset=utf-8&quot;</span><br><span class="line">    &#125;;</span><br><span class="line">    options.Providers.Add&lt;GzipCompressionProvider&gt;();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -505,6 +613,127 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/05/03/%E4%BA%91%E5%BC%80%E5%8F%91/4%E3%80%81%E6%8A%80%E6%9C%AF%E5%89%8D%E7%9E%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/BlogPro/2023/05/03/%E4%BA%91%E5%BC%80%E5%8F%91/4%E3%80%81%E6%8A%80%E6%9C%AF%E5%89%8D%E7%9E%BB/" class="post-title-link" itemprop="url">4、技术前瞻</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-03 10:48:57" itemprop="dateCreated datePublished" datetime="2023-05-03T10:48:57+08:00">2023-05-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-28 14:24:17" itemprop="dateModified" datetime="2024-01-28T14:24:17+08:00">2024-01-28</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2023/05/03/%E4%BA%91%E5%BC%80%E5%8F%91/4%E3%80%81%E6%8A%80%E6%9C%AF%E5%89%8D%E7%9E%BB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/05/03/%E4%BA%91%E5%BC%80%E5%8F%91/4%E3%80%81%E6%8A%80%E6%9C%AF%E5%89%8D%E7%9E%BB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="技术前瞻"><a href="#技术前瞻" class="headerlink" title="技术前瞻"></a>技术前瞻</h1><h2 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h2><p>大数据技术在处理庞大数据集时发挥重要作用。并发量、数据量和业务量的增加会导致性能瓶颈，因此需要采用分布式系统，如Hadoop、Hive和Spark等，来实现大规模数据的存储和计算。当前已有的技术包括：</p>
+<ul>
+<li><strong>Hadoop</strong>: 提供分布式存储和计算。</li>
+<li><strong>Hive</strong>: 使用类似SQL的查询语言进行大数据分析。</li>
+<li><strong>Spark</strong>: 支持实时计算，提高大数据处理效率。</li>
+</ul>
+<h2 id="人工智能"><a href="#人工智能" class="headerlink" title="人工智能"></a>人工智能</h2><p>人工智能技术通过模拟人类智能，进行数据推荐、行为判断和自动特征提取。神经网络等技术用于自动学习数据特点。当前已有的技术包括：</p>
+<ul>
+<li><strong>神经网络</strong>: 模拟人脑神经元结构，用于各种数据判断和学习。</li>
+<li><strong>Python</strong>: 作为主要的人工智能编程语言，支持丰富的库和框架。</li>
+<li><strong>Solidity、Go、C++</strong>: 用于智能合约和底层系统开发。</li>
+</ul>
+<h2 id="区块链"><a href="#区块链" class="headerlink" title="区块链"></a>区块链</h2><p>区块链技术通过建立信任链来保证数据安全性和隐私。去中心化技术提高了系统的安全性。当前已有的技术包括：</p>
+<ul>
+<li><strong>挖矿</strong>: 通过算力的竞争来建立区块链，如比特币。</li>
+<li><strong>智能合约</strong>: 使用Solidity等语言编写可在区块链上执行的智能合约。</li>
+<li><strong>诚信链</strong>: 通过建立基于信任的区块链，确保数据的不可篡改性。</li>
+</ul>
+<h2 id="物联网"><a href="#物联网" class="headerlink" title="物联网"></a>物联网</h2><p>物联网技术通过连接各种物体，实现智能化。上位机技术和嵌入式技术是物联网的关键组成部分。当前已有的技术包括：</p>
+<ul>
+<li><strong>上位机技术</strong>: 用于监控和管理物联网设备。</li>
+<li><strong>嵌入式技术</strong>: 使得设备能够嵌入各种物体中，实现智能化功能。</li>
+<li><strong>5G技术</strong>: 提供更高的数据传输速度和连接密度，加速物联网的发展。</li>
+</ul>
+<h2 id="数据安全"><a href="#数据安全" class="headerlink" title="数据安全"></a>数据安全</h2><p>数据安全是当前技术领域的一个重要问题。随着数据量的增加，采用区块链技术是一种解决方案。当前已有的技术包括：</p>
+<ul>
+<li><strong>区块链</strong>: 通过规则和共识机制确保数据的安全性和不可篡改性。</li>
+<li><strong>加密技术</strong>: 用于保护数据的传输和存储安全。</li>
+<li><strong>隐私保护技术</strong>: 确保只有数据所有者知晓数据内容，避免隐私泄露。</li>
+</ul>
+<h2 id="电商系统"><a href="#电商系统" class="headerlink" title="电商系统"></a>电商系统</h2><p>电商系统是一个综合性系统，包括商品、用户、订单和支付等模块。采用http&#x2F;grpc协议、分布式架构和微服务体系来提高系统效率。当前已有的技术包括：</p>
+<ul>
+<li><strong>微服务架构</strong>: 将系统拆分为独立的服务，提高系统的灵活性和可维护性。</li>
+<li><strong>http&#x2F;grpc协议</strong>: 用于不同服务之间的通信。</li>
+<li><strong>数据库优化技术</strong>: 提高数据库的查询性能，如索引、分库分表等。</li>
+</ul>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><p>性能优化是大数据、人工智能和区块链等技术中需要解决的关键问题。并发量、数据量和业务量的增加都会影响性能。当前已有的技术包括：</p>
+<ul>
+<li><strong>分布式计算</strong>: 通过分布式架构提高系统的并发处理能力。</li>
+<li><strong>缓存技术</strong>: 使用缓存加速数据的读取和计算。</li>
+<li><strong>数据预处理</strong>: 在数据进入系统之前进行处理，提高后续计算的效率。</li>
+</ul>
+<h2 id="未来趋势"><a href="#未来趋势" class="headerlink" title="未来趋势"></a>未来趋势</h2><p>未来技术发展趋势可能包括6G技术的崭露头角、新的编程语言的出现以及更加智能化的人工智能应用。同时，数据无限化将持续推动技术的创新，对于从业者来说，不断学习和适应新技术是保持竞争力的关键。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/05/03/%E4%BA%91%E5%BC%80%E5%8F%91/3%E3%80%81%E9%98%BF%E9%87%8C%E4%BA%91Devops/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -614,127 +843,6 @@
 </ul>
 </li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/05/03/%E4%BA%91%E5%BC%80%E5%8F%91/4%E3%80%81%E6%8A%80%E6%9C%AF%E5%89%8D%E7%9E%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="何锦祥 博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/BlogPro/2023/05/03/%E4%BA%91%E5%BC%80%E5%8F%91/4%E3%80%81%E6%8A%80%E6%9C%AF%E5%89%8D%E7%9E%BB/" class="post-title-link" itemprop="url">4、技术前瞻</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-05-03 10:48:57" itemprop="dateCreated datePublished" datetime="2023-05-03T10:48:57+08:00">2023-05-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-28 14:24:17" itemprop="dateModified" datetime="2024-01-28T14:24:17+08:00">2024-01-28</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/BlogPro/2023/05/03/%E4%BA%91%E5%BC%80%E5%8F%91/4%E3%80%81%E6%8A%80%E6%9C%AF%E5%89%8D%E7%9E%BB/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/05/03/%E4%BA%91%E5%BC%80%E5%8F%91/4%E3%80%81%E6%8A%80%E6%9C%AF%E5%89%8D%E7%9E%BB/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="技术前瞻"><a href="#技术前瞻" class="headerlink" title="技术前瞻"></a>技术前瞻</h1><h2 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h2><p>大数据技术在处理庞大数据集时发挥重要作用。并发量、数据量和业务量的增加会导致性能瓶颈，因此需要采用分布式系统，如Hadoop、Hive和Spark等，来实现大规模数据的存储和计算。当前已有的技术包括：</p>
-<ul>
-<li><strong>Hadoop</strong>: 提供分布式存储和计算。</li>
-<li><strong>Hive</strong>: 使用类似SQL的查询语言进行大数据分析。</li>
-<li><strong>Spark</strong>: 支持实时计算，提高大数据处理效率。</li>
-</ul>
-<h2 id="人工智能"><a href="#人工智能" class="headerlink" title="人工智能"></a>人工智能</h2><p>人工智能技术通过模拟人类智能，进行数据推荐、行为判断和自动特征提取。神经网络等技术用于自动学习数据特点。当前已有的技术包括：</p>
-<ul>
-<li><strong>神经网络</strong>: 模拟人脑神经元结构，用于各种数据判断和学习。</li>
-<li><strong>Python</strong>: 作为主要的人工智能编程语言，支持丰富的库和框架。</li>
-<li><strong>Solidity、Go、C++</strong>: 用于智能合约和底层系统开发。</li>
-</ul>
-<h2 id="区块链"><a href="#区块链" class="headerlink" title="区块链"></a>区块链</h2><p>区块链技术通过建立信任链来保证数据安全性和隐私。去中心化技术提高了系统的安全性。当前已有的技术包括：</p>
-<ul>
-<li><strong>挖矿</strong>: 通过算力的竞争来建立区块链，如比特币。</li>
-<li><strong>智能合约</strong>: 使用Solidity等语言编写可在区块链上执行的智能合约。</li>
-<li><strong>诚信链</strong>: 通过建立基于信任的区块链，确保数据的不可篡改性。</li>
-</ul>
-<h2 id="物联网"><a href="#物联网" class="headerlink" title="物联网"></a>物联网</h2><p>物联网技术通过连接各种物体，实现智能化。上位机技术和嵌入式技术是物联网的关键组成部分。当前已有的技术包括：</p>
-<ul>
-<li><strong>上位机技术</strong>: 用于监控和管理物联网设备。</li>
-<li><strong>嵌入式技术</strong>: 使得设备能够嵌入各种物体中，实现智能化功能。</li>
-<li><strong>5G技术</strong>: 提供更高的数据传输速度和连接密度，加速物联网的发展。</li>
-</ul>
-<h2 id="数据安全"><a href="#数据安全" class="headerlink" title="数据安全"></a>数据安全</h2><p>数据安全是当前技术领域的一个重要问题。随着数据量的增加，采用区块链技术是一种解决方案。当前已有的技术包括：</p>
-<ul>
-<li><strong>区块链</strong>: 通过规则和共识机制确保数据的安全性和不可篡改性。</li>
-<li><strong>加密技术</strong>: 用于保护数据的传输和存储安全。</li>
-<li><strong>隐私保护技术</strong>: 确保只有数据所有者知晓数据内容，避免隐私泄露。</li>
-</ul>
-<h2 id="电商系统"><a href="#电商系统" class="headerlink" title="电商系统"></a>电商系统</h2><p>电商系统是一个综合性系统，包括商品、用户、订单和支付等模块。采用http&#x2F;grpc协议、分布式架构和微服务体系来提高系统效率。当前已有的技术包括：</p>
-<ul>
-<li><strong>微服务架构</strong>: 将系统拆分为独立的服务，提高系统的灵活性和可维护性。</li>
-<li><strong>http&#x2F;grpc协议</strong>: 用于不同服务之间的通信。</li>
-<li><strong>数据库优化技术</strong>: 提高数据库的查询性能，如索引、分库分表等。</li>
-</ul>
-<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><p>性能优化是大数据、人工智能和区块链等技术中需要解决的关键问题。并发量、数据量和业务量的增加都会影响性能。当前已有的技术包括：</p>
-<ul>
-<li><strong>分布式计算</strong>: 通过分布式架构提高系统的并发处理能力。</li>
-<li><strong>缓存技术</strong>: 使用缓存加速数据的读取和计算。</li>
-<li><strong>数据预处理</strong>: 在数据进入系统之前进行处理，提高后续计算的效率。</li>
-</ul>
-<h2 id="未来趋势"><a href="#未来趋势" class="headerlink" title="未来趋势"></a>未来趋势</h2><p>未来技术发展趋势可能包括6G技术的崭露头角、新的编程语言的出现以及更加智能化的人工智能应用。同时，数据无限化将持续推动技术的创新，对于从业者来说，不断学习和适应新技术是保持竞争力的关键。</p>
 
       
     </div>
@@ -1266,164 +1374,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Elasticsearch/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="何锦祥 博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Elasticsearch/" class="post-title-link" itemprop="url">7、Elasticsearch</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-08 10:48:57" itemprop="dateCreated datePublished" datetime="2023-01-08T10:48:57+08:00">2023-01-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-24 14:17:41" itemprop="dateModified" datetime="2024-01-24T14:17:41+08:00">2024-01-24</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Elasticsearch/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Elasticsearch/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="/BlogPro/images/e8e3ceaeb4ab6238ab4a478a9fc068da.png" alt="Alt text"></p>
-<p><img src="/BlogPro/images/218bf327fa39c56da70c8ccfb53e2c78.png" alt="Alt text"></p>
-<ul>
-<li><p>下载Elasticsearch</p>
-</li>
-<li><p>下载Java JDK 1.8</p>
-</li>
-<li><p>配置Elasticseach&#x2F;config</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticseach.yml 文件</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>运行Elasticseach&#x2F;bin</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticseach.bat</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>访问Elasticsearch<br>  localhost： 9200</p>
-</li>
-<li><p>VS 安装NeST 包</p>
-</li>
-<li><p>建立ES 连接 与存储</p>
-<ul>
-<li>存入内存（缓冲）</li>
-<li>存入Cache（缓存）</li>
-<li>出入磁盘</li>
-<li>通过Translog 插件每5秒保存Log日志，防止关机数据丢失<br>  <img src="/BlogPro/images/45621b2f3697158a4f6b289869649db9.png" alt="Alt text"><br>  <img src="/BlogPro/images/85abd672d44fd15af5fe00235c8ae721.png" alt="Alt text"><br>  <img src="/BlogPro/images/afb8457980368d8b91c5971e800ecba6.png" alt="Alt text"></li>
-</ul>
-</li>
-<li><p>查询商品<br>  <img src="/BlogPro/images/9723590ef19af5965c54e21521b4e260.png" alt="Alt text"></p>
-</li>
-<li><p>正倒排文档生成过程<br><img src="/BlogPro/images/67def22aca59cf5f605f6b744bc00847.png" alt="Alt text"><br><img src="/BlogPro/images/2d0284e9d691fd77ddb3114e687654e2.png" alt="Alt text"></p>
-</li>
-<li><p>聚合查询<br>  集合就是统计，做报表核心方式，ES采用列式存储<br>  <img src="/BlogPro/images/2d0284e9d691fd77ddb3114e687654e2-1.png" alt="Alt text"><br>  <img src="/BlogPro/images/d44136a3378598f6f8f4c7f6e92c7f16.png" alt="Alt text"></p>
-</li>
-</ul>
-<h3 id="分词-Kibana"><a href="#分词-Kibana" class="headerlink" title="分词 Kibana"></a>分词 Kibana</h3><p><img src="/BlogPro/images/41e0512eb110207d079edfc52e287bd7.png" alt="Alt text"><br><img src="/BlogPro/images/5a5037d3b7f8bdbd8f624de607336c34.png" alt="Alt text"></p>
-<ul>
-<li><p>下载Kibana </p>
-</li>
-<li><p>配置 kibana.ymlwenjian </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">il8n.locale:&quot;Zh-Cn&quot;</span><br></pre></td></tr></table></figure></li>
-<li><p>启动kibana 端口 ：5601</p>
-</li>
-<li><p>指定字段进行分词<br><img src="/BlogPro/images/b7cb0466e82dd82b56c0fa20a21c104a.png" alt="Alt text"></p>
-</li>
-<li><p>自定义分词<br><img src="/BlogPro/images/a7a9fd8639fff72737ae101bbd84cf77.png" alt="Alt text"></p>
-</li>
-<li><p>自定义分词扩展<br><img src="/BlogPro/images/4955a4b7041b10c0dbccdcc19ff16f5d.png" alt="Alt text"></p>
-</li>
-</ul>
-<h3 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h3><p><img src="/BlogPro/images/2568a3f39c345850f9495b5c83aa8229.png" alt="Alt text"></p>
-<ul>
-<li><p>配置Elasticsearch文件</p>
-</li>
-<li><p>Copy多个ES客户端，每个客户端配置Config文件<br> <img src="/BlogPro/images/06327f0b14b8cb81cd6d2d875ac9321a.png" alt="Alt text"><br> <img src="/BlogPro/images/2f2f3b75f7d287393608ab827f56fcde.png" alt="Alt text"><br> <img src="/BlogPro/images/3c3b84d7672231f41d77530d4d28981b.png" alt="Alt text"></p>
-</li>
-<li><p>启动所有ES客户端</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch.bat</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>验证集群</p>
-</li>
-<li><p>下载ES客户端工具 clasticsearch-head-master,依赖 node.js</p>
-</li>
-<li><p>编译</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm run start</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>运行 localhost：9100</p>
-</li>
-<li><p>vs连接<br><img src="/BlogPro/images/98c422a4890e34c91c16b97daecc14ea.png" alt="Alt text"></p>
-</li>
-<li><p>集群分片</p>
-</li>
-<li><p>使用kibana</p>
-</li>
-<li><p>修改kibana.ymlwenjian</p>
-</li>
-<li><p>elasticsearch。hosts： [9201,9202,9203]</p>
-</li>
-<li><p>重启kibana</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kibana.bat</span><br></pre></td></tr></table></figure></li>
-<li><p>通过hash分片取模<br><img src="/BlogPro/images/aab923ae303e1b3ac34b950cc9e3f1d6.png" alt="Alt text"></p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1495,7 +1445,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/BlogPro/archives/">
         
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

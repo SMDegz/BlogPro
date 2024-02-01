@@ -100,7 +100,7 @@
       <h1 class="site-title">何锦祥 博客</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+      <p class="site-subtitle" itemprop="description">你知道的越多 你不知道的也就越多</p>
   </div>
 
   <div class="site-nav-right">
@@ -190,6 +190,103 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/05/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/5%E3%80%81%E8%B4%A3%E4%BB%BB%E9%93%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/BlogPro/2022/05/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/5%E3%80%81%E8%B4%A3%E4%BB%BB%E9%93%BE/" class="post-title-link" itemprop="url">5、责任链</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-05 10:48:57" itemprop="dateCreated datePublished" datetime="2022-05-05T10:48:57+08:00">2022-05-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-27 16:28:06" itemprop="dateModified" datetime="2024-01-27T16:28:06+08:00">2024-01-27</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/05/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/5%E3%80%81%E8%B4%A3%E4%BB%BB%E9%93%BE/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/05/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/5%E3%80%81%E8%B4%A3%E4%BB%BB%E9%93%BE/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><p>创建一个请假需求类 LeaveRequest</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 请假请求</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">class LeaveRequest</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 请假天数</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public int LeaveDays &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 姓名</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public string Name &#123; set; get; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建一个抽象管理角色类，解决开闭原则 AbstractLeaveHandler</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 抽象管理角色类</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">abstract class AbstractLeaveHandler</span><br><span class="line">&#123;</span><br><span class="line">    //责任链中的下一个元素</span><br><span class="line">    public AbstractLeaveHandler abstractLeaveHandler &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 处理请假方法</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;request&quot;&gt;&lt;/param&gt;</span><br><span class="line">    public abstract void HandlerLeaveRequest(LeaveRequest request);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建一个 主管处理类 DirectLeaderLeaveHandler</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 主管处理请假</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">class DirectLeaderLeaveHandler: AbstractLeaveHandler</span><br><span class="line">&#123;</span><br><span class="line">    private int MIN = 1;// 允许天数</span><br><span class="line">    private string HandlerName;// 领导名称</span><br><span class="line">   // public DeptManagerLeaveHandler deptManagerLeaveHandler &#123; set; get; &#125; // 部门经理</span><br><span class="line">  /*  public AbstractLeaveHandler abstractLeaveHandler &#123; set; get; &#125;*/</span><br><span class="line"></span><br><span class="line">    public DirectLeaderLeaveHandler(string name)</span><br><span class="line">    &#123;</span><br><span class="line">        this.HandlerName = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override void HandlerLeaveRequest(LeaveRequest request)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、自己判断先处理</span><br><span class="line">        if (request.LeaveDays &lt;= this.MIN)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;直接主管:&quot; + HandlerName + &quot;,已批准请假;流程结束。&quot;);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 2、给部门经理处理</span><br><span class="line">        if (null != abstractLeaveHandler)</span><br><span class="line">        &#123;</span><br><span class="line">            abstractLeaveHandler.HandlerLeaveRequest(request);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建一个 部门经理处理类 DeptManagerLeaveHandler</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 部门经理处理请假</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">class DeptManagerLeaveHandler : AbstractLeaveHandler</span><br><span class="line">&#123;</span><br><span class="line">    private int MIDDLE = 7; // 允许天数</span><br><span class="line">    private string HandlerName; // 领导名称</span><br><span class="line">   /* public GManagerLeaveHandler gManagerLeaveHandler &#123; set; get; &#125; // 总经理*/</span><br><span class="line"></span><br><span class="line">   /* public FManagerLeaveHandler fManagerLeaveHandler &#123; set; get; &#125; // 副总经理*/</span><br><span class="line"></span><br><span class="line">  /* public AbstractLeaveHandler abstractLeaveHandler &#123; set; get; &#125;*/</span><br><span class="line">    public DeptManagerLeaveHandler(string name)</span><br><span class="line">    &#123;</span><br><span class="line">        this.HandlerName = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override void HandlerLeaveRequest(LeaveRequest request)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、自己判断先处理</span><br><span class="line">        if (request.LeaveDays &gt; 1 &amp;&amp; request.LeaveDays &lt;= this.MIDDLE)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;部门经理:&quot; + HandlerName + &quot;,已批准请假;流程结束。&quot;);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 2、给总经理处理</span><br><span class="line">        if (null != abstractLeaveHandler)</span><br><span class="line">        &#123;</span><br><span class="line">            abstractLeaveHandler.HandlerLeaveRequest(request);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建副总经理处理类 FManagerLeaveHandler</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 副总经理处理请假</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">class FManagerLeaveHandler :AbstractLeaveHandler</span><br><span class="line">&#123;</span><br><span class="line">    private int MIN = 20;// 允许天数</span><br><span class="line">    private string HandlerName;// 领导名称</span><br><span class="line"></span><br><span class="line">   // public GManagerLeaveHandler gManagerLeaveHandler &#123; set; get; &#125;// 总经理</span><br><span class="line">   /* public AbstractLeaveHandler abstractLeaveHandler &#123; set; get; &#125;*/</span><br><span class="line"></span><br><span class="line">    public FManagerLeaveHandler(string name)</span><br><span class="line">    &#123;</span><br><span class="line">        this.HandlerName = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override  void HandlerLeaveRequest(LeaveRequest request)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、自己判断先处理</span><br><span class="line">        if (request.LeaveDays &gt; 7 &amp;&amp; request.LeaveDays &lt;= 20)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;副总经理:&quot; + HandlerName + &quot;,已经处理;流程结束。&quot;);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        if (abstractLeaveHandler != null)</span><br><span class="line">        &#123;</span><br><span class="line">            abstractLeaveHandler.HandlerLeaveRequest(request);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改Program 类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -839,7 +936,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/13/C#%E5%9F%BA%E7%A1%80/13%E3%80%81C#%20%E5%8C%BF%E5%90%8D%E6%96%B9%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/13/C#%E5%9F%BA%E7%A1%80/13%E3%80%81%E5%8C%BF%E5%90%8D%E6%96%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
@@ -853,7 +950,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/BlogPro/2022/03/13/C#%E5%9F%BA%E7%A1%80/13%E3%80%81C#%20%E5%8C%BF%E5%90%8D%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">13、C# 匿名方法</a>
+            <a href="/BlogPro/2022/03/13/C#%E5%9F%BA%E7%A1%80/13%E3%80%81%E5%8C%BF%E5%90%8D%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">13、C# 匿名方法</a>
         </h2>
 
         <div class="post-meta">
@@ -870,7 +967,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-02-01 11:03:47" itemprop="dateModified" datetime="2024-02-01T11:03:47+08:00">2024-02-01</time>
+                <time title="修改时间：2024-02-01 11:11:41" itemprop="dateModified" datetime="2024-02-01T11:11:41+08:00">2024-02-01</time>
               </span>
 
           
@@ -882,8 +979,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/BlogPro/2022/03/13/C#%E5%9F%BA%E7%A1%80/13%E3%80%81C#%20%E5%8C%BF%E5%90%8D%E6%96%B9%E6%B3%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/03/13/C#%E5%9F%BA%E7%A1%80/13%E3%80%81C#%20%E5%8C%BF%E5%90%8D%E6%96%B9%E6%B3%95/" itemprop="commentCount"></span>
+    <a title="valine" href="/BlogPro/2022/03/13/C#%E5%9F%BA%E7%A1%80/13%E3%80%81%E5%8C%BF%E5%90%8D%E6%96%B9%E6%B3%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/03/13/C#%E5%9F%BA%E7%A1%80/13%E3%80%81%E5%8C%BF%E5%90%8D%E6%96%B9%E6%B3%95/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -941,7 +1038,7 @@ Named Method: 30
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/11/C#%E5%9F%BA%E7%A1%80/11%E3%80%81C#%20%E4%BA%8B%E4%BB%B6%EF%BC%88Event%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/11/C#%E5%9F%BA%E7%A1%80/11%E3%80%81%E4%BA%8B%E4%BB%B6%EF%BC%88Event%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
@@ -955,7 +1052,7 @@ Named Method: 30
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/BlogPro/2022/03/11/C#%E5%9F%BA%E7%A1%80/11%E3%80%81C#%20%E4%BA%8B%E4%BB%B6%EF%BC%88Event%EF%BC%89/" class="post-title-link" itemprop="url">11、C# 事件（Event）</a>
+            <a href="/BlogPro/2022/03/11/C#%E5%9F%BA%E7%A1%80/11%E3%80%81%E4%BA%8B%E4%BB%B6%EF%BC%88Event%EF%BC%89/" class="post-title-link" itemprop="url">11、C# 事件（Event）</a>
         </h2>
 
         <div class="post-meta">
@@ -984,8 +1081,8 @@ Named Method: 30
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/BlogPro/2022/03/11/C#%E5%9F%BA%E7%A1%80/11%E3%80%81C#%20%E4%BA%8B%E4%BB%B6%EF%BC%88Event%EF%BC%89/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/03/11/C#%E5%9F%BA%E7%A1%80/11%E3%80%81C#%20%E4%BA%8B%E4%BB%B6%EF%BC%88Event%EF%BC%89/" itemprop="commentCount"></span>
+    <a title="valine" href="/BlogPro/2022/03/11/C#%E5%9F%BA%E7%A1%80/11%E3%80%81%E4%BA%8B%E4%BB%B6%EF%BC%88Event%EF%BC%89/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/03/11/C#%E5%9F%BA%E7%A1%80/11%E3%80%81%E4%BA%8B%E4%BB%B6%EF%BC%88Event%EF%BC%89/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1047,7 +1144,7 @@ Message: O. K
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/10/C#%E5%9F%BA%E7%A1%80/10%E3%80%81C#%20%E5%A7%94%E6%89%98%EF%BC%88Delegate%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/10/C#%E5%9F%BA%E7%A1%80/10%E3%80%81%E5%A7%94%E6%89%98%EF%BC%88Delegate%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
@@ -1061,7 +1158,7 @@ Message: O. K
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/BlogPro/2022/03/10/C#%E5%9F%BA%E7%A1%80/10%E3%80%81C#%20%E5%A7%94%E6%89%98%EF%BC%88Delegate%EF%BC%89/" class="post-title-link" itemprop="url">10、C# 委托（Delegate）</a>
+            <a href="/BlogPro/2022/03/10/C#%E5%9F%BA%E7%A1%80/10%E3%80%81%E5%A7%94%E6%89%98%EF%BC%88Delegate%EF%BC%89/" class="post-title-link" itemprop="url">10、C# 委托（Delegate）</a>
         </h2>
 
         <div class="post-meta">
@@ -1090,8 +1187,8 @@ Message: O. K
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/BlogPro/2022/03/10/C#%E5%9F%BA%E7%A1%80/10%E3%80%81C#%20%E5%A7%94%E6%89%98%EF%BC%88Delegate%EF%BC%89/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/03/10/C#%E5%9F%BA%E7%A1%80/10%E3%80%81C#%20%E5%A7%94%E6%89%98%EF%BC%88Delegate%EF%BC%89/" itemprop="commentCount"></span>
+    <a title="valine" href="/BlogPro/2022/03/10/C#%E5%9F%BA%E7%A1%80/10%E3%80%81%E5%A7%94%E6%89%98%EF%BC%88Delegate%EF%BC%89/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/03/10/C#%E5%9F%BA%E7%A1%80/10%E3%80%81%E5%A7%94%E6%89%98%EF%BC%88Delegate%EF%BC%89/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1136,6 +1233,123 @@ Value of Num: 175
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.IO;</span><br><span class="line"></span><br><span class="line">namespace DelegateAppl</span><br><span class="line">&#123;</span><br><span class="line">   class PrintString</span><br><span class="line">   &#123;</span><br><span class="line">      static FileStream fs;</span><br><span class="line">      static StreamWriter sw;</span><br><span class="line">      // 委托声明</span><br><span class="line">      public delegate void printString(string s);</span><br><span class="line"></span><br><span class="line">      // 该方法打印到控制台</span><br><span class="line">      public static void WriteToScreen(string str)</span><br><span class="line">      &#123;</span><br><span class="line">         Console.WriteLine(&quot;The String is: &#123;0&#125;&quot;, str);</span><br><span class="line">      &#125;</span><br><span class="line">      // 该方法打印到文件</span><br><span class="line">      public static void WriteToFile(string s)</span><br><span class="line">      &#123;</span><br><span class="line">         fs = new FileStream(&quot;c:\\message.txt&quot;, FileMode.Append, FileAccess.Write);</span><br><span class="line">         sw = new StreamWriter(fs);</span><br><span class="line">         sw.WriteLine(s);</span><br><span class="line">         sw.Flush();</span><br><span class="line">         sw.Close();</span><br><span class="line">         fs.Close();</span><br><span class="line">      &#125;</span><br><span class="line">      // 该方法把委托作为参数，并使用它调用方法</span><br><span class="line">      public static void sendString(printString ps)</span><br><span class="line">      &#123;</span><br><span class="line">         ps(&quot;Hello World&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">      static void Main(string[] args)</span><br><span class="line">      &#123;</span><br><span class="line">         printString ps1 = new printString(WriteToScreen);</span><br><span class="line">         printString ps2 = new printString(WriteToFile);</span><br><span class="line">         sendString(ps1);</span><br><span class="line">         sendString(ps2);</span><br><span class="line">         Console.ReadKey();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>当上面的代码被编译和执行时，它会产生下列结果：</p>
 <pre><code>The String is: Hello World
+</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/08/C#%E5%9F%BA%E7%A1%80/9%E3%80%81%E7%B4%A2%E5%BC%95%E5%99%A8%EF%BC%88Indexer%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/BlogPro/2022/03/08/C#%E5%9F%BA%E7%A1%80/9%E3%80%81%E7%B4%A2%E5%BC%95%E5%99%A8%EF%BC%88Indexer%EF%BC%89/" class="post-title-link" itemprop="url">9、C# 索引器（Indexer）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-08 10:48:57" itemprop="dateCreated datePublished" datetime="2022-03-08T10:48:57+08:00">2022-03-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-31 16:04:40" itemprop="dateModified" datetime="2024-01-31T16:04:40+08:00">2024-01-31</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/03/08/C#%E5%9F%BA%E7%A1%80/9%E3%80%81%E7%B4%A2%E5%BC%95%E5%99%A8%EF%BC%88Indexer%EF%BC%89/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/03/08/C#%E5%9F%BA%E7%A1%80/9%E3%80%81%E7%B4%A2%E5%BC%95%E5%99%A8%EF%BC%88Indexer%EF%BC%89/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="C-索引器（Indexer）"><a href="#C-索引器（Indexer）" class="headerlink" title="C# 索引器（Indexer）"></a>C# 索引器（Indexer）</h1><p>索引器（Indexer） 允许一个对象可以像数组一样使用下标的方式来访问。</p>
+<p>当您为类定义一个索引器时，该类的行为就会像一个 虚拟数组（virtual array） 一样。您可以使用数组访问运算符 [ ] 来访问该类的的成员。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>一维索引器的语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">element-type this[int index]</span><br><span class="line">&#123;</span><br><span class="line">   // get 访问器</span><br><span class="line">   get</span><br><span class="line">   &#123;</span><br><span class="line">      // 返回 index 指定的值</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   // set 访问器</span><br><span class="line">   set</span><br><span class="line">   &#123;</span><br><span class="line">      // 设置 index 指定的值</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="索引器（Indexer）的用途"><a href="#索引器（Indexer）的用途" class="headerlink" title="索引器（Indexer）的用途"></a>索引器（Indexer）的用途</h3><blockquote>
+<p>索引器的行为的声明在某种程度上类似于属性（property）。就像属性（property），您可使用 get 和 set 访问器来定义索引器。但是，属性返回或设置一个特定的数据成员，而索引器返回或设置对象实例的一个特定值。换句话说，它把实例数据分为更小的部分，并索引每个部分，获取或设置每个部分。</p>
+</blockquote>
+<p>定义一个属性（property）包括提供属性名称。索引器定义的时候不带有名称，但带有 this 关键字，它指向对象实例。下面的实例演示了这个概念：</p>
+<p>实例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">namespace IndexerApplication</span><br><span class="line">&#123;</span><br><span class="line">   class IndexedNames</span><br><span class="line">   &#123;</span><br><span class="line">      private string[] namelist = new string[size];</span><br><span class="line">      static public int size = 10;</span><br><span class="line">      public IndexedNames()</span><br><span class="line">      &#123;</span><br><span class="line">         for (int i = 0; i &lt; size; i++)</span><br><span class="line">         namelist[i] = &quot;N. A.&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">      public string this[int index]</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            string tmp;</span><br><span class="line"></span><br><span class="line">            if( index &gt;= 0 &amp;&amp; index &lt;= size-1 )</span><br><span class="line">            &#123;</span><br><span class="line">               tmp = namelist[index];</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">               tmp = &quot;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return ( tmp );</span><br><span class="line">         &#125;</span><br><span class="line">         set</span><br><span class="line">         &#123;</span><br><span class="line">            if( index &gt;= 0 &amp;&amp; index &lt;= size-1 )</span><br><span class="line">            &#123;</span><br><span class="line">               namelist[index] = value;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      static void Main(string[] args)</span><br><span class="line">      &#123;</span><br><span class="line">         IndexedNames names = new IndexedNames();</span><br><span class="line">         names[0] = &quot;Zara&quot;;</span><br><span class="line">         names[1] = &quot;Riz&quot;;</span><br><span class="line">         names[2] = &quot;Nuha&quot;;</span><br><span class="line">         names[3] = &quot;Asif&quot;;</span><br><span class="line">         names[4] = &quot;Davinder&quot;;</span><br><span class="line">         names[5] = &quot;Sunil&quot;;</span><br><span class="line">         names[6] = &quot;Rubic&quot;;</span><br><span class="line">         for ( int i = 0; i &lt; IndexedNames.size; i++ )</span><br><span class="line">         &#123;</span><br><span class="line">            Console.WriteLine(names[i]);</span><br><span class="line">         &#125;</span><br><span class="line">         Console.ReadKey();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+<pre><code>Zara
+Riz
+Nuha
+Asif
+Davinder
+Sunil
+Rubic
+N. A.
+N. A.
+N. A.
+</code></pre>
+<h3 id="重载索引器（Indexer）"><a href="#重载索引器（Indexer）" class="headerlink" title="重载索引器（Indexer）"></a>重载索引器（Indexer）</h3><p>索引器（Indexer）可被重载。索引器声明的时候也可带有多个参数，且每个参数可以是不同的类型。没有必要让索引器必须是整型的。C# 允许索引器可以是其他类型，例如，字符串类型。</p>
+<p>下面的实例演示了重载索引器：</p>
+<p>实例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">namespace IndexerApplication</span><br><span class="line">&#123;</span><br><span class="line">   class IndexedNames</span><br><span class="line">   &#123;</span><br><span class="line">      private string[] namelist = new string[size];</span><br><span class="line">      static public int size = 10;</span><br><span class="line">      public IndexedNames()</span><br><span class="line">      &#123;</span><br><span class="line">         for (int i = 0; i &lt; size; i++)</span><br><span class="line">         &#123;</span><br><span class="line">          namelist[i] = &quot;N. A.&quot;;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      public string this[int index]</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            string tmp;</span><br><span class="line"></span><br><span class="line">            if( index &gt;= 0 &amp;&amp; index &lt;= size-1 )</span><br><span class="line">            &#123;</span><br><span class="line">               tmp = namelist[index];</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">               tmp = &quot;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return ( tmp );</span><br><span class="line">         &#125;</span><br><span class="line">         set</span><br><span class="line">         &#123;</span><br><span class="line">            if( index &gt;= 0 &amp;&amp; index &lt;= size-1 )</span><br><span class="line">            &#123;</span><br><span class="line">               namelist[index] = value;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      public int this[string name]</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            int index = 0;</span><br><span class="line">            while(index &lt; size)</span><br><span class="line">            &#123;</span><br><span class="line">               if (namelist[index] == name)</span><br><span class="line">               &#123;</span><br><span class="line">                return index;</span><br><span class="line">               &#125;</span><br><span class="line">               index++;</span><br><span class="line">            &#125;</span><br><span class="line">            return index;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      static void Main(string[] args)</span><br><span class="line">      &#123;</span><br><span class="line">         IndexedNames names = new IndexedNames();</span><br><span class="line">         names[0] = &quot;Zara&quot;;</span><br><span class="line">         names[1] = &quot;Riz&quot;;</span><br><span class="line">         names[2] = &quot;Nuha&quot;;</span><br><span class="line">         names[3] = &quot;Asif&quot;;</span><br><span class="line">         names[4] = &quot;Davinder&quot;;</span><br><span class="line">         names[5] = &quot;Sunil&quot;;</span><br><span class="line">         names[6] = &quot;Rubic&quot;;</span><br><span class="line">         // 使用带有 int 参数的第一个索引器</span><br><span class="line">         for (int i = 0; i &lt; IndexedNames.size; i++)</span><br><span class="line">         &#123;</span><br><span class="line">            Console.WriteLine(names[i]);</span><br><span class="line">         &#125;</span><br><span class="line">         // 使用带有 string 参数的第二个索引器</span><br><span class="line">         Console.WriteLine(names[&quot;Nuha&quot;]);</span><br><span class="line">         Console.ReadKey();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+<pre><code>Zara
+Riz
+Nuha
+Asif
+Davinder
+Sunil
+Rubic
+N. A.
+N. A.
+N. A.
+2
 </code></pre>
 
       
@@ -1261,256 +1475,6 @@ Student Info: Code = 001, Name = Zara, Age = 10
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/08/C#%E5%9F%BA%E7%A1%80/9%E3%80%81C#%20%E7%B4%A2%E5%BC%95%E5%99%A8%EF%BC%88Indexer%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="何锦祥 博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/BlogPro/2022/03/08/C#%E5%9F%BA%E7%A1%80/9%E3%80%81C#%20%E7%B4%A2%E5%BC%95%E5%99%A8%EF%BC%88Indexer%EF%BC%89/" class="post-title-link" itemprop="url">9、C# 索引器（Indexer）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-08 10:48:57" itemprop="dateCreated datePublished" datetime="2022-03-08T10:48:57+08:00">2022-03-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-31 16:04:40" itemprop="dateModified" datetime="2024-01-31T16:04:40+08:00">2024-01-31</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/BlogPro/2022/03/08/C#%E5%9F%BA%E7%A1%80/9%E3%80%81C#%20%E7%B4%A2%E5%BC%95%E5%99%A8%EF%BC%88Indexer%EF%BC%89/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/03/08/C#%E5%9F%BA%E7%A1%80/9%E3%80%81C#%20%E7%B4%A2%E5%BC%95%E5%99%A8%EF%BC%88Indexer%EF%BC%89/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="C-索引器（Indexer）"><a href="#C-索引器（Indexer）" class="headerlink" title="C# 索引器（Indexer）"></a>C# 索引器（Indexer）</h1><p>索引器（Indexer） 允许一个对象可以像数组一样使用下标的方式来访问。</p>
-<p>当您为类定义一个索引器时，该类的行为就会像一个 虚拟数组（virtual array） 一样。您可以使用数组访问运算符 [ ] 来访问该类的的成员。</p>
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>一维索引器的语法如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">element-type this[int index]</span><br><span class="line">&#123;</span><br><span class="line">   // get 访问器</span><br><span class="line">   get</span><br><span class="line">   &#123;</span><br><span class="line">      // 返回 index 指定的值</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   // set 访问器</span><br><span class="line">   set</span><br><span class="line">   &#123;</span><br><span class="line">      // 设置 index 指定的值</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="索引器（Indexer）的用途"><a href="#索引器（Indexer）的用途" class="headerlink" title="索引器（Indexer）的用途"></a>索引器（Indexer）的用途</h3><blockquote>
-<p>索引器的行为的声明在某种程度上类似于属性（property）。就像属性（property），您可使用 get 和 set 访问器来定义索引器。但是，属性返回或设置一个特定的数据成员，而索引器返回或设置对象实例的一个特定值。换句话说，它把实例数据分为更小的部分，并索引每个部分，获取或设置每个部分。</p>
-</blockquote>
-<p>定义一个属性（property）包括提供属性名称。索引器定义的时候不带有名称，但带有 this 关键字，它指向对象实例。下面的实例演示了这个概念：</p>
-<p>实例</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">namespace IndexerApplication</span><br><span class="line">&#123;</span><br><span class="line">   class IndexedNames</span><br><span class="line">   &#123;</span><br><span class="line">      private string[] namelist = new string[size];</span><br><span class="line">      static public int size = 10;</span><br><span class="line">      public IndexedNames()</span><br><span class="line">      &#123;</span><br><span class="line">         for (int i = 0; i &lt; size; i++)</span><br><span class="line">         namelist[i] = &quot;N. A.&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">      public string this[int index]</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            string tmp;</span><br><span class="line"></span><br><span class="line">            if( index &gt;= 0 &amp;&amp; index &lt;= size-1 )</span><br><span class="line">            &#123;</span><br><span class="line">               tmp = namelist[index];</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">               tmp = &quot;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return ( tmp );</span><br><span class="line">         &#125;</span><br><span class="line">         set</span><br><span class="line">         &#123;</span><br><span class="line">            if( index &gt;= 0 &amp;&amp; index &lt;= size-1 )</span><br><span class="line">            &#123;</span><br><span class="line">               namelist[index] = value;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      static void Main(string[] args)</span><br><span class="line">      &#123;</span><br><span class="line">         IndexedNames names = new IndexedNames();</span><br><span class="line">         names[0] = &quot;Zara&quot;;</span><br><span class="line">         names[1] = &quot;Riz&quot;;</span><br><span class="line">         names[2] = &quot;Nuha&quot;;</span><br><span class="line">         names[3] = &quot;Asif&quot;;</span><br><span class="line">         names[4] = &quot;Davinder&quot;;</span><br><span class="line">         names[5] = &quot;Sunil&quot;;</span><br><span class="line">         names[6] = &quot;Rubic&quot;;</span><br><span class="line">         for ( int i = 0; i &lt; IndexedNames.size; i++ )</span><br><span class="line">         &#123;</span><br><span class="line">            Console.WriteLine(names[i]);</span><br><span class="line">         &#125;</span><br><span class="line">         Console.ReadKey();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
-<pre><code>Zara
-Riz
-Nuha
-Asif
-Davinder
-Sunil
-Rubic
-N. A.
-N. A.
-N. A.
-</code></pre>
-<h3 id="重载索引器（Indexer）"><a href="#重载索引器（Indexer）" class="headerlink" title="重载索引器（Indexer）"></a>重载索引器（Indexer）</h3><p>索引器（Indexer）可被重载。索引器声明的时候也可带有多个参数，且每个参数可以是不同的类型。没有必要让索引器必须是整型的。C# 允许索引器可以是其他类型，例如，字符串类型。</p>
-<p>下面的实例演示了重载索引器：</p>
-<p>实例</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">namespace IndexerApplication</span><br><span class="line">&#123;</span><br><span class="line">   class IndexedNames</span><br><span class="line">   &#123;</span><br><span class="line">      private string[] namelist = new string[size];</span><br><span class="line">      static public int size = 10;</span><br><span class="line">      public IndexedNames()</span><br><span class="line">      &#123;</span><br><span class="line">         for (int i = 0; i &lt; size; i++)</span><br><span class="line">         &#123;</span><br><span class="line">          namelist[i] = &quot;N. A.&quot;;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      public string this[int index]</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            string tmp;</span><br><span class="line"></span><br><span class="line">            if( index &gt;= 0 &amp;&amp; index &lt;= size-1 )</span><br><span class="line">            &#123;</span><br><span class="line">               tmp = namelist[index];</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">               tmp = &quot;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return ( tmp );</span><br><span class="line">         &#125;</span><br><span class="line">         set</span><br><span class="line">         &#123;</span><br><span class="line">            if( index &gt;= 0 &amp;&amp; index &lt;= size-1 )</span><br><span class="line">            &#123;</span><br><span class="line">               namelist[index] = value;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      public int this[string name]</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            int index = 0;</span><br><span class="line">            while(index &lt; size)</span><br><span class="line">            &#123;</span><br><span class="line">               if (namelist[index] == name)</span><br><span class="line">               &#123;</span><br><span class="line">                return index;</span><br><span class="line">               &#125;</span><br><span class="line">               index++;</span><br><span class="line">            &#125;</span><br><span class="line">            return index;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      static void Main(string[] args)</span><br><span class="line">      &#123;</span><br><span class="line">         IndexedNames names = new IndexedNames();</span><br><span class="line">         names[0] = &quot;Zara&quot;;</span><br><span class="line">         names[1] = &quot;Riz&quot;;</span><br><span class="line">         names[2] = &quot;Nuha&quot;;</span><br><span class="line">         names[3] = &quot;Asif&quot;;</span><br><span class="line">         names[4] = &quot;Davinder&quot;;</span><br><span class="line">         names[5] = &quot;Sunil&quot;;</span><br><span class="line">         names[6] = &quot;Rubic&quot;;</span><br><span class="line">         // 使用带有 int 参数的第一个索引器</span><br><span class="line">         for (int i = 0; i &lt; IndexedNames.size; i++)</span><br><span class="line">         &#123;</span><br><span class="line">            Console.WriteLine(names[i]);</span><br><span class="line">         &#125;</span><br><span class="line">         // 使用带有 string 参数的第二个索引器</span><br><span class="line">         Console.WriteLine(names[&quot;Nuha&quot;]);</span><br><span class="line">         Console.ReadKey();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
-<pre><code>Zara
-Riz
-Nuha
-Asif
-Davinder
-Sunil
-Rubic
-N. A.
-N. A.
-N. A.
-2
-</code></pre>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/07/C#%E5%9F%BA%E7%A1%80/7%E3%80%81%E5%8F%8D%E5%B0%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="何锦祥 博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/BlogPro/2022/03/07/C#%E5%9F%BA%E7%A1%80/7%E3%80%81%E5%8F%8D%E5%B0%84/" class="post-title-link" itemprop="url">7、反射</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-07 10:48:57" itemprop="dateCreated datePublished" datetime="2022-03-07T10:48:57+08:00">2022-03-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-02-01 11:03:47" itemprop="dateModified" datetime="2024-02-01T11:03:47+08:00">2024-02-01</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/BlogPro/2022/03/07/C#%E5%9F%BA%E7%A1%80/7%E3%80%81%E5%8F%8D%E5%B0%84/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/03/07/C#%E5%9F%BA%E7%A1%80/7%E3%80%81%E5%8F%8D%E5%B0%84/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="C-反射（Reflection）"><a href="#C-反射（Reflection）" class="headerlink" title="C# 反射（Reflection）"></a>C# 反射（Reflection）</h1><p>反射指程序可以访问、检测和修改它本身状态或行为的一种能力。</p>
-<p>程序集包含模块，而模块包含类型，类型又包含成员。反射则提供了封装程序集、模块和类型的对象。</p>
-<p>您可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型。然后，可以调用类型的方法或访问其字段和属性。</p>
-<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
-<pre><code>1、反射提高了程序的灵活性和扩展性。
-2、降低耦合性，提高自适应能力。
-3、它允许程序创建和控制任何类的对象，无需提前硬编码目标类。
-</code></pre>
-<p>缺点：</p>
-<pre><code>1、性能问题：使用反射基本上是一种解释操作，用于字段和方法接入时要远慢于直接代码。因此反射机制主要应用在对灵活性和拓展性要求很高的系统框架上，普通程序不建议使用。
-2、使用反射会模糊程序内部逻辑；程序员希望在源代码中看到程序的逻辑，反射却绕过了源代码的技术，因而会带来维护的问题，反射代码比相应的直接代码更复杂。
-</code></pre>
-<h2 id="反射（Reflection）的用途"><a href="#反射（Reflection）的用途" class="headerlink" title="反射（Reflection）的用途"></a>反射（Reflection）的用途</h2><ul>
-<li><p>反射（Reflection）有下列用途：</p>
-<pre><code>  它允许在运行时查看特性（attribute）信息。
-  它允许审查集合中的各种类型，以及实例化这些类型。
-  它允许延迟绑定的方法和属性（property）。
-  它允许在运行时创建新类型，然后使用这些类型执行一些任务。
-</code></pre>
-</li>
-</ul>
-<h2 id="查看元数据"><a href="#查看元数据" class="headerlink" title="查看元数据"></a>查看元数据</h2><p>我们已经在上面的章节中提到过，使用反射（Reflection）可以查看特性（attribute）信息。</p>
-<p>System.Reflection 类的 MemberInfo 对象需要被初始化，用于发现与类相关的特性（attribute）。为了做到这点，您可以定义目标类的一个对象，如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.Reflection.MemberInfo info = typeof(MyClass);</span><br></pre></td></tr></table></figure>
-<p>下面的程序演示了这点：</p>
-<p>实例</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line"></span><br><span class="line">[AttributeUsage(AttributeTargets.All)]</span><br><span class="line">public class HelpAttribute : System.Attribute</span><br><span class="line">&#123;</span><br><span class="line">   public readonly string Url;</span><br><span class="line"></span><br><span class="line">   public string Topic  // Topic 是一个命名（named）参数</span><br><span class="line">   &#123;</span><br><span class="line">      get</span><br><span class="line">      &#123;</span><br><span class="line">         return topic;</span><br><span class="line">      &#125;</span><br><span class="line">      set</span><br><span class="line">      &#123;</span><br><span class="line"></span><br><span class="line">         topic = value;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   public HelpAttribute(string url)  // url 是一个定位（positional）参数</span><br><span class="line">   &#123;</span><br><span class="line">      this.Url = url;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   private string topic;</span><br><span class="line">&#125;</span><br><span class="line">[HelpAttribute(&quot;Information on the class MyClass&quot;)]</span><br><span class="line">class MyClass</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace AttributeAppl</span><br><span class="line">&#123;</span><br><span class="line">   class Program</span><br><span class="line">   &#123;</span><br><span class="line">      static void Main(string[] args)</span><br><span class="line">      &#123;</span><br><span class="line">         System.Reflection.MemberInfo info = typeof(MyClass);</span><br><span class="line">         object[] attributes = info.GetCustomAttributes(true);</span><br><span class="line">         for (int i = 0; i &lt; attributes.Length; i++)</span><br><span class="line">         &#123;</span><br><span class="line">            System.Console.WriteLine(attributes[i]);</span><br><span class="line">         &#125;</span><br><span class="line">         Console.ReadKey();</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>当上面的代码被编译和执行时，它会显示附加到类 MyClass 上的自定义特性：</p>
-</blockquote>
-<p>HelpAttribute</p>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>在本实例中，我们将使用在上一章中创建的 DeBugInfo 特性，并使用反射（Reflection）来读取 Rectangle 类中的元数据。</p>
-<p>实例</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Reflection;</span><br><span class="line">namespace BugFixApplication</span><br><span class="line">&#123;</span><br><span class="line">   // 一个自定义特性 BugFix 被赋给类及其成员</span><br><span class="line">   [AttributeUsage(AttributeTargets.Class |</span><br><span class="line">   AttributeTargets.Constructor |</span><br><span class="line">   AttributeTargets.Field |</span><br><span class="line">   AttributeTargets.Method |</span><br><span class="line">   AttributeTargets.Property,</span><br><span class="line">   AllowMultiple = true)]</span><br><span class="line"></span><br><span class="line">   public class DeBugInfo : System.Attribute</span><br><span class="line">   &#123;</span><br><span class="line">      private int bugNo;</span><br><span class="line">      private string developer;</span><br><span class="line">      private string lastReview;</span><br><span class="line">      public string message;</span><br><span class="line"></span><br><span class="line">      public DeBugInfo(int bg, string dev, string d)</span><br><span class="line">      &#123;</span><br><span class="line">         this.bugNo = bg;</span><br><span class="line">         this.developer = dev;</span><br><span class="line">         this.lastReview = d;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      public int BugNo</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            return bugNo;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      public string Developer</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            return developer;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      public string LastReview</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            return lastReview;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      public string Message</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            return message;</span><br><span class="line">         &#125;</span><br><span class="line">         set</span><br><span class="line">         &#123;</span><br><span class="line">            message = value;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   [DeBugInfo(45, &quot;Zara Ali&quot;, &quot;12/8/2012&quot;,</span><br><span class="line">        Message = &quot;Return type mismatch&quot;)]</span><br><span class="line">   [DeBugInfo(49, &quot;Nuha Ali&quot;, &quot;10/10/2012&quot;,</span><br><span class="line">        Message = &quot;Unused variable&quot;)]</span><br><span class="line">   class Rectangle</span><br><span class="line">   &#123;</span><br><span class="line">      // 成员变量</span><br><span class="line">      protected double length;</span><br><span class="line">      protected double width;</span><br><span class="line">      public Rectangle(double l, double w)</span><br><span class="line">      &#123;</span><br><span class="line">         length = l;</span><br><span class="line">         width = w;</span><br><span class="line">      &#125;</span><br><span class="line">      [DeBugInfo(55, &quot;Zara Ali&quot;, &quot;19/10/2012&quot;,</span><br><span class="line">           Message = &quot;Return type mismatch&quot;)]</span><br><span class="line">      public double GetArea()</span><br><span class="line">      &#123;</span><br><span class="line">         return length * width;</span><br><span class="line">      &#125;</span><br><span class="line">      [DeBugInfo(56, &quot;Zara Ali&quot;, &quot;19/10/2012&quot;)]</span><br><span class="line">      public void Display()</span><br><span class="line">      &#123;</span><br><span class="line">         Console.WriteLine(&quot;Length: &#123;0&#125;&quot;, length);</span><br><span class="line">         Console.WriteLine(&quot;Width: &#123;0&#125;&quot;, width);</span><br><span class="line">         Console.WriteLine(&quot;Area: &#123;0&#125;&quot;, GetArea());</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;//end class Rectangle  </span><br><span class="line">   </span><br><span class="line">   class ExecuteRectangle</span><br><span class="line">   &#123;</span><br><span class="line">      static void Main(string[] args)</span><br><span class="line">      &#123;</span><br><span class="line">         Rectangle r = new Rectangle(4.5, 7.5);</span><br><span class="line">         r.Display();</span><br><span class="line">         Type type = typeof(Rectangle);</span><br><span class="line">         // 遍历 Rectangle 类的特性</span><br><span class="line">         foreach (Object attributes in type.GetCustomAttributes(false))</span><br><span class="line">         &#123;</span><br><span class="line">            DeBugInfo dbi = (DeBugInfo)attributes;</span><br><span class="line">            if (null != dbi)</span><br><span class="line">            &#123;</span><br><span class="line">               Console.WriteLine(&quot;Bug no: &#123;0&#125;&quot;, dbi.BugNo);</span><br><span class="line">               Console.WriteLine(&quot;Developer: &#123;0&#125;&quot;, dbi.Developer);</span><br><span class="line">               Console.WriteLine(&quot;Last Reviewed: &#123;0&#125;&quot;,</span><br><span class="line">                                        dbi.LastReview);</span><br><span class="line">               Console.WriteLine(&quot;Remarks: &#123;0&#125;&quot;, dbi.Message);</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         </span><br><span class="line">         // 遍历方法特性</span><br><span class="line">         foreach (MethodInfo m in type.GetMethods())</span><br><span class="line">         &#123;</span><br><span class="line">            foreach (Attribute a in m.GetCustomAttributes(true))</span><br><span class="line">            &#123;</span><br><span class="line">               DeBugInfo dbi = (DeBugInfo)a;</span><br><span class="line">               if (null != dbi)</span><br><span class="line">               &#123;</span><br><span class="line">                  Console.WriteLine(&quot;Bug no: &#123;0&#125;, for Method: &#123;1&#125;&quot;,</span><br><span class="line">                                                dbi.BugNo, m.Name);</span><br><span class="line">                  Console.WriteLine(&quot;Developer: &#123;0&#125;&quot;, dbi.Developer);</span><br><span class="line">                  Console.WriteLine(&quot;Last Reviewed: &#123;0&#125;&quot;,</span><br><span class="line">                                                dbi.LastReview);</span><br><span class="line">                  Console.WriteLine(&quot;Remarks: &#123;0&#125;&quot;, dbi.Message);</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         Console.ReadLine();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
-<pre><code>Length: 4.5
-Width: 7.5
-Area: 33.75
-Bug No: 49
-Developer: Nuha Ali
-Last Reviewed: 10/10/2012
-Remarks: Unused variable
-Bug No: 45
-Developer: Zara Ali
-Last Reviewed: 12/8/2012
-Remarks: Return type mismatch
-Bug No: 55, for Method: GetArea
-Developer: Zara Ali
-Last Reviewed: 19/10/2012
-Remarks: Return type mismatch
-Bug No: 56, for Method: Display
-Developer: Zara Ali
-Last Reviewed: 19/10/2012
-Remarks: 
-</code></pre>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1582,7 +1546,7 @@ Remarks:
       <div class="site-state-item site-state-posts">
           <a href="/BlogPro/archives/">
         
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

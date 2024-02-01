@@ -100,7 +100,7 @@
       <h1 class="site-title">何锦祥 博客</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">探索生活，分享思考</p>
+      <p class="site-subtitle" itemprop="description">你知道的越多 你不知道的也就越多</p>
   </div>
 
   <div class="site-nav-right">
@@ -190,6 +190,108 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2024/01/02/5%E3%80%81ABP-vNext-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97-%E8%87%AA%E5%8A%A8API%E6%8E%A7%E5%88%B6%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/BlogPro/2024/01/02/5%E3%80%81ABP-vNext-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97-%E8%87%AA%E5%8A%A8API%E6%8E%A7%E5%88%B6%E5%99%A8/" class="post-title-link" itemprop="url">5、ABP vNext-核心模块-自动API控制器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-01-02 10:48:57" itemprop="dateCreated datePublished" datetime="2024-01-02T10:48:57+08:00">2024-01-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-23 20:06:49" itemprop="dateModified" datetime="2024-01-23T20:06:49+08:00">2024-01-23</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2024/01/02/5%E3%80%81ABP-vNext-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97-%E8%87%AA%E5%8A%A8API%E6%8E%A7%E5%88%B6%E5%99%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2024/01/02/5%E3%80%81ABP-vNext-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97-%E8%87%AA%E5%8A%A8API%E6%8E%A7%E5%88%B6%E5%99%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="/BlogPro/image-46.png" alt="Alt text"><br><img src="/BlogPro/images/image-1.png" alt="Alt text"></p>
+<ul>
+<li><p>自动API控制器可以帮助我们提升开发效率</p>
+</li>
+<li><p>引入包 Volo.Abp.AspNetCore.Mvc</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof(AbpAspNetCoreMvcModule),</span><br></pre></td></tr></table></figure></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> context.Services.AddSwaggerGen(options =&gt; &#123;</span><br><span class="line">     // 1、创建所有的文档（.net7本身+abp控制器的）</span><br><span class="line">     options.DocInclusionPredicate((docname, api) =&gt; true); </span><br><span class="line"> &#125;);</span><br><span class="line"></span><br><span class="line">// 7、配置自动API控制器</span><br><span class="line">Configure&lt;AbpAspNetCoreMvcOptions&gt;(options =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    // 1、开启自动API控制器</span><br><span class="line">    options.ConventionalControllers.Create(typeof(EbusinessModule).Assembly, options =&gt; &#123;</span><br><span class="line">        options.RootPath = &quot;Ebusiness&quot;;// 电商项目</span><br><span class="line">        //options.TypePredicate = type =&gt; false; // 1、自动AIP都创建，为true不过滤。false 全部过滤。</span><br><span class="line">        // 不常用。不建议大家使用</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建一个  自动API控制器 Service 继承自 IRemoteService</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 自动API 控制器</span><br><span class="line">/// TonyService -----&gt;TonyController</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[Dependency(ServiceLifetime.Singleton)]</span><br><span class="line">//[RemoteService(IsEnabled = false)]</span><br><span class="line">//[RemoteService(IsMetadataEnabled = false)]</span><br><span class="line">public class TonyService : IRemoteService</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 自动API控制器过滤</span><br><span class="line">    /// true 代表显示</span><br><span class="line">    /// false 代表不显示</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    [RemoteService(IsEnabled = false)]</span><br><span class="line">    public void MyTestby()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*public void CreateTony()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public void DeleteTony()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void UpdateTony()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void GetTony()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;*/</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 自动API控制器过滤</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    [RemoteService(IsEnabled = false)]</span><br><span class="line">    public void CreateMyTestByAsync()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public void DeleteAsync()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void UpdateAsync()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">    public void GetAsync(Guid Id)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void GetListsAsync(Product product)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生成规则</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">http TonyController</span><br><span class="line">http方法：post（默认）</span><br><span class="line">get put delete</span><br><span class="line">​</span><br><span class="line">1、生成http方法规则：</span><br><span class="line">Get方法开头---&gt; http方法get</span><br><span class="line">Create方法开头----》 http post方法</span><br><span class="line">Delete方法开头-----》http delete方法</span><br><span class="line">Update方法开头-----》http put方法</span><br><span class="line">随便写方法吗，没有4个前缀。全部默认是http post方法</span><br><span class="line">​</span><br><span class="line">GetAsync方法开头---&gt; http方法get</span><br><span class="line">CreateAsync方法开头----》 http post方法</span><br><span class="line">DeleteAsync方法开头-----》http delete方法</span><br><span class="line">UpdateAsync方法开头-----》http put方法</span><br><span class="line">随便写方法吗，没有4个前缀。全部默认是http post方法</span><br><span class="line">​</span><br><span class="line">2、生成http链接地址规则</span><br><span class="line">http链接地址：http://localhost:5063/api/app/tony/my-test</span><br><span class="line">http://localhost:5063</span><br><span class="line">1、项目提供</span><br><span class="line">/api/app/tony/my-test</span><br><span class="line">2，api api固定的，被框架固定起来不能自定义</span><br><span class="line">3，app 默认的项目名称 Ebusiness 可以自定义。指定自己的项目</span><br><span class="line">4、tony TonyService的前缀Tony。</span><br><span class="line">5、my-test MyTest() 方法名称。</span><br><span class="line">    例如：MyTestBy----&gt;my-text-by</span><br><span class="line">    </span><br><span class="line">3、生成方法参数规则</span><br><span class="line">Conflicting method/path combination &quot;GET api/Ebusiness/tony&quot; for actions - YDT.Ebusiness.WebApi.Services.TonyService.GetAsync (YDT.Ebusiness.WebApi),YDT.Ebusiness.WebApi.Services.TonyService.GetListAsync (YDT.Ebusiness.WebApi). Actions require a unique method/path combination for Swagger/OpenAPI 3.0. Use ConflictingActionsResolver as a workaround</span><br><span class="line">​</span><br><span class="line">http get方法</span><br><span class="line">http://localhost:5063/api/app/tony</span><br><span class="line">​</span><br><span class="line">自动API控制器生成</span><br><span class="line">​</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>隐藏接口<br>[RemoteService(IsMetadataEnabled &#x3D; false)]</li>
+</ul>
+<p>作用：只创建控制器。不把链接地址显示到swagger页面上。</p>
+<p>客户端可以直接调用。主要是在加密接口使用。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -579,7 +681,7 @@ To learn more visit <a href='https://go.microsoft.com/fwlink/?linkid=2099216' ta
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2024/01/01/4%E3%80%81ABP-vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
@@ -593,7 +695,7 @@ To learn more visit <a href='https://go.microsoft.com/fwlink/?linkid=2099216' ta
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/" class="post-title-link" itemprop="url">4、ABP vNext-核心项目-项目模块</a>
+            <a href="/BlogPro/2024/01/01/4%E3%80%81ABP-vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/" class="post-title-link" itemprop="url">4、ABP vNext-核心项目-项目模块</a>
         </h2>
 
         <div class="post-meta">
@@ -622,8 +724,8 @@ To learn more visit <a href='https://go.microsoft.com/fwlink/?linkid=2099216' ta
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2024/01/01/4%E3%80%81ABP%20vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/" itemprop="commentCount"></span>
+    <a title="valine" href="/BlogPro/2024/01/01/4%E3%80%81ABP-vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2024/01/01/4%E3%80%81ABP-vNext-%E6%A0%B8%E5%BF%83%E9%A1%B9%E7%9B%AE-%E9%A1%B9%E7%9B%AE%E6%A8%A1%E5%9D%97%E8%AF%BE%E4%BB%B6/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1110,6 +1212,285 @@ To learn more visit <a href='https://go.microsoft.com/fwlink/?linkid=2099216' ta
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/08/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/12%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7Prometheus/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/BlogPro/2023/08/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/12%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7Prometheus/" class="post-title-link" itemprop="url">12、微服务-资源监控Prometheus</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-12 10:48:57" itemprop="dateCreated datePublished" datetime="2023-08-12T10:48:57+08:00">2023-08-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-30 23:33:33" itemprop="dateModified" datetime="2024-01-30T23:33:33+08:00">2024-01-30</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2023/08/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/12%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7Prometheus/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/08/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/12%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7Prometheus/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="14、微服务-资源监控Prometheus"><a href="#14、微服务-资源监控Prometheus" class="headerlink" title="14、微服务-资源监控Prometheus"></a>14、微服务-资源监控Prometheus</h1><h2 id="1、什么是资源"><a href="#1、什么是资源" class="headerlink" title="1、什么是资源"></a>1、什么是资源</h2><blockquote>
+<p>资源：指的是CPU 磁盘 内存 带宽。</p>
+</blockquote>
+<p>如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-191.png" alt="Alt text"></p>
+<blockquote>
+<p>微服务调用的CPU、内存、带宽、磁盘就是资源。</p>
+</blockquote>
+<h2 id="2、什么是资源监控"><a href="#2、什么是资源监控" class="headerlink" title="2、什么是资源监控"></a>2、什么是资源监控</h2><pre><code>资源监控：监控微服务使用资源的情况。也就是资源使用量。
+
+例如：微服务使用了多少CPU、多少内存、多少带宽、多少磁盘。
+
+好处：快速定位微服务性能瓶颈。
+
+例如：如果查询订单出现查询慢问题，可以通过是CPU、内存、带宽、磁盘使用量，可以快速定位到具体瓶颈是CPU、内存、带宽、磁盘。
+</code></pre>
+<h2 id="3、资源监控应用场景"><a href="#3、资源监控应用场景" class="headerlink" title="3、资源监控应用场景"></a>3、资源监控应用场景</h2><h3 id="3-1、电商微服务系统"><a href="#3-1、电商微服务系统" class="headerlink" title="3.1、电商微服务系统"></a>3.1、电商微服务系统</h3><p>目前：电商微服务状态如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-192.png" alt="Alt text"></p>
+<ul>
+<li>场景：<strong>查询订单业务场景</strong></li>
+</ul>
+<blockquote>
+<p>实现流程：客户端——电商网站—–API网关—–订单微服务——订单数据库</p>
+</blockquote>
+<blockquote>
+<p>描述：客户端实现查询订单、先通过查询电商网站，然后再通过API网关，然后再通过订单微服务，最后通过订单数据库中查询出订单数据。如果刚开始查询订单速度很快，过了一段时间，查询订单数据变慢了。例如：在20:10分查询订单数据很快，在20:20查询订单数据变慢了。我们就会思考，为什么在20:20查询订单数据变慢了。原因在哪里？我们大概会推断出，如果订单数据比较少的情况下。可能是查询订单使用到的资源导致。是线程资源不够了，还是CPU、内存、带宽、磁盘资源不够了，还是其他资源导致。但是具体是哪一个资源导致的，我们无法确定。所以，这个时候，就需要对资源监控起来，查看各个资源使用量的情况，通过资源使用量的情况，就可以知道是哪一个资源导致的问题。</p>
+</blockquote>
+<pre><code>问题：查询订单慢，无法确定是哪个资源导致。
+
+原因：资源使用量不知道。
+</code></pre>
+<ul>
+<li>方案：资源监控（资源使用量）</li>
+</ul>
+<h3 id="3-2、电商微服务-资源监控"><a href="#3-2、电商微服务-资源监控" class="headerlink" title="3.2、电商微服务-资源监控"></a>3.2、电商微服务-资源监控</h3><blockquote>
+<p>电商微服务中，集成资源监控如图所示：</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-193.png" alt="Alt text"></p>
+<ul>
+<li>场景：<strong>实现查询订单资源监控</strong></li>
+</ul>
+<blockquote>
+<p>实现流程：客户端——电商网站—–API网关—–订单微服务——资源监控中心</p>
+</blockquote>
+<blockquote>
+<p>描述：客户端实现查询订单、先通过查询电商网站，然后再通过API网关，然后再通过订单微服务，最后通过订单数据库中查询出订单数据。订单微服务在查询订单的时候，把查询订单使用到的资源数据，发送给资源监控中心。再从资源监控中心，使用图表的方式，展示出来资源使用量。通过资源使用量图表，就可以快速知道查询订单的时候，各个资源使用量的情况。</p>
+</blockquote>
+<h2 id="4、资源监控技术选型"><a href="#4、资源监控技术选型" class="headerlink" title="4、资源监控技术选型"></a>4、资源监控技术选型</h2><h3 id="4-1、资源监控技术"><a href="#4-1、资源监控技术" class="headerlink" title="4.1、资源监控技术"></a>4.1、资源监控技术</h3><ul>
+<li>prometheus</li>
+</ul>
+<blockquote>
+<p>prometheus是资源监控比较稳定的技术，其余技术目前不稳定。还没有成熟。</p>
+</blockquote>
+<ul>
+<li><p>选型4原则：</p>
+<p>  1、功能多</p>
+<p>  2、性能高</p>
+<p>  3、稳定性强</p>
+<p>  4、使用简单</p>
+</li>
+</ul>
+<blockquote>
+<p>prometheus符合这个原则</p>
+</blockquote>
+<h2 id="5、资源监控落地-查询订单资源监控"><a href="#5、资源监控落地-查询订单资源监控" class="headerlink" title="5、资源监控落地-查询订单资源监控"></a>5、资源监控落地-查询订单资源监控</h2><h3 id="5-1、基础前提"><a href="#5-1、基础前提" class="headerlink" title="5.1、基础前提"></a>5.1、基础前提</h3><pre><code>1、订单微服务
+
+2、prometheus
+
+3、grafana
+</code></pre>
+<h3 id="5-2、prometheus准备"><a href="#5-2、prometheus准备" class="headerlink" title="5.2、prometheus准备"></a>5.2、prometheus准备</h3><ul>
+<li><p>1、下载地址：<a target="_blank" rel="noopener" href="https://prometheus.io/download/#memcached_exporter">https://prometheus.io/download/#memcached_exporter</a></p>
+</li>
+<li><p>2、下载结果：如图所示</p>
+</li>
+</ul>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-194.png" alt="Alt text"></p>
+<ul>
+<li>3、解压prometheus：如图所示</li>
+</ul>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-195.png" alt="Alt text"></p>
+<ul>
+<li>4、运行prometheus：</li>
+</ul>
+<blockquote>
+<p>进入到F:\work.net_software\prometheus\prometheus-2.42.0.windows-amd64目录中，使用prometheus.exe来运行，输入CMD，进入到命令行，结果如下：</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-196.png" alt="Alt text"></p>
+<ul>
+<li>5、访问prometheus：</li>
+</ul>
+<p>​在浏览器中输入<a target="_blank" rel="noopener" href="http://localhost:9090/%E8%AE%BF%E9%97%AEprometheus%EF%BC%8C%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%9C%E5%A6%82%E4%B8%8B%E6%89%80%E7%A4%BA%EF%BC%9A">http://localhost:9090/访问prometheus，访问结果如下所示：</a> 1705224742277</p>
+<h3 id="5-3、grafana准备"><a href="#5-3、grafana准备" class="headerlink" title="5.3、grafana准备"></a>5.3、grafana准备</h3><ul>
+<li><p>1、下载地址：<a target="_blank" rel="noopener" href="https://grafana.com/grafana/download?platform=windows">https://grafana.com/grafana/download?platform=windows</a></p>
+</li>
+<li><p>2、下载结果：如图所示 ：</p>
+</li>
+</ul>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-197.png" alt="Alt text"></p>
+<ul>
+<li>3、安装grafana：</li>
+</ul>
+<blockquote>
+<p>在F:\work.net_software\prometheus目录中，双击grafana-enterprise-9.4.1.windows-amd64安装grafana，安装结果如图所示：</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-198.png" alt="Alt text"></p>
+<ul>
+<li>5、运行grafana：</li>
+</ul>
+<blockquote>
+<p>进入到F:\work.net_software\GrafanaLabs\grafana\bin目录中，使用grafana.exe运行grafana，输入CMD，进入到命令行，双击grafana.exe 运行结果如下（安装的时候，已经运行成功）：</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-199.png" alt="Alt text"></p>
+<ul>
+<li>6、访问grafana：</li>
+</ul>
+<p>​进入到浏览器中，输入<a target="_blank" rel="noopener" href="http://localhost:3000/%E8%AE%BF%E9%97%AEgrafana%EF%BC%8C%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%9C%E5%A6%82%E4%B8%8B%EF%BC%9A">http://localhost:3000/访问grafana，访问结果如下：</a></p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-200.png" alt="Alt text"></p>
+<h3 id="5-4、订单微服务准备"><a href="#5-4、订单微服务准备" class="headerlink" title="5.4、订单微服务准备"></a>5.4、订单微服务准备</h3><ul>
+<li>1、订单微服务</li>
+</ul>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-201.png" alt="Alt text"></p>
+<ul>
+<li>2、创建GetListAsync方法</li>
+</ul>
+<blockquote>
+<p>在YDT_OrderService订单微服务项目Controllers目录OrderController类中，创建GetListAsync方法。创建代码如下所示：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Authorization;</span><br><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using Prometheus;</span><br><span class="line">using Servicecomb.Saga.Omega.Abstractions.Transaction;</span><br><span class="line">using System.Security.Claims;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using YDT_OrderService.Services;</span><br><span class="line">using YDT_OrderService.Services.Dtos;</span><br><span class="line"></span><br><span class="line">namespace YDT_OrderService.Controllers;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 订单控制器</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[ApiController]</span><br><span class="line">[Route(&quot;api/app/order&quot;)]</span><br><span class="line">public class OrderController : AbpController, IOrderService</span><br><span class="line">&#123;</span><br><span class="line"> </span><br><span class="line">    public IOrderService OrderService &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    .......</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 查询订单接口</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;input&quot;&gt;&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    [HttpGet]</span><br><span class="line">    public async Task&lt;PagedResultDto&lt;OrderDto&gt;&gt; GetListAsync([FromQuery]PagedAndSortedResultRequestDto input)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、使用_requestCounter</span><br><span class="line">        _requestCounter.WithLabels(&quot;Get&quot;, &quot;api/app/order&quot;).Inc();</span><br><span class="line"></span><br><span class="line">        return await OrderService.GetListAsync(input);</span><br><span class="line">    &#125;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-6、查询订单资源监控落地"><a href="#5-6、查询订单资源监控落地" class="headerlink" title="5.6、查询订单资源监控落地"></a>5.6、查询订单资源监控落地</h3><blockquote>
+<p>含义：监控查询订单接口在被调用时，使用的资源。<br>技术：prometheus-net.AspNetCore</p>
+</blockquote>
+<ul>
+<li>1、安装prometheus-net.AspNetCore</li>
+</ul>
+<blockquote>
+<p>在YDT_OrderService订单微服务项目中，使用nuget安装prometheus-net.AspNetCore。安装结果如下所示：</p>
+</blockquote>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-202.png" alt="Alt text"></p>
+<ul>
+<li>2、集成prometheus-net.AspNetCore</li>
+</ul>
+<blockquote>
+<p>在YDT_OrderService订单微服务项目YDT_OrderServiceModule类OnApplicationInitialization方法中，集成prometheus-net.AspNetCore。集成结果如下所示：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Cors;</span><br><span class="line">using Microsoft.AspNetCore.DataProtection;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection.Extensions;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using YDT_OrderService.Data;</span><br><span class="line">using YDT_OrderService.Localization;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Uow;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.Localization;</span><br><span class="line">using Volo.Abp.AspNetCore.Serilog;</span><br><span class="line">using Volo.Abp.Autofac;</span><br><span class="line">using Volo.Abp.AutoMapper;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore.MySQL;</span><br><span class="line">using Volo.Abp.Localization;</span><br><span class="line">using Volo.Abp.Localization.ExceptionHandling;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using Volo.Abp.MultiTenancy;</span><br><span class="line">using Volo.Abp.Swashbuckle;</span><br><span class="line">using Volo.Abp.UI.Navigation.Urls;</span><br><span class="line">using Volo.Abp.Validation.Localization;</span><br><span class="line">using Volo.Abp.VirtualFileSystem;</span><br><span class="line">using YDT_ProductService.Registrys;</span><br><span class="line">using Microsoft.AspNetCore.Antiforgery;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.AntiForgery;</span><br><span class="line">using Servicecomb.Saga.Omega.AspNetCore.Extensions;</span><br><span class="line">using Prometheus;</span><br><span class="line"></span><br><span class="line">namespace YDT_OrderService;</span><br><span class="line"></span><br><span class="line">[DependsOn(</span><br><span class="line">    // ABP Framework packages</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(AbpAutoMapperModule),</span><br><span class="line">    typeof(AbpEntityFrameworkCoreMySQLModule),</span><br><span class="line">    typeof(AbpSwashbuckleModule),</span><br><span class="line">    typeof(AbpAspNetCoreSerilogModule)</span><br><span class="line">)]</span><br><span class="line">public class YDT_OrderServiceModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    ......</span><br><span class="line">    public override void OnApplicationInitialization(ApplicationInitializationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        var app = context.GetApplicationBuilder();</span><br><span class="line">        var env = context.GetEnvironment();</span><br><span class="line"></span><br><span class="line">        if (env.IsDevelopment())</span><br><span class="line">        &#123;</span><br><span class="line">            app.UseDeveloperExceptionPage();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        app.UseAbpRequestLocalization();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        app.UseCorrelationId();</span><br><span class="line">        app.UseStaticFiles();</span><br><span class="line">        app.UseRouting();</span><br><span class="line">        app.UseCors();</span><br><span class="line">        app.UseAuthentication();</span><br><span class="line"></span><br><span class="line">        app.UseUnitOfWork();</span><br><span class="line">        app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">        app.UseSwagger();</span><br><span class="line">        app.UseAbpSwaggerUI(options =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            options.SwaggerEndpoint(&quot;/swagger/v1/swagger.json&quot;, &quot;YDT_OrderService API&quot;);</span><br><span class="line"></span><br><span class="line">            var configuration = context.GetConfiguration();</span><br><span class="line">            options.OAuthClientId(configuration[&quot;AuthServer:SwaggerClientId&quot;]);</span><br><span class="line">            options.OAuthScopes(&quot;YDT_OrderService&quot;);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        app.UseAuditing();</span><br><span class="line">        app.UseAbpSerilogEnrichers();</span><br><span class="line">        app.UseConfiguredEndpoints();</span><br><span class="line"></span><br><span class="line">        // 2、注册心跳检测中间件（类似于控制器）</span><br><span class="line">        app.UseHealthChecks(&quot;/HealthCheck&quot;);</span><br><span class="line"></span><br><span class="line">        // 3、集成prometheus-net.AspNetCore</span><br><span class="line">        app.UseMetricServer(); // 集成</span><br><span class="line">        app.UseHttpMetrics();//访问监控的数据。</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>集成代码注释：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app.UseMetricServer(); // 集成prometheus-net.AspNetCore</span><br><span class="line">app.UseHttpMetrics();//访问监控的数据</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、使用prometheus-net.AspNetCore</li>
+</ul>
+<blockquote>
+<p>在YDT_OrderService订单微服务项目OrderController类GetListAsync方法中，使用Counter 来使用prometheus-net.AspNetCore。使用结果如下所示：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Authorization;</span><br><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using Prometheus;</span><br><span class="line">using Servicecomb.Saga.Omega.Abstractions.Transaction;</span><br><span class="line">using System.Security.Claims;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using YDT_OrderService.Services;</span><br><span class="line">using YDT_OrderService.Services.Dtos;</span><br><span class="line"></span><br><span class="line">namespace YDT_OrderService.Controllers;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 订单控制器</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[ApiController]</span><br><span class="line">[Route(&quot;api/app/order&quot;)]</span><br><span class="line">public class OrderController : AbpController, IOrderService</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 1、先创建Counter</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    private static readonly Counter _requestCounter = Metrics.CreateCounter(&quot;orderservice&quot;, &quot;orderservice_help&quot;, new CounterConfiguration</span><br><span class="line">    &#123;</span><br><span class="line">        LabelNames = new[] &#123; &quot;method&quot;, &quot;endpoint&quot; &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    public IOrderService OrderService &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 查询订单接口</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;input&quot;&gt;&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    [HttpGet]</span><br><span class="line">    public async Task&lt;PagedResultDto&lt;OrderDto&gt;&gt; GetListAsync([FromQuery]PagedAndSortedResultRequestDto input)</span><br><span class="line">    &#123;</span><br><span class="line">        // 2、使用_requestCounter</span><br><span class="line">        _requestCounter.WithLabels(&quot;Get&quot;, &quot;api/app/order&quot;).Inc();</span><br><span class="line"></span><br><span class="line">        return await OrderService.GetListAsync(input);</span><br><span class="line">    &#125;</span><br><span class="line">    ......   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用代码注释：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> private static readonly Counter _requestCounter = Metrics.CreateCounter(&quot;orderservice&quot;, &quot;orderservice_help&quot;, new CounterConfiguration</span><br><span class="line"> &#123;</span><br><span class="line">     LabelNames = new[] &#123; &quot;method&quot;, &quot;endpoint&quot; &#125;</span><br><span class="line"> &#125;);</span><br><span class="line">1、 &quot;orderservice&quot;：指定微服务名称</span><br><span class="line">2、 &quot;orderservice_help&quot;：微服务帮助名称，可以随意写</span><br><span class="line">3、 &quot;method&quot;：监控接口方法</span><br><span class="line">4、 &quot;endpoint&quot;：监控接口路径</span><br><span class="line">5、Counter ：计数器，统计资源使用量</span><br><span class="line"> </span><br><span class="line">_requestCounter.WithLabels(&quot;Get&quot;, &quot;api/app/order&quot;).Inc();    </span><br><span class="line">&quot;Get&quot;：为查询订单的方法类型</span><br><span class="line">&quot;api/app/order&quot;：为查询订单uri地址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>4、配置prometheus.yml</li>
+</ul>
+<blockquote>
+<p>在F:\work.net_software\prometheus\prometheus-2.42.0.windows-amd64目录中，配置prometheus 的prometheus.yml配置文件，配置结果如下：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"># my global config</span><br><span class="line">global:</span><br><span class="line">  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.</span><br><span class="line">  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.</span><br><span class="line">  # scrape_timeout is set to the global default (10s).</span><br><span class="line"></span><br><span class="line"># Alertmanager configuration</span><br><span class="line">alerting:</span><br><span class="line">  alertmanagers:</span><br><span class="line">    - static_configs:</span><br><span class="line">        - targets:</span><br><span class="line">          # - alertmanager:9093</span><br><span class="line"></span><br><span class="line"># Load rules once and periodically evaluate them according to the global &#x27;evaluation_interval&#x27;.</span><br><span class="line">rule_files:</span><br><span class="line">  # - &quot;first_rules.yml&quot;</span><br><span class="line">  # - &quot;second_rules.yml&quot;</span><br><span class="line"></span><br><span class="line"># A scrape configuration containing exactly one endpoint to scrape:</span><br><span class="line"># Here it&#x27;s Prometheus itself.</span><br><span class="line">scrape_configs:</span><br><span class="line">  # The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span><br><span class="line">  - job_name: &quot;prometheus&quot;</span><br><span class="line"></span><br><span class="line">    # metrics_path defaults to &#x27;/metrics&#x27;</span><br><span class="line">    # scheme defaults to &#x27;http&#x27;.</span><br><span class="line"></span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;localhost:9090&quot;]</span><br><span class="line">  - job_name: &quot;orderservice&quot;</span><br><span class="line"></span><br><span class="line">    # metrics_path defaults to &#x27;/metrics&#x27;</span><br><span class="line">    # scheme defaults to &#x27;http&#x27;.</span><br><span class="line">    </span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;localhost:44362&quot;]</span><br></pre></td></tr></table></figure>
+<p>配置代码解释：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">  - job_name: &quot;orderservice&quot; #定时器任务执行名称</span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;localhost:44362&quot;] #订单微服务地址</span><br><span class="line">      </span><br><span class="line">详细配置(根据环境具体来选择使用)：</span><br><span class="line">scrape_configs:</span><br><span class="line">  - job_name: &quot;orderservice&quot; # 定时器任务执行名称</span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;localhost:44362&quot;] # 订单微服务地址</span><br><span class="line">    scrape_interval: 15s # 抓取数据的时间间隔，默认为15秒</span><br><span class="line">    scrape_timeout: 10s # 抓取数据的超时时间，默认为10秒</span><br><span class="line">    metrics_path: &quot;/metrics&quot; # 指定要抓取的指标路径，默认为/metrics</span><br><span class="line">    scheme: &quot;https&quot; # 使用的协议，默认为http</span><br><span class="line">    basic_auth:</span><br><span class="line">      username: &quot;admin&quot; # 基本身份验证的用户名</span><br><span class="line">      password: &quot;password&quot; # 基本身份验证的密码</span><br><span class="line">    tls_config:</span><br><span class="line">      ca_file: &quot;/path/to/ca.crt&quot; # CA证书文件路径</span><br><span class="line">      cert_file: &quot;/path/to/client.crt&quot; # 客户端证书文件路径</span><br><span class="line">      key_file: &quot;/path/to/client.key&quot; # 客户端私钥文件路径</span><br><span class="line">    relabel_configs:</span><br><span class="line">      - source_labels: [__address__] # 源标签，指定要重写的标签</span><br><span class="line">        target_label: instance # 目标标签，指定重写后的标签名称</span><br><span class="line">        replacement: &quot;orderservice&quot; # 替换后的标签值</span><br><span class="line">      - source_labels: [__address__]</span><br><span class="line">        target_label: __param_target # 目标标签，指定要添加的标签名称</span><br><span class="line">        replacement: &quot;/metrics&quot; # 替换后的标签值</span><br><span class="line">      - source_labels: [__param_target]</span><br><span class="line">        target_label: job # 目标标签，指定要添加的标签名称</span><br><span class="line">        replacement: &quot;orderservice&quot; # 替换后的标签值</span><br></pre></td></tr></table></figure>
+<ul>
+<li>4、访问查询订单接口</li>
+</ul>
+<p>在浏览器订单微服务中的swagger界面中，访问查询订单接口，访问如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-203.png" alt="Alt text"></p>
+<p>5、访问订单资源监控接口</p>
+<p>在浏览器中，输入<a target="_blank" rel="noopener" href="http://localhost:44362/metrics%E5%9C%B0%E5%9D%80%E8%AE%BF%E9%97%AE%E6%9F%A5%E8%AF%A2%E8%AE%A2%E5%8D%95%E6%8E%A5%E5%8F%A3%EF%BC%8C%E8%AE%BF%E9%97%AE%E5%A6%82%E5%9B%BE%E6%89%80%E7%A4%BA%EF%BC%9A">http://localhost:44362/metrics地址访问查询订单接口，访问如图所示：</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"># HELP process_open_handles Number of open handles</span><br><span class="line"># TYPE process_open_handles gauge</span><br><span class="line">process_open_handles 761</span><br><span class="line"># HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.</span><br><span class="line"># TYPE process_cpu_seconds_total counter</span><br><span class="line">process_cpu_seconds_total 2.484375</span><br><span class="line"># HELP dotnet_collection_count_total GC collection count</span><br><span class="line"># TYPE dotnet_collection_count_total counter</span><br><span class="line">dotnet_collection_count_total&#123;generation=&quot;1&quot;&#125; 0</span><br><span class="line">dotnet_collection_count_total&#123;generation=&quot;2&quot;&#125; 0</span><br><span class="line">dotnet_collection_count_total&#123;generation=&quot;0&quot;&#125; 0</span><br><span class="line"># HELP process_working_set_bytes Process working set</span><br><span class="line"># TYPE process_working_set_bytes gauge</span><br><span class="line">process_working_set_bytes 176152576</span><br><span class="line"># HELP process_start_time_seconds Start time of the process since unix epoch in seconds.</span><br><span class="line"># TYPE process_start_time_seconds gauge</span><br><span class="line">process_start_time_seconds 1705227577.6776996</span><br><span class="line"># HELP dotnet_total_memory_bytes Total known allocated memory</span><br><span class="line"># TYPE dotnet_total_memory_bytes gauge</span><br><span class="line">dotnet_total_memory_bytes 49488008</span><br><span class="line"># HELP process_num_threads Total number of threads</span><br><span class="line"># TYPE process_num_threads gauge</span><br><span class="line">process_num_threads 68</span><br><span class="line"># HELP http_request_duration_seconds The duration of HTTP requests processed by an ASP.NET Core application.</span><br><span class="line"># TYPE http_request_duration_seconds histogram</span><br><span class="line">http_request_duration_seconds_sum&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;&#125; 0.0011187</span><br><span class="line">http_request_duration_seconds_count&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.001&quot;&#125; 0</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.002&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.004&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.008&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.016&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.032&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.064&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.128&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.256&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.512&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;1.024&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;2.048&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;4.096&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;8.192&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;16.384&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;32.768&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;+Inf&quot;&#125; 1</span><br><span class="line"># HELP process_private_memory_bytes Process private memory size</span><br><span class="line"># TYPE process_private_memory_bytes gauge</span><br><span class="line">process_private_memory_bytes 133812224</span><br><span class="line"># HELP http_requests_received_total Provides the count of HTTP requests that have been processed by the ASP.NET Core pipeline.</span><br><span class="line"># TYPE http_requests_received_total counter</span><br><span class="line">http_requests_received_total&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;&#125; 1</span><br><span class="line"># HELP process_virtual_memory_bytes Virtual memory size in bytes.</span><br><span class="line"># TYPE process_virtual_memory_bytes gauge</span><br><span class="line">process_virtual_memory_bytes 2481149714432</span><br><span class="line"># HELP http_requests_in_progress The number of requests currently in progress in the ASP.NET Core pipeline. One series without controller/action label values counts all in-progress requests, with separate series existing for each controller-action pair.</span><br><span class="line"># TYPE http_requests_in_progress gauge</span><br><span class="line">http_requests_in_progress&#123;method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;&#125; 0</span><br></pre></td></tr></table></figure>
+<p>访问结果解释：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">该http://localhost:44362/metrics地址记录的是查询订单使用的资源数据。</span><br></pre></td></tr></table></figure>
+<ul>
+<li>6、添加prometheus数据源</li>
+</ul>
+<p>1、在grafana首页中，添加prometheus数据源，选择数据源，如下：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-204.png" alt="Alt text"></p>
+<p>2、在数据源列表页中，选择prometheus，选择如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-205.png" alt="Alt text"></p>
+<p>3、在prometheus数据源详情页，添加prometheus，添加如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-206.png" alt="Alt text"></p>
+<ul>
+<li>7、添加prometheus控制面板</li>
+</ul>
+<p>1、在grafana首页中，左侧菜单列表中，选择Dashboards菜单下的+New dashboard，如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-207.png" alt="Alt text"></p>
+<p>2、在+New dashboard页面中，选择Add a new panel，如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-208.png" alt="Alt text"></p>
+<p>3、在Add a new panel页面中，输入以下PromQL，显示CPU使用率，如图所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rate(process_cpu_seconds_total&#123;job=&quot;orderservice&quot;&#125;[5m])</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-209.png" alt="Alt text"></p>
+<p>4、在Add a new panel页面中，右侧部分自定义CPU使用量图表样式，如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-210.png" alt="Alt text"></p>
+<p>5、在Add a new panel页面中，右上角点击sava保存图表，apply保存到面板，如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-211.png" alt="Alt text"></p>
+<p>6、在Add a new panel页面中，保存成功后，保存结果如图所示：</p>
+<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-212.png" alt="Alt text"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/08/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/12%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E6%9D%83%E9%99%90openiddict(%E4%BA%8C)-%E6%9D%83%E9%99%90%E6%9C%8D%E5%8A%A1%E5%BA%94%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1472,285 +1853,6 @@ idc.Scope = &quot;orderservice address email phone profile roles&quot;; // 电�
 <p>进入YDT_OrderService项目工作目录中、使用CMD进入命令行，然后在命令行中，使用以下，启动订单微服务</p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/08/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/12%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7Prometheus/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="何锦祥 博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/BlogPro/2023/08/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/12%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7Prometheus/" class="post-title-link" itemprop="url">12、微服务-资源监控Prometheus</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-12 10:48:57" itemprop="dateCreated datePublished" datetime="2023-08-12T10:48:57+08:00">2023-08-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-30 23:33:33" itemprop="dateModified" datetime="2024-01-30T23:33:33+08:00">2024-01-30</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/BlogPro/2023/08/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/12%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7Prometheus/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/08/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/12%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E8%B5%84%E6%BA%90%E7%9B%91%E6%8E%A7Prometheus/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="14、微服务-资源监控Prometheus"><a href="#14、微服务-资源监控Prometheus" class="headerlink" title="14、微服务-资源监控Prometheus"></a>14、微服务-资源监控Prometheus</h1><h2 id="1、什么是资源"><a href="#1、什么是资源" class="headerlink" title="1、什么是资源"></a>1、什么是资源</h2><blockquote>
-<p>资源：指的是CPU 磁盘 内存 带宽。</p>
-</blockquote>
-<p>如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-191.png" alt="Alt text"></p>
-<blockquote>
-<p>微服务调用的CPU、内存、带宽、磁盘就是资源。</p>
-</blockquote>
-<h2 id="2、什么是资源监控"><a href="#2、什么是资源监控" class="headerlink" title="2、什么是资源监控"></a>2、什么是资源监控</h2><pre><code>资源监控：监控微服务使用资源的情况。也就是资源使用量。
-
-例如：微服务使用了多少CPU、多少内存、多少带宽、多少磁盘。
-
-好处：快速定位微服务性能瓶颈。
-
-例如：如果查询订单出现查询慢问题，可以通过是CPU、内存、带宽、磁盘使用量，可以快速定位到具体瓶颈是CPU、内存、带宽、磁盘。
-</code></pre>
-<h2 id="3、资源监控应用场景"><a href="#3、资源监控应用场景" class="headerlink" title="3、资源监控应用场景"></a>3、资源监控应用场景</h2><h3 id="3-1、电商微服务系统"><a href="#3-1、电商微服务系统" class="headerlink" title="3.1、电商微服务系统"></a>3.1、电商微服务系统</h3><p>目前：电商微服务状态如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-192.png" alt="Alt text"></p>
-<ul>
-<li>场景：<strong>查询订单业务场景</strong></li>
-</ul>
-<blockquote>
-<p>实现流程：客户端——电商网站—–API网关—–订单微服务——订单数据库</p>
-</blockquote>
-<blockquote>
-<p>描述：客户端实现查询订单、先通过查询电商网站，然后再通过API网关，然后再通过订单微服务，最后通过订单数据库中查询出订单数据。如果刚开始查询订单速度很快，过了一段时间，查询订单数据变慢了。例如：在20:10分查询订单数据很快，在20:20查询订单数据变慢了。我们就会思考，为什么在20:20查询订单数据变慢了。原因在哪里？我们大概会推断出，如果订单数据比较少的情况下。可能是查询订单使用到的资源导致。是线程资源不够了，还是CPU、内存、带宽、磁盘资源不够了，还是其他资源导致。但是具体是哪一个资源导致的，我们无法确定。所以，这个时候，就需要对资源监控起来，查看各个资源使用量的情况，通过资源使用量的情况，就可以知道是哪一个资源导致的问题。</p>
-</blockquote>
-<pre><code>问题：查询订单慢，无法确定是哪个资源导致。
-
-原因：资源使用量不知道。
-</code></pre>
-<ul>
-<li>方案：资源监控（资源使用量）</li>
-</ul>
-<h3 id="3-2、电商微服务-资源监控"><a href="#3-2、电商微服务-资源监控" class="headerlink" title="3.2、电商微服务-资源监控"></a>3.2、电商微服务-资源监控</h3><blockquote>
-<p>电商微服务中，集成资源监控如图所示：</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-193.png" alt="Alt text"></p>
-<ul>
-<li>场景：<strong>实现查询订单资源监控</strong></li>
-</ul>
-<blockquote>
-<p>实现流程：客户端——电商网站—–API网关—–订单微服务——资源监控中心</p>
-</blockquote>
-<blockquote>
-<p>描述：客户端实现查询订单、先通过查询电商网站，然后再通过API网关，然后再通过订单微服务，最后通过订单数据库中查询出订单数据。订单微服务在查询订单的时候，把查询订单使用到的资源数据，发送给资源监控中心。再从资源监控中心，使用图表的方式，展示出来资源使用量。通过资源使用量图表，就可以快速知道查询订单的时候，各个资源使用量的情况。</p>
-</blockquote>
-<h2 id="4、资源监控技术选型"><a href="#4、资源监控技术选型" class="headerlink" title="4、资源监控技术选型"></a>4、资源监控技术选型</h2><h3 id="4-1、资源监控技术"><a href="#4-1、资源监控技术" class="headerlink" title="4.1、资源监控技术"></a>4.1、资源监控技术</h3><ul>
-<li>prometheus</li>
-</ul>
-<blockquote>
-<p>prometheus是资源监控比较稳定的技术，其余技术目前不稳定。还没有成熟。</p>
-</blockquote>
-<ul>
-<li><p>选型4原则：</p>
-<p>  1、功能多</p>
-<p>  2、性能高</p>
-<p>  3、稳定性强</p>
-<p>  4、使用简单</p>
-</li>
-</ul>
-<blockquote>
-<p>prometheus符合这个原则</p>
-</blockquote>
-<h2 id="5、资源监控落地-查询订单资源监控"><a href="#5、资源监控落地-查询订单资源监控" class="headerlink" title="5、资源监控落地-查询订单资源监控"></a>5、资源监控落地-查询订单资源监控</h2><h3 id="5-1、基础前提"><a href="#5-1、基础前提" class="headerlink" title="5.1、基础前提"></a>5.1、基础前提</h3><pre><code>1、订单微服务
-
-2、prometheus
-
-3、grafana
-</code></pre>
-<h3 id="5-2、prometheus准备"><a href="#5-2、prometheus准备" class="headerlink" title="5.2、prometheus准备"></a>5.2、prometheus准备</h3><ul>
-<li><p>1、下载地址：<a target="_blank" rel="noopener" href="https://prometheus.io/download/#memcached_exporter">https://prometheus.io/download/#memcached_exporter</a></p>
-</li>
-<li><p>2、下载结果：如图所示</p>
-</li>
-</ul>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-194.png" alt="Alt text"></p>
-<ul>
-<li>3、解压prometheus：如图所示</li>
-</ul>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-195.png" alt="Alt text"></p>
-<ul>
-<li>4、运行prometheus：</li>
-</ul>
-<blockquote>
-<p>进入到F:\work.net_software\prometheus\prometheus-2.42.0.windows-amd64目录中，使用prometheus.exe来运行，输入CMD，进入到命令行，结果如下：</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-196.png" alt="Alt text"></p>
-<ul>
-<li>5、访问prometheus：</li>
-</ul>
-<p>​在浏览器中输入<a target="_blank" rel="noopener" href="http://localhost:9090/%E8%AE%BF%E9%97%AEprometheus%EF%BC%8C%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%9C%E5%A6%82%E4%B8%8B%E6%89%80%E7%A4%BA%EF%BC%9A">http://localhost:9090/访问prometheus，访问结果如下所示：</a> 1705224742277</p>
-<h3 id="5-3、grafana准备"><a href="#5-3、grafana准备" class="headerlink" title="5.3、grafana准备"></a>5.3、grafana准备</h3><ul>
-<li><p>1、下载地址：<a target="_blank" rel="noopener" href="https://grafana.com/grafana/download?platform=windows">https://grafana.com/grafana/download?platform=windows</a></p>
-</li>
-<li><p>2、下载结果：如图所示 ：</p>
-</li>
-</ul>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-197.png" alt="Alt text"></p>
-<ul>
-<li>3、安装grafana：</li>
-</ul>
-<blockquote>
-<p>在F:\work.net_software\prometheus目录中，双击grafana-enterprise-9.4.1.windows-amd64安装grafana，安装结果如图所示：</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-198.png" alt="Alt text"></p>
-<ul>
-<li>5、运行grafana：</li>
-</ul>
-<blockquote>
-<p>进入到F:\work.net_software\GrafanaLabs\grafana\bin目录中，使用grafana.exe运行grafana，输入CMD，进入到命令行，双击grafana.exe 运行结果如下（安装的时候，已经运行成功）：</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-199.png" alt="Alt text"></p>
-<ul>
-<li>6、访问grafana：</li>
-</ul>
-<p>​进入到浏览器中，输入<a target="_blank" rel="noopener" href="http://localhost:3000/%E8%AE%BF%E9%97%AEgrafana%EF%BC%8C%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%9C%E5%A6%82%E4%B8%8B%EF%BC%9A">http://localhost:3000/访问grafana，访问结果如下：</a></p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-200.png" alt="Alt text"></p>
-<h3 id="5-4、订单微服务准备"><a href="#5-4、订单微服务准备" class="headerlink" title="5.4、订单微服务准备"></a>5.4、订单微服务准备</h3><ul>
-<li>1、订单微服务</li>
-</ul>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-201.png" alt="Alt text"></p>
-<ul>
-<li>2、创建GetListAsync方法</li>
-</ul>
-<blockquote>
-<p>在YDT_OrderService订单微服务项目Controllers目录OrderController类中，创建GetListAsync方法。创建代码如下所示：</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Authorization;</span><br><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using Prometheus;</span><br><span class="line">using Servicecomb.Saga.Omega.Abstractions.Transaction;</span><br><span class="line">using System.Security.Claims;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using YDT_OrderService.Services;</span><br><span class="line">using YDT_OrderService.Services.Dtos;</span><br><span class="line"></span><br><span class="line">namespace YDT_OrderService.Controllers;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 订单控制器</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[ApiController]</span><br><span class="line">[Route(&quot;api/app/order&quot;)]</span><br><span class="line">public class OrderController : AbpController, IOrderService</span><br><span class="line">&#123;</span><br><span class="line"> </span><br><span class="line">    public IOrderService OrderService &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    .......</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 查询订单接口</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;input&quot;&gt;&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    [HttpGet]</span><br><span class="line">    public async Task&lt;PagedResultDto&lt;OrderDto&gt;&gt; GetListAsync([FromQuery]PagedAndSortedResultRequestDto input)</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、使用_requestCounter</span><br><span class="line">        _requestCounter.WithLabels(&quot;Get&quot;, &quot;api/app/order&quot;).Inc();</span><br><span class="line"></span><br><span class="line">        return await OrderService.GetListAsync(input);</span><br><span class="line">    &#125;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="5-6、查询订单资源监控落地"><a href="#5-6、查询订单资源监控落地" class="headerlink" title="5.6、查询订单资源监控落地"></a>5.6、查询订单资源监控落地</h3><blockquote>
-<p>含义：监控查询订单接口在被调用时，使用的资源。<br>技术：prometheus-net.AspNetCore</p>
-</blockquote>
-<ul>
-<li>1、安装prometheus-net.AspNetCore</li>
-</ul>
-<blockquote>
-<p>在YDT_OrderService订单微服务项目中，使用nuget安装prometheus-net.AspNetCore。安装结果如下所示：</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-202.png" alt="Alt text"></p>
-<ul>
-<li>2、集成prometheus-net.AspNetCore</li>
-</ul>
-<blockquote>
-<p>在YDT_OrderService订单微服务项目YDT_OrderServiceModule类OnApplicationInitialization方法中，集成prometheus-net.AspNetCore。集成结果如下所示：</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Cors;</span><br><span class="line">using Microsoft.AspNetCore.DataProtection;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection.Extensions;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using YDT_OrderService.Data;</span><br><span class="line">using YDT_OrderService.Localization;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Uow;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.Localization;</span><br><span class="line">using Volo.Abp.AspNetCore.Serilog;</span><br><span class="line">using Volo.Abp.Autofac;</span><br><span class="line">using Volo.Abp.AutoMapper;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore.MySQL;</span><br><span class="line">using Volo.Abp.Localization;</span><br><span class="line">using Volo.Abp.Localization.ExceptionHandling;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using Volo.Abp.MultiTenancy;</span><br><span class="line">using Volo.Abp.Swashbuckle;</span><br><span class="line">using Volo.Abp.UI.Navigation.Urls;</span><br><span class="line">using Volo.Abp.Validation.Localization;</span><br><span class="line">using Volo.Abp.VirtualFileSystem;</span><br><span class="line">using YDT_ProductService.Registrys;</span><br><span class="line">using Microsoft.AspNetCore.Antiforgery;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc.AntiForgery;</span><br><span class="line">using Servicecomb.Saga.Omega.AspNetCore.Extensions;</span><br><span class="line">using Prometheus;</span><br><span class="line"></span><br><span class="line">namespace YDT_OrderService;</span><br><span class="line"></span><br><span class="line">[DependsOn(</span><br><span class="line">    // ABP Framework packages</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(AbpAutoMapperModule),</span><br><span class="line">    typeof(AbpEntityFrameworkCoreMySQLModule),</span><br><span class="line">    typeof(AbpSwashbuckleModule),</span><br><span class="line">    typeof(AbpAspNetCoreSerilogModule)</span><br><span class="line">)]</span><br><span class="line">public class YDT_OrderServiceModule : AbpModule</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    ......</span><br><span class="line">    public override void OnApplicationInitialization(ApplicationInitializationContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        var app = context.GetApplicationBuilder();</span><br><span class="line">        var env = context.GetEnvironment();</span><br><span class="line"></span><br><span class="line">        if (env.IsDevelopment())</span><br><span class="line">        &#123;</span><br><span class="line">            app.UseDeveloperExceptionPage();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        app.UseAbpRequestLocalization();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        app.UseCorrelationId();</span><br><span class="line">        app.UseStaticFiles();</span><br><span class="line">        app.UseRouting();</span><br><span class="line">        app.UseCors();</span><br><span class="line">        app.UseAuthentication();</span><br><span class="line"></span><br><span class="line">        app.UseUnitOfWork();</span><br><span class="line">        app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">        app.UseSwagger();</span><br><span class="line">        app.UseAbpSwaggerUI(options =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            options.SwaggerEndpoint(&quot;/swagger/v1/swagger.json&quot;, &quot;YDT_OrderService API&quot;);</span><br><span class="line"></span><br><span class="line">            var configuration = context.GetConfiguration();</span><br><span class="line">            options.OAuthClientId(configuration[&quot;AuthServer:SwaggerClientId&quot;]);</span><br><span class="line">            options.OAuthScopes(&quot;YDT_OrderService&quot;);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        app.UseAuditing();</span><br><span class="line">        app.UseAbpSerilogEnrichers();</span><br><span class="line">        app.UseConfiguredEndpoints();</span><br><span class="line"></span><br><span class="line">        // 2、注册心跳检测中间件（类似于控制器）</span><br><span class="line">        app.UseHealthChecks(&quot;/HealthCheck&quot;);</span><br><span class="line"></span><br><span class="line">        // 3、集成prometheus-net.AspNetCore</span><br><span class="line">        app.UseMetricServer(); // 集成</span><br><span class="line">        app.UseHttpMetrics();//访问监控的数据。</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>集成代码注释：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app.UseMetricServer(); // 集成prometheus-net.AspNetCore</span><br><span class="line">app.UseHttpMetrics();//访问监控的数据</span><br></pre></td></tr></table></figure>
-<ul>
-<li>3、使用prometheus-net.AspNetCore</li>
-</ul>
-<blockquote>
-<p>在YDT_OrderService订单微服务项目OrderController类GetListAsync方法中，使用Counter 来使用prometheus-net.AspNetCore。使用结果如下所示：</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Authorization;</span><br><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using Prometheus;</span><br><span class="line">using Servicecomb.Saga.Omega.Abstractions.Transaction;</span><br><span class="line">using System.Security.Claims;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using YDT_OrderService.Services;</span><br><span class="line">using YDT_OrderService.Services.Dtos;</span><br><span class="line"></span><br><span class="line">namespace YDT_OrderService.Controllers;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 订单控制器</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">[ApiController]</span><br><span class="line">[Route(&quot;api/app/order&quot;)]</span><br><span class="line">public class OrderController : AbpController, IOrderService</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 1、先创建Counter</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    private static readonly Counter _requestCounter = Metrics.CreateCounter(&quot;orderservice&quot;, &quot;orderservice_help&quot;, new CounterConfiguration</span><br><span class="line">    &#123;</span><br><span class="line">        LabelNames = new[] &#123; &quot;method&quot;, &quot;endpoint&quot; &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    public IOrderService OrderService &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    ......</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 查询订单接口</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;input&quot;&gt;&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    [HttpGet]</span><br><span class="line">    public async Task&lt;PagedResultDto&lt;OrderDto&gt;&gt; GetListAsync([FromQuery]PagedAndSortedResultRequestDto input)</span><br><span class="line">    &#123;</span><br><span class="line">        // 2、使用_requestCounter</span><br><span class="line">        _requestCounter.WithLabels(&quot;Get&quot;, &quot;api/app/order&quot;).Inc();</span><br><span class="line"></span><br><span class="line">        return await OrderService.GetListAsync(input);</span><br><span class="line">    &#125;</span><br><span class="line">    ......   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用代码注释：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> private static readonly Counter _requestCounter = Metrics.CreateCounter(&quot;orderservice&quot;, &quot;orderservice_help&quot;, new CounterConfiguration</span><br><span class="line"> &#123;</span><br><span class="line">     LabelNames = new[] &#123; &quot;method&quot;, &quot;endpoint&quot; &#125;</span><br><span class="line"> &#125;);</span><br><span class="line">1、 &quot;orderservice&quot;：指定微服务名称</span><br><span class="line">2、 &quot;orderservice_help&quot;：微服务帮助名称，可以随意写</span><br><span class="line">3、 &quot;method&quot;：监控接口方法</span><br><span class="line">4、 &quot;endpoint&quot;：监控接口路径</span><br><span class="line">5、Counter ：计数器，统计资源使用量</span><br><span class="line"> </span><br><span class="line">_requestCounter.WithLabels(&quot;Get&quot;, &quot;api/app/order&quot;).Inc();    </span><br><span class="line">&quot;Get&quot;：为查询订单的方法类型</span><br><span class="line">&quot;api/app/order&quot;：为查询订单uri地址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>4、配置prometheus.yml</li>
-</ul>
-<blockquote>
-<p>在F:\work.net_software\prometheus\prometheus-2.42.0.windows-amd64目录中，配置prometheus 的prometheus.yml配置文件，配置结果如下：</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"># my global config</span><br><span class="line">global:</span><br><span class="line">  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.</span><br><span class="line">  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.</span><br><span class="line">  # scrape_timeout is set to the global default (10s).</span><br><span class="line"></span><br><span class="line"># Alertmanager configuration</span><br><span class="line">alerting:</span><br><span class="line">  alertmanagers:</span><br><span class="line">    - static_configs:</span><br><span class="line">        - targets:</span><br><span class="line">          # - alertmanager:9093</span><br><span class="line"></span><br><span class="line"># Load rules once and periodically evaluate them according to the global &#x27;evaluation_interval&#x27;.</span><br><span class="line">rule_files:</span><br><span class="line">  # - &quot;first_rules.yml&quot;</span><br><span class="line">  # - &quot;second_rules.yml&quot;</span><br><span class="line"></span><br><span class="line"># A scrape configuration containing exactly one endpoint to scrape:</span><br><span class="line"># Here it&#x27;s Prometheus itself.</span><br><span class="line">scrape_configs:</span><br><span class="line">  # The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span><br><span class="line">  - job_name: &quot;prometheus&quot;</span><br><span class="line"></span><br><span class="line">    # metrics_path defaults to &#x27;/metrics&#x27;</span><br><span class="line">    # scheme defaults to &#x27;http&#x27;.</span><br><span class="line"></span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;localhost:9090&quot;]</span><br><span class="line">  - job_name: &quot;orderservice&quot;</span><br><span class="line"></span><br><span class="line">    # metrics_path defaults to &#x27;/metrics&#x27;</span><br><span class="line">    # scheme defaults to &#x27;http&#x27;.</span><br><span class="line">    </span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;localhost:44362&quot;]</span><br></pre></td></tr></table></figure>
-<p>配置代码解释：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">  - job_name: &quot;orderservice&quot; #定时器任务执行名称</span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;localhost:44362&quot;] #订单微服务地址</span><br><span class="line">      </span><br><span class="line">详细配置(根据环境具体来选择使用)：</span><br><span class="line">scrape_configs:</span><br><span class="line">  - job_name: &quot;orderservice&quot; # 定时器任务执行名称</span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [&quot;localhost:44362&quot;] # 订单微服务地址</span><br><span class="line">    scrape_interval: 15s # 抓取数据的时间间隔，默认为15秒</span><br><span class="line">    scrape_timeout: 10s # 抓取数据的超时时间，默认为10秒</span><br><span class="line">    metrics_path: &quot;/metrics&quot; # 指定要抓取的指标路径，默认为/metrics</span><br><span class="line">    scheme: &quot;https&quot; # 使用的协议，默认为http</span><br><span class="line">    basic_auth:</span><br><span class="line">      username: &quot;admin&quot; # 基本身份验证的用户名</span><br><span class="line">      password: &quot;password&quot; # 基本身份验证的密码</span><br><span class="line">    tls_config:</span><br><span class="line">      ca_file: &quot;/path/to/ca.crt&quot; # CA证书文件路径</span><br><span class="line">      cert_file: &quot;/path/to/client.crt&quot; # 客户端证书文件路径</span><br><span class="line">      key_file: &quot;/path/to/client.key&quot; # 客户端私钥文件路径</span><br><span class="line">    relabel_configs:</span><br><span class="line">      - source_labels: [__address__] # 源标签，指定要重写的标签</span><br><span class="line">        target_label: instance # 目标标签，指定重写后的标签名称</span><br><span class="line">        replacement: &quot;orderservice&quot; # 替换后的标签值</span><br><span class="line">      - source_labels: [__address__]</span><br><span class="line">        target_label: __param_target # 目标标签，指定要添加的标签名称</span><br><span class="line">        replacement: &quot;/metrics&quot; # 替换后的标签值</span><br><span class="line">      - source_labels: [__param_target]</span><br><span class="line">        target_label: job # 目标标签，指定要添加的标签名称</span><br><span class="line">        replacement: &quot;orderservice&quot; # 替换后的标签值</span><br></pre></td></tr></table></figure>
-<ul>
-<li>4、访问查询订单接口</li>
-</ul>
-<p>在浏览器订单微服务中的swagger界面中，访问查询订单接口，访问如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-203.png" alt="Alt text"></p>
-<p>5、访问订单资源监控接口</p>
-<p>在浏览器中，输入<a target="_blank" rel="noopener" href="http://localhost:44362/metrics%E5%9C%B0%E5%9D%80%E8%AE%BF%E9%97%AE%E6%9F%A5%E8%AF%A2%E8%AE%A2%E5%8D%95%E6%8E%A5%E5%8F%A3%EF%BC%8C%E8%AE%BF%E9%97%AE%E5%A6%82%E5%9B%BE%E6%89%80%E7%A4%BA%EF%BC%9A">http://localhost:44362/metrics地址访问查询订单接口，访问如图所示：</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"># HELP process_open_handles Number of open handles</span><br><span class="line"># TYPE process_open_handles gauge</span><br><span class="line">process_open_handles 761</span><br><span class="line"># HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.</span><br><span class="line"># TYPE process_cpu_seconds_total counter</span><br><span class="line">process_cpu_seconds_total 2.484375</span><br><span class="line"># HELP dotnet_collection_count_total GC collection count</span><br><span class="line"># TYPE dotnet_collection_count_total counter</span><br><span class="line">dotnet_collection_count_total&#123;generation=&quot;1&quot;&#125; 0</span><br><span class="line">dotnet_collection_count_total&#123;generation=&quot;2&quot;&#125; 0</span><br><span class="line">dotnet_collection_count_total&#123;generation=&quot;0&quot;&#125; 0</span><br><span class="line"># HELP process_working_set_bytes Process working set</span><br><span class="line"># TYPE process_working_set_bytes gauge</span><br><span class="line">process_working_set_bytes 176152576</span><br><span class="line"># HELP process_start_time_seconds Start time of the process since unix epoch in seconds.</span><br><span class="line"># TYPE process_start_time_seconds gauge</span><br><span class="line">process_start_time_seconds 1705227577.6776996</span><br><span class="line"># HELP dotnet_total_memory_bytes Total known allocated memory</span><br><span class="line"># TYPE dotnet_total_memory_bytes gauge</span><br><span class="line">dotnet_total_memory_bytes 49488008</span><br><span class="line"># HELP process_num_threads Total number of threads</span><br><span class="line"># TYPE process_num_threads gauge</span><br><span class="line">process_num_threads 68</span><br><span class="line"># HELP http_request_duration_seconds The duration of HTTP requests processed by an ASP.NET Core application.</span><br><span class="line"># TYPE http_request_duration_seconds histogram</span><br><span class="line">http_request_duration_seconds_sum&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;&#125; 0.0011187</span><br><span class="line">http_request_duration_seconds_count&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.001&quot;&#125; 0</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.002&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.004&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.008&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.016&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.032&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.064&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.128&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.256&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;0.512&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;1.024&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;2.048&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;4.096&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;8.192&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;16.384&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;32.768&quot;&#125; 1</span><br><span class="line">http_request_duration_seconds_bucket&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;,le=&quot;+Inf&quot;&#125; 1</span><br><span class="line"># HELP process_private_memory_bytes Process private memory size</span><br><span class="line"># TYPE process_private_memory_bytes gauge</span><br><span class="line">process_private_memory_bytes 133812224</span><br><span class="line"># HELP http_requests_received_total Provides the count of HTTP requests that have been processed by the ASP.NET Core pipeline.</span><br><span class="line"># TYPE http_requests_received_total counter</span><br><span class="line">http_requests_received_total&#123;code=&quot;404&quot;,method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;&#125; 1</span><br><span class="line"># HELP process_virtual_memory_bytes Virtual memory size in bytes.</span><br><span class="line"># TYPE process_virtual_memory_bytes gauge</span><br><span class="line">process_virtual_memory_bytes 2481149714432</span><br><span class="line"># HELP http_requests_in_progress The number of requests currently in progress in the ASP.NET Core pipeline. One series without controller/action label values counts all in-progress requests, with separate series existing for each controller-action pair.</span><br><span class="line"># TYPE http_requests_in_progress gauge</span><br><span class="line">http_requests_in_progress&#123;method=&quot;GET&quot;,controller=&quot;&quot;,action=&quot;&quot;,page=&quot;&quot;,endpoint=&quot;&quot;&#125; 0</span><br></pre></td></tr></table></figure>
-<p>访问结果解释：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">该http://localhost:44362/metrics地址记录的是查询订单使用的资源数据。</span><br></pre></td></tr></table></figure>
-<ul>
-<li>6、添加prometheus数据源</li>
-</ul>
-<p>1、在grafana首页中，添加prometheus数据源，选择数据源，如下：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-204.png" alt="Alt text"></p>
-<p>2、在数据源列表页中，选择prometheus，选择如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-205.png" alt="Alt text"></p>
-<p>3、在prometheus数据源详情页，添加prometheus，添加如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-206.png" alt="Alt text"></p>
-<ul>
-<li>7、添加prometheus控制面板</li>
-</ul>
-<p>1、在grafana首页中，左侧菜单列表中，选择Dashboards菜单下的+New dashboard，如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-207.png" alt="Alt text"></p>
-<p>2、在+New dashboard页面中，选择Add a new panel，如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-208.png" alt="Alt text"></p>
-<p>3、在Add a new panel页面中，输入以下PromQL，显示CPU使用率，如图所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rate(process_cpu_seconds_total&#123;job=&quot;orderservice&quot;&#125;[5m])</span><br></pre></td></tr></table></figure>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-209.png" alt="Alt text"></p>
-<p>4、在Add a new panel页面中，右侧部分自定义CPU使用量图表样式，如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-210.png" alt="Alt text"></p>
-<p>5、在Add a new panel页面中，右上角点击sava保存图表，apply保存到面板，如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-211.png" alt="Alt text"></p>
-<p>6、在Add a new panel页面中，保存成功后，保存结果如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-212.png" alt="Alt text"></p>
-
       
     </div>
 
@@ -3421,358 +3523,6 @@ options.FailedRetryInterval = 3; // 默认3s
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/08/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/7%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E9%93%BE%E8%B7%AF%E7%9B%91%E6%8E%A7SkyWalking/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="何锦祥 博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/BlogPro/2023/08/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/7%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E9%93%BE%E8%B7%AF%E7%9B%91%E6%8E%A7SkyWalking/" class="post-title-link" itemprop="url">7、微服务-链路监控SkyWalking</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-07 10:48:57" itemprop="dateCreated datePublished" datetime="2023-08-07T10:48:57+08:00">2023-08-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-30 23:33:33" itemprop="dateModified" datetime="2024-01-30T23:33:33+08:00">2024-01-30</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/BlogPro/2023/08/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/7%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E9%93%BE%E8%B7%AF%E7%9B%91%E6%8E%A7SkyWalking/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/08/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/7%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E9%93%BE%E8%B7%AF%E7%9B%91%E6%8E%A7SkyWalking/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="七、微服务-链路监控SkyWalking"><a href="#七、微服务-链路监控SkyWalking" class="headerlink" title="七、微服务-链路监控SkyWalking"></a>七、微服务-链路监控SkyWalking</h1><h2 id="1、什么是链路"><a href="#1、什么是链路" class="headerlink" title="1、什么是链路"></a>1、什么是链路</h2><blockquote>
-<p>链路：请求执行的路径的集合。</p>
-</blockquote>
-<p>如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-94.png" alt="Alt text"></p>
-<blockquote>
-<p>客户端发起一个请求，这个请求需要执行微服务1，然后执行微服务2，然后执行微服务3<br>微服务1，微服务2，微服务3组成3条路径，这3个路径集合就是一个链路。</p>
-</blockquote>
-<h2 id="2、什么是链路监控"><a href="#2、什么是链路监控" class="headerlink" title="2、什么是链路监控"></a>2、什么是链路监控</h2><blockquote>
-<p>链路监控：就是监控一个请求的所有执行路径。</p>
-</blockquote>
-<blockquote>
-<p>主要是监控执行路径的时间。用来得到每一个执行路径的性能。方便做性能优化</p>
-</blockquote>
-<h2 id="3、链路监控应用场景"><a href="#3、链路监控应用场景" class="headerlink" title="3、链路监控应用场景"></a>3、链路监控应用场景</h2><h3 id="3-1、电商微服务系统"><a href="#3-1、电商微服务系统" class="headerlink" title="3.1、电商微服务系统"></a>3.1、电商微服务系统</h3><blockquote>
-<p>目前：电商微服务状态如图所示，</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-95.png" alt="Alt text"></p>
-<blockquote>
-<p>目前完成查询订单，执行路径如下：</p>
-</blockquote>
-<blockquote>
-<p>客户端——&gt;API外部网关——&gt;consul——&gt;订单详情聚合服务——&gt;API内部网关——&gt;consul——&gt;订单微服务—–&gt;数据库</p>
-</blockquote>
-<pre><code>完成订单查询，整体上需要7个流程。
-
-完成订单查询后，会有一个执行时间。
-
-如果执行为3s，我们可能会思考，为什么查询一个订单，需要花费3s时间。是什么原因导致查询订单需要花费3s？这个时候，我们就陷入了性能瓶颈中，为了弄清楚原因，我们必须知道7个流程中的每一个流程执行的时间，我们才能找到原因。
-</code></pre>
-<ul>
-<li>如何知道每一个流程的执行时间呢？</li>
-</ul>
-<blockquote>
-<p>所以：我们就需要使用链路监控</p>
-</blockquote>
-<h3 id="3-2、电商微服务-链路监控"><a href="#3-2、电商微服务-链路监控" class="headerlink" title="3.2、电商微服务-链路监控"></a>3.2、电商微服务-链路监控</h3><p>电商微服务中，集成链路监控如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-96.png" alt="Alt text"></p>
-<blockquote>
-<p>在电商微服务系统中，集成链路监控，主要就是为了在查询订单的时候，执行7个流程中，每一个流程执行的时间。</p>
-</blockquote>
-<h2 id="4、链路监控技术选型"><a href="#4、链路监控技术选型" class="headerlink" title="4、链路监控技术选型"></a>4、链路监控技术选型</h2><h3 id="4-1、链路监控技术"><a href="#4-1、链路监控技术" class="headerlink" title="4.1、链路监控技术"></a>4.1、链路监控技术</h3><blockquote>
-<p>目前一些主流的链路监控工具，如表所示：</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-97.png" alt="Alt text"></p>
-<blockquote>
-<p>比较每一个链路监控的工具的功能特点，我们可以选择出skywalking，目前是比较合适。</p>
-</blockquote>
-<ul>
-<li><p>选型4原则：</p>
-<p>  1、功能多</p>
-<p>  2、性能高</p>
-<p>  3、稳定性强</p>
-<p>  4、使用简单</p>
-<p>  SkyWalking符合这个原则</p>
-</li>
-</ul>
-<h2 id="5、电商微服务系统中落地SkyWalking"><a href="#5、电商微服务系统中落地SkyWalking" class="headerlink" title="5、电商微服务系统中落地SkyWalking"></a>5、电商微服务系统中落地SkyWalking</h2><h3 id="5-1、基础前3提"><a href="#5-1、基础前3提" class="headerlink" title="5.1、基础前3提"></a>5.1、基础前3提</h3><ul>
-<li><p>1、电商微服务系统</p>
-</li>
-<li><p>2、jdk 1.8</p>
-</li>
-<li><p>3、elasticsearch-7.10.1</p>
-</li>
-<li><p>4、apache-skywalking-apm-bin-es7</p>
-</li>
-</ul>
-<h3 id="5-2、电商微服务系统准备"><a href="#5-2、电商微服务系统准备" class="headerlink" title="5.2、电商微服务系统准备"></a>5.2、电商微服务系统准备</h3><blockquote>
-<p>电商微服务系统如图所示：</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-98.png" alt="Alt text"></p>
-<blockquote>
-<p>电商微服务目前由聚合层，框架基础设施层，网关层，微服务层组成</p>
-</blockquote>
-<ul>
-<li><p>1、jdk 准备<br>  1、jdk1.8下载地址：<a target="_blank" rel="noopener" href="https://www.oracle.com/cn/java/technologies/javase/javase-jdk8-downloads.htm">https://www.oracle.com/cn/java/technologies/javase/javase-jdk8-downloads.htm</a></p>
-<p>  2、jdk1.8安装：直接搜索安装</p>
-</li>
-<li><p>2、elasticsearch准备</p>
-<p>  ​1、下载地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-7-10-0">https://www.elastic.co/cn/downloads/past-releases/elasticsearch-7-10-0</a></p>
-<p>  ​ 2、文档地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/7.10/index.html">https://www.elastic.co/guide/en/elasticsearch/reference/7.10/index.html</a></p>
-</li>
-<li><p>3、Elasticsearch安装，如图所示：</p>
-</li>
-</ul>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-99.png" alt="Alt text"></p>
-<blockquote>
-<p>Elasticsearch启动，如图所示：</p>
-</blockquote>
-<ul>
-<li>3、apache-skywalking-apm-bin-es7准备<blockquote>
-<p>1、下载地址：<a target="_blank" rel="noopener" href="https://archive.apache.org/dist/skywalking/8.7.0/apache-skywalking-apm-8.7.0.tar.gz">https://archive.apache.org/dist/skywalking/8.7.0/apache-skywalking-apm-8.7.0.tar.gz</a></p>
-</blockquote>
-</li>
-</ul>
-<p>​ 如图所示：<br><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-100.png" alt="Alt text"></p>
-<pre><code>&gt; 2、文档地址：https://skywalking.apache.org/docs/main/v8.7.0/readme/
-
-&gt; 3、apache-skywalking-apm-bin-es7解压
-</code></pre>
-<p>​ 如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-101.png" alt="Alt text"></p>
-<h3 id="5-3、电商微服务系统SkyWalking集成架构"><a href="#5-3、电商微服务系统SkyWalking集成架构" class="headerlink" title="5.3、电商微服务系统SkyWalking集成架构"></a>5.3、电商微服务系统SkyWalking集成架构</h3><p>集成架构如果所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-102.png" alt="Alt text"></p>
-<pre><code>链路监控基本角色：
-
-1、 Agent
-
-​ SkyWalking客户端，具体就是每一个微服务或网关项目
-
-2、Collecter
-
-​ SkyWalking收集器，用来收集微服务发送的时间数据
-
-3、Storage
-
-​ SkyWalking存储器(就是ElasticSearch)，存储Storage发送的时间数据
-
-4、APM(UI)
-
-SkyWalking显示器，显示ElasticSearch中的时间数据
-</code></pre>
-<h3 id="5-4、查询商品-链路监控"><a href="#5-4、查询商品-链路监控" class="headerlink" title="5.4、查询商品-链路监控"></a>5.4、查询商品-链路监控</h3><pre><code>条件
-
-1、订单微服务YDT_ProductService
-
-2、SkyAPM.Agent.AspNetCore
-
-步骤
-
-1、elasticsearch-7.10.1准备
-
-​ 1.1、先进入elasticsearch-7.10.1 中bin目录中
-
-​如图所示：
-</code></pre>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-103.png" alt="Alt text"></p>
-<pre><code>1.2、然后使用cmd通过elasticsearch.bat启动
-</code></pre>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-104.png" alt="Alt text"></p>
-<ul>
-<li><p>2、apache-skywalking-apm-bin-es7准备</p>
-<blockquote>
-<p>2.1、先进入apache-skywalking-apm-bin-es7 中config目录中</p>
-</blockquote>
-</li>
-</ul>
-<p>​ 如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-105.png" alt="Alt text"></p>
-<pre><code>&gt; 2.2、然后进入application.yml文件中，修改配置，代码如下
-</code></pre>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br></pre></td><td class="code"><pre><span class="line">core:</span><br><span class="line">  selector: $&#123;SW_CORE:default&#125;</span><br><span class="line">  default:</span><br><span class="line">    # Mixed: Receive agent data, Level 1 aggregate, Level 2 aggregate</span><br><span class="line">    # Receiver: Receive agent data, Level 1 aggregate</span><br><span class="line">    # Aggregator: Level 2 aggregate</span><br><span class="line">    role: $&#123;SW_CORE_ROLE:Mixed&#125; # Mixed/Receiver/Aggregator</span><br><span class="line">    restHost: $&#123;SW_CORE_REST_HOST:0.0.0.0&#125;</span><br><span class="line">    restPort: $&#123;SW_CORE_REST_PORT:12800&#125;</span><br><span class="line">    restContextPath: $&#123;SW_CORE_REST_CONTEXT_PATH:/&#125;</span><br><span class="line">    restMinThreads: $&#123;SW_CORE_REST_JETTY_MIN_THREADS:1&#125;</span><br><span class="line">    restMaxThreads: $&#123;SW_CORE_REST_JETTY_MAX_THREADS:200&#125;</span><br><span class="line">    restIdleTimeOut: $&#123;SW_CORE_REST_JETTY_IDLE_TIMEOUT:30000&#125;</span><br><span class="line">    restAcceptorPriorityDelta: $&#123;SW_CORE_REST_JETTY_DELTA:0&#125;</span><br><span class="line">    restAcceptQueueSize: $&#123;SW_CORE_REST_JETTY_QUEUE_SIZE:0&#125;</span><br><span class="line">    httpMaxRequestHeaderSize: $&#123;SW_CORE_HTTP_MAX_REQUEST_HEADER_SIZE:8192&#125;</span><br><span class="line">    gRPCHost: $&#123;SW_CORE_GRPC_HOST:0.0.0.0&#125;</span><br><span class="line">    gRPCPort: $&#123;SW_CORE_GRPC_PORT:11800&#125;</span><br><span class="line">    maxConcurrentCallsPerConnection: $&#123;SW_CORE_GRPC_MAX_CONCURRENT_CALL:0&#125;</span><br><span class="line">    maxMessageSize: $&#123;SW_CORE_GRPC_MAX_MESSAGE_SIZE:0&#125;</span><br><span class="line">    gRPCThreadPoolQueueSize: $&#123;SW_CORE_GRPC_POOL_QUEUE_SIZE:-1&#125;</span><br><span class="line">    gRPCThreadPoolSize: $&#123;SW_CORE_GRPC_THREAD_POOL_SIZE:-1&#125;</span><br><span class="line">    gRPCSslEnabled: $&#123;SW_CORE_GRPC_SSL_ENABLED:false&#125;</span><br><span class="line">    gRPCSslKeyPath: $&#123;SW_CORE_GRPC_SSL_KEY_PATH:&quot;&quot;&#125;</span><br><span class="line">    gRPCSslCertChainPath: $&#123;SW_CORE_GRPC_SSL_CERT_CHAIN_PATH:&quot;&quot;&#125;</span><br><span class="line">    gRPCSslTrustedCAPath: $&#123;SW_CORE_GRPC_SSL_TRUSTED_CA_PATH:&quot;&quot;&#125;</span><br><span class="line">    downsampling:</span><br><span class="line">      - Hour</span><br><span class="line">      - Day</span><br><span class="line">    # Set a timeout on metrics data. After the timeout has expired, the metrics data will automatically be deleted.</span><br><span class="line">    enableDataKeeperExecutor: $&#123;SW_CORE_ENABLE_DATA_KEEPER_EXECUTOR:true&#125; # Turn it off then automatically metrics data delete will be close.</span><br><span class="line">    dataKeeperExecutePeriod: $&#123;SW_CORE_DATA_KEEPER_EXECUTE_PERIOD:5&#125; # How often the data keeper executor runs periodically, unit is minute</span><br><span class="line">    recordDataTTL: $&#123;SW_CORE_RECORD_DATA_TTL:3&#125; # Unit is day</span><br><span class="line">    metricsDataTTL: $&#123;SW_CORE_METRICS_DATA_TTL:7&#125; # Unit is day</span><br><span class="line">    # The period of L1 aggregation flush to L2 aggregation. Unit is ms.</span><br><span class="line">    l1FlushPeriod: $&#123;SW_CORE_L1_AGGREGATION_FLUSH_PERIOD:500&#125;</span><br><span class="line">    # The threshold of session time. Unit is ms. Default value is 70s.</span><br><span class="line">    storageSessionTimeout: $&#123;SW_CORE_STORAGE_SESSION_TIMEOUT:70000&#125;</span><br><span class="line">    # Cache metrics data for 1 minute to reduce database queries, and if the OAP cluster changes within that minute,</span><br><span class="line">    # the metrics may not be accurate within that minute.</span><br><span class="line">    enableDatabaseSession: $&#123;SW_CORE_ENABLE_DATABASE_SESSION:true&#125;</span><br><span class="line">    topNReportPeriod: $&#123;SW_CORE_TOPN_REPORT_PERIOD:10&#125; # top_n record worker report cycle, unit is minute</span><br><span class="line">    # Extra model column are the column defined by in the codes, These columns of model are not required logically in aggregation or further query,</span><br><span class="line">    # and it will cause more load for memory, network of OAP and storage.</span><br><span class="line">    # But, being activated, user could see the name in the storage entities, which make users easier to use 3rd party tool, such as Kibana-&gt;ES, to query the data by themselves.</span><br><span class="line">    activeExtraModelColumns: $&#123;SW_CORE_ACTIVE_EXTRA_MODEL_COLUMNS:false&#125;</span><br><span class="line">    # The max length of service + instance names should be less than 200</span><br><span class="line">    serviceNameMaxLength: $&#123;SW_SERVICE_NAME_MAX_LENGTH:70&#125;</span><br><span class="line">    instanceNameMaxLength: $&#123;SW_INSTANCE_NAME_MAX_LENGTH:70&#125;</span><br><span class="line">    # The max length of service + endpoint names should be less than 240</span><br><span class="line">    endpointNameMaxLength: $&#123;SW_ENDPOINT_NAME_MAX_LENGTH:150&#125;</span><br><span class="line">    # Define the set of span tag keys, which should be searchable through the GraphQL.</span><br><span class="line">    searchableTracesTags: $&#123;SW_SEARCHABLE_TAG_KEYS:http.method,status_code,db.type,db.instance,mq.queue,mq.topic,mq.broker&#125;</span><br><span class="line">    # Define the set of log tag keys, which should be searchable through the GraphQL.</span><br><span class="line">    searchableLogsTags: $&#123;SW_SEARCHABLE_LOGS_TAG_KEYS:level&#125;</span><br><span class="line">    # Define the set of alarm tag keys, which should be searchable through the GraphQL.</span><br><span class="line">    searchableAlarmTags: $&#123;SW_SEARCHABLE_ALARM_TAG_KEYS:level&#125;</span><br><span class="line">    # The number of threads used to prepare metrics data to the storage.</span><br><span class="line">    prepareThreads: $&#123;SW_CORE_PREPARE_THREADS:2&#125;</span><br><span class="line">    # Turn it on then automatically grouping endpoint by the given OpenAPI definitions.</span><br><span class="line">    enableEndpointNameGroupingByOpenapi: $&#123;SW_CORE_ENABLE_ENDPOINT_NAME_GROUPING_BY_OPAENAPI:true&#125;</span><br><span class="line">storage:</span><br><span class="line">  selector: $&#123;SW_STORAGE:elasticsearch7&#125;</span><br><span class="line">  elasticsearch:</span><br><span class="line">    nameSpace: $&#123;SW_NAMESPACE:&quot;&quot;&#125;</span><br><span class="line">    clusterNodes: $&#123;SW_STORAGE_ES_CLUSTER_NODES:localhost:9200&#125;</span><br><span class="line">    protocol: $&#123;SW_STORAGE_ES_HTTP_PROTOCOL:&quot;http&quot;&#125;</span><br><span class="line">    connectTimeout: $&#123;SW_STORAGE_ES_CONNECT_TIMEOUT:500&#125;</span><br><span class="line">    socketTimeout: $&#123;SW_STORAGE_ES_SOCKET_TIMEOUT:30000&#125;</span><br><span class="line">    user: $&#123;SW_ES_USER:&quot;&quot;&#125;</span><br><span class="line">    password: $&#123;SW_ES_PASSWORD:&quot;&quot;&#125;</span><br><span class="line">    trustStorePath: $&#123;SW_STORAGE_ES_SSL_JKS_PATH:&quot;&quot;&#125;</span><br><span class="line">    trustStorePass: $&#123;SW_STORAGE_ES_SSL_JKS_PASS:&quot;&quot;&#125;</span><br><span class="line">    secretsManagementFile: $&#123;SW_ES_SECRETS_MANAGEMENT_FILE:&quot;&quot;&#125; # Secrets management file in the properties format includes the username, password, which are managed by 3rd party tool.</span><br><span class="line">    dayStep: $&#123;SW_STORAGE_DAY_STEP:1&#125; # Represent the number of days in the one minute/hour/day index.</span><br><span class="line">    indexShardsNumber: $&#123;SW_STORAGE_ES_INDEX_SHARDS_NUMBER:1&#125; # Shard number of new indexes</span><br><span class="line">    indexReplicasNumber: $&#123;SW_STORAGE_ES_INDEX_REPLICAS_NUMBER:1&#125; # Replicas number of new indexes</span><br><span class="line">    # Super data set has been defined in the codes, such as trace segments.The following 3 config would be improve es performance when storage super size data in es.</span><br><span class="line">    superDatasetDayStep: $&#123;SW_SUPERDATASET_STORAGE_DAY_STEP:-1&#125; # Represent the number of days in the super size dataset record index, the default value is the same as dayStep when the value is less than 0</span><br><span class="line">    superDatasetIndexShardsFactor: $&#123;SW_STORAGE_ES_SUPER_DATASET_INDEX_SHARDS_FACTOR:5&#125; #  This factor provides more shards for the super data set, shards number = indexShardsNumber * superDatasetIndexShardsFactor. Also, this factor effects Zipkin and Jaeger traces.</span><br><span class="line">    superDatasetIndexReplicasNumber: $&#123;SW_STORAGE_ES_SUPER_DATASET_INDEX_REPLICAS_NUMBER:0&#125; # Represent the replicas number in the super size dataset record index, the default value is 0.</span><br><span class="line">    indexTemplateOrder: $&#123;SW_STORAGE_ES_INDEX_TEMPLATE_ORDER:0&#125; # the order of index template</span><br><span class="line">    bulkActions: $&#123;SW_STORAGE_ES_BULK_ACTIONS:5000&#125; # Execute the async bulk record data every $&#123;SW_STORAGE_ES_BULK_ACTIONS&#125; requests</span><br><span class="line">    # flush the bulk every 10 seconds whatever the number of requests</span><br><span class="line">    # INT(flushInterval * 2/3) would be used for index refresh period.</span><br><span class="line">    flushInterval: $&#123;SW_STORAGE_ES_FLUSH_INTERVAL:15&#125;</span><br><span class="line">    concurrentRequests: $&#123;SW_STORAGE_ES_CONCURRENT_REQUESTS:2&#125; # the number of concurrent requests</span><br><span class="line">    resultWindowMaxSize: $&#123;SW_STORAGE_ES_QUERY_MAX_WINDOW_SIZE:10000&#125;</span><br><span class="line">    metadataQueryMaxSize: $&#123;SW_STORAGE_ES_QUERY_MAX_SIZE:5000&#125;</span><br><span class="line">    segmentQueryMaxSize: $&#123;SW_STORAGE_ES_QUERY_SEGMENT_SIZE:200&#125;</span><br><span class="line">    profileTaskQueryMaxSize: $&#123;SW_STORAGE_ES_QUERY_PROFILE_TASK_SIZE:200&#125;</span><br><span class="line">    oapAnalyzer: $&#123;SW_STORAGE_ES_OAP_ANALYZER:&quot;&#123;\&quot;analyzer\&quot;:&#123;\&quot;oap_analyzer\&quot;:&#123;\&quot;type\&quot;:\&quot;stop\&quot;&#125;&#125;&#125;&quot;&#125; # the oap analyzer.</span><br><span class="line">    oapLogAnalyzer: $&#123;SW_STORAGE_ES_OAP_LOG_ANALYZER:&quot;&#123;\&quot;analyzer\&quot;:&#123;\&quot;oap_log_analyzer\&quot;:&#123;\&quot;type\&quot;:\&quot;standard\&quot;&#125;&#125;&#125;&quot;&#125; # the oap log analyzer. It could be customized by the ES analyzer configuration to support more language log formats, such as Chinese log, Japanese log and etc.</span><br><span class="line">    advanced: $&#123;SW_STORAGE_ES_ADVANCED:&quot;&quot;&#125;</span><br><span class="line">  elasticsearch7:</span><br><span class="line">    nameSpace: $&#123;SW_NAMESPACE:&quot;&quot;&#125;</span><br><span class="line">    clusterNodes: $&#123;SW_STORAGE_ES_CLUSTER_NODES:localhost:9200&#125;</span><br><span class="line">    protocol: $&#123;SW_STORAGE_ES_HTTP_PROTOCOL:&quot;http&quot;&#125;</span><br><span class="line">    connectTimeout: $&#123;SW_STORAGE_ES_CONNECT_TIMEOUT:500&#125;</span><br><span class="line">    socketTimeout: $&#123;SW_STORAGE_ES_SOCKET_TIMEOUT:30000&#125;</span><br><span class="line">    trustStorePath: $&#123;SW_STORAGE_ES_SSL_JKS_PATH:&quot;&quot;&#125;</span><br><span class="line">    trustStorePass: $&#123;SW_STORAGE_ES_SSL_JKS_PASS:&quot;&quot;&#125;</span><br><span class="line">    dayStep: $&#123;SW_STORAGE_DAY_STEP:1&#125; # Represent the number of days in the one minute/hour/day index.</span><br><span class="line">    indexShardsNumber: $&#123;SW_STORAGE_ES_INDEX_SHARDS_NUMBER:1&#125; # Shard number of new indexes</span><br><span class="line">    indexReplicasNumber: $&#123;SW_STORAGE_ES_INDEX_REPLICAS_NUMBER:1&#125; # Replicas number of new indexes</span><br><span class="line">    # Super data set has been defined in the codes, such as trace segments.The following 3 config would be improve es performance when storage super size data in es.</span><br><span class="line">    superDatasetDayStep: $&#123;SW_SUPERDATASET_STORAGE_DAY_STEP:-1&#125; # Represent the number of days in the super size dataset record index, the default value is the same as dayStep when the value is less than 0</span><br><span class="line">    superDatasetIndexShardsFactor: $&#123;SW_STORAGE_ES_SUPER_DATASET_INDEX_SHARDS_FACTOR:5&#125; #  This factor provides more shards for the super data set, shards number = indexShardsNumber * superDatasetIndexShardsFactor. Also, this factor effects Zipkin and Jaeger traces.</span><br><span class="line">    superDatasetIndexReplicasNumber: $&#123;SW_STORAGE_ES_SUPER_DATASET_INDEX_REPLICAS_NUMBER:0&#125; # Represent the replicas number in the super size dataset record index, the default value is 0.</span><br><span class="line">    indexTemplateOrder: $&#123;SW_STORAGE_ES_INDEX_TEMPLATE_ORDER:0&#125; # the order of index template</span><br><span class="line">    user: $&#123;SW_ES_USER:&quot;&quot;&#125;</span><br><span class="line">    password: $&#123;SW_ES_PASSWORD:&quot;&quot;&#125;</span><br><span class="line">    secretsManagementFile: $&#123;SW_ES_SECRETS_MANAGEMENT_FILE:&quot;&quot;&#125; # Secrets management file in the properties format includes the username, password, which are managed by 3rd party tool.</span><br><span class="line">    bulkActions: $&#123;SW_STORAGE_ES_BULK_ACTIONS:5000&#125; # Execute the async bulk record data every $&#123;SW_STORAGE_ES_BULK_ACTIONS&#125; requests</span><br><span class="line">    # flush the bulk every 10 seconds whatever the number of requests</span><br><span class="line">    # INT(flushInterval * 2/3) would be used for index refresh period.</span><br><span class="line">    flushInterval: $&#123;SW_STORAGE_ES_FLUSH_INTERVAL:15&#125;</span><br><span class="line">    concurrentRequests: $&#123;SW_STORAGE_ES_CONCURRENT_REQUESTS:2&#125; # the number of concurrent requests</span><br><span class="line">    resultWindowMaxSize: $&#123;SW_STORAGE_ES_QUERY_MAX_WINDOW_SIZE:10000&#125;</span><br><span class="line">    metadataQueryMaxSize: $&#123;SW_STORAGE_ES_QUERY_MAX_SIZE:5000&#125;</span><br><span class="line">    segmentQueryMaxSize: $&#123;SW_STORAGE_ES_QUERY_SEGMENT_SIZE:200&#125;</span><br><span class="line">    profileTaskQueryMaxSize: $&#123;SW_STORAGE_ES_QUERY_PROFILE_TASK_SIZE:200&#125;</span><br><span class="line">    oapAnalyzer: $&#123;SW_STORAGE_ES_OAP_ANALYZER:&quot;&#123;\&quot;analyzer\&quot;:&#123;\&quot;oap_analyzer\&quot;:&#123;\&quot;type\&quot;:\&quot;stop\&quot;&#125;&#125;&#125;&quot;&#125; # the oap analyzer.</span><br><span class="line">    oapLogAnalyzer: $&#123;SW_STORAGE_ES_OAP_LOG_ANALYZER:&quot;&#123;\&quot;analyzer\&quot;:&#123;\&quot;oap_log_analyzer\&quot;:&#123;\&quot;type\&quot;:\&quot;standard\&quot;&#125;&#125;&#125;&quot;&#125; # the oap log analyzer. It could be customized by the ES analyzer configuration to support more language log formats, such as Chinese log, Japanese log and etc.</span><br><span class="line">    advanced: $&#123;SW_STORAGE_ES_ADVANCED:&quot;&quot;&#125;</span><br><span class="line"></span><br><span class="line">  h2:</span><br><span class="line">    driver: $&#123;SW_STORAGE_H2_DRIVER:org.h2.jdbcx.JdbcDataSource&#125;</span><br><span class="line">    url: $&#123;SW_STORAGE_H2_URL:jdbc:h2:mem:skywalking-oap-db;DB_CLOSE_DELAY=-1&#125;</span><br><span class="line">    user: $&#123;SW_STORAGE_H2_USER:sa&#125;</span><br><span class="line">    metadataQueryMaxSize: $&#123;SW_STORAGE_H2_QUERY_MAX_SIZE:5000&#125;</span><br><span class="line">    maxSizeOfArrayColumn: $&#123;SW_STORAGE_MAX_SIZE_OF_ARRAY_COLUMN:20&#125;</span><br><span class="line">    numOfSearchableValuesPerTag: $&#123;SW_STORAGE_NUM_OF_SEARCHABLE_VALUES_PER_TAG:2&#125;</span><br><span class="line">  mysql:</span><br><span class="line">    properties:</span><br><span class="line">      jdbcUrl: $&#123;SW_JDBC_URL:&quot;jdbc:mysql://localhost:3306/swtest&quot;&#125;</span><br><span class="line">      dataSource.user: $&#123;SW_DATA_SOURCE_USER:root&#125;</span><br><span class="line">      dataSource.password: $&#123;SW_DATA_SOURCE_PASSWORD:root@1234&#125;</span><br><span class="line">      dataSource.cachePrepStmts: $&#123;SW_DATA_SOURCE_CACHE_PREP_STMTS:true&#125;</span><br><span class="line">      dataSource.prepStmtCacheSize: $&#123;SW_DATA_SOURCE_PREP_STMT_CACHE_SQL_SIZE:250&#125;</span><br><span class="line">      dataSource.prepStmtCacheSqlLimit: $&#123;SW_DATA_SOURCE_PREP_STMT_CACHE_SQL_LIMIT:2048&#125;</span><br><span class="line">      dataSource.useServerPrepStmts: $&#123;SW_DATA_SOURCE_USE_SERVER_PREP_STMTS:true&#125;</span><br><span class="line">    metadataQueryMaxSize: $&#123;SW_STORAGE_MYSQL_QUERY_MAX_SIZE:5000&#125;</span><br><span class="line">    maxSizeOfArrayColumn: $&#123;SW_STORAGE_MAX_SIZE_OF_ARRAY_COLUMN:20&#125;</span><br><span class="line">    numOfSearchableValuesPerTag: $&#123;SW_STORAGE_NUM_OF_SEARCHABLE_VALUES_PER_TAG:2&#125;</span><br><span class="line">  tidb:</span><br><span class="line">    properties:</span><br><span class="line">      jdbcUrl: $&#123;SW_JDBC_URL:&quot;jdbc:mysql://localhost:4000/tidbswtest&quot;&#125;</span><br><span class="line">      dataSource.user: $&#123;SW_DATA_SOURCE_USER:root&#125;</span><br><span class="line">      dataSource.password: $&#123;SW_DATA_SOURCE_PASSWORD:&quot;&quot;&#125;</span><br><span class="line">      dataSource.cachePrepStmts: $&#123;SW_DATA_SOURCE_CACHE_PREP_STMTS:true&#125;</span><br><span class="line">      dataSource.prepStmtCacheSize: $&#123;SW_DATA_SOURCE_PREP_STMT_CACHE_SQL_SIZE:250&#125;</span><br><span class="line">      dataSource.prepStmtCacheSqlLimit: $&#123;SW_DATA_SOURCE_PREP_STMT_CACHE_SQL_LIMIT:2048&#125;</span><br><span class="line">      dataSource.useServerPrepStmts: $&#123;SW_DATA_SOURCE_USE_SERVER_PREP_STMTS:true&#125;</span><br><span class="line">      dataSource.useAffectedRows: $&#123;SW_DATA_SOURCE_USE_AFFECTED_ROWS:true&#125;</span><br><span class="line">    metadataQueryMaxSize: $&#123;SW_STORAGE_MYSQL_QUERY_MAX_SIZE:5000&#125;</span><br><span class="line">    maxSizeOfArrayColumn: $&#123;SW_STORAGE_MAX_SIZE_OF_ARRAY_COLUMN:20&#125;</span><br><span class="line">    numOfSearchableValuesPerTag: $&#123;SW_STORAGE_NUM_OF_SEARCHABLE_VALUES_PER_TAG:2&#125;</span><br><span class="line">  influxdb:</span><br><span class="line">    # InfluxDB configuration</span><br><span class="line">    url: $&#123;SW_STORAGE_INFLUXDB_URL:http://localhost:8086&#125;</span><br><span class="line">    user: $&#123;SW_STORAGE_INFLUXDB_USER:root&#125;</span><br><span class="line">    password: $&#123;SW_STORAGE_INFLUXDB_PASSWORD:&#125;</span><br><span class="line">    database: $&#123;SW_STORAGE_INFLUXDB_DATABASE:skywalking&#125;</span><br><span class="line">    actions: $&#123;SW_STORAGE_INFLUXDB_ACTIONS:1000&#125; # the number of actions to collect</span><br><span class="line">    duration: $&#123;SW_STORAGE_INFLUXDB_DURATION:1000&#125; # the time to wait at most (milliseconds)</span><br><span class="line">    batchEnabled: $&#123;SW_STORAGE_INFLUXDB_BATCH_ENABLED:true&#125;</span><br><span class="line">    fetchTaskLogMaxSize: $&#123;SW_STORAGE_INFLUXDB_FETCH_TASK_LOG_MAX_SIZE:5000&#125; # the max number of fetch task log in a request</span><br><span class="line">    connectionResponseFormat: $&#123;SW_STORAGE_INFLUXDB_CONNECTION_RESPONSE_FORMAT:MSGPACK&#125; # the response format of connection to influxDB, cannot be anything but MSGPACK or JSON.</span><br><span class="line">  postgresql:</span><br><span class="line">    properties:</span><br><span class="line">      jdbcUrl: $&#123;SW_JDBC_URL:&quot;jdbc:postgresql://localhost:5432/skywalking&quot;&#125;</span><br><span class="line">      dataSource.user: $&#123;SW_DATA_SOURCE_USER:postgres&#125;</span><br><span class="line">      dataSource.password: $&#123;SW_DATA_SOURCE_PASSWORD:123456&#125;</span><br><span class="line">      dataSource.cachePrepStmts: $&#123;SW_DATA_SOURCE_CACHE_PREP_STMTS:true&#125;</span><br><span class="line">      dataSource.prepStmtCacheSize: $&#123;SW_DATA_SOURCE_PREP_STMT_CACHE_SQL_SIZE:250&#125;</span><br><span class="line">      dataSource.prepStmtCacheSqlLimit: $&#123;SW_DATA_SOURCE_PREP_STMT_CACHE_SQL_LIMIT:2048&#125;</span><br><span class="line">      dataSource.useServerPrepStmts: $&#123;SW_DATA_SOURCE_USE_SERVER_PREP_STMTS:true&#125;</span><br><span class="line">    metadataQueryMaxSize: $&#123;SW_STORAGE_MYSQL_QUERY_MAX_SIZE:5000&#125;</span><br><span class="line">    maxSizeOfArrayColumn: $&#123;SW_STORAGE_MAX_SIZE_OF_ARRAY_COLUMN:20&#125;</span><br><span class="line">    numOfSearchableValuesPerTag: $&#123;SW_STORAGE_NUM_OF_SEARCHABLE_VALUES_PER_TAG:2&#125;</span><br><span class="line">  zipkin-elasticsearch7:</span><br><span class="line">    nameSpace: $&#123;SW_NAMESPACE:&quot;&quot;&#125;</span><br><span class="line">    clusterNodes: $&#123;SW_STORAGE_ES_CLUSTER_NODES:localhost:9200&#125;</span><br><span class="line">    protocol: $&#123;SW_STORAGE_ES_HTTP_PROTOCOL:&quot;http&quot;&#125;</span><br><span class="line">    trustStorePath: $&#123;SW_STORAGE_ES_SSL_JKS_PATH:&quot;&quot;&#125;</span><br><span class="line">    trustStorePass: $&#123;SW_STORAGE_ES_SSL_JKS_PASS:&quot;&quot;&#125;</span><br><span class="line">    dayStep: $&#123;SW_STORAGE_DAY_STEP:1&#125; # Represent the number of days in the one minute/hour/day index.</span><br><span class="line">    indexShardsNumber: $&#123;SW_STORAGE_ES_INDEX_SHARDS_NUMBER:1&#125; # Shard number of new indexes</span><br><span class="line">    indexReplicasNumber: $&#123;SW_STORAGE_ES_INDEX_REPLICAS_NUMBER:1&#125; # Replicas number of new indexes</span><br><span class="line">    # Super data set has been defined in the codes, such as trace segments.The following 3 config would be improve es performance when storage super size data in es.</span><br><span class="line">    superDatasetDayStep: $&#123;SW_SUPERDATASET_STORAGE_DAY_STEP:-1&#125; # Represent the number of days in the super size dataset record index, the default value is the same as dayStep when the value is less than 0</span><br><span class="line">    superDatasetIndexShardsFactor: $&#123;SW_STORAGE_ES_SUPER_DATASET_INDEX_SHARDS_FACTOR:5&#125; #  This factor provides more shards for the super data set, shards number = indexShardsNumber * superDatasetIndexShardsFactor. Also, this factor effects Zipkin and Jaeger traces.</span><br><span class="line">    superDatasetIndexReplicasNumber: $&#123;SW_STORAGE_ES_SUPER_DATASET_INDEX_REPLICAS_NUMBER:0&#125; # Represent the replicas number in the super size dataset record index, the default value is 0.</span><br><span class="line">    user: $&#123;SW_ES_USER:&quot;&quot;&#125;</span><br><span class="line">    password: $&#123;SW_ES_PASSWORD:&quot;&quot;&#125;</span><br><span class="line">    secretsManagementFile: $&#123;SW_ES_SECRETS_MANAGEMENT_FILE:&quot;&quot;&#125; # Secrets management file in the properties format includes the username, password, which are managed by 3rd party tool.</span><br><span class="line">    bulkActions: $&#123;SW_STORAGE_ES_BULK_ACTIONS:5000&#125; # Execute the async bulk record data every $&#123;SW_STORAGE_ES_BULK_ACTIONS&#125; requests</span><br><span class="line">    # flush the bulk every 10 seconds whatever the number of requests</span><br><span class="line">    # INT(flushInterval * 2/3) would be used for index refresh period.</span><br><span class="line">    flushInterval: $&#123;SW_STORAGE_ES_FLUSH_INTERVAL:15&#125;</span><br><span class="line">    concurrentRequests: $&#123;SW_STORAGE_ES_CONCURRENT_REQUESTS:2&#125; # the number of concurrent requests</span><br><span class="line">    resultWindowMaxSize: $&#123;SW_STORAGE_ES_QUERY_MAX_WINDOW_SIZE:10000&#125;</span><br><span class="line">    metadataQueryMaxSize: $&#123;SW_STORAGE_ES_QUERY_MAX_SIZE:5000&#125;</span><br><span class="line">    segmentQueryMaxSize: $&#123;SW_STORAGE_ES_QUERY_SEGMENT_SIZE:200&#125;</span><br><span class="line">    profileTaskQueryMaxSize: $&#123;SW_STORAGE_ES_QUERY_PROFILE_TASK_SIZE:200&#125;</span><br><span class="line">    oapAnalyzer: $&#123;SW_STORAGE_ES_OAP_ANALYZER:&quot;&#123;\&quot;analyzer\&quot;:&#123;\&quot;oap_analyzer\&quot;:&#123;\&quot;type\&quot;:\&quot;stop\&quot;&#125;&#125;&#125;&quot;&#125; # the oap analyzer.</span><br><span class="line">    oapLogAnalyzer: $&#123;SW_STORAGE_ES_OAP_LOG_ANALYZER:&quot;&#123;\&quot;analyzer\&quot;:&#123;\&quot;oap_log_analyzer\&quot;:&#123;\&quot;type\&quot;:\&quot;standard\&quot;&#125;&#125;&#125;&quot;&#125; # the oap log analyzer. It could be customized by the ES analyzer configuration to support more language log formats, such as Chinese log, Japanese log and etc.</span><br><span class="line">    advanced: $&#123;SW_STORAGE_ES_ADVANCED:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
-<p>核心配置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	1、selector: $&#123;SW_STORAGE:elasticsearch7&#125; 选择elasticsearch7存储</span><br><span class="line">​	2、gRPCHost: $&#123;SW_CORE_GRPC_HOST:0.0.0.0&#125; 数据收集IP</span><br><span class="line">​    	gRPCPort: $&#123;SW_CORE_GRPC_PORT:11800&#125;数据收集端口</span><br><span class="line">​	3、restHost: $&#123;SW_CORE_REST_HOST:0.0.0.0&#125;数据显示IP</span><br><span class="line">   	 restPort: $&#123;SW_CORE_REST_PORT:12800&#125;数据显示端口</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>2.3、然后进入apache-skywalking-apm-bin-es7中bin目录中</p>
-</blockquote>
-<p>​ 如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-106.png" alt="Alt text"></p>
-<blockquote>
-<p>2.4、然后使用oapService.bat启动</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apache-skywalking-apm-bin-es7</span><br></pre></td></tr></table></figure>
-<p>​ 如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-107.png" alt="Alt text"></p>
-<blockquote>
-<p>2.5、然后进入apache-skywalking-apm-bin-es7中logs目录中</p>
-</blockquote>
-<p>​ 如果所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-108.png" alt="Alt text"></p>
-<blockquote>
-<p>2.6、然后再logs目录中查看日志文件</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-109.png" alt="Alt text"></p>
-<blockquote>
-<p>2.7、然后进入apache-skywalking-apm-bin-es7中webapp目录中</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-110.png" alt="Alt text"></p>
-<blockquote>
-<p>2.8、然后在webapp.yml文件中，修改配置内容</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8081</span><br><span class="line"></span><br><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    gateway:</span><br><span class="line">      routes:</span><br><span class="line">        - id: oap-route</span><br><span class="line">          uri: lb://oap-service</span><br><span class="line">          predicates:</span><br><span class="line">            - Path=/graphql/**</span><br><span class="line">    discovery:</span><br><span class="line">      client:</span><br><span class="line">        simple:</span><br><span class="line">          instances:</span><br><span class="line">            oap-service:</span><br><span class="line">              - uri: http://127.0.0.1:12800</span><br><span class="line">            # - uri: http://&lt;oap-host-1&gt;:&lt;oap-port1&gt;</span><br><span class="line">            # - uri: http://&lt;oap-host-2&gt;:&lt;oap-port2&gt;</span><br><span class="line"></span><br><span class="line">  mvc:</span><br><span class="line">    throw-exception-if-no-handler-found: true</span><br><span class="line"></span><br><span class="line">  web:</span><br><span class="line">    resources:</span><br><span class="line">      add-mappings: true</span><br><span class="line"></span><br><span class="line">management:</span><br><span class="line">  server:</span><br><span class="line">    base-path: /manage</span><br></pre></td></tr></table></figure>
-<ul>
-<li>核心配置：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">​ 1、server:</span><br><span class="line">port: 8081 浏览器访问端口</span><br><span class="line"></span><br><span class="line">​ 2、- uri: http://127.0.0.1:12800 连接collcetor收集器地址</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>2.9、然后进入apache-skywalking-apm-bin-es7中bin目录中</p>
-</blockquote>
-</li>
-</ul>
-<p>如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-111.png" alt="Alt text"></p>
-<blockquote>
-<p>2.10、然后使用webappService.bat启动apache-skywalking-apm-bin-es7</p>
-</blockquote>
-<p>如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-112.png" alt="Alt text"></p>
-<blockquote>
-<p>2.11、然后使用浏览器访问apache-skywalking-apm-bin-es7</p>
-</blockquote>
-<p>输入地址：<a target="_blank" rel="noopener" href="http://localhost:8081/">http://localhost:8081/</a></p>
-<p>结果如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-113.png" alt="Alt text"></p>
-<ul>
-<li>3、YDT_ProductService准备</li>
-</ul>
-<blockquote>
-<p>3.1、 先在YDT_ProductService中通过nuget引入SkyAPM.Agent.AspNetCore</p>
-</blockquote>
-<p>​ 如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-114.png" alt="Alt text"></p>
-<blockquote>
-<p>3.2、 然后在YDT_ProductService中找到launchSettings.json文件</p>
-</blockquote>
-<p>​ 如图所示：</p>
-<p>​ 1702716273567</p>
-<blockquote>
-<p>3.3、 然后在launchSettings.json文件中引入环境变量SkyAPM.Agent.AspNetCore</p>
-</blockquote>
-<p>​ 如图所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">  &quot;iisSettings&quot;: &#123;</span><br><span class="line">    &quot;windowsAuthentication&quot;: false,</span><br><span class="line">    &quot;anonymousAuthentication&quot;: true,</span><br><span class="line">    &quot;iisExpress&quot;: &#123;</span><br><span class="line">      &quot;applicationUrl&quot;: &quot;https://localhost:44365&quot;,</span><br><span class="line">      &quot;sslPort&quot;: 44365</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;profiles&quot;: &#123;</span><br><span class="line">    &quot;IIS Express&quot;: &#123;</span><br><span class="line">      &quot;commandName&quot;: &quot;IISExpress&quot;,</span><br><span class="line">      &quot;launchBrowser&quot;: true,</span><br><span class="line">      &quot;environmentVariables&quot;: &#123;</span><br><span class="line">        &quot;ASPNETCORE_ENVIRONMENT&quot;: &quot;Development&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;YDT.Order.DemoApp&quot;: &#123;</span><br><span class="line">      &quot;commandName&quot;: &quot;Project&quot;,</span><br><span class="line">      &quot;launchBrowser&quot;: true,</span><br><span class="line">      &quot;applicationUrl&quot;: &quot;http://localhost:44365&quot;,</span><br><span class="line">      &quot;environmentVariables&quot;: &#123;</span><br><span class="line">        &quot;ASPNETCORE_ENVIRONMENT&quot;: &quot;Development&quot;,</span><br><span class="line">        &quot;ASPNETCORE_HOSTINGSTARTUPASSEMBLIES&quot;: &quot;SkyAPM.Agent.AspNetCore&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>主要是在环境变量中添加： “ASPNETCORE_HOSTINGSTARTUPASSEMBLIES”: “SkyAPM.Agent.AspNetCore”</p>
-</blockquote>
-<blockquote>
-<p>3.4、 然后在YDT_ProductService中创建skyapm.json文件</p>
-</blockquote>
-<p>​ 如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-115.png" alt="Alt text"></p>
-<blockquote>
-<p>3.5、 然后在skyapm.json文件中添加</p>
-</blockquote>
-<p>​ 如图所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;SkyWalking&quot;: &#123;</span><br><span class="line">    &quot;ServiceName&quot;: &quot;productservice&quot;,</span><br><span class="line">    &quot;Namespace&quot;: &quot;&quot;,</span><br><span class="line">    &quot;HeaderVersions&quot;: [</span><br><span class="line">      &quot;sw8&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;Sampling&quot;: &#123;</span><br><span class="line">      &quot;SamplePer3Secs&quot;: -1,</span><br><span class="line">      &quot;Percentage&quot;: -1.0</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;Logging&quot;: &#123;</span><br><span class="line">      &quot;Level&quot;: &quot;Information&quot;,</span><br><span class="line">      &quot;FilePath&quot;: &quot;logs\\skyapm-&#123;Date&#125;.log&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;Transport&quot;: &#123;</span><br><span class="line">      &quot;Interval&quot;: 3000,</span><br><span class="line">      &quot;ProtocolVersion&quot;: &quot;v8&quot;,</span><br><span class="line">      &quot;QueueSize&quot;: 30000,</span><br><span class="line">      &quot;BatchSize&quot;: 3000,</span><br><span class="line">      &quot;gRPC&quot;: &#123;</span><br><span class="line">        &quot;Servers&quot;: &quot;localhost:11800&quot;,</span><br><span class="line">        &quot;Timeout&quot;: 10000,</span><br><span class="line">        &quot;ConnectTimeout&quot;: 10000,</span><br><span class="line">        &quot;ReportTimeout&quot;: 600000,</span><br><span class="line">        &quot;Authentication&quot;: &quot;&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>核心配置：</p>
-<p> ​ 1、“ServiceName”: “OrderServices”,配置服务名称，用来标识唯一性</p>
-<p> ​ 2、“Servers”: “localhost:11800”,配置collector收集地址</p>
-</li>
-</ul>
-<blockquote>
-<p>3.6、 然后启动YDT_ProductService</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-116.png" alt="Alt text"></p>
-<blockquote>
-<p>3.7、 然后通过浏览器访问YDT_ProductService</p>
-</blockquote>
-<p>输入地址：<a target="_blank" rel="noopener" href="http://localhost:44365/">http://localhost:44365/</a></p>
-<p>结果如图所示：</p>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-117.png" alt="Alt text"></p>
-<blockquote>
-<p>3.8、 然后访问查询订单接口</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-118.png" alt="Alt text"></p>
-<blockquote>
-<p>3.9、 然后查看skywalking UI界面查看仪表盘</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-119.png" alt="Alt text"></p>
-<ul>
-<li><p>参数解析</p>
-<p>  ​ 1、OrderServices：代表订单微服务名称</p>
-<p>  ​ 2、仪表盘：为统计订单微服务微服务数据</p>
-</li>
-</ul>
-<blockquote>
-<p>4.0、 然后查看skywalking UI界面查看追踪</p>
-</blockquote>
-<p><img src="/BlogPro/images%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/image-120.png" alt="Alt text"></p>
-<ul>
-<li>参数解析</li>
-</ul>
-<blockquote>
-<p>1、追踪：订单微服务查询订单链路，链路上各路径执行时间</p>
-</blockquote>
-<p>​</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -3844,7 +3594,7 @@ SkyWalking显示器，显示ElasticSearch中的时间数据
       <div class="site-state-item site-state-posts">
           <a href="/BlogPro/archives/">
         
-          <span class="site-state-item-count">88</span>
+          <span class="site-state-item-count">89</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
