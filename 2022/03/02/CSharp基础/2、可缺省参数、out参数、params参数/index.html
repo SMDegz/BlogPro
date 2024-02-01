@@ -22,18 +22,20 @@
     var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="何锦祥 博客">
-<meta property="og:url" content="https://smdegz.github.io/BlogPro/tags/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/index.html">
+  <meta name="description" content="C# 参数学习可缺省参数（Optional Parameters） 定义   在方法签名中指定参数默认值   使用场景   简化代码，提供灵活的调用方式   示例   方法定义：public void MyMethod(int param1, int param2 &#x3D; 10)   调用方式：MyMethod(5) 或 MyMethod(5, 20)   实例：MyMethod(3) 和 MyMet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2、可缺省参数、out参数、params参数">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/03/02/CSharp%E5%9F%BA%E7%A1%80/2%E3%80%81%E5%8F%AF%E7%BC%BA%E7%9C%81%E5%8F%82%E6%95%B0%E3%80%81out%E5%8F%82%E6%95%B0%E3%80%81params%E5%8F%82%E6%95%B0/index.html">
 <meta property="og:site_name" content="何锦祥 博客">
-<meta property="og:description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+<meta property="og:description" content="C# 参数学习可缺省参数（Optional Parameters） 定义   在方法签名中指定参数默认值   使用场景   简化代码，提供灵活的调用方式   示例   方法定义：public void MyMethod(int param1, int param2 &#x3D; 10)   调用方式：MyMethod(5) 或 MyMethod(5, 20)   实例：MyMethod(3) 和 MyMet">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-02T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-01-31T03:23:37.275Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="生活, 思考, 感悟, 分享">
+<meta property="article:tag" content="C#基础">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://smdegz.github.io/BlogPro/tags/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/03/02/CSharp%E5%9F%BA%E7%A1%80/2%E3%80%81%E5%8F%AF%E7%BC%BA%E7%9C%81%E5%8F%82%E6%95%B0%E3%80%81out%E5%8F%82%E6%95%B0%E3%80%81params%E5%8F%82%E6%95%B0/">
 
 
 <script id="page-configurations">
@@ -41,12 +43,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: 全栈性能调优 | 何锦祥 博客</title>
+  <title>2、可缺省参数、out参数、params参数 | 何锦祥 博客</title>
   
 
 
@@ -188,177 +190,198 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/02/CSharp%E5%9F%BA%E7%A1%80/2%E3%80%81%E5%8F%AF%E7%BC%BA%E7%9C%81%E5%8F%82%E6%95%B0%E3%80%81out%E5%8F%82%E6%95%B0%E3%80%81params%E5%8F%82%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2、可缺省参数、out参数、params参数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-02 10:48:57" itemprop="dateCreated datePublished" datetime="2022-03-02T10:48:57+08:00">2022-03-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-31 11:23:37" itemprop="dateModified" datetime="2024-01-31T11:23:37+08:00">2024-01-31</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">全栈性能调优
-          <small>标签</small>
-        </h2>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/03/02/CSharp%E5%9F%BA%E7%A1%80/2%E3%80%81%E5%8F%AF%E7%BC%BA%E7%9C%81%E5%8F%82%E6%95%B0%E3%80%81out%E5%8F%82%E6%95%B0%E3%80%81params%E5%8F%82%E6%95%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/03/02/CSharp%E5%9F%BA%E7%A1%80/2%E3%80%81%E5%8F%AF%E7%BC%BA%E7%9C%81%E5%8F%82%E6%95%B0%E3%80%81out%E5%8F%82%E6%95%B0%E3%80%81params%E5%8F%82%E6%95%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
+        <h1 id="C-参数学习"><a href="#C-参数学习" class="headerlink" title="C# 参数学习"></a>C# 参数学习</h1><h2 id="可缺省参数（Optional-Parameters）"><a href="#可缺省参数（Optional-Parameters）" class="headerlink" title="可缺省参数（Optional Parameters）"></a>可缺省参数（Optional Parameters）</h2><ul>
+<li>定义  <ul>
+<li>在方法签名中指定参数默认值</li>
+</ul>
+</li>
+<li>使用场景  <ul>
+<li>简化代码，提供灵活的调用方式</li>
+</ul>
+</li>
+<li>示例  <ul>
+<li>方法定义：<code>public void MyMethod(int param1, int param2 = 10)</code>  </li>
+<li>调用方式：<code>MyMethod(5)</code> 或 <code>MyMethod(5, 20)</code>  </li>
+<li>实例：<code>MyMethod(3)</code> 和 <code>MyMethod(3, 4)</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="Out-参数（Out-Parameters）"><a href="#Out-参数（Out-Parameters）" class="headerlink" title="Out 参数（Out Parameters）"></a>Out 参数（Out Parameters）</h2><ul>
+<li>定义  <ul>
+<li>用于方法返回多个值或报告额外的状态信息</li>
+</ul>
+</li>
+<li>使用场景  <ul>
+<li>在需要返回多个值时使用</li>
+</ul>
+</li>
+<li>示例  <ul>
+<li>方法定义：<code>public void MyMethod(out int param1, out int param2)</code>  </li>
+<li>调用方式：<code>int a, b; MyMethod(out a, out b);</code>  </li>
+<li>实例：<code>MyMethod(out int x, out int y); x = 10; y = 20;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="Params-参数（Params-Parameters）"><a href="#Params-参数（Params-Parameters）" class="headerlink" title="Params 参数（Params Parameters）"></a>Params 参数（Params Parameters）</h2><ul>
+<li>定义  <ul>
+<li>用于将可变数量的参数传递给方法</li>
+</ul>
+</li>
+<li>使用场景  <ul>
+<li>当不确定要传递多少参数时使用</li>
+</ul>
+</li>
+<li>示例  <ul>
+<li>方法定义：<code>public void MyMethod(params int[] parameters)</code>  </li>
+<li>调用方式：<code>MyMethod(1, 2, 3)</code> 或 <code>MyMethod(4)</code>  </li>
+<li>实例：<code>MyMethod(5, 6, 7);</code> 和 <code>MyMethod(8);</code></li>
+</ul>
+</li>
+</ul>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-06-06T10:48:57+08:00"
-              content="2023-06-06">
-          06-06
-        </time>
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
       </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/6%E3%80%81EFCore%E6%A1%86%E6%9E%B6%E8%B0%83%E4%BC%98/" itemprop="url">
-            <span itemprop="name">6、EFCore框架调优</span>
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
           </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-06-06T10:48:57+08:00"
-              content="2023-06-06">
-          06-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/BlogPro/2023/06/06/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/7%E3%80%81MySQL%E8%B0%83%E4%BC%98/" itemprop="url">
-            <span itemprop="name">7、MySQL调优</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-06-05T10:48:57+08:00"
-              content="2023-06-05">
-          06-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/BlogPro/2023/06/05/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/5%E3%80%81HttpClient%E8%B0%83%E4%BC%98/" itemprop="url">
-            <span itemprop="name">5、HttpClient调优</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-06-04T10:48:57+08:00"
-              content="2023-06-04">
-          06-04
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/BlogPro/2023/06/04/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/4%E3%80%81WebApi%E8%B0%83%E4%BC%98/" itemprop="url">
-            <span itemprop="name">4、WebApi调优</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-06-03T10:48:57+08:00"
-              content="2023-06-03">
-          06-03
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/BlogPro/2023/06/03/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/3%E3%80%81Nginx%E8%B0%83%E4%BC%98/" itemprop="url">
-            <span itemprop="name">2、Nginx调优</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-06-02T10:48:57+08:00"
-              content="2023-06-02">
-          06-02
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/BlogPro/2023/06/02/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/2%E3%80%81CDN%E8%B0%83%E4%BC%98/" itemprop="url">
-            <span itemprop="name">2、CDN调优</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-06-01T10:48:57+08:00"
-              content="2023-06-01">
-          06-01
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/BlogPro/2023/06/01/%E5%85%A8%E6%A0%88%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/1%E3%80%81DNS%E8%B0%83%E4%BC%98/" itemprop="url">
-            <span itemprop="name">1、DNS调优</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        </div>
     </div>
   </div>
-  
-  
-  
 
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/C-%E5%9F%BA%E7%A1%80/" rel="tag"># C#基础</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/03/01/CSharp%E5%9F%BA%E7%A1%80/1%E3%80%81%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80/" rel="prev" title="1、入门基础">
+      <i class="fa fa-chevron-left"></i> 1、入门基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/03/03/CSharp%E5%9F%BA%E7%A1%80/3%E3%80%81%E9%9D%99%E6%80%81%E7%B1%BB%E3%80%81%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E5%92%8C%E9%9D%99%E6%80%81%E5%B1%9E%E6%80%A7/" rel="next" title="3、静态类、静态方法和静态属性">
+      3、静态类、静态方法和静态属性 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -405,6 +428,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-%E5%8F%82%E6%95%B0%E5%AD%A6%E4%B9%A0"><span class="nav-text">C# 参数学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E7%BC%BA%E7%9C%81%E5%8F%82%E6%95%B0%EF%BC%88Optional-Parameters%EF%BC%89"><span class="nav-text">可缺省参数（Optional Parameters）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Out-%E5%8F%82%E6%95%B0%EF%BC%88Out-Parameters%EF%BC%89"><span class="nav-text">Out 参数（Out Parameters）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Params-%E5%8F%82%E6%95%B0%EF%BC%88Params-Parameters%EF%BC%89"><span class="nav-text">Params 参数（Params Parameters）</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
