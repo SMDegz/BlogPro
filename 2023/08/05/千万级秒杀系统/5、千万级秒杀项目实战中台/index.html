@@ -29,21 +29,21 @@
 <meta property="og:site_name" content="何锦祥 博客">
 <meta property="og:description" content="中台（后台）通过动态代理，生成动态代理实现类，再通过这个实现类访问对应的微服务  将中台项目转换成 ABP vNext 项目  创建 Module 类  配置 Autofac  引入 所有微服务 应用  Module 类 集成所有微服务项目 123456789[DependsOn(    typeof(AbpAspNetCoreMvcModule),    typeof(AbpAutofacMod">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-91.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-92.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-97.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-90.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-93.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-94.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-95.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-96.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-98.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-91.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-92.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-97.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-90.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-93.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-94.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-95.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-96.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-98.png">
 <meta property="article:published_time" content="2023-08-05T02:48:57.000Z">
-<meta property="article:modified_time" content="2024-02-19T08:12:45.499Z">
+<meta property="article:modified_time" content="2024-02-19T08:40:53.461Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="千万级秒杀项目实战">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image-91.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-91.png">
 
 <link rel="canonical" href="https://smdegz.github.io/BlogPro/2023/08/05/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/5%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%AD%E5%8F%B0/">
 
@@ -237,7 +237,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-02-19 16:12:45" itemprop="dateModified" datetime="2024-02-19T16:12:45+08:00">2024-02-19</time>
+                <time title="修改时间：2024-02-19 16:40:53" itemprop="dateModified" datetime="2024-02-19T16:40:53+08:00">2024-02-19</time>
               </span>
 
           
@@ -274,27 +274,27 @@
       
         <h1 id="中台（后台）"><a href="#中台（后台）" class="headerlink" title="中台（后台）"></a>中台（后台）</h1><p>通过动态代理，生成动态代理实现类，再通过这个实现类访问对应的微服务</p>
 <ul>
-<li><p>将中台项目转换成 ABP vNext 项目<br><img src="/BlogPro/image-91.png" alt="Alt text"></p>
+<li><p>将中台项目转换成 ABP vNext 项目<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-91.png" alt="Alt text"></p>
 </li>
-<li><p>创建 Module 类<br><img src="/BlogPro/image-92.png" alt="Alt text"></p>
+<li><p>创建 Module 类<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-92.png" alt="Alt text"></p>
 </li>
-<li><p>配置 Autofac<br><img src="/BlogPro/image-97.png" alt="Alt text"></p>
+<li><p>配置 Autofac<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-97.png" alt="Alt text"></p>
 </li>
-<li><p>引入 所有微服务 应用<br><img src="/BlogPro/image-90.png" alt="Alt text"></p>
+<li><p>引入 所有微服务 应用<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-90.png" alt="Alt text"></p>
 </li>
-<li><p>Module 类 集成所有微服务项目<br><img src="/BlogPro/image-93.png" alt="Alt text"></p>
+<li><p>Module 类 集成所有微服务项目<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-93.png" alt="Alt text"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[DependsOn(</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(ProductHttpApiClientModule),</span><br><span class="line">    typeof(OrderHttpApiClientModule),</span><br><span class="line">    typeof(PaymentHttpApiClientModule),</span><br><span class="line">    typeof(SeckillHttpApiClientModule),</span><br><span class="line">    typeof(UserHttpApiClientModule)</span><br><span class="line">    )]</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>配置所有远程服务端的应用<br><img src="/BlogPro/image-94.png" alt="Alt text"></p>
+<li><p>配置所有远程服务端的应用<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-94.png" alt="Alt text"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&quot;RemoteServices&quot;: &#123;</span><br><span class="line">  &quot;Product&quot;: &#123;</span><br><span class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:5005/&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;Order&quot;: &#123;</span><br><span class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:5005/&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;Payment&quot;: &#123;</span><br><span class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:5005/&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;Seckill&quot;: &#123;</span><br><span class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:5005/&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;User&quot;: &#123;</span><br><span class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:5005/&quot;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 <blockquote>
-<p>注意：远程服务的名字要跟对应的微服务 远程名称一致<br><img src="/BlogPro/image-95.png" alt="Alt text"></p>
+<p>注意：远程服务的名字要跟对应的微服务 远程名称一致<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-95.png" alt="Alt text"></p>
 </blockquote>
 <ul>
-<li>创建商品控制器，并添加相应服务<br><img src="/BlogPro/image-96.png" alt="Alt text"><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">namespace YDT.SeckillAggregate.Controllers</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 商品聚合控制器</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    [Route(&quot;api/Product&quot;)]</span><br><span class="line">    [ApiController]</span><br><span class="line">    public class ProductController : ControllerBase</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、直接引入IProductAppService</span><br><span class="line">        public IProductAppService productAppService &#123; set; get; &#125;</span><br><span class="line">        public IOrderAppService orderAppService &#123; set; get; &#125;</span><br><span class="line">        </span><br><span class="line">        public IPaymentAppService paymentAppService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">        public ISeckillAppService seckillAppService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">        public ISeckillTimeAppService seckillTimeAppService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">        public IUserAppService userAppService &#123; set; get; &#125; </span><br><span class="line"></span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 商品查询</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">        [HttpGet(&quot;&#123;productId&#125;&quot;)]</span><br><span class="line">        public async Task&lt;ProductDto&gt; GetProduct(Guid productId)</span><br><span class="line">        &#123;</span><br><span class="line">            // 1、查询商品</span><br><span class="line">            ProductDto productDto = await productAppService.GetAsync(productId);</span><br><span class="line">            return productDto;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>创建商品控制器，并添加相应服务<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-96.png" alt="Alt text"><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">namespace YDT.SeckillAggregate.Controllers</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 商品聚合控制器</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    [Route(&quot;api/Product&quot;)]</span><br><span class="line">    [ApiController]</span><br><span class="line">    public class ProductController : ControllerBase</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、直接引入IProductAppService</span><br><span class="line">        public IProductAppService productAppService &#123; set; get; &#125;</span><br><span class="line">        public IOrderAppService orderAppService &#123; set; get; &#125;</span><br><span class="line">        </span><br><span class="line">        public IPaymentAppService paymentAppService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">        public ISeckillAppService seckillAppService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">        public ISeckillTimeAppService seckillTimeAppService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">        public IUserAppService userAppService &#123; set; get; &#125; </span><br><span class="line"></span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 商品查询</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">        [HttpGet(&quot;&#123;productId&#125;&quot;)]</span><br><span class="line">        public async Task&lt;ProductDto&gt; GetProduct(Guid productId)</span><br><span class="line">        &#123;</span><br><span class="line">            // 1、查询商品</span><br><span class="line">            ProductDto productDto = await productAppService.GetAsync(productId);</span><br><span class="line">            return productDto;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><img src="/BlogPro/image-98.png" alt="Alt text"></p>
+<p><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-98.png" alt="Alt text"></p>
 
     </div>
 

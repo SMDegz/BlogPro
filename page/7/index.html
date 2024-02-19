@@ -566,6 +566,144 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/" class="post-title-link" itemprop="url">8、MiniIO 分布式文件系统</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-01-08 10:48:57" itemprop="dateCreated datePublished" datetime="2023-01-08T10:48:57+08:00">2023-01-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-24 14:17:41" itemprop="dateModified" datetime="2024-01-24T14:17:41+08:00">2024-01-24</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="/BlogPro/images/c75c049195b8b27337cf637d44df2860.png" alt="Alt text"></p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ul>
+<li><p>下载MiniIO</p>
+</li>
+<li><p>下载MC</p>
+</li>
+<li><p>VS 引入 MinIo包</p>
+</li>
+<li><p>代码简历与MiniIo的连接<br>  <img src="/BlogPro/images/21b20269f9d7bffd7f13d465998af28e.png" alt="Alt text"></p>
+</li>
+<li><p>存储文件</p>
+</li>
+<li><p>CMD启动MiniO</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MiniO.exe derver &quot;Didata&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问Minio<br>  Localhost：58711 账号密码：minioadmin miniodmin</p>
+</li>
+<li><p>下载文件代码<br>  <img src="/BlogPro/images/5330ebc561c4d2c74f2996e22dcd77d6.png" alt="Alt text"></p>
+</li>
+<li><p>删除文件代码<br>  <img src="/BlogPro/images/50f9cacb8ab118d380eb2feaac043e03.png" alt="Alt text"></p>
+</li>
+<li><p>复制图片</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Minioclient。copyobjectAsync（“product”，“fileNew”）</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="监听Minio"><a href="#监听Minio" class="headerlink" title="监听Minio"></a>监听Minio</h3><ul>
+<li><p>mysql创建Miniodb 数据集</p>
+</li>
+<li><p>minio 后台选择Setting&#x2F;notifications 选择mysql输入信息</p>
+</li>
+<li><p>进入miniio目录 ，通过一下目录重启</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">minio server -- address ：9000 --console -address “：9001” </span><br><span class="line">获取mysql 队列名 arn : minio:sql::_:mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入minio目录，通过一下命令启动MC<br>mc.exe alas set myminio http:127.0.0.1:9000 minioadmin minioadmin</p>
+</li>
+<li><p>创建Mysql 队列事件，通过以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mc event add --event &quot;put,delete&quot; minio/productpictwes &quot;队列名&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>此时上传图片，miniodb 数据库会存储对应文件信息</p>
+</li>
+</ul>
+<h3 id="minio-多租户"><a href="#minio-多租户" class="headerlink" title="minio 多租户"></a>minio 多租户</h3><p><img src="/BlogPro/images/b870bdf03b59ae4a958a6243789d9c9c.png" alt="Alt text"></p>
+<ul>
+<li><p>租户系统启动</p>
+</li>
+<li><p>进入minio 目录中，CMD</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9002” D：work/minio/tenant</span><br></pre></td></tr></table></figure></li>
+<li><p>代码文件<br><img src="/BlogPro/images/30ff37e65fb595d6055a075e3e256543.png" alt="Alt text"></p>
+</li>
+<li><p>租户系统2启动</p>
+</li>
+<li><p>进入minio 目录中，CMD</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9003” D：work/minio/tenant2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>租户系统3启动</p>
+</li>
+<li><p>进入minio 目录中，CMD</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9004” D：work/minio/tenant3</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="/BlogPro/images/adb966a167f9f8532c9ff90d374bd848.png" alt="Alt text"></p>
+<h2 id="minio-集群"><a href="#minio-集群" class="headerlink" title="minio 集群"></a>minio 集群</h2><p><img src="/BlogPro/images/6771d5f2756d354bb39a430555e0fbf1.png" alt="Alt text"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Elasticsearch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -705,144 +843,6 @@
 <li><p>通过hash分片取模<br><img src="/BlogPro/images/aab923ae303e1b3ac34b950cc9e3f1d6.png" alt="Alt text"></p>
 </li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="何锦祥 博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/" class="post-title-link" itemprop="url">8、MiniIO 分布式文件系统</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-01-08 10:48:57" itemprop="dateCreated datePublished" datetime="2023-01-08T10:48:57+08:00">2023-01-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-24 14:17:41" itemprop="dateModified" datetime="2024-01-24T14:17:41+08:00">2024-01-24</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/01/08/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/MiniIO/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="/BlogPro/images/c75c049195b8b27337cf637d44df2860.png" alt="Alt text"></p>
-<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ul>
-<li><p>下载MiniIO</p>
-</li>
-<li><p>下载MC</p>
-</li>
-<li><p>VS 引入 MinIo包</p>
-</li>
-<li><p>代码简历与MiniIo的连接<br>  <img src="/BlogPro/images/21b20269f9d7bffd7f13d465998af28e.png" alt="Alt text"></p>
-</li>
-<li><p>存储文件</p>
-</li>
-<li><p>CMD启动MiniO</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MiniO.exe derver &quot;Didata&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>访问Minio<br>  Localhost：58711 账号密码：minioadmin miniodmin</p>
-</li>
-<li><p>下载文件代码<br>  <img src="/BlogPro/images/5330ebc561c4d2c74f2996e22dcd77d6.png" alt="Alt text"></p>
-</li>
-<li><p>删除文件代码<br>  <img src="/BlogPro/images/50f9cacb8ab118d380eb2feaac043e03.png" alt="Alt text"></p>
-</li>
-<li><p>复制图片</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Minioclient。copyobjectAsync（“product”，“fileNew”）</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="监听Minio"><a href="#监听Minio" class="headerlink" title="监听Minio"></a>监听Minio</h3><ul>
-<li><p>mysql创建Miniodb 数据集</p>
-</li>
-<li><p>minio 后台选择Setting&#x2F;notifications 选择mysql输入信息</p>
-</li>
-<li><p>进入miniio目录 ，通过一下目录重启</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">minio server -- address ：9000 --console -address “：9001” </span><br><span class="line">获取mysql 队列名 arn : minio:sql::_:mysql</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>进入minio目录，通过一下命令启动MC<br>mc.exe alas set myminio http:127.0.0.1:9000 minioadmin minioadmin</p>
-</li>
-<li><p>创建Mysql 队列事件，通过以下命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mc event add --event &quot;put,delete&quot; minio/productpictwes &quot;队列名&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>此时上传图片，miniodb 数据库会存储对应文件信息</p>
-</li>
-</ul>
-<h3 id="minio-多租户"><a href="#minio-多租户" class="headerlink" title="minio 多租户"></a>minio 多租户</h3><p><img src="/BlogPro/images/b870bdf03b59ae4a958a6243789d9c9c.png" alt="Alt text"></p>
-<ul>
-<li><p>租户系统启动</p>
-</li>
-<li><p>进入minio 目录中，CMD</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9002” D：work/minio/tenant</span><br></pre></td></tr></table></figure></li>
-<li><p>代码文件<br><img src="/BlogPro/images/30ff37e65fb595d6055a075e3e256543.png" alt="Alt text"></p>
-</li>
-<li><p>租户系统2启动</p>
-</li>
-<li><p>进入minio 目录中，CMD</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9003” D：work/minio/tenant2</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>租户系统3启动</p>
-</li>
-<li><p>进入minio 目录中，CMD</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minio server --address ：9100 --console-address “：9004” D：work/minio/tenant3</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p><img src="/BlogPro/images/adb966a167f9f8532c9ff90d374bd848.png" alt="Alt text"></p>
-<h2 id="minio-集群"><a href="#minio-集群" class="headerlink" title="minio 集群"></a>minio 集群</h2><p><img src="/BlogPro/images/6771d5f2756d354bb39a430555e0fbf1.png" alt="Alt text"></p>
 
       
     </div>

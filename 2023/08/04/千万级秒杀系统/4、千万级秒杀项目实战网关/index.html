@@ -24,32 +24,32 @@
 
   <meta name="description" content="网关落地网关思路。1、先创建网关2、将网关转换成abp项目3、将abp网关项目转换成为能够微服务项目4、将abp网关集成微服务API项目5、使用网关访问微服务 浏览器—-&gt;访问API网关—&gt;Ocelot—-&gt;consul—&gt;商品微服务 将网关项目转成ABP vNext 项目 引入ABP相关Nuget包 创建Module 类  将当前项目转换成能访问微服务的项目 引入 Oce">
 <meta property="og:type" content="article">
-<meta property="og:title" content="何锦祥 博客">
-<meta property="og:url" content="https://smdegz.github.io/BlogPro/2024/02/16/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/4%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BD%91%E5%85%B3/index.html">
+<meta property="og:title" content="4、千万级秒杀项目实战网关">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/08/04/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/4%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BD%91%E5%85%B3/index.html">
 <meta property="og:site_name" content="何锦祥 博客">
 <meta property="og:description" content="网关落地网关思路。1、先创建网关2、将网关转换成abp项目3、将abp网关项目转换成为能够微服务项目4、将abp网关集成微服务API项目5、使用网关访问微服务 浏览器—-&gt;访问API网关—&gt;Ocelot—-&gt;consul—&gt;商品微服务 将网关项目转成ABP vNext 项目 引入ABP相关Nuget包 创建Module 类  将当前项目转换成能访问微服务的项目 引入 Oce">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-77.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-78.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-79.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-80.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-81.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-82.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-83.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-84.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-85.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-86.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-87.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-88.png">
-<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-89.png">
-<meta property="article:published_time" content="2024-02-16T12:20:55.280Z">
-<meta property="article:modified_time" content="2024-02-16T13:24:00.190Z">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-77.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-78.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-79.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-80.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-81.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-82.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-83.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-84.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-85.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-86.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-87.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-88.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-89.png">
+<meta property="article:published_time" content="2023-08-04T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-02-19T08:40:53.461Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="生活, 思考, 感悟, 分享">
+<meta property="article:tag" content="千万级秒杀项目实战">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image-77.png">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/images%E5%8D%83%E4%B8%87/image-77.png">
 
-<link rel="canonical" href="https://smdegz.github.io/BlogPro/2024/02/16/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/4%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BD%91%E5%85%B3/">
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2023/08/04/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/4%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BD%91%E5%85%B3/">
 
 
 <script id="page-configurations">
@@ -62,7 +62,7 @@
   };
 </script>
 
-  <title> | 何锦祥 博客</title>
+  <title>4、千万级秒杀项目实战网关 | 何锦祥 博客</title>
   
 
 
@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2024/02/16/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/4%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BD%91%E5%85%B3/">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/08/04/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/4%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BD%91%E5%85%B3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
@@ -224,7 +224,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          4、千万级秒杀项目实战网关
         </h1>
 
         <div class="post-meta">
@@ -233,10 +233,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-02-16 20:20:55 / 修改时间：21:24:00" itemprop="dateCreated datePublished" datetime="2024-02-16T20:20:55+08:00">2024-02-16</time>
+              <time title="创建时间：2023-08-04 10:48:57" itemprop="dateCreated datePublished" datetime="2023-08-04T10:48:57+08:00">2023-08-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-19 16:40:53" itemprop="dateModified" datetime="2024-02-19T16:40:53+08:00">2024-02-19</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -254,8 +260,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/BlogPro/2024/02/16/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/4%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BD%91%E5%85%B3/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2024/02/16/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/4%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BD%91%E5%85%B3/" itemprop="commentCount"></span>
+    <a title="valine" href="/BlogPro/2023/08/04/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/4%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BD%91%E5%85%B3/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/08/04/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/4%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E7%BD%91%E5%85%B3/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -273,31 +279,31 @@
         <h1 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h1><p>落地网关思路。<br>1、先创建网关<br>2、将网关转换成abp项目<br>3、将abp网关项目转换成为能够微服务项目<br>4、将abp网关集成微服务API项目<br>5、使用网关访问微服务</p>
 <p>浏览器—-&gt;访问API网关—&gt;Ocelot—-&gt;consul—&gt;商品微服务</p>
 <h3 id="将网关项目转成ABP-vNext-项目"><a href="#将网关项目转成ABP-vNext-项目" class="headerlink" title="将网关项目转成ABP vNext 项目"></a>将网关项目转成ABP vNext 项目</h3><ul>
-<li>引入ABP相关Nuget包<br><img src="/BlogPro/image-77.png" alt="Alt text"></li>
-<li>创建Module 类<br><img src="/BlogPro/image-78.png" alt="Alt text"></li>
+<li>引入ABP相关Nuget包<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-77.png" alt="Alt text"></li>
+<li>创建Module 类<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-78.png" alt="Alt text"></li>
 </ul>
 <h3 id="将当前项目转换成能访问微服务的项目"><a href="#将当前项目转换成能访问微服务的项目" class="headerlink" title="将当前项目转换成能访问微服务的项目"></a>将当前项目转换成能访问微服务的项目</h3><ul>
-<li><p>引入 Ocelot 包<br><img src="/BlogPro/image-79.png" alt="Alt text"></p>
+<li><p>引入 Ocelot 包<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-79.png" alt="Alt text"></p>
 </li>
-<li><p>appsettings.json 配置能访问其他微服务的网关地址<br><img src="/BlogPro/image-80.png" alt="Alt text"></p>
+<li><p>appsettings.json 配置能访问其他微服务的网关地址<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-80.png" alt="Alt text"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;Routes&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;UpstreamPathTemplate&quot;: &quot;/api/ProductService/&#123;everything&#125;&quot;,</span><br><span class="line">      &quot;UpstreamHttpMethod&quot;: [ &quot;Put&quot;, &quot;Delete&quot;, &quot;Get&quot;, &quot;Post&quot; ],</span><br><span class="line">      &quot;DownstreamPathTemplate&quot;: &quot;/api/ProductService/&#123;everything&#125;&quot;,</span><br><span class="line">      &quot;DownstreamScheme&quot;: &quot;http&quot;,</span><br><span class="line">      &quot;ServiceName&quot;: &quot;productservices&quot;,</span><br><span class="line">      &quot;LoadBalancerOptions&quot;: &#123;</span><br><span class="line">        &quot;Type&quot;: &quot;RoundRobin&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;UpstreamPathTemplate&quot;: &quot;/api/OrderService/&#123;everything&#125;&quot;,</span><br><span class="line">      &quot;UpstreamHttpMethod&quot;: [ &quot;Put&quot;, &quot;Delete&quot;, &quot;Get&quot;, &quot;Post&quot; ],</span><br><span class="line">      &quot;DownstreamPathTemplate&quot;: &quot;/api/OrderService/&#123;everything&#125;&quot;,</span><br><span class="line">      &quot;DownstreamScheme&quot;: &quot;http&quot;,</span><br><span class="line">      &quot;ServiceName&quot;: &quot;orderservices&quot;,</span><br><span class="line">      &quot;LoadBalancerOptions&quot;: &#123;</span><br><span class="line">        &quot;Type&quot;: &quot;RoundRobin&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;UpstreamPathTemplate&quot;: &quot;/api/PaymentService/&#123;everything&#125;&quot;,</span><br><span class="line">      &quot;UpstreamHttpMethod&quot;: [ &quot;Put&quot;, &quot;Delete&quot;, &quot;Get&quot;, &quot;Post&quot; ],</span><br><span class="line">      &quot;DownstreamPathTemplate&quot;: &quot;/api/PaymentService/&#123;everything&#125;&quot;,</span><br><span class="line">      &quot;DownstreamScheme&quot;: &quot;http&quot;,</span><br><span class="line">      &quot;ServiceName&quot;: &quot;paymentservices&quot;,</span><br><span class="line">      &quot;LoadBalancerOptions&quot;: &#123;</span><br><span class="line">        &quot;Type&quot;: &quot;RoundRobin&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;UpstreamPathTemplate&quot;: &quot;/api/SeckillService/&#123;everything&#125;&quot;,</span><br><span class="line">      &quot;UpstreamHttpMethod&quot;: [ &quot;Put&quot;, &quot;Delete&quot;, &quot;Get&quot;, &quot;Post&quot; ],</span><br><span class="line">      &quot;DownstreamPathTemplate&quot;: &quot;/api/SeckillService/&#123;everything&#125;&quot;,</span><br><span class="line">      &quot;DownstreamScheme&quot;: &quot;http&quot;,</span><br><span class="line">      &quot;ServiceName&quot;: &quot;seckillservices&quot;,</span><br><span class="line">      &quot;LoadBalancerOptions&quot;: &#123;</span><br><span class="line">        &quot;Type&quot;: &quot;RoundRobin&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;UpstreamPathTemplate&quot;: &quot;/api/UserService/&#123;everything&#125;&quot;,</span><br><span class="line">      &quot;UpstreamHttpMethod&quot;: [ &quot;Put&quot;, &quot;Delete&quot;, &quot;Get&quot;, &quot;Post&quot; ],</span><br><span class="line">      &quot;DownstreamPathTemplate&quot;: &quot;/api/UserService/&#123;everything&#125;&quot;,</span><br><span class="line">      &quot;DownstreamScheme&quot;: &quot;http&quot;,</span><br><span class="line">      &quot;ServiceName&quot;: &quot;userservices&quot;,</span><br><span class="line">      &quot;LoadBalancerOptions&quot;: &#123;</span><br><span class="line">        &quot;Type&quot;: &quot;RoundRobin&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;GlobalConfiguration&quot;: &#123;</span><br><span class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:5005&quot;,</span><br><span class="line">    &quot;ServiceDiscoveryProvider&quot;: &#123;</span><br><span class="line">      &quot;Scheme&quot;: &quot;http&quot;,</span><br><span class="line">      &quot;Host&quot;: &quot;localhost&quot;,</span><br><span class="line">      &quot;Port&quot;: 8500,</span><br><span class="line">      &quot;Type&quot;: &quot;Consul&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;Logging&quot;: &#123;</span><br><span class="line">    &quot;LogLevel&quot;: &#123;</span><br><span class="line">      &quot;Default&quot;: &quot;Warning&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;AllowedHosts&quot;: &quot;*&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>添加 Ocelot 服务及配置<br><img src="/BlogPro/image-81.png" alt="Alt text"></p>
+<li><p>添加 Ocelot 服务及配置<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-81.png" alt="Alt text"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 1、添加ocelot</span><br><span class="line">context.Services.AddOcelot(context.Services.GetConfiguration())</span><br><span class="line">                .AddConsul();</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>启动 Ocelot<br><img src="/BlogPro/image-82.png" alt="Alt text"></p>
+<li><p>启动 Ocelot<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-82.png" alt="Alt text"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 2、使用ocelot</span><br><span class="line">app.UseOcelot().Wait();</span><br></pre></td></tr></table></figure></li>
 </ul>
 <h3 id="将所有微服务的API接口，添加到网关里面"><a href="#将所有微服务的API接口，添加到网关里面" class="headerlink" title="将所有微服务的API接口，添加到网关里面"></a>将所有微服务的API接口，添加到网关里面</h3><ul>
-<li><p>网关项目添加其他微服务的应用<br><img src="/BlogPro/image-83.png" alt="Alt text"><br><img src="/BlogPro/image-84.png" alt="Alt text"></p>
+<li><p>网关项目添加其他微服务的应用<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-83.png" alt="Alt text"><br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-84.png" alt="Alt text"></p>
 </li>
-<li><p>关闭生成控制器，不需要生成对应的控制器，只需要展示API<br><img src="/BlogPro/image-85.png" alt="Alt text"><br><img src="/BlogPro/image-86.png" alt="Alt text"></p>
+<li><p>关闭生成控制器，不需要生成对应的控制器，只需要展示API<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-85.png" alt="Alt text"><br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-86.png" alt="Alt text"></p>
 </li>
-<li><p>继承 Autofac<br><img src="/BlogPro/image-87.png" alt="Alt text"></p>
+<li><p>继承 Autofac<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-87.png" alt="Alt text"></p>
 </li>
-<li><p>启动项目，实现把所有微服务注册到网关<br><img src="/BlogPro/image-88.png" alt="Alt text"></p>
+<li><p>启动项目，实现把所有微服务注册到网关<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-88.png" alt="Alt text"></p>
 </li>
-<li><p>此时执行相应API端口，对应的执行到微服务项目<br><img src="/BlogPro/image-89.png" alt="Alt text"></p>
+<li><p>此时执行相应API端口，对应的执行到微服务项目<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-89.png" alt="Alt text"></p>
 </li>
 </ul>
 
@@ -342,6 +348,9 @@
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/" rel="tag"># 千万级秒杀项目实战</a>
+          </div>
 
         
 
@@ -349,12 +358,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/BlogPro/2024/02/02/%E5%AD%A6%E4%B9%A0/%E6%8B%9B%E8%81%98/" rel="prev" title="">
-      <i class="fa fa-chevron-left"></i> 
+    <a href="/BlogPro/2023/08/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/4%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83consul/" rel="prev" title="4、微服务-注册中心consul">
+      <i class="fa fa-chevron-left"></i> 4、微服务-注册中心consul
     </a></div>
       <div class="post-nav-item">
-    <a href="/BlogPro/2024/02/18/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/10%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%BB%93%E5%BA%93/" rel="next" title="">
-       <i class="fa fa-chevron-right"></i>
+    <a href="/BlogPro/2023/08/05/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/5%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83nacos/" rel="next" title="5、微服务-配置中心nacos">
+      5、微服务-配置中心nacos <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
