@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="秒杀项目落地落地技术平台1、windows 10 2、Linux centos 7.6 落地技术前提1、.Net5：.Netcore新的版本，主要以.Net5为主 2、DDD ：领域驱动设计思想 3、Abp vNext：基于.Net5开发的微服务框架 4、MySQL5.7：数据存储 落地技术工具1、ABP CLI 2、VS2019 如何创建微服务电商项目微服务电商项目如图所示 微服务电商项目创建对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2、千万级秒杀项目实战落地">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/08/02/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/2%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E8%90%BD%E5%9C%B0/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="秒杀项目落地落地技术平台1、windows 10 2、Linux centos 7.6 落地技术前提1、.Net5：.Netcore新的版本，主要以.Net5为主 2、DDD ：领域驱动设计思想 3、Abp vNext：基于.Net5开发的微服务框架 4、MySQL5.7：数据存储 落地技术工具1、ABP CLI 2、VS2019 如何创建微服务电商项目微服务电商项目如图所示 微服务电商项目创建对">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-1.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-2.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-3.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-4.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-5.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-6.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-7.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-8.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-9.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-10.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-11.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-12.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-13.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-14.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-15.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-16.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-17.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-18.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-19.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-20.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-21.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-22.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-23.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-24.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-25.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-26.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-27.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-28.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-29.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-30.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-31.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-32.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-33.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-34.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-35.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-36.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-38.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-39.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-40.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-41.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-42.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-43.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-44.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-45.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-46.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-47.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-48.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-49.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-50.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-51.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-52.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-53.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-54.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-55.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-56.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-57.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-58.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-59.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-60.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-61.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-62.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-63.png">
+<meta property="og:image" content="https://smdegz.github.io/BlogPro/image-64.png">
+<meta property="article:published_time" content="2023-08-02T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-02-19T08:13:12.512Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="千万级秒杀项目实战">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://smdegz.github.io/BlogPro/image.png">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2023/08/02/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/2%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E8%90%BD%E5%9C%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>2、千万级秒杀项目实战落地 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">你知道的越多 你不知道的也就越多</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/08/02/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/2%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E8%90%BD%E5%9C%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2、千万级秒杀项目实战落地
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-02 10:48:57" itemprop="dateCreated datePublished" datetime="2023-08-02T10:48:57+08:00">2023-08-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-19 16:13:12" itemprop="dateModified" datetime="2024-02-19T16:13:12+08:00">2024-02-19</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2023/08/02/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/2%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E8%90%BD%E5%9C%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/08/02/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/2%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E8%90%BD%E5%9C%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="秒杀项目落地"><a href="#秒杀项目落地" class="headerlink" title="秒杀项目落地"></a>秒杀项目落地</h1><h2 id="落地技术平台"><a href="#落地技术平台" class="headerlink" title="落地技术平台"></a>落地技术平台</h2><p>1、windows 10</p>
+<p>2、Linux centos 7.6</p>
+<h2 id="落地技术前提"><a href="#落地技术前提" class="headerlink" title="落地技术前提"></a>落地技术前提</h2><p>1、.Net5：.Netcore新的版本，主要以.Net5为主</p>
+<p>2、DDD ：领域驱动设计思想</p>
+<p>3、Abp vNext：基于.Net5开发的微服务框架</p>
+<p>4、MySQL5.7：数据存储</p>
+<h2 id="落地技术工具"><a href="#落地技术工具" class="headerlink" title="落地技术工具"></a>落地技术工具</h2><p>1、ABP CLI</p>
+<p>2、VS2019</p>
+<h2 id="如何创建微服务电商项目"><a href="#如何创建微服务电商项目" class="headerlink" title="如何创建微服务电商项目"></a>如何创建微服务电商项目</h2><p>微服务电商项目如图所示<br><img src="/BlogPro/image.png" alt="Alt text"></p>
+<h3 id="微服务电商项目创建"><a href="#微服务电商项目创建" class="headerlink" title="微服务电商项目创建"></a>微服务电商项目创建</h3><p>对于以上的电商微服务，应该如何创建，创建思路如下。</p>
+<h3 id="创建微服务解决方案"><a href="#创建微服务解决方案" class="headerlink" title="创建微服务解决方案"></a>创建微服务解决方案</h3><p>1、先创建YDT.Products文件夹</p>
+<p><img src="/BlogPro/image-1.png" alt="Alt text"></p>
+<p>2、然后在YDT.Products文件夹中创建解决方案YDT.Microservices</p>
+<p>​ 2.1、输入命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">abp new YDT.SeckillProject -t console -o YDT.SeckillProject -v 4.4.3</span><br></pre></td></tr></table></figure>
+
+<p>​ 命令如图所示</p>
+<p><img src="/BlogPro/image-2.png" alt="Alt text"></p>
+<p>​ 2.2、结果如图所示</p>
+<p><img src="/BlogPro/image-3.png" alt="Alt text"></p>
+<h3 id="创建微服务订单模块"><a href="#创建微服务订单模块" class="headerlink" title="创建微服务订单模块"></a>创建微服务订单模块</h3><p>1、先进在YDT.Microservices解决方案文件夹中创建YDT.Order模块</p>
+<p>​ 1.1、输入命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">abp new YDT.Order -t module –dbms mysql –no-ui -o moduls\YDT.Order -v 4.4.3</span><br></pre></td></tr></table></figure>
+
+<p>​ 命令如图所示：</p>
+<p><img src="/BlogPro/image-4.png" alt="Alt text"></p>
+<p>​ 2.2、结果如图所示</p>
+<p><img src="/BlogPro/image-5.png" alt="Alt text"></p>
+<p>创建微服务商品模块<br>1、先进在YDT.Microservices解决方案文件夹中创建YDT.Product模块</p>
+<p>​ 1.1、输入命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">abp new YDT.Product -t module –no-ui –dbms mysql -o moduls\YDT.Product -v 4.4.3</span><br></pre></td></tr></table></figure>
+<p>​ 命令如图所示：</p>
+<p><img src="/BlogPro/image-6.png" alt="Alt text"></p>
+<p>​ 2.2、结果如图所示</p>
+<p><img src="/BlogPro/image-7.png" alt="Alt text"></p>
+<p>创建微服务支付模块<br>1、先进在YDT.Microservices解决方案文件夹中创建YDT.Payment模块</p>
+<p>​ 1.1、输入命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">abp new YDT.Payment -t module –no-ui –dbms mysql -o moduls\YDT.Payment -v 4.4.3</span><br></pre></td></tr></table></figure>
+<p>​ 命令如图所示：</p>
+<p><img src="/BlogPro/image-8.png" alt="Alt text"></p>
+<p>​ 2.2、结果如图所示</p>
+<p><img src="/BlogPro/image-9.png" alt="Alt text"></p>
+<p>创建微服务用户模块<br>1、先在YDT.Microservices解决方案文件夹中创建YDT.User模块</p>
+<p>​ 1.1、输入命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">abp new YDT.User -t module –no-ui –dbms mysql -o moduls\YDT.User -v 4.4.3</span><br></pre></td></tr></table></figure>
+<p>​ 命令如图所示：</p>
+<p><img src="/BlogPro/image-10.png" alt="Alt text"></p>
+<p>​ 2.2、结果如图所示：</p>
+<p><img src="/BlogPro/image-11.png" alt="Alt text"></p>
+<h3 id="电商微服务层创建"><a href="#电商微服务层创建" class="headerlink" title="电商微服务层创建"></a>电商微服务层创建</h3><p>1、先在YDT.Microservices解决方案文件夹中创建microservices文件夹</p>
+<p>​ 命令如图所示：</p>
+<p><img src="/BlogPro/image-12.png" alt="Alt text"></p>
+<p>2、然后在microservices文件夹中引入订单，商品，支付，用户4个模块中Host项目中</p>
+<p>YDT.Order.HttpApi.Host</p>
+<p><img src="/BlogPro/image-13.png" alt="Alt text"></p>
+<p>YDT.Payment.HttpApi.Host</p>
+<p><img src="/BlogPro/image-14.png" alt="Alt text"></p>
+<p>YDT.Product.HttpApi.Host</p>
+<p><img src="/BlogPro/image-15.png" alt="Alt text"></p>
+<p>YDT.User.HttpApi.Host</p>
+<p><img src="/BlogPro/image-16.png" alt="Alt text"></p>
+<p>结果如图所示：</p>
+<p><img src="/BlogPro/image-17.png" alt="Alt text"></p>
+<h3 id="电商微服务聚合层创建"><a href="#电商微服务聚合层创建" class="headerlink" title="电商微服务聚合层创建"></a>电商微服务聚合层创建</h3><p>​ 1、先在YDT.Microservices解决方案文件夹中创建aggregateservices文件夹</p>
+<p>​ 命令如图所示：</p>
+<p><img src="/BlogPro/image-18.png" alt="Alt text"></p>
+<h2 id="如何引入微服务电商项目"><a href="#如何引入微服务电商项目" class="headerlink" title="如何引入微服务电商项目"></a>如何引入微服务电商项目</h2><h3 id="模块层引入"><a href="#模块层引入" class="headerlink" title="模块层引入"></a>模块层引入</h3><p>1、先使用VS2019引入YDT.Microservices项目</p>
+<p><img src="/BlogPro/image-19.png" alt="Alt text"></p>
+<p>2、然后创建moduls文件夹</p>
+<p><img src="/BlogPro/image-20.png" alt="Alt text"></p>
+<p>​ 2.1、在moduls中创建订单，商品，支付，用户解决方案文件夹</p>
+<p><img src="/BlogPro/image-21.png" alt="Alt text"></p>
+<p>​ 2.2、然后在YDT.Order、YDT.Product、YDT.Payment、YDT.User解决方案文件夹中引入项目</p>
+<p><img src="/BlogPro/image-22.png" alt="Alt text"></p>
+<h3 id="微服务层引入"><a href="#微服务层引入" class="headerlink" title="微服务层引入"></a>微服务层引入</h3><p>1、先创建microservices解决方案文件夹</p>
+<p>​ 如图所示：</p>
+<p><img src="/BlogPro/image-23.png" alt="Alt text"></p>
+<p>2、然后在microservices解决方案文件夹中引入项目</p>
+<p><img src="/BlogPro/image-24.png" alt="Alt text"></p>
+<h3 id="微服务聚合层引入"><a href="#微服务聚合层引入" class="headerlink" title="微服务聚合层引入"></a>微服务聚合层引入</h3><p>1、先创建aggregateservices解决方案文件夹</p>
+<p>​ 如图所示：</p>
+<p><img src="/BlogPro/image-25.png" alt="Alt text"></p>
+<h2 id="订单微服务落地"><a href="#订单微服务落地" class="headerlink" title="订单微服务落地"></a>订单微服务落地</h2><h3 id="订单微服务前提"><a href="#订单微服务前提" class="headerlink" title="订单微服务前提"></a>订单微服务前提</h3><h4 id="订单微服务修改"><a href="#订单微服务修改" class="headerlink" title="订单微服务修改"></a>订单微服务修改</h4><p>1、先在YDT.Order.HttpApi.Host项目中重新项目依赖</p>
+<p><img src="/BlogPro/image-26.png" alt="Alt text"></p>
+<p>​ 1.1、重新引入后结果如图所示</p>
+<p><img src="/BlogPro/image-27.png" alt="Alt text"></p>
+<p>​ 2、然后在YDT.Order.HttpApi.Host项目中移除项目</p>
+<p><img src="/BlogPro/image-28.png" alt="Alt text"></p>
+<p>2.1、在OrderHttpApiHostModule类中删除引用</p>
+<p><img src="/BlogPro/image-29.png" alt="Alt text"></p>
+<p>2.2、然后在YDT.Order.HttpApi.Host项目中引入</p>
+<p>Volo.Abp.EntityFrameworkCore.MySQL,</p>
+<p>Microsoft.EntityFrameworkCore.Tools</p>
+<p>​ 如图所示：</p>
+<p><img src="/BlogPro/image-30.png" alt="Alt text"></p>
+<p>​ 3、然后在OrderHttpApiHostModule类中修改为</p>
+<p><img src="/BlogPro/image-31.png" alt="Alt text"></p>
+<p>​ 3.1、修改后结果如图所示：</p>
+<p><img src="/BlogPro/image-32.png" alt="Alt text"></p>
+<p>​ 4、然后在OrderHttpApiHostMigrationsDbContextFactory类中修改为</p>
+<p><img src="/BlogPro/image-33.png" alt="Alt text"></p>
+<p>​ 4.1、修改后结果如图所示：</p>
+<p>var builder &#x3D; new DbContextOptionsBuilder ()<br>.UseMySql(configuration.GetConnectionString(“Order”), MySqlServerVersion.LatestSupportedServerVersion);</p>
+<p><img src="/BlogPro/image-34.png" alt="Alt text"></p>
+<p>​ 5、然后在OrderHttpApiHostMigrationsDbContextFactory类中修改为</p>
+<p><img src="/BlogPro/image-35.png" alt="Alt text"></p>
+<p>​ 5.1、修改后结果如图所示：</p>
+<p>“ConnectionStrings”: {<br>“Default”: “Server&#x3D;localhost;Port&#x3D;3306;Database&#x3D;YDT.OrderService;Uid&#x3D;root;Pwd&#x3D;root;”,<br>“Order”: “Server&#x3D;localhost;Port&#x3D;3306;Database&#x3D;YDT.OrderService;Uid&#x3D;root;Pwd&#x3D;root;”<br>},</p>
+<p><img src="/BlogPro/image-36.png" alt="Alt text"></p>
+<h3 id="订单微服务迁移"><a href="#订单微服务迁移" class="headerlink" title="订单微服务迁移"></a>订单微服务迁移</h3><p>1、先进入YDT.Order.HttpApi.Host项目控制台</p>
+<p>​ 输入命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migrations add orderservice</span><br></pre></td></tr></table></figure>
+
+<p><img src="/BlogPro/image-38.png" alt="Alt text"></p>
+<p>​ 1.1、迁移文件如图所示</p>
+<p><img src="/BlogPro/image-39.png" alt="Alt text"></p>
+<p>2、然后进入YDT.Order.HttpApi.Host项目控制台</p>
+<p>​ 输入命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef database update</span><br></pre></td></tr></table></figure>
+
+<p><img src="/BlogPro/image-40.png" alt="Alt text"></p>
+<p>3、MySQL数据库结果如图所示</p>
+<p><img src="/BlogPro/image-41.png" alt="Alt text"></p>
+<h4 id="订单微服务启动"><a href="#订单微服务启动" class="headerlink" title="订单微服务启动"></a>订单微服务启动</h4><p>1、先进入YDT.Order.HttpApi.Host项目控制台</p>
+<p>​ 输入命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br></pre></td></tr></table></figure>
+<p><img src="/BlogPro/image-42.png" alt="Alt text"></p>
+<p><img src="/BlogPro/image-43.png" alt="Alt text"></p>
+<h3 id="订单微服务访问"><a href="#订单微服务访问" class="headerlink" title="订单微服务访问"></a>订单微服务访问</h3><p>1、先进入浏览器</p>
+<p>​ 输入地址：<a target="_blank" rel="noopener" href="https://localhost:44389/">https://localhost:44389</a></p>
+<p>2、访问结果如图所示：</p>
+<p><img src="/BlogPro/image-44.png" alt="Alt text"></p>
+<h2 id="创建订单业务场景落地"><a href="#创建订单业务场景落地" class="headerlink" title="创建订单业务场景落地"></a>创建订单业务场景落地</h2><h3 id="订单微服务结构"><a href="#订单微服务结构" class="headerlink" title="订单微服务结构"></a>订单微服务结构</h3><p>订单微服务目前结构，如图所示：</p>
+<p><img src="/BlogPro/image-45.png" alt="Alt text"></p>
+<p>YDT.Order.Domain修改<br>1、先进入到YDT.Order.Domain中，创建文件夹Orders，并增加Orders，OrderItem，IOrderRepository类</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-46.png" alt="Alt text"></p>
+<p>2、然后在Orders类中增加代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Collections.ObjectModel;</span><br><span class="line">using System.ComponentModel.DataAnnotations;</span><br><span class="line">using Volo.Abp.Domain.Entities;</span><br><span class="line"></span><br><span class="line">namespace RuanMou.Projects.OrderServices.Models</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 订单模型</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public class Orders : AggregateRoot&lt;Guid&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        //[Key]</span><br><span class="line">      //  public int Id &#123; set; get; &#125; // 主键</span><br><span class="line">        public string OrderType &#123; set; get; &#125; // 订单类型</span><br><span class="line">       // public string OrderFlag &#123; set; get; &#125; // 订单标志</span><br><span class="line">        public Guid UserId &#123; set; get; &#125; // 用户Id</span><br><span class="line">        public string OrderSn &#123; set; get; &#125;// 订单号</span><br><span class="line">        public string OrderTotalPrice &#123; set; get; &#125; // 订单总价</span><br><span class="line">        public DateTime Createtime &#123; set; get; &#125; // 创建时间</span><br><span class="line">        public DateTime Updatetime &#123; set; get; &#125; // 更新时间</span><br><span class="line">        public DateTime Paytime &#123; set; get; &#125;// 支付时间</span><br><span class="line">        public DateTime Sendtime &#123; set; get; &#125;// 发货时间</span><br><span class="line">        public DateTime Successtime &#123; set; get; &#125;// 订单完成时间</span><br><span class="line">        public int OrderStatus &#123; set; get; &#125; // 订单状态</span><br><span class="line">        public string OrderName &#123; set; get; &#125; // 订单名称</span><br><span class="line">        public string OrderTel &#123; set; get; &#125; // 订单电话</span><br><span class="line">        public string OrderAddress &#123; set; get; &#125; // 订单地址</span><br><span class="line">        public string OrderRemark &#123; set; get; &#125;// 订单备注</span><br><span class="line"></span><br><span class="line">        // 订单项</span><br><span class="line">        public ICollection&lt;OrderItem&gt; OrderItems &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        public Orders()</span><br><span class="line">        &#123;</span><br><span class="line">            OrderItems = new Collection&lt;OrderItem&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Orders(Guid id) : base(id)</span><br><span class="line">        &#123;</span><br><span class="line">            OrderItems = new Collection&lt;OrderItem&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 添加订单项</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        public void AddOrderItem(Guid itemId, string OrderSn, string ProductName, decimal ItemPrice)</span><br><span class="line">        &#123;</span><br><span class="line">            // 1、创建一个商品图片</span><br><span class="line">            OrderItem orderItem = new OrderItem(itemId);</span><br><span class="line">            orderItem.OrderSn = OrderSn;</span><br><span class="line">            orderItem.ProductName = ProductName;</span><br><span class="line">            orderItem.ItemPrice = ItemPrice;</span><br><span class="line"></span><br><span class="line">            // 2、添加到集合中</span><br><span class="line">            OrderItems.Add(orderItem);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、然后在OrderItem类中增加代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.ComponentModel.DataAnnotations;</span><br><span class="line">using Volo.Abp.Domain.Entities;</span><br><span class="line"></span><br><span class="line">namespace RuanMou.Projects.OrderServices.Models</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 订单项(记录购买商品信息)</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public class OrderItem : Entity&lt;Guid&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        //[Key]</span><br><span class="line">       // public int Id &#123; set; get; &#125; // 主键</span><br><span class="line">        public Guid OrderId &#123; set; get; &#125; // 订单编号</span><br><span class="line">        public string OrderSn &#123; set; get; &#125; // 订单号</span><br><span class="line">        public Guid ProductId &#123; set; get; &#125; // 商品编号</span><br><span class="line">        public string ProductUrl &#123; set; get; &#125; // 商品主图</span><br><span class="line">        public string ProductName &#123; set; get; &#125;// 商品名称</span><br><span class="line">        public decimal ItemPrice &#123; set; get; &#125;  // 订单项单价</span><br><span class="line">        public int ItemCount &#123; set; get; &#125; // 订单项数量</span><br><span class="line">        public decimal ItemTotalPrice &#123; set; get; &#125; // 订单项总价</span><br><span class="line"></span><br><span class="line">        public OrderItem()</span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public OrderItem(Guid id) : base(id)</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、然后在IOrderRepository类中增加代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">using RuanMou.Projects.OrderServices.Models;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line">using Volo.Abp.DependencyInjection;</span><br><span class="line">using Volo.Abp.Domain.Repositories;</span><br><span class="line"></span><br><span class="line">namespace Acme.BookStore.Authors</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 订单仓储</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public interface IOrderRepository : IRepository&lt;Orders, Guid&gt;</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>YDT.Order.EntityFrameworkCore修改<br>1、先进入到YDT.Order.EntityFrameworkCore中，创建文件夹Orders，并创建OrderRepository类</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-47.png" alt="Alt text"></p>
+<p>2、然后在OrderRepository类中增加代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">using Acme.BookStore.Authors;</span><br><span class="line">using Microsoft.EntityFrameworkCore;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection;</span><br><span class="line">using RuanMou.Projects.OrderServices.Models;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Linq.Expressions;</span><br><span class="line">using System.Threading;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line">using Volo.Abp.DependencyInjection;</span><br><span class="line">using Volo.Abp.Domain.Repositories;</span><br><span class="line">using Volo.Abp.Domain.Repositories.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line">using Volo.Abp.Linq;</span><br><span class="line">using YDT.Order.EntityFrameworkCore;</span><br><span class="line"></span><br><span class="line">namespace RuanMou.MicroService.ProductService.Repositories</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 商品仓储实现</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    [Dependency(ServiceLifetime.Transient)]</span><br><span class="line">    public class OrderRepository : EfCoreRepository&lt;OrderDbContext, Orders, Guid&gt;, IOrderRepository</span><br><span class="line">    &#123;</span><br><span class="line">        public OrderRepository(</span><br><span class="line">            IDbContextProvider&lt;OrderDbContext&gt; dbContextProvider)</span><br><span class="line">            : base(dbContextProvider)</span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public override async Task&lt;Orders&gt; GetAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = default)</span><br><span class="line">        &#123;</span><br><span class="line">            DbSet&lt;Orders&gt; orders = await GetDbSetAsync();</span><br><span class="line">            return orders.Include(o =&gt; o.OrderItems).Where(o =&gt; o.Id == id).FirstOrDefault();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、然后进入到EntityFrameworkCore文件夹中，修改OrderDbContext类，代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.EntityFrameworkCore;</span><br><span class="line">using RuanMou.Projects.OrderServices.Models;</span><br><span class="line">using Volo.Abp.Data;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore;</span><br><span class="line"></span><br><span class="line">namespace YDT.Order.EntityFrameworkCore</span><br><span class="line">&#123;</span><br><span class="line">    [ConnectionStringName(OrderDbProperties.ConnectionStringName)]</span><br><span class="line">    public class OrderDbContext : AbpDbContext&lt;OrderDbContext&gt;, IOrderDbContext</span><br><span class="line">    &#123;</span><br><span class="line">        /* Add DbSet for each Aggregate Root here. Example:</span><br><span class="line">         * public DbSet&lt;Question&gt; Questions &#123; get; set; &#125;</span><br><span class="line">         */</span><br><span class="line">        public DbSet&lt;Orders&gt; Orders &#123; get; set; &#125; // 配置订单领域(以领域为单位)</span><br><span class="line">        public OrderDbContext(DbContextOptions&lt;OrderDbContext&gt; options) </span><br><span class="line">            : base(options)</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected override void OnModelCreating(ModelBuilder builder)</span><br><span class="line">        &#123;</span><br><span class="line">            base.OnModelCreating(builder);</span><br><span class="line"></span><br><span class="line">            builder.ConfigureOrder();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、然后进入到EntityFrameworkCore文件夹中，修改OrderDbContextModelCreatingExtensions类，代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using Microsoft.EntityFrameworkCore;</span><br><span class="line">using RuanMou.Projects.OrderServices.Models;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.EntityFrameworkCore.Modeling;</span><br><span class="line"></span><br><span class="line">namespace YDT.Order.EntityFrameworkCore</span><br><span class="line">&#123;</span><br><span class="line">    public static class OrderDbContextModelCreatingExtensions</span><br><span class="line">    &#123;</span><br><span class="line">        public static void ConfigureOrder(</span><br><span class="line">            this ModelBuilder builder,</span><br><span class="line">            Action&lt;OrderModelBuilderConfigurationOptions&gt; optionsAction = null)</span><br><span class="line">        &#123;</span><br><span class="line">            Check.NotNull(builder, nameof(builder));</span><br><span class="line"></span><br><span class="line">            var options = new OrderModelBuilderConfigurationOptions(</span><br><span class="line">                OrderDbProperties.DbTablePrefix,</span><br><span class="line">                OrderDbProperties.DbSchema</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">            optionsAction?.Invoke(options);</span><br><span class="line"></span><br><span class="line">            builder.Entity&lt;Orders&gt;(b =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                b.ConfigureByConvention();</span><br><span class="line">                b.HasMany(u =&gt; u.OrderItems).WithOne().HasForeignKey(ur =&gt; ur.OrderId).IsRequired();</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            /* Configure all entities here. Example:</span><br><span class="line"></span><br><span class="line">            builder.Entity&lt;Question&gt;(b =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                //Configure table &amp; schema name</span><br><span class="line">                b.ToTable(options.TablePrefix + &quot;Questions&quot;, options.Schema);</span><br><span class="line">            </span><br><span class="line">                b.ConfigureByConvention();</span><br><span class="line">            </span><br><span class="line">                //Properties</span><br><span class="line">                b.Property(q =&gt; q.Title).IsRequired().HasMaxLength(QuestionConsts.MaxTitleLength);</span><br><span class="line">                </span><br><span class="line">                //Relations</span><br><span class="line">                b.HasMany(question =&gt; question.Tags).WithOne().HasForeignKey(qt =&gt; qt.QuestionId);</span><br><span class="line"></span><br><span class="line">                //Indexes</span><br><span class="line">                b.HasIndex(q =&gt; q.CreationTime);</span><br><span class="line">            &#125;);</span><br><span class="line">            */</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>YDT.Order.Application.Contracts修改<br>1、先进入到YDT.Order.Application.Contracts项目中，创建Orders文件夹，并创建IOrderAppService，CreateOrderDto，OrderDto，UpdateOrderDto类</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-48.png" alt="Alt text"></p>
+<p>2、然后在IOrderAppService类中增加代码，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">using Acme.BookStore.Authors;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line">using Volo.Abp.Application.Services;</span><br><span class="line"></span><br><span class="line">namespace RuanMou.Projects.ProductServices.Services</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 订单应用服务接口</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public interface IOrderAppService : ICrudAppService&lt;</span><br><span class="line">                                            OrderDto, </span><br><span class="line">                                            Guid, </span><br><span class="line">                                            PagedAndSortedResultRequestDto,</span><br><span class="line">                                            CreateOrderDto,</span><br><span class="line">                                            UpdateOrderDto&gt;</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、然后在CreateOrderDto类中增加代码，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.ComponentModel.DataAnnotations;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line"></span><br><span class="line">namespace Acme.BookStore.Authors</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 创建商品Dto</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public class CreateOrderDto</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">        public decimal OrderTotalPrice &#123; set; get; &#125; // 订单价格</span><br><span class="line"></span><br><span class="line">        public int ProductCount &#123; set; get; &#125;// 商品数量</span><br><span class="line"></span><br><span class="line">        public CreateOrderItemDto[] OrderItems &#123; set; get; &#125; // 商品图片集合</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class CreateOrderItemDto</span><br><span class="line">    &#123;</span><br><span class="line">        public Guid ProductId &#123; set; get; &#125; // 商品编号</span><br><span class="line">        public string ProductName &#123; set; get; &#125; // 商品名称</span><br><span class="line">       </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、然后在OrderDto类中增加代码，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line"></span><br><span class="line">namespace Acme.BookStore.Authors</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 订单Dto</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public class OrderDto : EntityDto&lt;Guid&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        public string OrderType &#123; set; get; &#125; // 订单类型</span><br><span class="line">        public Guid UserId &#123; set; get; &#125; // 用户Id</span><br><span class="line">        public string OrderSn &#123; set; get; &#125;// 订单号</span><br><span class="line">        public string OrderTotalPrice &#123; set; get; &#125; // 订单总价</span><br><span class="line">        public DateTime Createtime &#123; set; get; &#125; // 创建时间</span><br><span class="line">        public DateTime Updatetime &#123; set; get; &#125; // 更新时间</span><br><span class="line">        public DateTime Paytime &#123; set; get; &#125;// 支付时间</span><br><span class="line">        public DateTime Sendtime &#123; set; get; &#125;// 发货时间</span><br><span class="line">        public DateTime Successtime &#123; set; get; &#125;// 订单完成时间</span><br><span class="line">        public int OrderStatus &#123; set; get; &#125; // 订单状态</span><br><span class="line">        public string OrderName &#123; set; get; &#125; // 订单名称</span><br><span class="line">        public string OrderTel &#123; set; get; &#125; // 订单电话</span><br><span class="line">        public string OrderAddress &#123; set; get; &#125; // 订单地址</span><br><span class="line">        public string OrderRemark &#123; set; get; &#125;// 订单备注</span><br><span class="line"></span><br><span class="line">        public OrderItemDto[] OrderItems &#123; set; get; &#125;// 订单项集合</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class OrderItemDto</span><br><span class="line">    &#123;</span><br><span class="line">        public Guid OrderId &#123; set; get; &#125; // 订单编号</span><br><span class="line">        public string OrderSn &#123; set; get; &#125; // 订单号</span><br><span class="line">        public Guid ProductId &#123; set; get; &#125; // 商品编号</span><br><span class="line">        public string ProductUrl &#123; set; get; &#125; // 商品主图</span><br><span class="line">        public string ProductName &#123; set; get; &#125;// 商品名称</span><br><span class="line">        public decimal ItemPrice &#123; set; get; &#125;  // 订单项单价</span><br><span class="line">        public int ItemCount &#123; set; get; &#125; // 订单项数量</span><br><span class="line">        public decimal ItemTotalPrice &#123; set; get; &#125; // 订单项总价</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、然后在UpdateOrderDto类中增加代码，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.ComponentModel.DataAnnotations;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line"></span><br><span class="line">namespace Acme.BookStore.Authors</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 创建商品Dto</span><br><span class="line">    /// </span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public class UpdateOrderDto</span><br><span class="line">    &#123;</span><br><span class="line">        public string ProductUrl &#123; set; get; &#125;         // 商品主图</span><br><span class="line">        public string ProductTitle &#123; set; get; &#125;       //商品标题</span><br><span class="line">        public string ProductDescription &#123; set; get; &#125;     // 图文描述</span><br><span class="line">        public decimal ProductVirtualprice &#123; set; get; &#125; //商品虚拟价格</span><br><span class="line">        public decimal ProductPrice &#123; set; get; &#125;       //价格</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>YDT.Order.Application修改<br>1、先进入到YDT.Order.Application项目中，创建Orders文件夹，并创建OrderAppService类</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-49.png" alt="Alt text"></p>
+<p>2、然后在IOrderAppService类中增加代码，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">using Acme.BookStore.Authors;</span><br><span class="line">using AutoMapper;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection;</span><br><span class="line">using RuanMou.Projects.OrderServices.Models;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Security.Claims;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line">using Volo.Abp.Application.Services;</span><br><span class="line">using Volo.Abp.DependencyInjection;</span><br><span class="line">using Volo.Abp.Domain.Repositories;</span><br><span class="line"></span><br><span class="line">namespace RuanMou.Projects.ProductServices.Services</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 订单服务实现</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    [RemoteService(IsEnabled = false)]</span><br><span class="line">    public class OrderAppService : CrudAppService&lt;</span><br><span class="line">                                            Orders,</span><br><span class="line">                                            OrderDto,</span><br><span class="line">                                            Guid,</span><br><span class="line">                                            PagedAndSortedResultRequestDto,</span><br><span class="line">                                            CreateOrderDto,</span><br><span class="line">                                            UpdateOrderDto&gt;,IOrderAppService</span><br><span class="line">    &#123;</span><br><span class="line">        public IOrderRepository _OrderRepository;</span><br><span class="line"></span><br><span class="line">        public OrderAppService(IOrderRepository repository)</span><br><span class="line">            : base(repository)</span><br><span class="line">        &#123;</span><br><span class="line">            this._OrderRepository = repository;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、然后修改OrderApplicationAutoMapperProfile类中代码，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">using Acme.BookStore.Authors;</span><br><span class="line">using AutoMapper;</span><br><span class="line">using RuanMou.Projects.OrderServices.Models;</span><br><span class="line"></span><br><span class="line">namespace YDT.Order</span><br><span class="line">&#123;</span><br><span class="line">    public class OrderApplicationAutoMapperProfile : Profile</span><br><span class="line">    &#123;</span><br><span class="line">        public OrderApplicationAutoMapperProfile()</span><br><span class="line">        &#123;</span><br><span class="line">            /* You can configure your AutoMapper mapping configuration here.</span><br><span class="line">             * Alternatively, you can split your mapping configurations</span><br><span class="line">             * into multiple profile classes for a better organization. */</span><br><span class="line"></span><br><span class="line">            CreateMap&lt;Orders, OrderDto&gt;();</span><br><span class="line">            CreateMap&lt;OrderItem, OrderItemDto&gt;();</span><br><span class="line"></span><br><span class="line">            CreateMap&lt;CreateOrderDto, Orders&gt;();</span><br><span class="line">            CreateMap&lt;CreateOrderItemDto, OrderItem&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、然后修改OrderApplicationModule类中代码，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.Extensions.DependencyInjection;</span><br><span class="line">using Volo.Abp.AutoMapper;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using Volo.Abp.Application;</span><br><span class="line"></span><br><span class="line">namespace YDT.Order</span><br><span class="line">&#123;</span><br><span class="line">    [DependsOn(</span><br><span class="line">        typeof(OrderDomainModule),</span><br><span class="line">        typeof(OrderApplicationContractsModule),</span><br><span class="line">        typeof(AbpDddApplicationModule),</span><br><span class="line">        typeof(AbpAutoMapperModule)</span><br><span class="line">        )]</span><br><span class="line">    public class OrderApplicationModule : AbpModule</span><br><span class="line">    &#123;</span><br><span class="line">        public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">        &#123;</span><br><span class="line">            context.Services.AddAutoMapperObjectMapper&lt;OrderApplicationModule&gt;();</span><br><span class="line">            Configure&lt;AbpAutoMapperOptions&gt;(options =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                options.AddMaps&lt;OrderApplicationModule&gt;(validate: false);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>YDT.Order.HttpApi修改<br>1、先进入到YDT.Order.HttpApi项目中，创建Orders文件夹，并创建OrdersController类</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-50.png" alt="Alt text"></p>
+<p>2、然后在OrdersController类中增加代码，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line">using Acme.BookStore.Authors;</span><br><span class="line">using Microsoft.AspNetCore.Authorization;</span><br><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using RuanMou.Projects.ProductServices.Services;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.Application.Dtos;</span><br><span class="line"></span><br><span class="line">namespace YDT.Order.Samples</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 订单控制器</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    [RemoteService]</span><br><span class="line">    [Route(&quot;api/OrderService/order&quot;)]</span><br><span class="line">    public class OrdersController : OrderController, IOrderAppService</span><br><span class="line">    &#123;</span><br><span class="line">        private readonly IOrderAppService _OrderAppService;</span><br><span class="line"></span><br><span class="line">        public OrdersController(IOrderAppService OrderAppService)</span><br><span class="line">        &#123;</span><br><span class="line">            _OrderAppService = OrderAppService;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        [HttpGet(&quot;&#123;id&#125;&quot;)]</span><br><span class="line">        public async Task&lt;OrderDto&gt; GetAsync(Guid id)</span><br><span class="line">        &#123;</span><br><span class="line">            return await _OrderAppService.GetAsync(id);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        [HttpPost]</span><br><span class="line">        public async Task&lt;OrderDto&gt; CreateAsync(CreateOrderDto input)</span><br><span class="line">        &#123;</span><br><span class="line">            return await _OrderAppService.CreateAsync(input);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        [HttpGet(&quot;List&quot;)]</span><br><span class="line">        public async Task&lt;PagedResultDto&lt;OrderDto&gt;&gt; GetListAsync(PagedAndSortedResultRequestDto input)</span><br><span class="line">        &#123;</span><br><span class="line">            return await _OrderAppService.GetListAsync(input);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        [HttpPut]</span><br><span class="line">        public async Task&lt;OrderDto&gt; UpdateAsync(Guid id, UpdateOrderDto input)</span><br><span class="line">        &#123;</span><br><span class="line">            return await _OrderAppService.UpdateAsync(id,input);</span><br><span class="line">        &#125;</span><br><span class="line">        [HttpDelete]</span><br><span class="line">        public async Task DeleteAsync(Guid id)</span><br><span class="line">        &#123;</span><br><span class="line">            await _OrderAppService.DeleteAsync(id);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>YDT.Order.HttpApi.Host迁移<br>1、先进入YDT.Order.HttpApi.Host项目控制台</p>
+<p>​ 输入命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef migrations add orderservice</span><br></pre></td></tr></table></figure>
+<p>​ 如图所示：</p>
+<p><img src="/BlogPro/image-51.png" alt="Alt text"></p>
+<p>2、迁移生成的文件，如图所示</p>
+<p><img src="/BlogPro/image-52.png" alt="Alt text"></p>
+<p>3、然后进入YDT.Order.HttpApi.Host项目控制台</p>
+<p>​ 输入命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet ef database update</span><br></pre></td></tr></table></figure>
+<p>​ 如图所示：</p>
+<p><img src="/BlogPro/image-53.png" alt="Alt text"></p>
+<p>4、然后进入MySQL，订单表和订单项表，</p>
+<p>​ 如图所示：</p>
+<p><img src="/BlogPro/image-54.png" alt="Alt text"></p>
+<h3 id="订单微服务启动-1"><a href="#订单微服务启动-1" class="headerlink" title="订单微服务启动"></a>订单微服务启动</h3><p>1、先进入YDT.Order.HttpApi.Host项目CMD控制台</p>
+<p>​ 输入命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br></pre></td></tr></table></figure>
+
+<p><img src="/BlogPro/image-55.png" alt="Alt text"></p>
+<p><img src="/BlogPro/image-56.png" alt="Alt text"></p>
+<p>1、先进入YDT.Order.HttpApi.Host项目CMD控制台</p>
+<h3 id="订单微服务访问-1"><a href="#订单微服务访问-1" class="headerlink" title="订单微服务访问"></a>订单微服务访问</h3><p>1、先进入浏览器</p>
+<p>​ 输入地址：<a target="_blank" rel="noopener" href="https://localhost:44389/">https://localhost:44389</a></p>
+<p>2、然后输入地址，访问结果</p>
+<p><img src="/BlogPro/image-57.png" alt="Alt text"></p>
+<h3 id="创建订单落地"><a href="#创建订单落地" class="headerlink" title="创建订单落地"></a>创建订单落地</h3><p>1、先进入Orders模块中订单创建接口</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-58.png" alt="Alt text"></p>
+<p>2、然后点击Execute，创建订单结果，</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-59.png" alt="Alt text"></p>
+<p>3、创建订单项结果，</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-60.png" alt="Alt text"></p>
+<h2 id="商品微服务落地"><a href="#商品微服务落地" class="headerlink" title="商品微服务落地"></a>商品微服务落地</h2><p>思路同订单微服务，如上。</p>
+<h2 id="支付微服务落地"><a href="#支付微服务落地" class="headerlink" title="支付微服务落地"></a>支付微服务落地</h2><p>思路同订单微服务，如上。</p>
+<h2 id="用户微服务落地"><a href="#用户微服务落地" class="headerlink" title="用户微服务落地"></a>用户微服务落地</h2><p>思路同订单微服务，如上。</p>
+<h2 id="订单详情聚合服务落地"><a href="#订单详情聚合服务落地" class="headerlink" title="订单详情聚合服务落地"></a>订单详情聚合服务落地</h2><h3 id="订单详情聚合服务创建"><a href="#订单详情聚合服务创建" class="headerlink" title="订单详情聚合服务创建"></a>订单详情聚合服务创建</h3><p>1、先在aggregateservices解决方案文件中，通过vs2019创建 .Net5项目YDT.OrderDetailsServices，</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-61.png" alt="Alt text"></p>
+<p>2、然后在YDT.OrderDetailsServices项目中，引入Volo.Abp.AspNetCore.Mvc，Volo.Abp.Autofac程序集</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-62.png" alt="Alt text"></p>
+<p>3、然后在YDT.OrderDetailsServices项目中，创建OrderDetailsServicesModule类</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-63.png" alt="Alt text"></p>
+<p>4、然后在OrderDetailsServicesModule类中添加代码，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Builder;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection;</span><br><span class="line">using Microsoft.Extensions.Hosting;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line">using Volo.Abp;</span><br><span class="line">using Volo.Abp.AspNetCore.Mvc;</span><br><span class="line">using Volo.Abp.Autofac;</span><br><span class="line">using Volo.Abp.Modularity;</span><br><span class="line">using YDT.Order;</span><br><span class="line">using YDT.Product;</span><br><span class="line"></span><br><span class="line">namespace YDT.OrderDetailsServices</span><br><span class="line">&#123;</span><br><span class="line">    [DependsOn(typeof(AbpAspNetCoreMvcModule))]</span><br><span class="line">    [DependsOn(typeof(AbpAutofacModule))]</span><br><span class="line">    [DependsOn(typeof(OrderHttpApiClientModule))]</span><br><span class="line">    [DependsOn(typeof(ProductHttpApiClientModule))]</span><br><span class="line">    public class OrderDetailsServicesModule : AbpModule</span><br><span class="line">    &#123;</span><br><span class="line">        public override void ConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">        &#123;</span><br><span class="line">            context.Services.AddSwaggerGen(c =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                c.SwaggerDoc(&quot;v1&quot;, new OpenApiInfo &#123; Title = &quot;YDT.OrderDetailsServices&quot;, Version = &quot;v1&quot; &#125;);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public override void OnApplicationInitialization(ApplicationInitializationContext context)</span><br><span class="line">        &#123;</span><br><span class="line">            var app = context.GetApplicationBuilder();</span><br><span class="line">            var env = context.GetEnvironment();</span><br><span class="line"></span><br><span class="line">            // Configure the HTTP request pipeline.</span><br><span class="line">            if (env.IsDevelopment())</span><br><span class="line">            &#123;</span><br><span class="line">                app.UseExceptionHandler(&quot;/Error&quot;);</span><br><span class="line">                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.</span><br><span class="line">                app.UseHsts();</span><br><span class="line"></span><br><span class="line">                app.UseDeveloperExceptionPage();</span><br><span class="line">                app.UseSwagger();</span><br><span class="line">                app.UseSwaggerUI(c =&gt; c.SwaggerEndpoint(&quot;/swagger/v1/swagger.json&quot;, &quot;YDT.OrderDetailsServices v1&quot;));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            app.UseHttpsRedirection();</span><br><span class="line">            app.UseStaticFiles();</span><br><span class="line">            app.UseRouting();</span><br><span class="line">            app.UseConfiguredEndpoints();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>5、然后在Startup类中修改代码，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Builder;</span><br><span class="line">using Microsoft.AspNetCore.Hosting;</span><br><span class="line">using Microsoft.AspNetCore.HttpsPolicy;</span><br><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using Microsoft.Extensions.Configuration;</span><br><span class="line">using Microsoft.Extensions.DependencyInjection;</span><br><span class="line">using Microsoft.Extensions.Hosting;</span><br><span class="line">using Microsoft.Extensions.Logging;</span><br><span class="line">using Microsoft.OpenApi.Models;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace YDT.OrderDetailsServices</span><br><span class="line">&#123;</span><br><span class="line">    public class Startup</span><br><span class="line">    &#123;</span><br><span class="line">        public Startup(IConfiguration configuration)</span><br><span class="line">        &#123;</span><br><span class="line">            Configuration = configuration;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public IConfiguration Configuration &#123; get; &#125;</span><br><span class="line"></span><br><span class="line">        public void ConfigureServices(IServiceCollection services)</span><br><span class="line">        &#123;</span><br><span class="line">            services.AddApplication&lt;OrderDetailsServicesModule&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void Configure(IApplicationBuilder app)</span><br><span class="line">        &#123;</span><br><span class="line">            app.InitializeApplication();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>6、然后在Program类中修改代码，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Hosting;</span><br><span class="line">using Microsoft.Extensions.Configuration;</span><br><span class="line">using Microsoft.Extensions.Hosting;</span><br><span class="line">using Microsoft.Extensions.Logging;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace YDT.OrderDetailsServices</span><br><span class="line">&#123;</span><br><span class="line">    public class Program</span><br><span class="line">    &#123;</span><br><span class="line">        public static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            CreateHostBuilder(args).Build().Run();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public static IHostBuilder CreateHostBuilder(string[] args) =&gt;</span><br><span class="line">            Host.CreateDefaultBuilder(args)</span><br><span class="line">                .ConfigureWebHostDefaults(webBuilder =&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    webBuilder.UseStartup&lt;Startup&gt;();</span><br><span class="line">                &#125;)</span><br><span class="line">                .UseAutofac(); // 添加autofac</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="电商微服务落地"><a href="#电商微服务落地" class="headerlink" title="电商微服务落地"></a>电商微服务落地</h2><p>目前整个电商微服务目前结构状态</p>
+<p>如图所示：</p>
+<p><img src="/BlogPro/image-64.png" alt="Alt text"></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/" rel="tag"># 千万级秒杀项目实战</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2023/08/02/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/2%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/" rel="prev" title="2、微服务-电商项目实战">
+      <i class="fa fa-chevron-left"></i> 2、微服务-电商项目实战
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2023/08/03/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/3%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E9%80%9A%E4%BF%A1%E3%80%81API%E7%BD%91%E5%85%B3/" rel="next" title="3、微服务-通信、API网关">
+      3、微服务-通信、API网关 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E8%90%BD%E5%9C%B0"><span class="nav-text">秒杀项目落地</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%90%BD%E5%9C%B0%E6%8A%80%E6%9C%AF%E5%B9%B3%E5%8F%B0"><span class="nav-text">落地技术平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%90%BD%E5%9C%B0%E6%8A%80%E6%9C%AF%E5%89%8D%E6%8F%90"><span class="nav-text">落地技术前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%90%BD%E5%9C%B0%E6%8A%80%E6%9C%AF%E5%B7%A5%E5%85%B7"><span class="nav-text">落地技术工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE"><span class="nav-text">如何创建微服务电商项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA"><span class="nav-text">微服务电商项目创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">创建微服务解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AE%A2%E5%8D%95%E6%A8%A1%E5%9D%97"><span class="nav-text">创建微服务订单模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B5%E5%95%86%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%B1%82%E5%88%9B%E5%BB%BA"><span class="nav-text">电商微服务层创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B5%E5%95%86%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%81%9A%E5%90%88%E5%B1%82%E5%88%9B%E5%BB%BA"><span class="nav-text">电商微服务聚合层创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BC%95%E5%85%A5%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE"><span class="nav-text">如何引入微服务电商项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%B1%82%E5%BC%95%E5%85%A5"><span class="nav-text">模块层引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%B1%82%E5%BC%95%E5%85%A5"><span class="nav-text">微服务层引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%81%9A%E5%90%88%E5%B1%82%E5%BC%95%E5%85%A5"><span class="nav-text">微服务聚合层引入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A2%E5%8D%95%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%90%BD%E5%9C%B0"><span class="nav-text">订单微服务落地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A2%E5%8D%95%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%89%8D%E6%8F%90"><span class="nav-text">订单微服务前提</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A2%E5%8D%95%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%AE%E6%94%B9"><span class="nav-text">订单微服务修改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A2%E5%8D%95%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%BF%81%E7%A7%BB"><span class="nav-text">订单微服务迁移</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A2%E5%8D%95%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8"><span class="nav-text">订单微服务启动</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A2%E5%8D%95%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AE%BF%E9%97%AE"><span class="nav-text">订单微服务访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%AE%A2%E5%8D%95%E4%B8%9A%E5%8A%A1%E5%9C%BA%E6%99%AF%E8%90%BD%E5%9C%B0"><span class="nav-text">创建订单业务场景落地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A2%E5%8D%95%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BB%93%E6%9E%84"><span class="nav-text">订单微服务结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A2%E5%8D%95%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8-1"><span class="nav-text">订单微服务启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A2%E5%8D%95%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%AE%BF%E9%97%AE-1"><span class="nav-text">订单微服务访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%AE%A2%E5%8D%95%E8%90%BD%E5%9C%B0"><span class="nav-text">创建订单落地</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%86%E5%93%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%90%BD%E5%9C%B0"><span class="nav-text">商品微服务落地</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%AF%E4%BB%98%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%90%BD%E5%9C%B0"><span class="nav-text">支付微服务落地</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%90%BD%E5%9C%B0"><span class="nav-text">用户微服务落地</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A2%E5%8D%95%E8%AF%A6%E6%83%85%E8%81%9A%E5%90%88%E6%9C%8D%E5%8A%A1%E8%90%BD%E5%9C%B0"><span class="nav-text">订单详情聚合服务落地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A2%E5%8D%95%E8%AF%A6%E6%83%85%E8%81%9A%E5%90%88%E6%9C%8D%E5%8A%A1%E5%88%9B%E5%BB%BA"><span class="nav-text">订单详情聚合服务创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B5%E5%95%86%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%90%BD%E5%9C%B0"><span class="nav-text">电商微服务落地</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/BlogPro/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="步骤 配置Nginx    启动Nginx CMD   1nginx.exe  此时就可以访问5001,5002端口的网站    指定IP跳转到对应服务器     失败重置配置    主机备份    服务限流    对客户端进行限流    平缓限流（每秒请求限制2个）    平缓限流（突发请求，不能处理的先存储，等待最后处理）    平缓限流 （瞬时突发请求，不返回Token，直接执行）">
+  <meta name="description" content="Nginx是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP&#x2F;POP3&#x2F;SMTP服务。 Nginx的特性包括： 高性能：Nginx使用事件驱动的非阻塞架构，使其在处理大量并发连接时具有高吞吐量和低延迟。 反向代理：Nginx可以作为反向代理服务器，将客户端的请求转发到后端的应用服务器。 负载均衡：Nginx提供了内置的负载均衡功能，可以轻松地将请求分发到多个后端">
 <meta property="og:type" content="article">
 <meta property="og:title" content="4、Nginx">
 <meta property="og:url" content="https://smdegz.github.io/BlogPro/2023/01/04/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/Nginx/index.html">
 <meta property="og:site_name" content="何锦祥 博客">
-<meta property="og:description" content="步骤 配置Nginx    启动Nginx CMD   1nginx.exe  此时就可以访问5001,5002端口的网站    指定IP跳转到对应服务器     失败重置配置    主机备份    服务限流    对客户端进行限流    平缓限流（每秒请求限制2个）    平缓限流（突发请求，不能处理的先存储，等待最后处理）    平缓限流 （瞬时突发请求，不返回Token，直接执行）">
+<meta property="og:description" content="Nginx是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP&#x2F;POP3&#x2F;SMTP服务。 Nginx的特性包括： 高性能：Nginx使用事件驱动的非阻塞架构，使其在处理大量并发连接时具有高吞吐量和低延迟。 反向代理：Nginx可以作为反向代理服务器，将客户端的请求转发到后端的应用服务器。 负载均衡：Nginx提供了内置的负载均衡功能，可以轻松地将请求分发到多个后端">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://smdegz.github.io/BlogPro/images/0916c2b322a40908e396bb8a0f1ff1dc.png">
 <meta property="og:image" content="https://smdegz.github.io/BlogPro/images/e5f1bdb5b6079c39680bc75caad53060.png">
@@ -50,7 +50,7 @@
 <meta property="og:image" content="https://smdegz.github.io/BlogPro/images/6320a95b3150174a4a4767157d2f33af.png">
 <meta property="og:image" content="https://smdegz.github.io/BlogPro/images/9f1a59a8fc92d558c10490ed3d029c54.png">
 <meta property="article:published_time" content="2023-01-04T02:48:57.000Z">
-<meta property="article:modified_time" content="2024-01-24T06:17:41.502Z">
+<meta property="article:modified_time" content="2024-02-08T14:03:24.764Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ABP Middleware">
 <meta name="twitter:card" content="summary">
@@ -248,7 +248,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-24 14:17:41" itemprop="dateModified" datetime="2024-01-24T14:17:41+08:00">2024-01-24</time>
+                <time title="修改时间：2024-02-08 22:03:24" itemprop="dateModified" datetime="2024-02-08T22:03:24+08:00">2024-02-08</time>
               </span>
 
           
@@ -283,7 +283,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="/BlogPro/images/0916c2b322a40908e396bb8a0f1ff1dc.png" alt="Alt text"><br><img src="/BlogPro/images/e5f1bdb5b6079c39680bc75caad53060.png" alt="Alt text"><br><img src="/BlogPro/images/c3690be37d2ff1abdabee02a9015edee.png" alt="Alt text"></p>
+        <p>Nginx是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP&#x2F;POP3&#x2F;SMTP服务。</p>
+<p>Nginx的特性包括：</p>
+<pre><code>高性能：Nginx使用事件驱动的非阻塞架构，使其在处理大量并发连接时具有高吞吐量和低延迟。
+反向代理：Nginx可以作为反向代理服务器，将客户端的请求转发到后端的应用服务器。
+负载均衡：Nginx提供了内置的负载均衡功能，可以轻松地将请求分发到多个后端服务器，实现分布式部署和水平扩展。
+静态内容缓存：Nginx可以缓存静态内容，减少对后端服务器的请求，提高网站性能。
+热部署：Nginx支持热部署，可以在不停止服务的情况下更新配置文件或替换代码，提高了系统的可用性和可靠性。
+安全：Nginx具有内置的安全功能，如HTTPS支持、访问控制和防火墙规则等，可以帮助保护网站免受攻击和未经授权的访问。
+易于配置：Nginx的配置文件简洁明了，易于理解和修改。
+</code></pre>
+<p><img src="/BlogPro/images/0916c2b322a40908e396bb8a0f1ff1dc.png" alt="Alt text"><br><img src="/BlogPro/images/e5f1bdb5b6079c39680bc75caad53060.png" alt="Alt text"><br><img src="/BlogPro/images/c3690be37d2ff1abdabee02a9015edee.png" alt="Alt text"></p>
 <h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ul>
 <li><p>配置Nginx<br>  <img src="/BlogPro/images/19d48dbd37c14bfa6461e2d2c7f78843.png" alt="Alt text"></p>
 <ul>
@@ -467,14 +477,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/BlogPro/archives/">
         
-          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/BlogPro/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

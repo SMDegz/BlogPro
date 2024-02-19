@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1、 class和struct的区别？Class可以被实例化,属于引用类型  Struct属于值类型  2、 C#中类成员的访问修饰符有哪些？private : 私有成员, 在类的内部才可以访问。  protected : 保护成员，该类内部和继承类中可以访问。  public : 公共成员，完全公开，没有访问限制。  internal: 在同一程序集内可以访问。  3、 面向对象的三大特征是什么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1、面试题">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/06/01/%E5%AD%A6%E4%B9%A0/%E9%9D%A2%E8%AF%95/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="1、 class和struct的区别？Class可以被实例化,属于引用类型  Struct属于值类型  2、 C#中类成员的访问修饰符有哪些？private : 私有成员, 在类的内部才可以访问。  protected : 保护成员，该类内部和继承类中可以访问。  public : 公共成员，完全公开，没有访问限制。  internal: 在同一程序集内可以访问。  3、 面向对象的三大特征是什么">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-01T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-02-19T08:16:15.332Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/06/01/%E5%AD%A6%E4%B9%A0/%E9%9D%A2%E8%AF%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>1、面试题 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">你知道的越多 你不知道的也就越多</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/06/01/%E5%AD%A6%E4%B9%A0/%E9%9D%A2%E8%AF%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          1、面试题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-01 10:48:57" itemprop="dateCreated datePublished" datetime="2022-06-01T10:48:57+08:00">2022-06-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-19 16:16:15" itemprop="dateModified" datetime="2024-02-19T16:16:15+08:00">2024-02-19</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/06/01/%E5%AD%A6%E4%B9%A0/%E9%9D%A2%E8%AF%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/06/01/%E5%AD%A6%E4%B9%A0/%E9%9D%A2%E8%AF%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="1、-class和struct的区别？"><a href="#1、-class和struct的区别？" class="headerlink" title="1、 class和struct的区别？"></a>1、 class和struct的区别？</h3><pre><code>Class可以被实例化,属于引用类型
+
+Struct属于值类型
+</code></pre>
+<h3 id="2、-C-中类成员的访问修饰符有哪些？"><a href="#2、-C-中类成员的访问修饰符有哪些？" class="headerlink" title="2、 C#中类成员的访问修饰符有哪些？"></a>2、 C#中类成员的访问修饰符有哪些？</h3><pre><code>private : 私有成员, 在类的内部才可以访问。
+
+protected : 保护成员，该类内部和继承类中可以访问。
+
+public : 公共成员，完全公开，没有访问限制。
+
+internal: 在同一程序集内可以访问。
+</code></pre>
+<h3 id="3、-面向对象的三大特征是什么？-面向过程和面向对象的区别"><a href="#3、-面向对象的三大特征是什么？-面向过程和面向对象的区别" class="headerlink" title="3、 面向对象的三大特征是什么？&#x2F;面向过程和面向对象的区别"></a>3、 面向对象的三大特征是什么？&#x2F;面向过程和面向对象的区别</h3><pre><code>封装，继承，多态；
+
+面向过程：是分析问题并解决问题所需要的步骤，强调是解决问题的步骤。可以先定义多个函数，在使用的时候逐步调用函数即可
+
+面向对象：是把问题分解成多个对象，强调的是解决问题的行为表现
+</code></pre>
+<h3 id="4、-抽象类和接口的区别？"><a href="#4、-抽象类和接口的区别？" class="headerlink" title="4、 抽象类和接口的区别？"></a>4、 抽象类和接口的区别？</h3><pre><code>接口支持多继承；抽象类不能实现多继承。
+
+接口只能定义抽象规则；抽象类既可以定义规则，还可能提供已实现的成员。
+
+接口是一组行为规范；抽象类是一个不完全的类
+
+接口可以用于支持回调；抽象类不能实现回调，因为继承不支持
+
+接口只包含方法、属性、索引器、事件的签名，但不能定义字段和包含实现的方法；抽象类可以定义字段、属性、包含有实现的方法
+
+接口可以作用于值类型和引用类型；抽象类只能作用于引用类型。
+</code></pre>
+<h3 id="6、-什么是装箱和拆箱？"><a href="#6、-什么是装箱和拆箱？" class="headerlink" title="6、 什么是装箱和拆箱？"></a>6、 什么是装箱和拆箱？</h3><pre><code>从值类型转换到引用类型装箱。从引用类型转换到值类型拆箱
+</code></pre>
+<h3 id="7、-C-中，哪些类型是值类型？哪些类型是引用类型？（数据类型）"><a href="#7、-C-中，哪些类型是值类型？哪些类型是引用类型？（数据类型）" class="headerlink" title="7、 C#中，哪些类型是值类型？哪些类型是引用类型？（数据类型）"></a>7、 C#中，哪些类型是值类型？哪些类型是引用类型？（数据类型）</h3><pre><code>C#的引用类型包括：数组、委托、接口、object、字符串、用户定义的类。
+
+C#的值类型包括：数值类型、结构体、bool型、枚举、可空类型、用户定义的结构体。
+</code></pre>
+<h3 id="c-类和结构的区别"><a href="#c-类和结构的区别" class="headerlink" title="c# 类和结构的区别"></a>c# 类和结构的区别</h3><pre><code>C#中，类支持继承、是引用类型；结构不支持继承、是值类型，用于简单数据结构。两者在内存分配和默认值等方面存在差异。
+</code></pre>
+<h3 id="8、-值类型和引用类型的区别？"><a href="#8、-值类型和引用类型的区别？" class="headerlink" title="8、 值类型和引用类型的区别？"></a>8、 值类型和引用类型的区别？</h3><pre><code>值类型:占用空间固定、保存与复制的是值本身、使用typeof检测数据的类型、基本类型数据是值类型
+
+引用类型:占用空间不固定、保存与复制的是指向对象的一个指针、使用instanceof检测数据类型、使用new()方法构造出的对象是引用型
+</code></pre>
+<h3 id="9、-C-中的基本数据类型有哪些？"><a href="#9、-C-中的基本数据类型有哪些？" class="headerlink" title="9、 C#中的基本数据类型有哪些？"></a>9、 C#中的基本数据类型有哪些？</h3><pre><code>值类型：有符号整数（由小到大）：sbyte、short、int、long 无符号整数（由小到大）：byte、ushort、uint、ulong 浮点型：float、double、decimal
+
+布尔型：bool
+
+字符型：char
+
+引用类型：string、object
+</code></pre>
+<h3 id="10、-重写和重载的区别？方法的override和overload有什么区别？"><a href="#10、-重写和重载的区别？方法的override和overload有什么区别？" class="headerlink" title="10、 重写和重载的区别？方法的override和overload有什么区别？"></a>10、 重写和重载的区别？方法的override和overload有什么区别？</h3><pre><code>重载：同类同名不同参，属于编译时多态。重载是在一个类中定义多个方法名相同的方法，表示一个行为有多种实现方式
+
+重写：同名同参不同类，属于运行时多态。重写是用子类的方法来重写父类的方法，表示相同的方法在父类和子类中具有差异性
+</code></pre>
+<h3 id="11、-构造函数是否可以被继承？是否可以被重写？"><a href="#11、-构造函数是否可以被继承？是否可以被重写？" class="headerlink" title="11、 构造函数是否可以被继承？是否可以被重写？"></a>11、 构造函数是否可以被继承？是否可以被重写？</h3><pre><code>构造函数不可以继承，因此不能被重写，但可以被重载
+</code></pre>
+<h3 id="12、-C-中，运算符“-”和“-”的区别是什么？"><a href="#12、-C-中，运算符“-”和“-”的区别是什么？" class="headerlink" title="12、 C#中，运算符“?”和“??”的区别是什么？"></a>12、 C#中，运算符“?”和“??”的区别是什么？</h3><pre><code>一个个问号(?)的运算符是指：可以为 null 的类型
+
+如：
+
+int? x = null;//定义可空类型变量
+
+i=3?2:5 //还可为三元运算符
+
+两个问号(??)的运算符是指null 合并运算符，合并运算符为类型转换定义了一个预设值，以防可空类型的值为Null
+
+如：
+
+int? y = x ?? 1000;//使用合并运算符，当变量x为null时，预设赋值1000
+</code></pre>
+<h3 id="13、-C-中，用const和readonly修饰的字段有什么区别？"><a href="#13、-C-中，用const和readonly修饰的字段有什么区别？" class="headerlink" title="13、 C#中，用const和readonly修饰的字段有什么区别？"></a>13、 C#中，用const和readonly修饰的字段有什么区别？</h3><pre><code>readonly （只读）和const（常量）都是用来标示常量的。
+
+初始化赋值不同。
+
+const修饰的常量必须在声明的同时赋值
+</code></pre>
+<h3 id="14、-C-中，new有几种用法？"><a href="#14、-C-中，new有几种用法？" class="headerlink" title="14、 C#中，new有几种用法？"></a>14、 C#中，new有几种用法？</h3><pre><code>1）new 运算符：用于创建对象和调用构造函数。
+
+2）new 修饰符：在用作修饰符时，new 关键字可以显式隐藏从基类继承的成员。
+
+3）new 约束：用于在泛型声明中约束可能用作类型参数的参数的类型。
+</code></pre>
+<h3 id="15、-C-中，ref和out在修饰方法参数时有什么区别？"><a href="#15、-C-中，ref和out在修饰方法参数时有什么区别？" class="headerlink" title="15、 C#中，ref和out在修饰方法参数时有什么区别？"></a>15、 C#中，ref和out在修饰方法参数时有什么区别？</h3><pre><code>ref和out都可以实现将一个指定的参数按照引用进行传递：
+
+ref参数在传入方法之前必须进行初始化；而out参数在传入方法之前可以不用初始化。
+
+ref参数在方法内部可以直接使用；而out参数在方法内部不能直接使用。
+
+ref参数在方法内部可以使用也可以不使用；而out参数在方法返回之前必须对其赋值。
+</code></pre>
+<h3 id="16、-C-中using有几种用法？"><a href="#16、-C-中using有几种用法？" class="headerlink" title="16、 C#中using有几种用法？"></a>16、 C#中using有几种用法？</h3><pre><code>using指令，即引用命名空间。
+
+using 定义对象的使用范围，即时释放对象。
+
+using别名（using 别名=包括详细命名空间信息的具体的类型）
+</code></pre>
+<h3 id="17、-C-中-和-，-和-有什么区别？"><a href="#17、-C-中-和-，-和-有什么区别？" class="headerlink" title="17、 C#中&amp;和&amp;&amp;，|和||有什么区别？"></a>17、 C#中&amp;和&amp;&amp;，|和||有什么区别？</h3><pre><code>&amp;：不管前面的条件是否成立，后面的条件依旧会判断
+
+&amp;&amp;：前面的条件不成立，后面的条件就不会判断
+
+| 和 || 同上
+</code></pre>
+<h3 id="18、-C-中is和as有什么区别？"><a href="#18、-C-中is和as有什么区别？" class="headerlink" title="18、 C#中is和as有什么区别？"></a>18、 C#中is和as有什么区别？</h3><p> &#x2F;&#x2F; 一个方法来触发事件<br> public void PublishMessage(string message)<br> {<br>     &#x2F;&#x2F; 检查是否有订阅者订阅了事件<br>     OnMessageReceived?.Invoke(this, message);<br> }<br>    is是用来判断类型A能否转化为类型B，一般用来作有继承关系的父类与子类是否可以相互转化的判断。而as是将类型A转化为类型B，一般也是用来做子类与父类的转换。</p>
+<h3 id="19、-什么是委托？事件跟委托是什么关系"><a href="#19、-什么是委托？事件跟委托是什么关系" class="headerlink" title="19、 什么是委托？事件跟委托是什么关系?"></a>19、 什么是委托？事件跟委托是什么关系?</h3><pre><code>委托是一种方法容器，里面可以装载若干个方法引用地址，调用委托，就相当于同时调用了该容器内的所有方法。 委托可以将方法作为参数传递给方法.委托主要用来动态调用方法的。事件基于委托，事件的本质是委托字段的包装器，对委托字段的访问起限制作用，
+
+事件隐藏了委托实例的大部分功能，仅暴露添加和移除事件处理器的功能。
+事件是在委托的基础之上，使用event关键词定义的，它只能在声明事件的类内部被调用，不可以在类外调用，也不可以直接赋给一个方法，只能通过+=或-=来绑定方法或者取消绑定方法。
+</code></pre>
+<h3 id="20、-http-ADO-NET中访问数据库的基本步骤是什么？"><a href="#20、-http-ADO-NET中访问数据库的基本步骤是什么？" class="headerlink" title="20、 http://ADO.NET中访问数据库的基本步骤是什么？"></a>20、 <a href="http://ADO.NET中访问数据库的基本步骤是什么？">http://ADO.NET中访问数据库的基本步骤是什么？</a></h3><pre><code>Connection con=new Connection(“连接字符串”);//创建连接对象
+
+con.Open();//打开连接对象
+</code></pre>
+<h3 id="21、-http-ADO-NET中，DataSet和DataReader的区别是什么？"><a href="#21、-http-ADO-NET中，DataSet和DataReader的区别是什么？" class="headerlink" title="21、 http://ADO.NET中，DataSet和DataReader的区别是什么？"></a>21、 <a href="http://ADO.NET中，DataSet和DataReader的区别是什么？">http://ADO.NET中，DataSet和DataReader的区别是什么？</a></h3><pre><code>DataSet(断开式的)：数据集，表示内存中的“数据库”。DataSet在从数据库中读取数据时是“面向非连接的”，即DataSet在读取数据的那一刻会与数据库进行连接，然后会一次性把数据库中所有的表以及数据读取到内存中，然后便断开数据库连接。
+
+DataReader(连接式的)：数据读取器。DataReader在从数据库中读取数据时是“面向连接的”，即DataReader在读取数据时是从数据库中一行一行读取，每次只会从数据库中读取一行数据（类似于数据库游标的行为），直到读完最后一行之后，才断开数据库连接。在整个读取的过程中，必须保持与数据库的连接处于打开状态。
+</code></pre>
+<h3 id="24、-http-ASP-NET-中页面之间传递值的几种方式？"><a href="#24、-http-ASP-NET-中页面之间传递值的几种方式？" class="headerlink" title="24、 http://ASP.NET 中页面之间传递值的几种方式？"></a>24、 <a target="_blank" rel="noopener" href="http://asp.net/">http://ASP.NET</a> 中页面之间传递值的几种方式？</h3><pre><code>session
+
+cookie
+
+Application
+
+Request.QueryString
+</code></pre>
+<h3 id="26、-向服务器发送请求有几种方式？"><a href="#26、-向服务器发送请求有几种方式？" class="headerlink" title="26、 向服务器发送请求有几种方式？"></a>26、 向服务器发送请求有几种方式？</h3><pre><code>Post；Get；put delete
+</code></pre>
+<h3 id="27、Web-Service-是什么，-Web-Service有哪些优点？"><a href="#27、Web-Service-是什么，-Web-Service有哪些优点？" class="headerlink" title="27、Web Service 是什么， Web Service有哪些优点？"></a>27、Web Service 是什么， Web Service有哪些优点？</h3><pre><code>简单的说，WebService就是一种跨编程语言和跨操作系统平台的远程调用技术。
+
+Web Service是基于XML的，与具体的语言和平台无关，故可以实现跨平台、跨语言通信。
+
+Web Service是采用SOAP协议（简单对象访问协议）进行通信的，该协议基于HTTP协议，故可以实现跨防火墙通信。
+</code></pre>
+<h3 id="28、-http-ASP-NET缓存有几种实现方式？"><a href="#28、-http-ASP-NET缓存有几种实现方式？" class="headerlink" title="28、 http://ASP.NET缓存有几种实现方式？"></a>28、 <a href="http://ASP.NET缓存有几种实现方式？">http://ASP.NET缓存有几种实现方式？</a></h3><pre><code>基于页面级缓存；基于数据源的缓存；自定义缓存 ；分布式缓存；
+</code></pre>
+<h3 id="29、-http-ASP-NET中常见文件的后缀名有哪些？"><a href="#29、-http-ASP-NET中常见文件的后缀名有哪些？" class="headerlink" title="29、 http://ASP.NET中常见文件的后缀名有哪些？"></a>29、 <a href="http://ASP.NET中常见文件的后缀名有哪些？">http://ASP.NET中常见文件的后缀名有哪些？</a></h3><pre><code>.sln：解决方案文件
+
+.ashx 一般处理程序
+
+.aspx webfrom
+
+.ascx 用户控件
+</code></pre>
+<h3 id="30、-http-ASP-NET中的六大对象有哪些？"><a href="#30、-http-ASP-NET中的六大对象有哪些？" class="headerlink" title="30、 http://ASP.NET中的六大对象有哪些？"></a>30、 <a href="http://ASP.NET中的六大对象有哪些？">http://ASP.NET中的六大对象有哪些？</a></h3><pre><code>1.Response
+
+2.Request
+
+3.Server
+
+4.Application
+
+5.Session
+
+6.Cookie
+</code></pre>
+<h3 id="31、-jquery中实现Ajax请求的常用方法有哪些？有什么区别？"><a href="#31、-jquery中实现Ajax请求的常用方法有哪些？有什么区别？" class="headerlink" title="31、 jquery中实现Ajax请求的常用方法有哪些？有什么区别？"></a>31、 jquery中实现Ajax请求的常用方法有哪些？有什么区别？</h3><pre><code>用jquery 的 load() 方法实现ajax请求
+
+用jquery 的 post() ,get() 方法
+
+用jquery 的 Ajax() 方法，
+</code></pre>
+<h3 id="33、-MVC中的各个字母分别代表什么含义？在MVC框架中起什么作用？"><a href="#33、-MVC中的各个字母分别代表什么含义？在MVC框架中起什么作用？" class="headerlink" title="33、 MVC中的各个字母分别代表什么含义？在MVC框架中起什么作用？"></a>33、 MVC中的各个字母分别代表什么含义？在MVC框架中起什么作用？</h3><pre><code>M(Model):模型应用的业务逻辑
+
+V（View）:视图， 界面设计人员进行图形界面设计。
+
+C（Controller）:控制器，负责转发请求，对请求进行处理。
+</code></pre>
+<h3 id="34、-MVC请求的处理过程？"><a href="#34、-MVC请求的处理过程？" class="headerlink" title="34、 MVC请求的处理过程？"></a>34、 MVC请求的处理过程？</h3><pre><code>1.用户打开浏览器,在地址栏输入某个网址的URL并回车,浏览器便开始像该URL指定的服务器发起HTTP请求
+
+2.服务器的网站服务系统(IIS)接收到该请求,先检查自己是否认识该类请求,如果认识就直接处理并发回响应,否则就将该类请求发给对应的HTTP处理程序(在此时http://ASP.NET的MVC)
+
+3.MVC的路由系统接收到该请求,根据HTTP请求的URL,把请求定向到指定的控制器中.
+
+4.如果控制器是MVC内置的标准的Controller,则启动Action机制;否则,根据自定义的控制器逻辑,直接像浏览器发回响应;
+
+5.MVC路由把HTTP请求定向到具体的Controller/Action中,如果Action没有使用视图引擎,则根据自定义逻辑发回响应;否则返回ActionResult给视图引擎,由视图引擎渲染呈现HTML,并发回浏览器.
+</code></pre>
+<h3 id="36、-请说出SQL-Server中三种表连接的方式inner-join、left-join、right-join的区别及对最终查询的结果的影响。"><a href="#36、-请说出SQL-Server中三种表连接的方式inner-join、left-join、right-join的区别及对最终查询的结果的影响。" class="headerlink" title="36、 请说出SQL Server中三种表连接的方式inner join、left join、right join的区别及对最终查询的结果的影响。"></a>36、 请说出SQL Server中三种表连接的方式inner join、left join、right join的区别及对最终查询的结果的影响。</h3><pre><code>left join(左联接) 返回包括左表中的所有记录和右表中联结字段相等的记录 （以左表数据为基准，不足补为 NULL） right join(右联接) 返回包括右表中的所有记录和左表中联结字段相等的记录（以右表数据为基准，不足补为 NULL）
+
+inner join(等值连接) 只返回两个表中联结字段相等的行（条件 on 之相等的数据）
+</code></pre>
+<h3 id="38、-数据库索引是什么？有什么作用？"><a href="#38、-数据库索引是什么？有什么作用？" class="headerlink" title="38、 数据库索引是什么？有什么作用？"></a>38、 数据库索引是什么？有什么作用？</h3><pre><code>索引是一种单独的、物理的对数据库表中一列或多列的值进行排序的一种存储结构
+
+意义就是通过缩小一张表中需要查询的记录（行）的数目来加快搜索的速度。
+</code></pre>
+<h3 id="39、-SQL-Server中索引的分类及区别？主键索引、聚集索引、非聚集索引聚集索引和非聚集索引的区别"><a href="#39、-SQL-Server中索引的分类及区别？主键索引、聚集索引、非聚集索引聚集索引和非聚集索引的区别" class="headerlink" title="39、 SQL Server中索引的分类及区别？主键索引、聚集索引、非聚集索引聚集索引和非聚集索引的区别"></a>39、 SQL Server中索引的分类及区别？主键索引、聚集索引、非聚集索引聚集索引和非聚集索引的区别</h3><pre><code>1.聚集索引一个表只能有一个，而非聚集索引一个表可以存在多个。
+
+2.聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续。
+
+3.聚集索引查询数据速度快，插入数据速度慢;非聚集索引反之。
+</code></pre>
+<h3 id="40、-什么是事务？它有哪些特性？"><a href="#40、-什么是事务？它有哪些特性？" class="headerlink" title="40、 什么是事务？它有哪些特性？"></a>40、 什么是事务？它有哪些特性？</h3><pre><code>事务：所谓事务就是用户定义的一个数据库操作系列，这些操作要么全不做要么全做，是一个不可分割的工作单位。
+
+事务有四个特性，分别是：原子性、一致性、隔离性、持续性
+</code></pre>
+<h3 id="41、-SQL-Server中，触发器分为哪几种？分别代表什么含义？"><a href="#41、-SQL-Server中，触发器分为哪几种？分别代表什么含义？" class="headerlink" title="41、 SQL Server中，触发器分为哪几种？分别代表什么含义？"></a>41、 SQL Server中，触发器分为哪几种？分别代表什么含义？</h3><pre><code>1 、 DML 触发器，当数 据库中表中的数据发生变化时，包括 insert,update,delete 任意操作，如果对该表写了对应的 DML 触发器，那么该触发器自动执行。
+
+2、 DDL 触发器，是 Sql Server2005 新增的触发器，主要用于审核与规范对数据库中表，触发器，视图等结构上的操作。
+
+3、 登录触发器，登录触发器将为响应 LOGIN 事件而激发存储过程。与 SQL Server 实例建立用户会话时将引发此事件。登录触发器将在登录的身份验证阶段完成之后且用户会话实际建立之前激发。
+</code></pre>
+<h3 id="42、-在SQL-Server中union和union-all的区别？"><a href="#42、-在SQL-Server中union和union-all的区别？" class="headerlink" title="42、 在SQL Server中union和union all的区别？"></a>42、 在SQL Server中union和union all的区别？</h3><pre><code>⒈UNION 和 UNION ALL 关键字都是将两个结果集合并为一个，但这两者从使用和效率上来说都有所不同。
+
+⒉对重复结果的处理：UNION 在进行表链接后会筛选掉重复的数据，UNION ALL 不会去除重复的数据。
+
+⒊对排序的处理：UNION 将会按照字段的顺序进行排序；UNION ALL 只是简单的将两个结果合并后就返回。
+
+⒋从效率上说，UNION ALL 要比 UNION 快很多，所以，如果可以确认合并的两个结果集中不包含重复数据且不需要排序的话，那么就使用 UNION ALL。
+</code></pre>
+<h3 id="43、-SQL-Server中，有一张学生成绩表，有三个字段：学生ID，学生姓名，考试成绩。如何查询出成绩排在前三名的学生？（注意：可能会有并列名次）"><a href="#43、-SQL-Server中，有一张学生成绩表，有三个字段：学生ID，学生姓名，考试成绩。如何查询出成绩排在前三名的学生？（注意：可能会有并列名次）" class="headerlink" title="43、 SQL Server中，有一张学生成绩表，有三个字段：学生ID，学生姓名，考试成绩。如何查询出成绩排在前三名的学生？（注意：可能会有并列名次）"></a>43、 SQL Server中，有一张学生成绩表，有三个字段：学生ID，学生姓名，考试成绩。如何查询出成绩排在前三名的学生？（注意：可能会有并列名次）</h3><pre><code>select * from te where fenshu in (select top 3 fenshu from te group by fenshu order by fenshu desc)order by fenshu desc
+</code></pre>
+<h3 id="45、-SQL-Server中，向一个表中插入了新数据，如何得到自增长字段的当前值？"><a href="#45、-SQL-Server中，向一个表中插入了新数据，如何得到自增长字段的当前值？" class="headerlink" title="45、 SQL Server中，向一个表中插入了新数据，如何得到自增长字段的当前值？"></a>45、 SQL Server中，向一个表中插入了新数据，如何得到自增长字段的当前值？</h3><pre><code>1.select SCOPE_IDENTITY() as id
+
+2.select IDENT_CURRENT (‘Tb_People’)
+
+3.select MAX(id) from Tb_People
+</code></pre>
+<h3 id="46、-使用递归计算1-100之间整数的和"><a href="#46、-使用递归计算1-100之间整数的和" class="headerlink" title="46、 使用递归计算1~100之间整数的和"></a>46、 使用递归计算1~100之间整数的和</h3><pre><code>function getSum(n) &#123;
+    if (n === 1) &#123;
+        return 1;
+    &#125;
+
+    //返回 n 和前 n-1 的和相加
+    return n + getSum(n - 1);
+&#125;
+var s = getSum(100);
+console.log(s);
+</code></pre>
+<h3 id="47、c-有哪些排序算法"><a href="#47、c-有哪些排序算法" class="headerlink" title="47、c# 有哪些排序算法"></a>47、c# 有哪些排序算法</h3><pre><code>在C#中，你可以实现多种排序算法。以下是一些常见的排序算法：
+
+冒泡排序（Bubble Sort）：这是一种简单的排序算法，通过重复地遍历待排序序列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。
+选择排序（Selection Sort）：它的工作原理是每一次从待排序的数据元素中选出最小（或最大）的一个元素，存放在序列的起始位置，直到全部待排序的数据元素排完。
+插入排序（Insertion Sort）：插入排序的工作方式是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
+希尔排序（Shell Sort）：也称递减增量排序算法，是插入排序的一种更高效的改进版本。希尔排序是非稳定排序算法。
+</code></pre>
+<h3 id="52、string与StringBuilder的区别"><a href="#52、string与StringBuilder的区别" class="headerlink" title="52、string与StringBuilder的区别"></a>52、string与StringBuilder的区别</h3><pre><code>string 对象时恒定不变的，stringBuider 对象表示的字符串是可变的。 stringBuilder 是.net 提供的动态创建 string 的高效方式，以克服 string 对象恒定性带来的性能影响。
+</code></pre>
+<h3 id="53、-http-ADO-NET中如何避免SQL注入漏洞的？"><a href="#53、-http-ADO-NET中如何避免SQL注入漏洞的？" class="headerlink" title="53、 http://ADO.NET中如何避免SQL注入漏洞的？"></a>53、 <a href="http://ADO.NET中如何避免SQL注入漏洞的？">http://ADO.NET中如何避免SQL注入漏洞的？</a></h3><pre><code>利用 sql 关键字对网站进行攻击。过滤关键字’等
+</code></pre>
+<h3 id="64、-请写出-net中两种常用内置委托以及它们的异同"><a href="#64、-请写出-net中两种常用内置委托以及它们的异同" class="headerlink" title="64、 请写出.net中两种常用内置委托以及它们的异同"></a>64、 请写出.net中两种常用内置委托以及它们的异同</h3><pre><code>Func和Action，
+
+Func委托必须有且只有一个返回值
+
+Action泛型委托没有返回值，只能带入参数
+</code></pre>
+<h3 id="66、-写出c-中4中循环结构语法"><a href="#66、-写出c-中4中循环结构语法" class="headerlink" title="66、 写出c#中4中循环结构语法"></a>66、 写出c#中4中循环结构语法</h3><pre><code>while循环，do while循环，for循环，foreach循环
+</code></pre>
+<h3 id="73、-进程和线程分别该怎么理解？"><a href="#73、-进程和线程分别该怎么理解？" class="headerlink" title="73、 进程和线程分别该怎么理解？"></a>73、 进程和线程分别该怎么理解？</h3><pre><code>进程：进程是比线程大的程序运行单元，都是由操作系统所体会的系统运行单元，一个程序中至少要有一个进程，一个进程中，至少要有一个线程线程：线程的划分尺度要比进程要小，进程拥有独立的内存单元，线程是共享内存，从而极大的提高了程序的运行效率,同一个进程中的多个线程可以并发执行。
+</code></pre>
+<h3 id="74、-能用foreach遍历访问的对象需要实现？"><a href="#74、-能用foreach遍历访问的对象需要实现？" class="headerlink" title="74、 能用foreach遍历访问的对象需要实现？"></a>74、 能用foreach遍历访问的对象需要实现？</h3><pre><code>IEnumerable接口或声明GetEnumerator方法的类型
+</code></pre>
+<h3 id="77、-谈谈SQL中视图的概念、以及它的有点"><a href="#77、-谈谈SQL中视图的概念、以及它的有点" class="headerlink" title="77、 谈谈SQL中视图的概念、以及它的有点"></a>77、 谈谈SQL中视图的概念、以及它的有点</h3><pre><code>概念：
+
+1、 视图是一张虚拟表，视图的字段是由我们自定义的，视图只供查询，数据不可更改，查询数据来源于我们建立的实体表。
+
+2、 使用视图的优势？视图可以将多个复杂关联表，提取出我们需要的信息，优化查询速度。
+
+优点：
+
+第一点：使用视图，可以定制用户数据，聚焦特定的数据。
+
+第二点：使用视图，可以简化数据操作。
+
+第三点：使用视图，基表中的数据就有了一定的安全性
+
+第四点：可以合并分离的数据，创建分区视图
+</code></pre>
+<h3 id="78、-在c-中“-”和equals-的区别？"><a href="#78、-在c-中“-”和equals-的区别？" class="headerlink" title="78、 在c#中“&#x3D;&#x3D;”和equals 的区别？"></a>78、 在c#中“&#x3D;&#x3D;”和equals 的区别？</h3><pre><code>==是判断两个变量或实例是不是指向同一个内存空间
+
+equals 是判断两个变量或实例所指向的内存空间的值是不是相同
+
+==是指对内存地址进行比较 equals()是对字符串的内容进行比较
+</code></pre>
+<h3 id="79、-Redis支持哪些数据类型？"><a href="#79、-Redis支持哪些数据类型？" class="headerlink" title="79、 Redis支持哪些数据类型？"></a>79、 Redis支持哪些数据类型？</h3><pre><code>string（字符串），hash（哈希），list（列表），set（集合）及zset(sorted set：有序集合)。
+</code></pre>
+<h3 id="81、-UDP和TCP连接有和异同"><a href="#81、-UDP和TCP连接有和异同" class="headerlink" title="81、 UDP和TCP连接有和异同?"></a>81、 UDP和TCP连接有和异同?</h3><pre><code>TCP面向连接，而UDP是无连接的；
+
+TCP提供的服务更可靠；
+
+TCP面向字节流，UDP则是面向报文的，
+</code></pre>
+<h3 id="82、-在c-中sleep-和-wait-有什么区别"><a href="#82、-在c-中sleep-和-wait-有什么区别" class="headerlink" title="82、 在c#中sleep() 和 wait() 有什么区别?"></a>82、 在c#中sleep() 和 wait() 有什么区别?</h3><pre><code>①. sleep是线程类Thread 的方法，它是使当前线程暂时睡眠，可以放在任何位置。
+
+而wait是Object类的方法，它是使当前线程暂时放弃对象的使用权进行等待，必须放在同步方法或同步块里。
+
+②. Sleep使用的时候，线程并不会放弃对象的使用权，即不会释放对象锁，所以在同步方法或同步块中使用sleep，一个线程访问时，其他的线程也是无法访问的。
+
+而wait是会释放对象锁的，就是当前线程放弃对象的使用权，让其他的线程可以访问。
+
+③. 线程执行wait方法时，需要另一个线程调用notify进行唤醒。
+
+而sleep只是暂时休眠一定时间，时间到了之后，自动恢复运行，不需另外的线程唤醒。
+</code></pre>
+<h3 id="83、-堆和栈的区别？"><a href="#83、-堆和栈的区别？" class="headerlink" title="83、 堆和栈的区别？"></a>83、 堆和栈的区别？</h3><pre><code>1.申请方式的不同。栈由系统自动分配，而堆是人为申请开辟;
+
+2.申请大小的不同。栈获得的空间较小，而堆获得的空间较大;
+
+3.申请效率的不同。栈由系统自动分配，速度较快，而堆一般速度比较慢;
+
+4.存储内容的不同。栈在函数调用时，函数调用语句的下一条可执行语句的地址第一个进栈，然后函数的各个参数进栈，其中静态变量是不入栈的。而堆一般是在头部用一个字节存放堆的大小，堆中的具体内容是人为安排;
+
+5.底层不同。栈是连续的空间，而堆是不连续的空间。
+</code></pre>
+<h3 id="84、-什么是虚函数？什么是抽象函数？"><a href="#84、-什么是虚函数？什么是抽象函数？" class="headerlink" title="84、 什么是虚函数？什么是抽象函数？"></a>84、 什么是虚函数？什么是抽象函数？</h3><pre><code>虚 函数在继承类中必须有实现部分，抽象函数没有提供实现部分，虚函数是一种强制派生类覆盖的函数，否则继承类将不能被实例化。
+</code></pre>
+<h3 id="85、-net的错误处理机制是什么？"><a href="#85、-net的错误处理机制是什么？" class="headerlink" title="85、 .net的错误处理机制是什么？"></a>85、 .net的错误处理机制是什么？</h3><pre><code>.net错误处理机制采用 try-&gt;catch-&gt;finally 结构，发生错误时，层层上抛，直到找到匹配的Catch为止。
+</code></pre>
+<h3 id="88、说明C-中的方法声明参数关键字params，ref，out的意义及用法"><a href="#88、说明C-中的方法声明参数关键字params，ref，out的意义及用法" class="headerlink" title="88、说明C#中的方法声明参数关键字params，ref，out的意义及用法"></a>88、说明C#中的方法声明参数关键字params，ref，out的意义及用法</h3><pre><code>1)params关键字，官方给出的解释为用于方法参数长度不定的情况。有时候不能确定一个方法的方法参数到底有多少个，可以使用params关键字来解决问题
+
+2)ref关键字：使用引用类型参数，在方法中对参数所做的任何更改都将反应在该变量中
+
+3) out 关键字：out 与ref相似但是out 无需进行初始化。
+</code></pre>
+<h3 id="89、-什么是泛型？"><a href="#89、-什么是泛型？" class="headerlink" title="89、 什么是泛型？"></a>89、 什么是泛型？</h3><pre><code>所谓泛型是指将类型参数化以达到代码复用提高软件开发工作效率的一种数据类型。在类使用时(创建对象)再进行类型的定义。
+</code></pre>
+<h3 id="91、-CTS、CLS、CLR分别作何解释？CLR-提供了-NET-的哪些功能？（中间语言编译器、JIT-等等）"><a href="#91、-CTS、CLS、CLR分别作何解释？CLR-提供了-NET-的哪些功能？（中间语言编译器、JIT-等等）" class="headerlink" title="91、 CTS、CLS、CLR分别作何解释？CLR 提供了.NET 的哪些功能？（中间语言编译器、JIT 等等）"></a>91、 CTS、CLS、CLR分别作何解释？CLR 提供了.NET 的哪些功能？（中间语言编译器、JIT 等等）</h3><pre><code>CTS即通用类型系统，它定义了如何在.NET Framework运行库中声明、使用和管理类型，同时也是.NET Framework运行库支持跨语言集成的一个重要组成部分。
+
+CLS 即公共语言规范，它是许多应用程序所需的一套基本语言功能
+
+CLR 即公共语言运行库，是.NET Framework 的基础，可以将其看作一个在执行时管理代码的代理，它提供了内存管理、线程管理和远程处理等核心服务，并且还强制实施严格的类型安全以及可提高安全性和可靠性的其他形式的代码准确性。
+</code></pre>
+<h3 id="92、-什么是托管代码、非托管代码"><a href="#92、-什么是托管代码、非托管代码" class="headerlink" title="92、 什么是托管代码、非托管代码"></a>92、 什么是托管代码、非托管代码</h3><pre><code>托管代码 (managed code)
+
+由公共语言运行库环境（而不是直接由操作系统）执行的代码。托管代码应用程序可以获得公共语言运行库服务，例如自动垃圾回收、运行库类型检查和安全支持等。这些服务帮助提供独立于平台和语言的、统一的托管代码应用程序行为。
+
+非托管代码 (unmanaged code)
+
+在公共语言运行库环境的外部，由操作系统直接执行的代码。非托管代码必须提供自己的垃圾回收、类型检查、安全支持等服务；它与托管代码不同，后者从公共语言运行库中获得这些服务。
+</code></pre>
+<h3 id="93、-GC是什么-为什么要有GC"><a href="#93、-GC是什么-为什么要有GC" class="headerlink" title="93、 GC是什么? 为什么要有GC?"></a>93、 GC是什么? 为什么要有GC?</h3><pre><code>1.GC是垃圾收集器。程序员不用担心内存管理，因为垃圾收集器会自动进行管理.
+2 .NET的GC机制有这样两个问题：首先，GC并不是能释放所有的资源。它不能自动释放非托管资源。
+
+第二，GC并不是实时性的，这将会造成系统性能上的瓶颈和不确定性。
+
+GC就是对“不可达“的对象进行回收，释放内存。
+</code></pre>
+<h3 id="94、-什么是序列化？"><a href="#94、-什么是序列化？" class="headerlink" title="94、 什么是序列化？"></a>94、 什么是序列化？</h3><pre><code>序列化是将对象的状态信息转换为可以存储或传输的形式过程。
+</code></pre>
+<hr>
+<h3 id="异步和多线程有什么区别"><a href="#异步和多线程有什么区别" class="headerlink" title="异步和多线程有什么区别"></a>异步和多线程有什么区别</h3><pre><code>多线程是实现异步操作的一种手段，即异步操作可以通过多线程来实现。但异步操作并不一定要依赖于多线程，它也可以通过其他机制（如事件循环）来实现。
+因此，异步和多线程之间的关系是相辅相成的，它们可以在不同的场景下相互补充和配合。
+</code></pre>
+<h3 id="请描述一下-NET中的委托（Delegate）和事件（Event）。"><a href="#请描述一下-NET中的委托（Delegate）和事件（Event）。" class="headerlink" title="请描述一下.NET中的委托（Delegate）和事件（Event）。"></a>请描述一下.NET中的委托（Delegate）和事件（Event）。</h3><pre><code>委托是一种类型，用于引用和调用方法。它允许开发人员在运行时动态地绑定方法，并将其作为参数传递给其他方法。委托提供了一种解耦的方式，允许实现事件驱动的编程模型。事件是基于委托的机制，当特定条件发生时，可以触发事件并调用相应的事件处理程序。
+</code></pre>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><pre><code>C# 中的特性（Attribute）是一种允许向程序的程序集添加元数据的语言结构。这些元数据是关于程序结构信息的特殊类型的类，可以在运行时通过反射机制来获取和处理。特性可以用于标记类、方法、属性、事件等程序元素，以提供额外的声明性信息，这些信息可以在编译时或运行时由编译器或程序使用。
+</code></pre>
+<h3 id="什么是-NET框架？"><a href="#什么是-NET框架？" class="headerlink" title="什么是.NET框架？"></a>什么是.NET框架？</h3><pre><code>.NET框架是由Microsoft开发的一套应用程序开发工具和库集合，用于构建和运行跨平台的应用程序。它提供了一个运行环境和一组库，使开发人员能够创建各种类型的应用程序，包括桌面应用、Web应用、移动应用和服务端应用。
+</code></pre>
+<h3 id="什么是LINQ（Language-Integrated-Query）？它在-NET中的作用是什么？"><a href="#什么是LINQ（Language-Integrated-Query）？它在-NET中的作用是什么？" class="headerlink" title="什么是LINQ（Language-Integrated Query）？它在.NET中的作用是什么？"></a>什么是LINQ（Language-Integrated Query）？它在.NET中的作用是什么？</h3><pre><code>LINQ是一种语言集成查询的技术，它提供了一种统一的方式来查询和操作不同类型的数据源，包括对象集合、数据库、XML等。在.NET中，LINQ可以与C#和其他.NET语言一起使用，使开发人员能够使用类似于SQL的语法来查询和操作数据。
+</code></pre>
+<h3 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h3><pre><code>存储过程（Stored Procedure）是在数据库系统中，为了完成特定功能而编写的一组为了完成特定功能的SQL语句集，经编译后存储在数据库中，用户通过调用存储过程并给定参数（如果该存储过程带有参数）来执行它。
+</code></pre>
+<h3 id="asp-net-core-路由如何定义"><a href="#asp-net-core-路由如何定义" class="headerlink" title="asp.net core 路由如何定义"></a>asp.net core 路由如何定义</h3><pre><code>在ASP.NET Core中，路由定义了HTTP请求到特定处理程序的映射。通过特性路由，可在控制器或方法上直接指定路由模板；通过约定路由，可在服务配置中设置默认路由规则。路由可包含参数和约束，以实现更灵活的请求处理。
+</code></pre>
+<h3 id="C-多线程有哪几种？分别有什么区别？"><a href="#C-多线程有哪几种？分别有什么区别？" class="headerlink" title="C# 多线程有哪几种？分别有什么区别？"></a>C# 多线程有哪几种？分别有什么区别？</h3><pre><code>Thread
+
+ThreadPool类
+
+Task和Task&lt;T&gt;类 
+
+Parallel类
+
+async和await关键字
+</code></pre>
+<h3 id="如何理解c-中的死锁"><a href="#如何理解c-中的死锁" class="headerlink" title="如何理解c#中的死锁"></a>如何理解c#中的死锁</h3><pre><code>死锁（Deadlock）是并发编程中一个非常重要且复杂的问题，不仅限于C#，还出现在许多其他编程语言和多线程环境中。死锁是指两个或更多的进程（在C#中通常指线程）在无限期地等待对方释放资源，从而导致系统无法进行进一步的操作。
+
+必要条件：死锁的发生通常需要满足四个条件，也被称为饥饿四条件（Coffman条件）：
+
+    互斥条件：至少有一个资源必须处于非共享模式，即一次只有一个线程能使用。
+    持有和等待条件：一个线程至少持有一个资源，但因等待另一资源而被阻塞，该资源由其他线程持有。
+    不剥夺条件：资源不能被强制从一个线程中夺走，线程必须主动释放资源。
+    循环等待条件：存在一个线程等待循环，即线程A等待线程B的资源，线程B等待线程C的资源，线程C又等待线程A的资源。
+
+检测和预防：死锁很难在发生后进行检测，因为系统通常无法确定是否所有线程都已经停止进展。预防死锁的方法包括：
+
+    避免持有和等待：一次性请求所有需要的资源，如果不能全部获得，则不开始执行。
+    请求超时：设置资源请求的超时时间，如果等待时间过长，则放弃请求。
+    资源排序：对所有资源进行排序，线程必须按照顺序请求资源。
+    死锁检测与恢复：通过算法检测死锁，并在检测到死锁时采取措施（如回滚、重启线程等）来恢复系统。
+</code></pre>
+<h3 id="请解释一下-NET中的多态性和继承性。"><a href="#请解释一下-NET中的多态性和继承性。" class="headerlink" title="请解释一下.NET中的多态性和继承性。"></a>请解释一下.NET中的多态性和继承性。</h3><p>多态性是面向对象编程的一项重要特性，它允许以一种统一的方式处理不同类型的对象。在.NET中，多态性通过继承和接口实现。继承性允许一个类继承另一个类的属性和方法，从而形成类之间的层次关系。通过基类引用指向派生类对象，可以实现多态性，调用派生类重写的方法。</p>
+<h3 id="什么是ASP-NET？它与ASP有何区别？"><a href="#什么是ASP-NET？它与ASP有何区别？" class="headerlink" title="什么是ASP.NET？它与ASP有何区别？"></a>什么是ASP.NET？它与ASP有何区别？</h3><pre><code>ASP.NET是一种用于构建Web应用程序的技术框架，它是基于.NET框架的一部分。ASP.NET提供了一种可扩展、可靠和高效的方式来开发Web应用程序。与传统的ASP（Active Server Pages）相比，ASP.NET具有更强大的功能、更好的性能和更好的可维护性。
+（1）开发语言不同：ASP的开发语言仅局限于使用non-type脚本语言，给客户端脚本添加代码和给页面添加ASP代码的方法是一样的。
+
+ASP.NET的开发语言更为广泛，可以使用符合.NET Framework规范的任何一种功能完善的strongly-type编程语言（比如Visual Basic、C#）。
+
+（2）运行机制不同：ASP是解释型的编程框架，因没有事先编译，而是一边解释一边执行，故而页面的执行效率相对比较低。ASP.NET是编译型的编程框架，服务器上运行的是已经编译好的代码，因此可以利用早期绑定来实时编译，进而提高执行效率。
+
+（3）运行环境不同：ASP的运行环境是Windows操作系统及IIS。ASP.NET的运行环境除了Windows操作系统及IIS，还需要安装.NET Framework。
+
+（4）开发方式不同：ASP将用户界面层和应用程序逻辑层的代码混合写在一起，因此在维护和重用方面比较困难。ASP.NET将用户界面层和应用程序逻辑层的代码分离开，程序的复用性和维护性都得到了提高。
+
+（5）诞生的时间不同：1996年11月，Microsfot公司推出了ASP（Active Server Pages）技术。2002年01月，Microsfot公司推出了ASP.NET技术。
+</code></pre>
+<h3 id="请解释一下-NET中的并发（Concurrency）和多线程（Multithreading）。"><a href="#请解释一下-NET中的并发（Concurrency）和多线程（Multithreading）。" class="headerlink" title="请解释一下.NET中的并发（Concurrency）和多线程（Multithreading）。"></a>请解释一下.NET中的并发（Concurrency）和多线程（Multithreading）。</h3><pre><code>并发是指多个任务在同一时间段内执行，而多线程是实现并发的一种方式。在.NET中，多线程允许应用程序同时执行多个线程，每个线程独立执行。通过合理地管理线程，可以提高应用程序的性能和响应能力。
+</code></pre>
+<h3 id="请解释一下-NET中的缓存（Caching）和会话状态（Session-State）管理。"><a href="#请解释一下-NET中的缓存（Caching）和会话状态（Session-State）管理。" class="headerlink" title="请解释一下.NET中的缓存（Caching）和会话状态（Session State）管理。"></a>请解释一下.NET中的缓存（Caching）和会话状态（Session State）管理。</h3><pre><code>缓存是一种用于临时存储数据的机制，在.NET中可用于提高应用程序的性能和响应速度。通过将频繁访问的数据存储在缓存中，可以减少对数据库或其他外部资源的访问。会话状态管理是一种在Web应用程序中跟踪用户状态的机制，可以在不同页面之间存储和访问用户特定的数据。
+</code></pre>
+<h3 id="什么是反射（Reflection）？在-NET中如何使用反射？"><a href="#什么是反射（Reflection）？在-NET中如何使用反射？" class="headerlink" title="什么是反射（Reflection）？在.NET中如何使用反射？"></a>什么是反射（Reflection）？在.NET中如何使用反射？</h3><pre><code>反射是一种在运行时动态地获取和操作类型信息的机制。在.NET中，可以使用反射来检查和实例化类型、调用类型的成员（属性、方法等）以及获取和设置成员的值。通过反射，开发人员可以在运行时动态地操作和扩展类型。
+</code></pre>
+<h3 id="c-反射的原理是什么"><a href="#c-反射的原理是什么" class="headerlink" title="c# 反射的原理是什么"></a>c# 反射的原理是什么</h3><pre><code>反射的原理基于.NET Framework的元数据（Metadata）系统。在.NET中，编译后的代码不仅包含IL（中间语言）指令，还包含描述程序集、类型及其成员的元数据。这些元数据存储在程序集的清单（Manifest）中，并且可以通过反射API进行访问。
+</code></pre>
+<h3 id="请描述一下-NET中的数据访问技术，比如ADO-NET和Entity-Framework。"><a href="#请描述一下-NET中的数据访问技术，比如ADO-NET和Entity-Framework。" class="headerlink" title="请描述一下.NET中的数据访问技术，比如ADO.NET和Entity Framework。"></a>请描述一下.NET中的数据访问技术，比如ADO.NET和Entity Framework。</h3><p>ADO.NET是.NET中用于访问和操作数据的一种技术框架。它提供了一组类和接口，用于连接到数据库、执行SQL语句、读取和写入数据等操作。Entity Framework是.NET中的一个ORM（对象关系映射）框架，它简化了数据库访问和操作的过程，将数据库中的表和列映射到.NET中的实体类和属性。</p>
+<h3 id="请解释一下-NET中的安全性和角色授权机制。"><a href="#请解释一下-NET中的安全性和角色授权机制。" class="headerlink" title="请解释一下.NET中的安全性和角色授权机制。"></a>请解释一下.NET中的安全性和角色授权机制。</h3><p>.NET提供了多种安全性机制和角色授权机制来保护应用程序的安全性。安全性机制包括身份验证、授权、加密和防护等措施，用于保护应用程序和数据的安全。角色授权机制允许开发人员定义用户角色和权限，控制用户对应用程序的访问和操作。</p>
+<h3 id="请描述一下-NET中的部署和发布策略。"><a href="#请描述一下-NET中的部署和发布策略。" class="headerlink" title="请描述一下.NET中的部署和发布策略。"></a>请描述一下.NET中的部署和发布策略。</h3><p>在.NET中，应用程序的部署和发布涉及将应用程序及其依赖项部署到目标环境中的过程。发布策略包括选择适当的部署方式（例如XCopy部署、Web部署、ClickOnce部署等），配置应用程序的设置和参数，处理依赖项和版本控制，以及确保应用程序的稳定性和安全性。</p>
+<h3 id="25、设计模式六大设计原则"><a href="#25、设计模式六大设计原则" class="headerlink" title="25、设计模式六大设计原则"></a>25、设计模式六大设计原则</h3><pre><code>单一职责原则：一个类值负责一个功能的职责
+
+开闭原则：扩展开放，修改关闭。
+
+里氏代换原则：使用父类的地方都能使用子类对象
+
+依赖倒转原则：针对接口编程，
+
+接口隔离原则：针对不同部分用专门接口，不用总接口，需要哪些接口就用哪些接口
+
+迪米特法则： 软件实体类，尽量不与其他实体类发生关系相互作用，对外都统一的暴露接口就行了
+</code></pre>
+<h3 id="27、你是如何理解面向对象思想？"><a href="#27、你是如何理解面向对象思想？" class="headerlink" title="27、你是如何理解面向对象思想？"></a>27、你是如何理解面向对象思想？</h3><pre><code>面向过程编程思想：
+
+冰箱门打开，返回值是打开的冰箱门
+大象装进去，返回值是打开的门，装进大象的冰箱
+冰箱门关上，返回值是关着门装进大象的冰箱
+面向对象的编程思想：
+
+冰箱.开门（）
+冰箱.装进大象（）
+冰箱.关门（）
+万物皆对象
+缺点：解决问题时候需要先创建对象
+优点：更加贴近生活，解决问题。
+</code></pre>
+<h3 id="NET-Core-的优点"><a href="#NET-Core-的优点" class="headerlink" title=".NET Core 的优点"></a>.NET Core 的优点</h3><pre><code>跨平台、高性能的开源框架，基于云原生
+ASP.NET Core 内置简洁且高效的Web 服务器——Kestrel。
+支持独立部署，即可以把运行时环境打包到一起部署，服务器无须安装.NET Core 环境，这对容器化开发部署非常友好。
+采用模块化设计，.NET Core 非常精简，所有其他模块都可按需安装，各模块可单独升级，不同程序各模块所用的到组件版本互不影响。
+引用现代设计思想，例如web请求响应管道，在管道中可以按需增减中间件，容器化IOC，依赖注入，很好的解决程序之间互相依赖关系，
+AOP面向切面编程等。
+</code></pre>
+<h3 id="什么是中间件？"><a href="#什么是中间件？" class="headerlink" title="什么是中间件？"></a>什么是中间件？</h3><pre><code>是指注入到应用中处理请求和响应的组件。
+
+异常处理中间件：用于捕获和处理在请求处理过程中发生的异常。
+
+身份验证中间件：用于验证用户的身份，例如使用 Cookie、JWT（JSON Web Tokens）等。
+
+授权中间件：用于确定经过身份验证的用户是否有权访问特定的资源。
+
+CORS（跨域资源共享）中间件：用于处理跨域请求，允许来自不同源的 Web 页面调用本应用程序的 API。
+
+日志记录中间件：用于记录请求和响应的详细信息，以便进行调试和监控。
+
+URL 重写中间件：用于根据规则重写传入的 URL。
+
+请求本地化中间件：用于根据用户的请求设置本地化（例如，根据请求头中的语言偏好设置应用程序的语言）。
+
+会话中间件：用于管理用户的会话状态。
+
+静态文件中间件：用于提供静态文件（如 HTML、CSS、JavaScript、图片等）的访问。
+</code></pre>
+<h3 id="什么是面向切面编程"><a href="#什么是面向切面编程" class="headerlink" title="什么是面向切面编程"></a>什么是面向切面编程</h3><pre><code>在计算机领域，面向切面编程(Aspect Oriented Program, AOP)是一种编程范式，旨在通过允许跨领域的关注点分离来提高模块化程度。它通过向现有的代码添加行为而不修改代码本身，而是通过&quot;指向性(pointcut)&quot;规范单独指定哪些代码被修改，例如 &quot;当函数的名称以&#39;set&#39;开头时，记录所有的函数调用&quot;。这使得那些不是业务逻辑核心的行为(如日志)可以被添加到程序中，而不会使功能的核心代码变得混乱。
+</code></pre>
+<h3 id="ASP-NET-Core-有那些中间件？"><a href="#ASP-NET-Core-有那些中间件？" class="headerlink" title="ASP.NET Core 有那些中间件？"></a>ASP.NET Core 有那些中间件？</h3><pre><code>异常、Http严格传输安全协议、 Https重定向、静态文件服务、Cookie策略实施、路由、CORS、身份验证、会话、MVC、Swagge、自定义中间件、
+</code></pre>
+<h3 id="简述-NET-CORE中IOC生命周期？"><a href="#简述-NET-CORE中IOC生命周期？" class="headerlink" title="简述.NET CORE中IOC生命周期？"></a>简述.NET CORE中IOC生命周期？</h3><pre><code>Transient(瞬间的)：每次使用（获取这个服务的时候）时都会创建新的服务，适合轻量级的服务。
+Scoped(作用域的)：在同一次请求中只存在一次的服务。
+Singleton(唯一的/单例的)：全局只创建一次的服务,第一次被请求的时候被创建,然后就一直使用同一个。
+</code></pre>
+<h3 id="Applicationbuilder-的-Use-和-Run-方法有什么异同？"><a href="#Applicationbuilder-的-Use-和-Run-方法有什么异同？" class="headerlink" title="Applicationbuilder 的 Use 和 Run 方法有什么异同？"></a>Applicationbuilder 的 Use 和 Run 方法有什么异同？</h3><pre><code>首先这两个方法都是在 startup 类的 configure 方法里面调用的，并且都是用来向应用请求管道里面添加中间件的。但是 Use 方法可以调用下一个中间件，Run 方法则不能，它是终结式的。
+</code></pre>
+<h3 id="ASP-NET-Core-中-AOP-是通过什么来支持的？分别有哪些？"><a href="#ASP-NET-Core-中-AOP-是通过什么来支持的？分别有哪些？" class="headerlink" title="ASP.NET Core 中 AOP 是通过什么来支持的？分别有哪些？"></a>ASP.NET Core 中 AOP 是通过什么来支持的？分别有哪些？</h3><pre><code>AOP 是通过 Filter 来支持的，分别有 IResourceFilter、AuthorizeFilter、ActionFilter、ExceptionFilter、ResultFilter。
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class LogAFilterAttribute : ActionFilterAttribute</span><br><span class="line">&#123;</span><br><span class="line">    public override void OnActionExecuted(ActionExecutedContext context)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override void OnActionExecuting(ActionExecutingContext context)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[LogAFilterAttribute]</span><br><span class="line">public IActionResult TestIndex()</span><br><span class="line">&#123;</span><br><span class="line">    HttpContext.Session.SetString(&quot;userName&quot;, &quot;Tim&quot;);</span><br><span class="line">    var obj = HttpContext.Session.GetString(&quot;userName&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<h3 id="Filter过滤器"><a href="#Filter过滤器" class="headerlink" title="Filter过滤器"></a>Filter过滤器</h3><pre><code>ASP.NET CORE MVC一共有四种过滤器：分别是权限过滤器（AuthorizationFilter），资源过滤器(ResourceFilter),操作过滤器(ActionFilter)，异常过滤器(ExceptionFilter).（优先级：权限&gt;资源&gt;操作&gt;异常）
+
+权限过滤器主要用作权限认证，每当用户请求这个方法时，会判断当前用户是否有权限，如果没有权限会返回401的错误。
+
+资源过滤器：常用于获取缓存资源，当用户有权限访问请求方法时，会用来读取用户存储在服务器上的资源。
+
+操作过滤器：针对请求方法前后所做的操作。
+
+异常过滤器：针对的是程序在运行过程中抛出异常，捕获异常，常用于全局配置
+</code></pre>
+<h3 id="IoC控制反转是什么？"><a href="#IoC控制反转是什么？" class="headerlink" title="IoC控制反转是什么？"></a>IoC控制反转是什么？</h3><pre><code>控制反转（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。其中最常见的方式叫做依赖注入（Dependency Injection，简称DI），还有一种方式叫“依赖查找”（Dependency Lookup）。
+
+通过控制反转，对象在被创建的时候，由一个调控系统内所有对象的外界实体将其所依赖的对象的引用传递给它。也可以说，依赖被注入到对象中。
+</code></pre>
+<h3 id="EFCore查询有那些性能调优小技巧？"><a href="#EFCore查询有那些性能调优小技巧？" class="headerlink" title="EFCore查询有那些性能调优小技巧？"></a>EFCore查询有那些性能调优小技巧？</h3><pre><code>(1).使用DbContext池
+
+(2).优先使用异步方法
+
+(3).批处理语句
+
+(4).关闭状态追踪,AsNoTracking()
+
+(5).关闭状态同步,context.ChangeTracker.AutoDetectChangesEnabled = false
+</code></pre>
+<h3 id="MVVM视图模型？"><a href="#MVVM视图模型？" class="headerlink" title="MVVM视图模型？"></a>MVVM视图模型？</h3><pre><code>MVVM全称Model-View-ViewModel是基于MVC体系结构模式的改进，MVVM就是MVC模式中的View的状态和行为抽象化，将视图UI和业务逻辑分开，更清楚地将用户界面UI的开发与应用程序中业务逻辑和行为的开发区分开来
+</code></pre>
+<h3 id="如何保证token的安全？"><a href="#如何保证token的安全？" class="headerlink" title="如何保证token的安全？"></a>如何保证token的安全？</h3><pre><code>Token授权机制 
+　　　　并将Token-UserId以键值对的形式存放在缓存服务器中。
+
+时间戳超时机制
+签名机制
+    　　将 Token 和 时间戳 加上其他请求参数再用MD5或SHA-1算法（可根据情况加点盐）加密，加密后的数据就是本次请求的签名sign，
+
+　　　　服务端接收到请求后以同样的算法得到签名，并跟当前的签名进行比对，如果不一样，说明参数被更改过，直接返回错误标识。
+
+　　　　签名机制保证了数据不会被篡改。
+</code></pre>
+<h3 id="Nuget包上传管理流程？"><a href="#Nuget包上传管理流程？" class="headerlink" title="Nuget包上传管理流程？"></a>Nuget包上传管理流程？</h3><pre><code>nuget官网下载nuget.exe
+cmd```命令：nuget pack生成x.nupkg文件
+登录nuget官网创建一个密钥
+cmd命令：nuget push x.nupkg 密钥 -Source https://api.nuget.org/v3/index.json
+上传完成，可在VS中搜索到
+</code></pre>
+<h3 id="怎么保证-Redis-和数据库一致？"><a href="#怎么保证-Redis-和数据库一致？" class="headerlink" title="怎么保证 Redis 和数据库一致？"></a>怎么保证 Redis 和数据库一致？</h3><pre><code>更新数据库时增加锁
+使用事务或 Lua 脚本来确保原子性
+使用发布/订阅模式
+使用延时删除策略
+监控和告警
+定期同步
+</code></pre>
+<h3 id="单例模式有哪几种"><a href="#单例模式有哪几种" class="headerlink" title="单例模式有哪几种"></a>单例模式有哪几种</h3><p>单例模式有以下几种实现方式：</p>
+<pre><code>饿汉式：单例对象在类加载的时候就立即初始化，并且创建单例对象。它绝对线程安全，在线程还没出现以前就实例化，不可能存在访问安全问题1。
+懒汉式：单例对象在需要使用的时候才去加载或创建。这种方式的效率较低，但可以延迟加载，即只有在需要使用的时候才去调用或加载。
+双重检测锁式：这是一种双重校验锁机制，确保在多线程环境下也能保证单例的线程安全。
+静态内部类式：这种方式的效率较高，可以延迟加载，即只有在需要使用的时候才去调用或加载。
+枚举。Windows的任务管理器就是一个单例模式2。
+</code></pre>
+<h3 id="线程之间是如何实现通信的"><a href="#线程之间是如何实现通信的" class="headerlink" title="线程之间是如何实现通信的"></a>线程之间是如何实现通信的</h3><pre><code>线程之间可以通过访问共享的内存区域（如全局变量、堆上的动态分配的对象等）来交换信息。
+消息传递可以通过使用消息队列、信号量（semaphores）、管道（pipes）、套接字（sockets）等机制来实现。
+</code></pre>
+<h3 id="Redis使用场景有那些？"><a href="#Redis使用场景有那些？" class="headerlink" title="Redis使用场景有那些？"></a>Redis使用场景有那些？</h3><pre><code>基础数据缓存，权限缓存，存放Token，计数器，分布式锁
+</code></pre>
+<h3 id="redis五种数据类型？"><a href="#redis五种数据类型？" class="headerlink" title="redis五种数据类型？"></a>redis五种数据类型？</h3><pre><code>string
+hash
+list（值不唯一，可以通过pop实现简单消息队列）
+set（值唯一）
+zset
+</code></pre>
+<h3 id="网络七层模型"><a href="#网络七层模型" class="headerlink" title="网络七层模型"></a>网络七层模型</h3><pre><code>物理层
+数据链路层
+网络层
+会话层
+表示层
+应用层
+</code></pre>
+<h3 id="RabbitMQ中交换机的理解？"><a href="#RabbitMQ中交换机的理解？" class="headerlink" title="RabbitMQ中交换机的理解？"></a>RabbitMQ中交换机的理解？</h3><pre><code>消息(Message)由Client发送，RabbitMQ接收到消息之后通过交换机转发到对应的队列上面。Worker会从队列中获取未被读取的数据处理。
+RabbitMQ包含四种不同的交换机类型：
+
+Direct exchange：直连交换机，转发消息到routigKey指定的队列
+Fanout exchange：扇形交换机，转发消息到所有绑定队列（速度最快）
+Topic exchange：主题交换机，按规则转发消息（最灵活）
+Headers exchange：首部交换机 (未接触)
+</code></pre>
+<h3 id="什么样的字段需要加索引？"><a href="#什么样的字段需要加索引？" class="headerlink" title="什么样的字段需要加索引？"></a>什么样的字段需要加索引？</h3><pre><code>Where查询条件中经常出现的字段 ,用作表连接的字段 , 还有经常出现在&quot;order by&quot;、&quot;group by&quot;、&quot;distinct&quot; 后的字段上建立索引 , 能有些提高执行效率
+
+注意：同时也要注意某些情况下索引可能会失效的情况 ,  比如LIKE模糊匹配语句可能会引起索引失效
+</code></pre>
+<h3 id="数据库有那些性能优化方法？"><a href="#数据库有那些性能优化方法？" class="headerlink" title="数据库有那些性能优化方法？"></a>数据库有那些性能优化方法？</h3><pre><code>SQL语句的优化
+索引优化
+数据库表结构优化
+</code></pre>
+<h3 id="第一问：C-中变量类型分为哪两种？"><a href="#第一问：C-中变量类型分为哪两种？" class="headerlink" title="第一问：C#中变量类型分为哪两种？"></a>第一问：C#中变量类型分为哪两种？</h3><pre><code>    值类型和引用类型，值类型变量自身存储数据，引用类型存储的势实际数据的引用，通过引用找到实际的数据。
+</code></pre>
+<h3 id="第二问：Class和Struct的区别？"><a href="#第二问：Class和Struct的区别？" class="headerlink" title="第二问：Class和Struct的区别？"></a>第二问：Class和Struct的区别？</h3><pre><code>    Class为引用类型，可以被实例化，存储实际的引用；Struct为值类型，值类型自身存储数据数据。
+</code></pre>
+<h3 id="第三问：C-中类的修饰符和类成员的修饰符有哪些？"><a href="#第三问：C-中类的修饰符和类成员的修饰符有哪些？" class="headerlink" title="第三问：C#中类的修饰符和类成员的修饰符有哪些？"></a>第三问：C#中类的修饰符和类成员的修饰符有哪些？</h3><pre><code>    C#中可以修饰类的修饰符为：public、internal、sealed、abstract
+
+    C#中不能修饰类的修饰符为：private和protected
+
+    C#中成员的修饰符为：public、internal、protected、private
+
+    public：完全公开，没有访问限制。
+
+    internal：可以应用于当前应用程序以及类库。
+
+    protected：在当前类和子类中可以使用。
+
+    private：只有在当前类中可以使用。
+
+    sealed：密封类，不能被其他类型继承。
+
+    abstract：抽象类，不能创建实例。
+</code></pre>
+<h3 id="第四问：面向对象的三个特征（特点）是什么？"><a href="#第四问：面向对象的三个特征（特点）是什么？" class="headerlink" title="第四问：面向对象的三个特征（特点）是什么？"></a>第四问：面向对象的三个特征（特点）是什么？</h3><pre><code>    封装：把对象的属性或者行为邓庄起来，类似于一个类。
+
+    继承：子类可以继承父类。
+
+    多态：父类可以应用于子类，子类可以去使用父类的一些特征方法。
+</code></pre>
+<h3 id="第五问：面向对象和面向过程的区别？"><a href="#第五问：面向对象和面向过程的区别？" class="headerlink" title="第五问：面向对象和面向过程的区别？"></a>第五问：面向对象和面向过程的区别？</h3><pre><code>    面向对象：把问题分解成多个对象，强调的是解决问题行为标准（方式）
+
+    面向过程：分析问题并解决问题的步骤，强调的势解决问题的步骤。
+</code></pre>
+<h3 id="第六问：什么是装箱和拆箱？"><a href="#第六问：什么是装箱和拆箱？" class="headerlink" title="第六问：什么是装箱和拆箱？"></a>第六问：什么是装箱和拆箱？</h3><pre><code>    装箱：从值类型转换到引用类型。
+
+    拆箱：从引用类型到值类型的转换。
+</code></pre>
+<h3 id="第七问：什么事IOC？"><a href="#第七问：什么事IOC？" class="headerlink" title="第七问：什么事IOC？"></a>第七问：什么事IOC？</h3><pre><code>    控制反转，是一种思想（设计模式）而不是一种技术实现。
+
+    控制：拥有创建对象的权利。
+
+    反转：把控制权交给IOC容器。
+
+    优点：	1、对象之间的耦合度或依赖度降低。
+
+                2、资源容易管理
+
+    传统模式下：在一个类中需要new关键字去实例化另一个类。
+
+    IOC设计模式：不需要new去创建对象，直接从IOC容器中获取。
+</code></pre>
+<h3 id="第八问：什么事OOP？"><a href="#第八问：什么事OOP？" class="headerlink" title="第八问：什么事OOP？"></a>第八问：什么事OOP？</h3><pre><code>    面向对象编程
+
+    提取共有的属性和方法，形成一个父类。
+</code></pre>
+<h3 id="第九问：什么事AOP？"><a href="#第九问：什么事AOP？" class="headerlink" title="第九问：什么事AOP？"></a>第九问：什么事AOP？</h3><pre><code>    面向切面的编程，在不改变原有的业务逻辑情况下，横切逻辑代码，解耦合代码，避免横切代码重复。
+
+    切：指的是横向逻辑，就是保证原有的业务逻辑代码不变，操作横切逻辑代码，所以就是面相横切编程。
+
+    面：横切代码影响的是很多方法，每个方法如同一个点，很多点就形成面。
+
+    应用场景：事务控制，权限效验、日志信息等。
+
+    多个方法的相同位置出现重复代码。
+</code></pre>
+<h3 id="第十问：什么事DI？"><a href="#第十问：什么事DI？" class="headerlink" title="第十问：什么事DI？"></a>第十问：什么事DI？</h3><pre><code>    依赖注入
+
+    DI是IOC设计思想的实现方式
+
+    一个类去引用另外一个类，就会产生依赖。
+
+    优点：如果添加另一个类，不需要修改之前代码，只要修改注入的地方将实现类进行替换。
+
+    实例化接口的时候，不用手动new来狗仔实现类，交给IOC容器进行构建。
+
+    实现了解耦
+
+    DIP：依赖注入倒置原则：依赖于抽象，不依赖预聚体，高层模块不依赖于低层模块，它们依赖于抽象。
+</code></pre>
+<hr>
+<h2 id="ABP-框架"><a href="#ABP-框架" class="headerlink" title="ABP 框架"></a>ABP 框架</h2><h3 id="什么是-ABP-Framework"><a href="#什么是-ABP-Framework" class="headerlink" title="什么是 ABP Framework?"></a>什么是 ABP Framework?</h3><p>ABP Framework是一个用于构建现代企业级Web应用程序的开源框架。它集成了最新的技术和最佳实践，提供了一整套工具和组件，帮助开发人员构建高质量、可扩展和易于维护的应用程序。</p>
+<h3 id="ABP-Framework的主要组件是什么？"><a href="#ABP-Framework的主要组件是什么？" class="headerlink" title="ABP Framework的主要组件是什么？"></a>ABP Framework的主要组件是什么？</h3><p>ABP Framework的主要组件包括：应用程序框架、模块系统、身份验证和授权、多租户支持、实体框架、界面设计、日志记录和调试工具等。</p>
+<h3 id="ABP-Framework支持哪些数据库？"><a href="#ABP-Framework支持哪些数据库？" class="headerlink" title="ABP Framework支持哪些数据库？"></a>ABP Framework支持哪些数据库？</h3><p>ABP Framework支持多种主流数据库，包括SQL Server、MySQL、PostgreSQL、Oracle、SQLite等。</p>
+<h3 id="什么是ABP模块？"><a href="#什么是ABP模块？" class="headerlink" title="什么是ABP模块？"></a>什么是ABP模块？</h3><p>ABP模块是一个功能独立、可复用的代码块，包含所有必要的组件和配置，可以轻松地集成到ABP应用程序中。</p>
+<h3 id="ABP框架提供了哪些身份验证和授权方式？"><a href="#ABP框架提供了哪些身份验证和授权方式？" class="headerlink" title="ABP框架提供了哪些身份验证和授权方式？"></a>ABP框架提供了哪些身份验证和授权方式？</h3><p>ABP框架支持多种身份验证和授权方式，包括基于声明的身份验证（JWT）、OpenID Connect、集成Windows身份验证等。</p>
+<h3 id="ABP框架提供了哪些实体框架？"><a href="#ABP框架提供了哪些实体框架？" class="headerlink" title="ABP框架提供了哪些实体框架？"></a>ABP框架提供了哪些实体框架？</h3><p>ABP框架提供了多种实体框架，包括Entity Framework Core、NHibernate、Dapper等。</p>
+<h3 id="如何创建一个新的ABP应用程序？"><a href="#如何创建一个新的ABP应用程序？" class="headerlink" title="如何创建一个新的ABP应用程序？"></a>如何创建一个新的ABP应用程序？</h3><p>可以使用ABP CLI工具创建一个新的ABP应用程序，也可以手动创建一个新的ASP.NET Core应用程序并添加ABP Framework的NuGet包。</p>
+<h3 id="如何使用ABP框架实现多租户支持？"><a href="#如何使用ABP框架实现多租户支持？" class="headerlink" title="如何使用ABP框架实现多租户支持？"></a>如何使用ABP框架实现多租户支持？</h3><p>可以使用ABP框架提供的多租户特性，例如通过设置租户ID来隔离不同租户的数据和功能，或者通过分离租户数据库来提供更高的隔离性。</p>
+<h3 id="如何使用ABP框架进行日志记录？"><a href="#如何使用ABP框架进行日志记录？" class="headerlink" title="如何使用ABP框架进行日志记录？"></a>如何使用ABP框架进行日志记录？</h3><p>可以使用ABP框架提供的日志记录工具，例如使用Serilog或Log4Net等。</p>
+<h3 id="ABP框架提供了哪些界面设计模板？"><a href="#ABP框架提供了哪些界面设计模板？" class="headerlink" title="ABP框架提供了哪些界面设计模板？"></a>ABP框架提供了哪些界面设计模板？</h3><p>ABP框架提供了多种预定义的界面设计模板，包括AdminLTE、Bootstrap、Metronic等。</p>
+<h3 id="如何扩展ABP框架的功能？"><a href="#如何扩展ABP框架的功能？" class="headerlink" title="如何扩展ABP框架的功能？"></a>如何扩展ABP框架的功能？</h3><p>可以使用ABP框架提供的扩展点和插件机制来扩展ABP框架的功能，例如自定义实体、自定义控制器、自定义中间件等。</p>
+<h3 id="如何在ABP框架中使用本地化？"><a href="#如何在ABP框架中使用本地化？" class="headerlink" title="如何在ABP框架中使用本地化？"></a>如何在ABP框架中使用本地化？</h3><p>可以使用ABP框架提供的本地化工具和组件来实现本地化。可以使用ABP CLI工具来生成本地化资源文件，并使用ABP框架提供的本地化管理器来管理这些资源文件。</p>
+<h3 id="ABP框架支持哪些前端框架？"><a href="#ABP框架支持哪些前端框架？" class="headerlink" title="ABP框架支持哪些前端框架？"></a>ABP框架支持哪些前端框架？</h3><p>ABP框架支持多种前端框架，包括Angular、React、Vue.js等。</p>
+<h3 id="如何在ABP框架中使用Angular？"><a href="#如何在ABP框架中使用Angular？" class="headerlink" title="如何在ABP框架中使用Angular？"></a>如何在ABP框架中使用Angular？</h3><p>可以使用ABP框架提供的Angular模板和工具来快速创建一个基于Angular的应用程序。可以使用ABP CLI工具来创建一个新的Angular模块，并使用ABP框架提供的Angular模板来生成基础代码。</p>
+<h3 id="ABP框架提供了哪些测试工具和技术？"><a href="#ABP框架提供了哪些测试工具和技术？" class="headerlink" title="ABP框架提供了哪些测试工具和技术？"></a>ABP框架提供了哪些测试工具和技术？</h3><p>ABP框架提供了多种测试工具和技术，包括xUnit、Moq、TestServer等。可以使用这些工具和技术来编写单元测试、集成测试和端到端测试等。</p>
+<h3 id="如何在ABP框架中使用Swagger生成API文档？"><a href="#如何在ABP框架中使用Swagger生成API文档？" class="headerlink" title="如何在ABP框架中使用Swagger生成API文档？"></a>如何在ABP框架中使用Swagger生成API文档？</h3><p>ABP框架提供了集成Swagger的组件和工具，可以使用ABP CLI工具来创建一个新的Swagger文档，并使用ABP框架提供的Swagger中间件来将Swagger集成到应用程序中。通过Swagger UI，可以查看API的详细信息，并可以在API测试界面中测试API。</p>
+<h3 id="ABP框架提供了哪些数据持久化技术？"><a href="#ABP框架提供了哪些数据持久化技术？" class="headerlink" title="ABP框架提供了哪些数据持久化技术？"></a>ABP框架提供了哪些数据持久化技术？</h3><p>ABP框架支持多种数据持久化技术，包括Entity Framework Core、Dapper等。</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="-1"><a href="#-1" class="headerlink" title=""></a></h3><h3 id="-2"><a href="#-2" class="headerlink" title=""></a></h3><h3 id="-3"><a href="#-3" class="headerlink" title=""></a></h3><h3 id="-4"><a href="#-4" class="headerlink" title=""></a></h3><h3 id="-5"><a href="#-5" class="headerlink" title=""></a></h3><h3 id="-6"><a href="#-6" class="headerlink" title=""></a></h3><h3 id="-7"><a href="#-7" class="headerlink" title=""></a></h3><h3 id="-8"><a href="#-8" class="headerlink" title=""></a></h3><h3 id="-9"><a href="#-9" class="headerlink" title=""></a></h3><h3 id="-10"><a href="#-10" class="headerlink" title=""></a></h3><h3 id="-11"><a href="#-11" class="headerlink" title=""></a></h3><h3 id="-12"><a href="#-12" class="headerlink" title=""></a></h3><h3 id="-13"><a href="#-13" class="headerlink" title=""></a></h3><h3 id="-14"><a href="#-14" class="headerlink" title=""></a></h3><h3 id="-15"><a href="#-15" class="headerlink" title=""></a></h3><h3 id="-16"><a href="#-16" class="headerlink" title=""></a></h3><h3 id="-17"><a href="#-17" class="headerlink" title=""></a></h3><h3 id="-18"><a href="#-18" class="headerlink" title=""></a></h3><h3 id="-19"><a href="#-19" class="headerlink" title=""></a></h3><h3 id="-20"><a href="#-20" class="headerlink" title=""></a></h3><h3 id="-21"><a href="#-21" class="headerlink" title=""></a></h3><h3 id="-22"><a href="#-22" class="headerlink" title=""></a></h3><h3 id="-23"><a href="#-23" class="headerlink" title=""></a></h3><h3 id="-24"><a href="#-24" class="headerlink" title=""></a></h3><h3 id="-25"><a href="#-25" class="headerlink" title=""></a></h3><h3 id="-26"><a href="#-26" class="headerlink" title=""></a></h3><h3 id="-27"><a href="#-27" class="headerlink" title=""></a></h3><h3 id="-28"><a href="#-28" class="headerlink" title=""></a></h3><h3 id="-29"><a href="#-29" class="headerlink" title=""></a></h3><h3 id="-30"><a href="#-30" class="headerlink" title=""></a></h3><h3 id="-31"><a href="#-31" class="headerlink" title=""></a></h3><h3 id="-32"><a href="#-32" class="headerlink" title=""></a></h3><h3 id="-33"><a href="#-33" class="headerlink" title=""></a></h3><h3 id="-34"><a href="#-34" class="headerlink" title=""></a></h3><h3 id="-35"><a href="#-35" class="headerlink" title=""></a></h3><h3 id="-36"><a href="#-36" class="headerlink" title=""></a></h3><h3 id="-37"><a href="#-37" class="headerlink" title=""></a></h3><h3 id="-38"><a href="#-38" class="headerlink" title=""></a></h3><h3 id="-39"><a href="#-39" class="headerlink" title=""></a></h3><hr>
+<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><h3 id="1、什么是微服务？"><a href="#1、什么是微服务？" class="headerlink" title="1、什么是微服务？"></a>1、什么是微服务？</h3><pre><code>答：单个轻量级服务一般为一个单独微服务，微服务讲究的是 专注某个功能的实现，比如登录系统只专注于用户登录方面功能的实现，讲究的是职责单一，开箱即用，可以独立运行。微服务架构系统是一个分布式的系统，按照业务进行划分服务单元模块，解决单个系统的不足，满足越来越复杂的业务需求。
+
+比如你去医院：你的牙齿不舒服，那么你就去牙科。你的头疼，那么你就去脑科。一个个的科室，就是一个微服务，一个功能就是一个服务。
+</code></pre>
+<h3 id="2、微服务之间如何独立通讯的"><a href="#2、微服务之间如何独立通讯的" class="headerlink" title="2、微服务之间如何独立通讯的?"></a>2、微服务之间如何独立通讯的?</h3><pre><code>答： 同步通信：.Net5通过 RPC GRPC 远程过程调用或者通过 REST 接口json调用 等。
+
+异步：消息队列，如：RabbitMq、ActiveM、Kafka 等。
+</code></pre>
+<h3 id="3、什么是熔断？什么是服务降级？"><a href="#3、什么是熔断？什么是服务降级？" class="headerlink" title="3、什么是熔断？什么是服务降级？"></a>3、什么是熔断？什么是服务降级？</h3><pre><code>答：服务熔断的作用类似于我们家用的保险丝，当某服务出现不可用或响应超时的情况时，为了防止整个系统出现雪崩，暂时停止对该服务的调用。
+
+服务降级是从整个系统的负荷情况出发和考虑的，对某些负荷会比较高的情况，为了预防某些功能（业务场景）出现负荷过载或者响应慢的情况，在其内部暂时舍弃对一些非核心的接口和数据的请求，而直接返回一个提前准备好的fallback（退路）错误处理信息。这样，虽然提供的是一个有损的服务，但却保证了整个系统的稳定性和可用性。
+</code></pre>
+<h3 id="4、微服务的优缺点是什么？说下你在项目中碰到的坑。"><a href="#4、微服务的优缺点是什么？说下你在项目中碰到的坑。" class="headerlink" title="4、微服务的优缺点是什么？说下你在项目中碰到的坑。"></a>4、微服务的优缺点是什么？说下你在项目中碰到的坑。</h3><pre><code>答：优点：松耦合，聚焦单一业务功能，无关开发语言，团队规模降低。在开发中，不需要了解多有业务，只专注于当前功能，便利集中，功能小而精。微服务一个功能受损，对其他功能影响并不是太大，可以快速定位问题。微服务只专注于当前业务逻辑代码，不会和 html、css 或其他界面进行混合。可以灵活搭配技术，独立性比较舒服。
+
+缺点：随着服务数量增加，管理复杂，部署复杂，服务器需要增多，服务通信和调用压力增大，运维工程师压力增大，人力资源增多，系统依赖增强，数据一致性，性能监控。
+</code></pre>
+<h3 id="5、你所知道微服务的技术栈有哪些？列举一二。"><a href="#5、你所知道微服务的技术栈有哪些？列举一二。" class="headerlink" title="5、你所知道微服务的技术栈有哪些？列举一二。"></a>5、你所知道微服务的技术栈有哪些？列举一二。</h3><pre><code>落地技术服务开发 AspnetCore、.Net5、.Net6
+服务配置与管理 携程公司的Apollo、社区的的Consul等
+服务注册与发现 Eurka、Consul、Zookeeper等
+服务调用 Rest（服务通信）、RPC、GRpc
+服务熔断器 Polly、Envoy等
+负载均衡 Nginx等
+服务接口调用（客户端简化工具） WebAPI等
+消息队列 Kafka、RabbitMQ、ActiveMQ等
+服务配置中心管理 Apollo、Chef等服务路由（API网关） Ocelot等
+服务监控 Zabbix，Nagios，Skywalking等
+全链路追踪 Zipkin，Brave，Skywalking等
+服务部署 Docker，OpenStack，Kubernetes等
+数据流操作开发包 SpringCloud Stream（封装与Redis，Rabbit，kafka等发送接收消息）
+事件消息总线 CAP
+</code></pre>
+<h3 id="6、什么是微服务架构？"><a href="#6、什么是微服务架构？" class="headerlink" title="6、什么是微服务架构？"></a>6、什么是微服务架构？</h3><pre><code>答：微服务架构 就是 对微服务进行管理整合应用的。微服务架构 依赖于 微服务，是在微服务基础之上的。
+
+例如：上面已经列举了什么是微服务。在医院里，每一个科室都是一个独立的微服务，那么 这个医院 就是 一个大型的微服务架构，就类似 院长 可以 对下面的 科室进行管理。微服务架构主要就是这种功能。
+</code></pre>
+<h3 id="7、设计微服务的最佳实践是什么？"><a href="#7、设计微服务的最佳实践是什么？" class="headerlink" title="7、设计微服务的最佳实践是什么？"></a>7、设计微服务的最佳实践是什么？</h3><pre><code>答：
+
+为每个微服务分开数据存储
+
+将代码保持在类似的成熟度等级上
+
+为每个微服务进行单独的构建
+
+部署到容器中
+
+将服务器视为无状态的
+</code></pre>
+<h3 id="8、单体应用、SOA-和微服务架构有什么区别？"><a href="#8、单体应用、SOA-和微服务架构有什么区别？" class="headerlink" title="8、单体应用、SOA 和微服务架构有什么区别？**"></a>8、单体应用、SOA 和微服务架构有什么区别？**</h3><pre><code>答：
+
+单体应用类似于一个大容器，其中程序的所有组件都被组装在一起并紧密包装。
+
+SOA是一组相互通信的服务。通信可以涉及简单的数据传送，也可以涉及两个或多个协调某些活动的服务。
+
+微服务架构是一种架构风格，它将应用程序构建为以业务域为模型的小型自治服务集合。
+</code></pre>
+<h3 id="9、在使用微服务架构时，你面临的挑战是什么？"><a href="#9、在使用微服务架构时，你面临的挑战是什么？" class="headerlink" title="9、在使用微服务架构时，你面临的挑战是什么？**"></a>9、在使用微服务架构时，你面临的挑战是什么？**</h3><pre><code>答：
+
+开发较小的微服务听起来很容易，但在开发时会经常遇到一些挑战。
+
+自动化组件：难以自动化，因为有许多较小的组件。对于每个组件，都必须采取构建、发布和监控的步骤。
+
+可感知性：将大量组件维持在一起会带来难以部署、维护、监控和识别的问题。它需要在所有组件周围具有很好的感知能力。
+
+配置管理：有时在各种环境中维护组件的配置会很困难。
+
+调试：很难找到与产生的错误相关的每一项服务。维护一个集中式的日志和控制面板对调试问题至关重要。
+</code></pre>
+<h3 id="10、为什么需要域驱动设计（DDD）？"><a href="#10、为什么需要域驱动设计（DDD）？" class="headerlink" title="10、为什么需要域驱动设计（DDD）？"></a>10、为什么需要域驱动设计（DDD）？</h3><pre><code>答：
+
+映射领域
+
+降低复杂性
+
+可测试性
+
+可维护性
+
+知识丰富的设计
+
+将业务和服务结合在一起
+
+上下文集中
+
+通用语言
+</code></pre>
+<h3 id="11、你对分布式事务的理解？"><a href="#11、你对分布式事务的理解？" class="headerlink" title="11、你对分布式事务的理解？"></a>11、你对分布式事务的理解？</h3><pre><code>答：
+
+分布式事务是单个事件导致两个或多个不能以原子方式提交的单独数据源的突变的情况。在微服务的世界中，它变得更加复杂，因为每个服务都是一个工作单元，并且在大多数情况下，多个服务必须协同工作才能使业务成功。
+</code></pre>
+<h3 id="12、什么是幂等性（Idempotence）及用在那里？"><a href="#12、什么是幂等性（Idempotence）及用在那里？" class="headerlink" title="12、什么是幂等性（Idempotence）及用在那里？"></a>12、什么是幂等性（Idempotence）及用在那里？</h3><pre><code>幂等性是能够以同样的方式做两次，而最终结果将保持不变，就好像它只做了一次的特性。
+
+用法：在远程服务或数据源中使用幂等性，以便当它多次接收指令时，只处理一次。
+
+幂等处理的过程，说到底其实就是过滤一下已经收到的请求，当然，请求一定要有一个全局唯一的ID标记哈。然后，怎么判断请求是否之前收到过呢？把请求储存起来，收到请求时，先查下存储记录，记录存在就返回上次的结果，不存在就处理请求。
+</code></pre>
+<h3 id="13、什么是有界上下文？"><a href="#13、什么是有界上下文？" class="headerlink" title="13、什么是有界上下文？"></a>13、什么是有界上下文？</h3><pre><code>答：有界上下文是领域驱动设计的核心模式。 DDD 战略设计部门的重点是处理大型模型和团队。 DDD 通过将大型模型划分为不同的有界上下文并明确其相互关系来处理大型模型。
+</code></pre>
+<h3 id="14、容器在微服务中的用途是什么？"><a href="#14、容器在微服务中的用途是什么？" class="headerlink" title="14、容器在微服务中的用途是什么？"></a>14、容器在微服务中的用途是什么？</h3><pre><code>答：容器是管理基于微服务的程序以便单独开发和部署它们的好方法。你可以将微服务封装在容器镜像及其依赖项中，然后可以用它来滚动开发按需实例的微服务而无需任何额外的工作。
+</code></pre>
+<h3 id="分布式锁原理？"><a href="#分布式锁原理？" class="headerlink" title="分布式锁原理？"></a>分布式锁原理？</h3><pre><code>通过某种方式加一把锁，让分布式程序执行方法时获取锁，保证 同一个方法同一时刻只能被一台机器上的一个线程访问。
+一般实现有：
+
+通过数据库实现（加一条记录去读取之类的）。
+通过redis实现。
+通过Zookeeper
+</code></pre>
+<h3 id="-40"><a href="#-40" class="headerlink" title=""></a></h3><h3 id="-41"><a href="#-41" class="headerlink" title=""></a></h3><h3 id="-42"><a href="#-42" class="headerlink" title=""></a></h3><h3 id="-43"><a href="#-43" class="headerlink" title=""></a></h3><h3 id="-44"><a href="#-44" class="headerlink" title=""></a></h3><h3 id="-45"><a href="#-45" class="headerlink" title=""></a></h3><h3 id="-46"><a href="#-46" class="headerlink" title=""></a></h3>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/05/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/8%E3%80%81%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/" rel="prev" title="8、外观模式">
+      <i class="fa fa-chevron-left"></i> 8、外观模式
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/06/02/%E5%AD%A6%E4%B9%A0/%E5%AD%A6%E4%B9%A0/" rel="next" title="2、复习">
+      2、复习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81-class%E5%92%8Cstruct%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">1、 class和struct的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81-C-%E4%B8%AD%E7%B1%BB%E6%88%90%E5%91%98%E7%9A%84%E8%AE%BF%E9%97%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-text">2、 C#中类成员的访问修饰符有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E5%BE%81%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E5%92%8C%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">3、 面向对象的三大特征是什么？&#x2F;面向过程和面向对象的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81-%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">4、 抽象类和接口的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81-%E4%BB%80%E4%B9%88%E6%98%AF%E8%A3%85%E7%AE%B1%E5%92%8C%E6%8B%86%E7%AE%B1%EF%BC%9F"><span class="nav-text">6、 什么是装箱和拆箱？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81-C-%E4%B8%AD%EF%BC%8C%E5%93%AA%E4%BA%9B%E7%B1%BB%E5%9E%8B%E6%98%AF%E5%80%BC%E7%B1%BB%E5%9E%8B%EF%BC%9F%E5%93%AA%E4%BA%9B%E7%B1%BB%E5%9E%8B%E6%98%AF%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%EF%BC%9F%EF%BC%88%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%89"><span class="nav-text">7、 C#中，哪些类型是值类型？哪些类型是引用类型？（数据类型）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">c# 类和结构的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8%E3%80%81-%E5%80%BC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">8、 值类型和引用类型的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9%E3%80%81-C-%E4%B8%AD%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-text">9、 C#中的基本数据类型有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10%E3%80%81-%E9%87%8D%E5%86%99%E5%92%8C%E9%87%8D%E8%BD%BD%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F%E6%96%B9%E6%B3%95%E7%9A%84override%E5%92%8Coverload%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">10、 重写和重载的区别？方法的override和overload有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11%E3%80%81-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E8%A2%AB%E7%BB%A7%E6%89%BF%EF%BC%9F%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E8%A2%AB%E9%87%8D%E5%86%99%EF%BC%9F"><span class="nav-text">11、 构造函数是否可以被继承？是否可以被重写？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12%E3%80%81-C-%E4%B8%AD%EF%BC%8C%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%9C-%E2%80%9D%E5%92%8C%E2%80%9C-%E2%80%9D%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">12、 C#中，运算符“?”和“??”的区别是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13%E3%80%81-C-%E4%B8%AD%EF%BC%8C%E7%94%A8const%E5%92%8Creadonly%E4%BF%AE%E9%A5%B0%E7%9A%84%E5%AD%97%E6%AE%B5%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">13、 C#中，用const和readonly修饰的字段有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14%E3%80%81-C-%E4%B8%AD%EF%BC%8Cnew%E6%9C%89%E5%87%A0%E7%A7%8D%E7%94%A8%E6%B3%95%EF%BC%9F"><span class="nav-text">14、 C#中，new有几种用法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15%E3%80%81-C-%E4%B8%AD%EF%BC%8Cref%E5%92%8Cout%E5%9C%A8%E4%BF%AE%E9%A5%B0%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E6%97%B6%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">15、 C#中，ref和out在修饰方法参数时有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16%E3%80%81-C-%E4%B8%ADusing%E6%9C%89%E5%87%A0%E7%A7%8D%E7%94%A8%E6%B3%95%EF%BC%9F"><span class="nav-text">16、 C#中using有几种用法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17%E3%80%81-C-%E4%B8%AD-%E5%92%8C-%EF%BC%8C-%E5%92%8C-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">17、 C#中&amp;和&amp;&amp;，|和||有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18%E3%80%81-C-%E4%B8%ADis%E5%92%8Cas%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">18、 C#中is和as有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19%E3%80%81-%E4%BB%80%E4%B9%88%E6%98%AF%E5%A7%94%E6%89%98%EF%BC%9F%E4%BA%8B%E4%BB%B6%E8%B7%9F%E5%A7%94%E6%89%98%E6%98%AF%E4%BB%80%E4%B9%88%E5%85%B3%E7%B3%BB"><span class="nav-text">19、 什么是委托？事件跟委托是什么关系?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20%E3%80%81-http-ADO-NET%E4%B8%AD%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">20、 http:&#x2F;&#x2F;ADO.NET中访问数据库的基本步骤是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21%E3%80%81-http-ADO-NET%E4%B8%AD%EF%BC%8CDataSet%E5%92%8CDataReader%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">21、 http:&#x2F;&#x2F;ADO.NET中，DataSet和DataReader的区别是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24%E3%80%81-http-ASP-NET-%E4%B8%AD%E9%A1%B5%E9%9D%A2%E4%B9%8B%E9%97%B4%E4%BC%A0%E9%80%92%E5%80%BC%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-text">24、 http:&#x2F;&#x2F;ASP.NET 中页面之间传递值的几种方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#26%E3%80%81-%E5%90%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%91%E9%80%81%E8%AF%B7%E6%B1%82%E6%9C%89%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-text">26、 向服务器发送请求有几种方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27%E3%80%81Web-Service-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C-Web-Service%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BC%98%E7%82%B9%EF%BC%9F"><span class="nav-text">27、Web Service 是什么， Web Service有哪些优点？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28%E3%80%81-http-ASP-NET%E7%BC%93%E5%AD%98%E6%9C%89%E5%87%A0%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-text">28、 http:&#x2F;&#x2F;ASP.NET缓存有几种实现方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#29%E3%80%81-http-ASP-NET%E4%B8%AD%E5%B8%B8%E8%A7%81%E6%96%87%E4%BB%B6%E7%9A%84%E5%90%8E%E7%BC%80%E5%90%8D%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-text">29、 http:&#x2F;&#x2F;ASP.NET中常见文件的后缀名有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#30%E3%80%81-http-ASP-NET%E4%B8%AD%E7%9A%84%E5%85%AD%E5%A4%A7%E5%AF%B9%E8%B1%A1%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-text">30、 http:&#x2F;&#x2F;ASP.NET中的六大对象有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#31%E3%80%81-jquery%E4%B8%AD%E5%AE%9E%E7%8E%B0Ajax%E8%AF%B7%E6%B1%82%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">31、 jquery中实现Ajax请求的常用方法有哪些？有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#33%E3%80%81-MVC%E4%B8%AD%E7%9A%84%E5%90%84%E4%B8%AA%E5%AD%97%E6%AF%8D%E5%88%86%E5%88%AB%E4%BB%A3%E8%A1%A8%E4%BB%80%E4%B9%88%E5%90%AB%E4%B9%89%EF%BC%9F%E5%9C%A8MVC%E6%A1%86%E6%9E%B6%E4%B8%AD%E8%B5%B7%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-text">33、 MVC中的各个字母分别代表什么含义？在MVC框架中起什么作用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#34%E3%80%81-MVC%E8%AF%B7%E6%B1%82%E7%9A%84%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B%EF%BC%9F"><span class="nav-text">34、 MVC请求的处理过程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#36%E3%80%81-%E8%AF%B7%E8%AF%B4%E5%87%BASQL-Server%E4%B8%AD%E4%B8%89%E7%A7%8D%E8%A1%A8%E8%BF%9E%E6%8E%A5%E7%9A%84%E6%96%B9%E5%BC%8Finner-join%E3%80%81left-join%E3%80%81right-join%E7%9A%84%E5%8C%BA%E5%88%AB%E5%8F%8A%E5%AF%B9%E6%9C%80%E7%BB%88%E6%9F%A5%E8%AF%A2%E7%9A%84%E7%BB%93%E6%9E%9C%E7%9A%84%E5%BD%B1%E5%93%8D%E3%80%82"><span class="nav-text">36、 请说出SQL Server中三种表连接的方式inner join、left join、right join的区别及对最终查询的结果的影响。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#38%E3%80%81-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-text">38、 数据库索引是什么？有什么作用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#39%E3%80%81-SQL-Server%E4%B8%AD%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%86%E7%B1%BB%E5%8F%8A%E5%8C%BA%E5%88%AB%EF%BC%9F%E4%B8%BB%E9%94%AE%E7%B4%A2%E5%BC%95%E3%80%81%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E3%80%81%E9%9D%9E%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E5%92%8C%E9%9D%9E%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">39、 SQL Server中索引的分类及区别？主键索引、聚集索引、非聚集索引聚集索引和非聚集索引的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#40%E3%80%81-%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E5%8A%A1%EF%BC%9F%E5%AE%83%E6%9C%89%E5%93%AA%E4%BA%9B%E7%89%B9%E6%80%A7%EF%BC%9F"><span class="nav-text">40、 什么是事务？它有哪些特性？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#41%E3%80%81-SQL-Server%E4%B8%AD%EF%BC%8C%E8%A7%A6%E5%8F%91%E5%99%A8%E5%88%86%E4%B8%BA%E5%93%AA%E5%87%A0%E7%A7%8D%EF%BC%9F%E5%88%86%E5%88%AB%E4%BB%A3%E8%A1%A8%E4%BB%80%E4%B9%88%E5%90%AB%E4%B9%89%EF%BC%9F"><span class="nav-text">41、 SQL Server中，触发器分为哪几种？分别代表什么含义？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#42%E3%80%81-%E5%9C%A8SQL-Server%E4%B8%ADunion%E5%92%8Cunion-all%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">42、 在SQL Server中union和union all的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#43%E3%80%81-SQL-Server%E4%B8%AD%EF%BC%8C%E6%9C%89%E4%B8%80%E5%BC%A0%E5%AD%A6%E7%94%9F%E6%88%90%E7%BB%A9%E8%A1%A8%EF%BC%8C%E6%9C%89%E4%B8%89%E4%B8%AA%E5%AD%97%E6%AE%B5%EF%BC%9A%E5%AD%A6%E7%94%9FID%EF%BC%8C%E5%AD%A6%E7%94%9F%E5%A7%93%E5%90%8D%EF%BC%8C%E8%80%83%E8%AF%95%E6%88%90%E7%BB%A9%E3%80%82%E5%A6%82%E4%BD%95%E6%9F%A5%E8%AF%A2%E5%87%BA%E6%88%90%E7%BB%A9%E6%8E%92%E5%9C%A8%E5%89%8D%E4%B8%89%E5%90%8D%E7%9A%84%E5%AD%A6%E7%94%9F%EF%BC%9F%EF%BC%88%E6%B3%A8%E6%84%8F%EF%BC%9A%E5%8F%AF%E8%83%BD%E4%BC%9A%E6%9C%89%E5%B9%B6%E5%88%97%E5%90%8D%E6%AC%A1%EF%BC%89"><span class="nav-text">43、 SQL Server中，有一张学生成绩表，有三个字段：学生ID，学生姓名，考试成绩。如何查询出成绩排在前三名的学生？（注意：可能会有并列名次）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#45%E3%80%81-SQL-Server%E4%B8%AD%EF%BC%8C%E5%90%91%E4%B8%80%E4%B8%AA%E8%A1%A8%E4%B8%AD%E6%8F%92%E5%85%A5%E4%BA%86%E6%96%B0%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BD%95%E5%BE%97%E5%88%B0%E8%87%AA%E5%A2%9E%E9%95%BF%E5%AD%97%E6%AE%B5%E7%9A%84%E5%BD%93%E5%89%8D%E5%80%BC%EF%BC%9F"><span class="nav-text">45、 SQL Server中，向一个表中插入了新数据，如何得到自增长字段的当前值？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#46%E3%80%81-%E4%BD%BF%E7%94%A8%E9%80%92%E5%BD%92%E8%AE%A1%E7%AE%971-100%E4%B9%8B%E9%97%B4%E6%95%B4%E6%95%B0%E7%9A%84%E5%92%8C"><span class="nav-text">46、 使用递归计算1~100之间整数的和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#47%E3%80%81c-%E6%9C%89%E5%93%AA%E4%BA%9B%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-text">47、c# 有哪些排序算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#52%E3%80%81string%E4%B8%8EStringBuilder%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">52、string与StringBuilder的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#53%E3%80%81-http-ADO-NET%E4%B8%AD%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8DSQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E7%9A%84%EF%BC%9F"><span class="nav-text">53、 http:&#x2F;&#x2F;ADO.NET中如何避免SQL注入漏洞的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#64%E3%80%81-%E8%AF%B7%E5%86%99%E5%87%BA-net%E4%B8%AD%E4%B8%A4%E7%A7%8D%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E5%A7%94%E6%89%98%E4%BB%A5%E5%8F%8A%E5%AE%83%E4%BB%AC%E7%9A%84%E5%BC%82%E5%90%8C"><span class="nav-text">64、 请写出.net中两种常用内置委托以及它们的异同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#66%E3%80%81-%E5%86%99%E5%87%BAc-%E4%B8%AD4%E4%B8%AD%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84%E8%AF%AD%E6%B3%95"><span class="nav-text">66、 写出c#中4中循环结构语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#73%E3%80%81-%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E5%88%86%E5%88%AB%E8%AF%A5%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3%EF%BC%9F"><span class="nav-text">73、 进程和线程分别该怎么理解？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#74%E3%80%81-%E8%83%BD%E7%94%A8foreach%E9%81%8D%E5%8E%86%E8%AE%BF%E9%97%AE%E7%9A%84%E5%AF%B9%E8%B1%A1%E9%9C%80%E8%A6%81%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="nav-text">74、 能用foreach遍历访问的对象需要实现？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#77%E3%80%81-%E8%B0%88%E8%B0%88SQL%E4%B8%AD%E8%A7%86%E5%9B%BE%E7%9A%84%E6%A6%82%E5%BF%B5%E3%80%81%E4%BB%A5%E5%8F%8A%E5%AE%83%E7%9A%84%E6%9C%89%E7%82%B9"><span class="nav-text">77、 谈谈SQL中视图的概念、以及它的有点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#78%E3%80%81-%E5%9C%A8c-%E4%B8%AD%E2%80%9C-%E2%80%9D%E5%92%8Cequals-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">78、 在c#中“&#x3D;&#x3D;”和equals 的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#79%E3%80%81-Redis%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="nav-text">79、 Redis支持哪些数据类型？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#81%E3%80%81-UDP%E5%92%8CTCP%E8%BF%9E%E6%8E%A5%E6%9C%89%E5%92%8C%E5%BC%82%E5%90%8C"><span class="nav-text">81、 UDP和TCP连接有和异同?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#82%E3%80%81-%E5%9C%A8c-%E4%B8%ADsleep-%E5%92%8C-wait-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="nav-text">82、 在c#中sleep() 和 wait() 有什么区别?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#83%E3%80%81-%E5%A0%86%E5%92%8C%E6%A0%88%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">83、 堆和栈的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#84%E3%80%81-%E4%BB%80%E4%B9%88%E6%98%AF%E8%99%9A%E5%87%BD%E6%95%B0%EF%BC%9F%E4%BB%80%E4%B9%88%E6%98%AF%E6%8A%BD%E8%B1%A1%E5%87%BD%E6%95%B0%EF%BC%9F"><span class="nav-text">84、 什么是虚函数？什么是抽象函数？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#85%E3%80%81-net%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">85、 .net的错误处理机制是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#88%E3%80%81%E8%AF%B4%E6%98%8EC-%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%A3%B0%E6%98%8E%E5%8F%82%E6%95%B0%E5%85%B3%E9%94%AE%E5%AD%97params%EF%BC%8Cref%EF%BC%8Cout%E7%9A%84%E6%84%8F%E4%B9%89%E5%8F%8A%E7%94%A8%E6%B3%95"><span class="nav-text">88、说明C#中的方法声明参数关键字params，ref，out的意义及用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#89%E3%80%81-%E4%BB%80%E4%B9%88%E6%98%AF%E6%B3%9B%E5%9E%8B%EF%BC%9F"><span class="nav-text">89、 什么是泛型？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#91%E3%80%81-CTS%E3%80%81CLS%E3%80%81CLR%E5%88%86%E5%88%AB%E4%BD%9C%E4%BD%95%E8%A7%A3%E9%87%8A%EF%BC%9FCLR-%E6%8F%90%E4%BE%9B%E4%BA%86-NET-%E7%9A%84%E5%93%AA%E4%BA%9B%E5%8A%9F%E8%83%BD%EF%BC%9F%EF%BC%88%E4%B8%AD%E9%97%B4%E8%AF%AD%E8%A8%80%E7%BC%96%E8%AF%91%E5%99%A8%E3%80%81JIT-%E7%AD%89%E7%AD%89%EF%BC%89"><span class="nav-text">91、 CTS、CLS、CLR分别作何解释？CLR 提供了.NET 的哪些功能？（中间语言编译器、JIT 等等）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#92%E3%80%81-%E4%BB%80%E4%B9%88%E6%98%AF%E6%89%98%E7%AE%A1%E4%BB%A3%E7%A0%81%E3%80%81%E9%9D%9E%E6%89%98%E7%AE%A1%E4%BB%A3%E7%A0%81"><span class="nav-text">92、 什么是托管代码、非托管代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#93%E3%80%81-GC%E6%98%AF%E4%BB%80%E4%B9%88-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89GC"><span class="nav-text">93、 GC是什么? 为什么要有GC?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#94%E3%80%81-%E4%BB%80%E4%B9%88%E6%98%AF%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%9F"><span class="nav-text">94、 什么是序列化？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="nav-text">异步和多线程有什么区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%8F%8F%E8%BF%B0%E4%B8%80%E4%B8%8B-NET%E4%B8%AD%E7%9A%84%E5%A7%94%E6%89%98%EF%BC%88Delegate%EF%BC%89%E5%92%8C%E4%BA%8B%E4%BB%B6%EF%BC%88Event%EF%BC%89%E3%80%82"><span class="nav-text">请描述一下.NET中的委托（Delegate）和事件（Event）。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-text">特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-NET%E6%A1%86%E6%9E%B6%EF%BC%9F"><span class="nav-text">什么是.NET框架？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFLINQ%EF%BC%88Language-Integrated-Query%EF%BC%89%EF%BC%9F%E5%AE%83%E5%9C%A8-NET%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">什么是LINQ（Language-Integrated Query）？它在.NET中的作用是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="nav-text">存储过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#asp-net-core-%E8%B7%AF%E7%94%B1%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89"><span class="nav-text">asp.net core 路由如何定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%EF%BC%9F%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">C# 多线程有哪几种？分别有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3c-%E4%B8%AD%E7%9A%84%E6%AD%BB%E9%94%81"><span class="nav-text">如何理解c#中的死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E8%A7%A3%E9%87%8A%E4%B8%80%E4%B8%8B-NET%E4%B8%AD%E7%9A%84%E5%A4%9A%E6%80%81%E6%80%A7%E5%92%8C%E7%BB%A7%E6%89%BF%E6%80%A7%E3%80%82"><span class="nav-text">请解释一下.NET中的多态性和继承性。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFASP-NET%EF%BC%9F%E5%AE%83%E4%B8%8EASP%E6%9C%89%E4%BD%95%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">什么是ASP.NET？它与ASP有何区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E8%A7%A3%E9%87%8A%E4%B8%80%E4%B8%8B-NET%E4%B8%AD%E7%9A%84%E5%B9%B6%E5%8F%91%EF%BC%88Concurrency%EF%BC%89%E5%92%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88Multithreading%EF%BC%89%E3%80%82"><span class="nav-text">请解释一下.NET中的并发（Concurrency）和多线程（Multithreading）。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E8%A7%A3%E9%87%8A%E4%B8%80%E4%B8%8B-NET%E4%B8%AD%E7%9A%84%E7%BC%93%E5%AD%98%EF%BC%88Caching%EF%BC%89%E5%92%8C%E4%BC%9A%E8%AF%9D%E7%8A%B6%E6%80%81%EF%BC%88Session-State%EF%BC%89%E7%AE%A1%E7%90%86%E3%80%82"><span class="nav-text">请解释一下.NET中的缓存（Caching）和会话状态（Session State）管理。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8D%E5%B0%84%EF%BC%88Reflection%EF%BC%89%EF%BC%9F%E5%9C%A8-NET%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%8F%8D%E5%B0%84%EF%BC%9F"><span class="nav-text">什么是反射（Reflection）？在.NET中如何使用反射？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-%E5%8F%8D%E5%B0%84%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">c# 反射的原理是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%8F%8F%E8%BF%B0%E4%B8%80%E4%B8%8B-NET%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE%E6%8A%80%E6%9C%AF%EF%BC%8C%E6%AF%94%E5%A6%82ADO-NET%E5%92%8CEntity-Framework%E3%80%82"><span class="nav-text">请描述一下.NET中的数据访问技术，比如ADO.NET和Entity Framework。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E8%A7%A3%E9%87%8A%E4%B8%80%E4%B8%8B-NET%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E5%92%8C%E8%A7%92%E8%89%B2%E6%8E%88%E6%9D%83%E6%9C%BA%E5%88%B6%E3%80%82"><span class="nav-text">请解释一下.NET中的安全性和角色授权机制。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E6%8F%8F%E8%BF%B0%E4%B8%80%E4%B8%8B-NET%E4%B8%AD%E7%9A%84%E9%83%A8%E7%BD%B2%E5%92%8C%E5%8F%91%E5%B8%83%E7%AD%96%E7%95%A5%E3%80%82"><span class="nav-text">请描述一下.NET中的部署和发布策略。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25%E3%80%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-text">25、设计模式六大设计原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27%E3%80%81%E4%BD%A0%E6%98%AF%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3%EF%BC%9F"><span class="nav-text">27、你是如何理解面向对象思想？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NET-Core-%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-text">.NET Core 的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9F"><span class="nav-text">什么是中间件？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2%E7%BC%96%E7%A8%8B"><span class="nav-text">什么是面向切面编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASP-NET-Core-%E6%9C%89%E9%82%A3%E4%BA%9B%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9F"><span class="nav-text">ASP.NET Core 有那些中间件？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0-NET-CORE%E4%B8%ADIOC%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%9F"><span class="nav-text">简述.NET CORE中IOC生命周期？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Applicationbuilder-%E7%9A%84-Use-%E5%92%8C-Run-%E6%96%B9%E6%B3%95%E6%9C%89%E4%BB%80%E4%B9%88%E5%BC%82%E5%90%8C%EF%BC%9F"><span class="nav-text">Applicationbuilder 的 Use 和 Run 方法有什么异同？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASP-NET-Core-%E4%B8%AD-AOP-%E6%98%AF%E9%80%9A%E8%BF%87%E4%BB%80%E4%B9%88%E6%9D%A5%E6%94%AF%E6%8C%81%E7%9A%84%EF%BC%9F%E5%88%86%E5%88%AB%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-text">ASP.NET Core 中 AOP 是通过什么来支持的？分别有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filter%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-text">Filter过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IoC%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">IoC控制反转是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EFCore%E6%9F%A5%E8%AF%A2%E6%9C%89%E9%82%A3%E4%BA%9B%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%B0%8F%E6%8A%80%E5%B7%A7%EF%BC%9F"><span class="nav-text">EFCore查询有那些性能调优小技巧？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVVM%E8%A7%86%E5%9B%BE%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="nav-text">MVVM视图模型？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81token%E7%9A%84%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="nav-text">如何保证token的安全？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nuget%E5%8C%85%E4%B8%8A%E4%BC%A0%E7%AE%A1%E7%90%86%E6%B5%81%E7%A8%8B%EF%BC%9F"><span class="nav-text">Nuget包上传管理流程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81-Redis-%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E8%87%B4%EF%BC%9F"><span class="nav-text">怎么保证 Redis 和数据库一致？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D"><span class="nav-text">单例模式有哪几种</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E4%B9%8B%E9%97%B4%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%80%9A%E4%BF%A1%E7%9A%84"><span class="nav-text">线程之间是如何实现通信的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E6%9C%89%E9%82%A3%E4%BA%9B%EF%BC%9F"><span class="nav-text">Redis使用场景有那些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis%E4%BA%94%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="nav-text">redis五种数据类型？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="nav-text">网络七层模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RabbitMQ%E4%B8%AD%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%9F"><span class="nav-text">RabbitMQ中交换机的理解？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E5%AD%97%E6%AE%B5%E9%9C%80%E8%A6%81%E5%8A%A0%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="nav-text">什么样的字段需要加索引？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%89%E9%82%A3%E4%BA%9B%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="nav-text">数据库有那些性能优化方法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%97%AE%EF%BC%9AC-%E4%B8%AD%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B%E5%88%86%E4%B8%BA%E5%93%AA%E4%B8%A4%E7%A7%8D%EF%BC%9F"><span class="nav-text">第一问：C#中变量类型分为哪两种？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%97%AE%EF%BC%9AClass%E5%92%8CStruct%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">第二问：Class和Struct的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E9%97%AE%EF%BC%9AC-%E4%B8%AD%E7%B1%BB%E7%9A%84%E4%BF%AE%E9%A5%B0%E7%AC%A6%E5%92%8C%E7%B1%BB%E6%88%90%E5%91%98%E7%9A%84%E4%BF%AE%E9%A5%B0%E7%AC%A6%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-text">第三问：C#中类的修饰符和类成员的修饰符有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E9%97%AE%EF%BC%9A%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B8%89%E4%B8%AA%E7%89%B9%E5%BE%81%EF%BC%88%E7%89%B9%E7%82%B9%EF%BC%89%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">第四问：面向对象的三个特征（特点）是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E9%97%AE%EF%BC%9A%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%92%8C%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">第五问：面向对象和面向过程的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E9%97%AE%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AF%E8%A3%85%E7%AE%B1%E5%92%8C%E6%8B%86%E7%AE%B1%EF%BC%9F"><span class="nav-text">第六问：什么是装箱和拆箱？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%83%E9%97%AE%EF%BC%9A%E4%BB%80%E4%B9%88%E4%BA%8BIOC%EF%BC%9F"><span class="nav-text">第七问：什么事IOC？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%85%AB%E9%97%AE%EF%BC%9A%E4%BB%80%E4%B9%88%E4%BA%8BOOP%EF%BC%9F"><span class="nav-text">第八问：什么事OOP？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B9%9D%E9%97%AE%EF%BC%9A%E4%BB%80%E4%B9%88%E4%BA%8BAOP%EF%BC%9F"><span class="nav-text">第九问：什么事AOP？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E9%97%AE%EF%BC%9A%E4%BB%80%E4%B9%88%E4%BA%8BDI%EF%BC%9F"><span class="nav-text">第十问：什么事DI？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ABP-%E6%A1%86%E6%9E%B6"><span class="nav-text">ABP 框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-ABP-Framework"><span class="nav-text">什么是 ABP Framework?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABP-Framework%E7%9A%84%E4%B8%BB%E8%A6%81%E7%BB%84%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">ABP Framework的主要组件是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABP-Framework%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9F"><span class="nav-text">ABP Framework支持哪些数据库？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFABP%E6%A8%A1%E5%9D%97%EF%BC%9F"><span class="nav-text">什么是ABP模块？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABP%E6%A1%86%E6%9E%B6%E6%8F%90%E4%BE%9B%E4%BA%86%E5%93%AA%E4%BA%9B%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-text">ABP框架提供了哪些身份验证和授权方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABP%E6%A1%86%E6%9E%B6%E6%8F%90%E4%BE%9B%E4%BA%86%E5%93%AA%E4%BA%9B%E5%AE%9E%E4%BD%93%E6%A1%86%E6%9E%B6%EF%BC%9F"><span class="nav-text">ABP框架提供了哪些实体框架？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84ABP%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%EF%BC%9F"><span class="nav-text">如何创建一个新的ABP应用程序？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ABP%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%94%AF%E6%8C%81%EF%BC%9F"><span class="nav-text">如何使用ABP框架实现多租户支持？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8ABP%E6%A1%86%E6%9E%B6%E8%BF%9B%E8%A1%8C%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95%EF%BC%9F"><span class="nav-text">如何使用ABP框架进行日志记录？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABP%E6%A1%86%E6%9E%B6%E6%8F%90%E4%BE%9B%E4%BA%86%E5%93%AA%E4%BA%9B%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E6%A8%A1%E6%9D%BF%EF%BC%9F"><span class="nav-text">ABP框架提供了哪些界面设计模板？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%A9%E5%B1%95ABP%E6%A1%86%E6%9E%B6%E7%9A%84%E5%8A%9F%E8%83%BD%EF%BC%9F"><span class="nav-text">如何扩展ABP框架的功能？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8ABP%E6%A1%86%E6%9E%B6%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%9C%AC%E5%9C%B0%E5%8C%96%EF%BC%9F"><span class="nav-text">如何在ABP框架中使用本地化？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABP%E6%A1%86%E6%9E%B6%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9B%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%EF%BC%9F"><span class="nav-text">ABP框架支持哪些前端框架？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8ABP%E6%A1%86%E6%9E%B6%E4%B8%AD%E4%BD%BF%E7%94%A8Angular%EF%BC%9F"><span class="nav-text">如何在ABP框架中使用Angular？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABP%E6%A1%86%E6%9E%B6%E6%8F%90%E4%BE%9B%E4%BA%86%E5%93%AA%E4%BA%9B%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%E5%92%8C%E6%8A%80%E6%9C%AF%EF%BC%9F"><span class="nav-text">ABP框架提供了哪些测试工具和技术？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8ABP%E6%A1%86%E6%9E%B6%E4%B8%AD%E4%BD%BF%E7%94%A8Swagger%E7%94%9F%E6%88%90API%E6%96%87%E6%A1%A3%EF%BC%9F"><span class="nav-text">如何在ABP框架中使用Swagger生成API文档？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABP%E6%A1%86%E6%9E%B6%E6%8F%90%E4%BE%9B%E4%BA%86%E5%93%AA%E4%BA%9B%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96%E6%8A%80%E6%9C%AF%EF%BC%9F"><span class="nav-text">ABP框架提供了哪些数据持久化技术？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-1"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-2"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-3"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-4"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-5"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-6"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-7"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-8"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-9"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-10"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-11"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-12"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-13"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-14"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-15"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-16"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-17"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-18"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-19"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-20"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-21"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-22"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-23"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-24"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-25"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-26"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-27"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-28"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-29"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-30"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-31"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-32"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-33"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-34"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-35"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-36"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-37"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-38"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-39"><span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="nav-text">微服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%EF%BC%9F"><span class="nav-text">1、什么是微服务？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E9%97%B4%E5%A6%82%E4%BD%95%E7%8B%AC%E7%AB%8B%E9%80%9A%E8%AE%AF%E7%9A%84"><span class="nav-text">2、微服务之间如何独立通讯的?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E7%86%94%E6%96%AD%EF%BC%9F%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7%EF%BC%9F"><span class="nav-text">3、什么是熔断？什么是服务降级？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E8%AF%B4%E4%B8%8B%E4%BD%A0%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%A2%B0%E5%88%B0%E7%9A%84%E5%9D%91%E3%80%82"><span class="nav-text">4、微服务的优缺点是什么？说下你在项目中碰到的坑。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81%E4%BD%A0%E6%89%80%E7%9F%A5%E9%81%93%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%8A%80%E6%9C%AF%E6%A0%88%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E5%88%97%E4%B8%BE%E4%B8%80%E4%BA%8C%E3%80%82"><span class="nav-text">5、你所知道微服务的技术栈有哪些？列举一二。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%9F"><span class="nav-text">6、什么是微服务架构？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81%E8%AE%BE%E8%AE%A1%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">7、设计微服务的最佳实践是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8%E3%80%81%E5%8D%95%E4%BD%93%E5%BA%94%E7%94%A8%E3%80%81SOA-%E5%92%8C%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-text">8、单体应用、SOA 和微服务架构有什么区别？**</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9%E3%80%81%E5%9C%A8%E4%BD%BF%E7%94%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E6%97%B6%EF%BC%8C%E4%BD%A0%E9%9D%A2%E4%B8%B4%E7%9A%84%E6%8C%91%E6%88%98%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">9、在使用微服务架构时，你面临的挑战是什么？**</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%EF%BC%88DDD%EF%BC%89%EF%BC%9F"><span class="nav-text">10、为什么需要域驱动设计（DDD）？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11%E3%80%81%E4%BD%A0%E5%AF%B9%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%9F"><span class="nav-text">11、你对分布式事务的理解？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%B9%82%E7%AD%89%E6%80%A7%EF%BC%88Idempotence%EF%BC%89%E5%8F%8A%E7%94%A8%E5%9C%A8%E9%82%A3%E9%87%8C%EF%BC%9F"><span class="nav-text">12、什么是幂等性（Idempotence）及用在那里？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%89%E7%95%8C%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%9F"><span class="nav-text">13、什么是有界上下文？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14%E3%80%81%E5%AE%B9%E5%99%A8%E5%9C%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B8%AD%E7%9A%84%E7%94%A8%E9%80%94%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">14、容器在微服务中的用途是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="nav-text">分布式锁原理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-40"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-41"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-42"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-43"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-44"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-45"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-46"><span class="nav-text"></span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/BlogPro/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

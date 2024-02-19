@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="MVC组成1   V--Views   用户看到的视图内容，表现层 2   C---Controllers  决定用户使用哪个视图，还能调用逻辑计算  3   M--Models  数据传递模型，普通的实体   其实不管是aspx&#x2F;ashx&#x2F;webapi&#x2F;mvc,都是使用Http协议1234567所以一切的请求都可以实现的！ Aspx：属于比较重的，有生命周期；只要调">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1、MVC1-基础">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/04/01/Net%E9%AB%98%E7%BA%A7/1%E3%80%81MVC1-%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="MVC组成1   V--Views   用户看到的视图内容，表现层 2   C---Controllers  决定用户使用哪个视图，还能调用逻辑计算  3   M--Models  数据传递模型，普通的实体   其实不管是aspx&#x2F;ashx&#x2F;webapi&#x2F;mvc,都是使用Http协议1234567所以一切的请求都可以实现的！ Aspx：属于比较重的，有生命周期；只要调">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-01T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-02-02T05:34:43.692Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="C#高级">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/04/01/Net%E9%AB%98%E7%BA%A7/1%E3%80%81MVC1-%E5%9F%BA%E7%A1%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>1、MVC1-基础 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">你知道的越多 你不知道的也就越多</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/04/01/Net%E9%AB%98%E7%BA%A7/1%E3%80%81MVC1-%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          1、MVC1-基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-01 10:48:57" itemprop="dateCreated datePublished" datetime="2022-04-01T10:48:57+08:00">2022-04-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-02 13:34:43" itemprop="dateModified" datetime="2024-02-02T13:34:43+08:00">2024-02-02</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/04/01/Net%E9%AB%98%E7%BA%A7/1%E3%80%81MVC1-%E5%9F%BA%E7%A1%80/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/04/01/Net%E9%AB%98%E7%BA%A7/1%E3%80%81MVC1-%E5%9F%BA%E7%A1%80/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><pre><code>1   V--Views   用户看到的视图内容，表现层
+2   C---Controllers  决定用户使用哪个视图，还能调用逻辑计算 
+3   M--Models  数据传递模型，普通的实体
+</code></pre>
+<ul>
+<li>其实不管是aspx&#x2F;ashx&#x2F;webapi&#x2F;mvc,都是使用Http协议<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">所以一切的请求都可以实现的！ </span><br><span class="line">Aspx：属于比较重的，有生命周期；只要调用到Aspx,都会完成一整套生命周期；</span><br><span class="line">Ashx: 属于轻量级的，没有页面的概念</span><br><span class="line">MVC：前后分离的，C可以任意指定视图，可以一套后台多套UI</span><br><span class="line">WepApi:专人做专事儿，管道都是独立的；RESTful，没有Action</span><br><span class="line">MVC  WebApi  管道处理模型不一样；</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="MVC的四种传值方式"><a href="#MVC的四种传值方式" class="headerlink" title="MVC的四种传值方式"></a>MVC的四种传值方式</h2><ul>
+<li><p>ViewData:</p>
+<blockquote>
+<p>ViewData 是一个字典对象，它允许你将数据从控制器传递到视图。<br>它通常用于传递简单的数据，如字符串、数字等。<br>在控制器中，你可以这样设置 ViewData: ViewData[“Key”] &#x3D; value;<br>在视图中，你可以这样获取数据: var value &#x3D; ViewData[“Key”];</p>
+</blockquote>
+</li>
+<li><p>ViewBag:</p>
+<blockquote>
+<p>ViewBag 是一个动态类型对象，它允许你从控制器向视图传递数据。<br>它提供了一种更加动态的方式来设置数据，这意味着你可以在运行时决定属性的名称和值。<br>在控制器中，你可以这样设置 ViewBag: ViewBag.Key &#x3D; value;<br>在视图中，你可以这样获取数据: var value &#x3D; ViewBag.Key;</p>
+</blockquote>
+</li>
+<li><p>Model:</p>
+<blockquote>
+<p>Model 是视图的核心概念之一，它允许你传递一个对象或对象的集合到视图。<br>这是最常见的方法来传递复杂的数据结构，如实体、DTOs、ViewModel等。<br>在控制器中，你可以这样设置 Model: return View(myModel);<br>在视图中，你可以这样使用模型: @model MyModelType 和通过模型属性访问数据。</p>
+</blockquote>
+</li>
+<li><p>TempData:</p>
+<blockquote>
+<p>TempData 是一个短暂的存储机制，它允许你在同一个请求的后续阶段（例如从控制器到同一个或另一个视图）传递数据。<br>它使用 session 机制来存储数据，但当数据被读取后会自动从 session 中删除。<br>这使得 TempData 非常适合用于传递一些需要在两个或更多视图之间共享的数据。<br>使用方法：在控制器中设置 TempData 属性并传递值，然后在视图中读取它。</p>
+</blockquote>
+</li>
+<li><p>实例代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult Index(int i)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    logger.Info($&quot;调用Index Action 参数为：&#123;i&#125;&quot;);</span><br><span class="line"></span><br><span class="line">    base.ViewData[&quot;testProp&quot;] = &quot;jeff&quot;;</span><br><span class="line"></span><br><span class="line">    //会和ViewData[&quot;testProp&quot;] 冲突，以后者为准；</span><br><span class="line">    base.ViewBag.testProp = &quot;判断ViewBag.testProp 有没有覆盖ViewData[testProp]&quot;;  </span><br><span class="line"></span><br><span class="line">    base.ViewBag.Name = &quot;aaaaaaaaaaaaaaaaaaaaaaaaa&quot;;</span><br><span class="line">    base.ViewBag.ViewBagCurrentUser = this._UserList[1];</span><br><span class="line">    base.TempData[&quot;TempDataCurrentUser&quot;] = this._UserList[2];</span><br><span class="line">    base.TempData[&quot;testProp&quot;] = &quot;fresh&quot;;  //TempaData 存储在Sesssion中； 可以跨Action传递值</span><br><span class="line">    if (i == 1)</span><br><span class="line">    &#123;</span><br><span class="line">        CurrentUser currentUser = this._UserList[3];</span><br><span class="line">        return View(currentUser);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        return RedirectToAction(&quot;Index1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;h2&gt;FirstIndex&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;h3&gt;ViewData[&quot;ViewDataCurrentUser&quot;].Name:@(((CurrentUser)ViewData[&quot;ViewDataCurrentUser&quot;]).Name)&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">&lt;h3&gt;ViewData[&quot;ViewDataCurrentUser&quot;].Name:@(ViewDataCurrentUser.Name)&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">&lt;h3&gt;ViewData[&quot;testProp&quot;]:@ViewData[&quot;testProp&quot;]&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">&lt;h3&gt;ViewBag.Name:@ViewBag.Name&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">&lt;h3&gt;ViewBag.ViewBagCurrentUser.Name:@ViewBag.ViewBagCurrentUser.Name&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">&lt;h3&gt;TempData[&quot;TempDataCurrentUser&quot;].Name:@(((CurrentUser)TempData[&quot;TempDataCurrentUser&quot;]).Name)&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">&lt;h3&gt;TempData[&quot;TempDataCurrentUser&quot;].Name:@(TempDataCurrentUser.Name)&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">&lt;h3&gt;TempData[&quot;testProp&quot;]:@TempData[&quot;testProp&quot;]&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">&lt;h3&gt; ViewBag.testProp:@ViewBag.testProp&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">&lt;h3&gt;Model.Name:@Model.Name&lt;/h3&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="MVC引入Log日志"><a href="#MVC引入Log日志" class="headerlink" title="MVC引入Log日志"></a>MVC引入Log日志</h2><p>要在.NET MVC项目中引入log4net日志记录库，请按照以下步骤进行操作：</p>
+<ul>
+<li><p>安装log4net NuGet包</p>
+<blockquote>
+<p>在Visual Studio中打开解决方案资源管理器，右键单击项目名称，选择“管理NuGet程序包”，然后在“浏览”选项卡中搜索“log4net”并安装它。</p>
+</blockquote>
+</li>
+<li><p>配置log4net</p>
+<blockquote>
+<p>在项目根目录下创建一个名为“log4net.config”的配置文件，并在其中添加log4net的配置信息。例如：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">xml</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;  </span><br><span class="line">&lt;log4net&gt;  </span><br><span class="line">  &lt;appender name=&quot;RollingFile&quot; type=&quot;log4net.Appender.RollingFileAppender&quot;&gt;  </span><br><span class="line">    &lt;file value=&quot;logs/myapp.log&quot; /&gt;  </span><br><span class="line">    &lt;appendToFile value=&quot;true&quot; /&gt;  </span><br><span class="line">    &lt;rollingStyle value=&quot;Size&quot; /&gt;  </span><br><span class="line">    &lt;maxSizeRollBackups value=&quot;5&quot; /&gt;  </span><br><span class="line">    &lt;maximumFileSize value=&quot;10MB&quot; /&gt;  </span><br><span class="line">    &lt;staticLogFileName value=&quot;true&quot; /&gt;  </span><br><span class="line">    &lt;layout type=&quot;log4net.Layout.PatternLayout&quot;&gt;  </span><br><span class="line">      &lt;conversionPattern value=&quot;%date [%thread] %-5level %logger - %message%newline&quot; /&gt;  </span><br><span class="line">    &lt;/layout&gt;  </span><br><span class="line">  &lt;/appender&gt;  </span><br><span class="line">  &lt;root&gt;  </span><br><span class="line">    &lt;level value=&quot;DEBUG&quot; /&gt;  </span><br><span class="line">    &lt;appender-ref ref=&quot;RollingFile&quot; /&gt;  </span><br><span class="line">  &lt;/root&gt;  </span><br><span class="line">&lt;/log4net&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>在Global.asax文件中配置log4net</p>
+<blockquote>
+<p>打开Global.asax文件，并在Application_Start方法中添加以下代码来初始化log4net：</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">protected void Application_Start()  </span><br><span class="line">&#123;  </span><br><span class="line">    XmlConfigurator.Configure(new FileInfo(&quot;log4net.config&quot;));  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Global-全局文件"><a href="#Global-全局文件" class="headerlink" title="Global:全局文件"></a>Global:全局文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// Global:全局文件</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class MvcApplication : System.Web.HttpApplication</span><br><span class="line">&#123;</span><br><span class="line">    protected void Application_Start()//程序从这里开始启动    Application_Start 执行且只执行一次   非常适合程序初始化</span><br><span class="line">    &#123;</span><br><span class="line">        AreaRegistration.RegisterAllAreas(); //注册区域 Area</span><br><span class="line">        FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters); //注册全局Filter</span><br><span class="line">        RouteConfig.RegisterRoutes(RouteTable.Routes); //注册路由</span><br><span class="line">        BundleConfig.RegisterBundles(BundleTable.Bundles); //注册打包工具</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //MVC调用Aciton 是通过反射来的；  读取dll  获取类型  创建对象 执行方法</span><br><span class="line">    ///在反射调用action之前 还有一个扫描+存储的过程，全局扫描 Controller的子类</span><br><span class="line">    ///保存起来；路由的来时通过在保存的所有控制器类中去匹配；</span><br><span class="line">    ///如果是全局扫描的话，即时在外部的控制器也能够扫描进来</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="RouteConfig-cs-路由配置"><a href="#RouteConfig-cs-路由配置" class="headerlink" title="RouteConfig.cs 路由配置"></a>RouteConfig.cs 路由配置</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">public class RouteConfig</span><br><span class="line">&#123;</span><br><span class="line">    public static void RegisterRoutes(RouteCollection routes)  //配置路由</span><br><span class="line">    &#123;</span><br><span class="line">        routes.IgnoreRoute(&quot;&#123;resource&#125;.axd/&#123;*pathInfo&#125;&quot;); //忽略路由</span><br><span class="line">        //&#123;resource&#125;.axd/&#123;*pathInfo&#125; 正则表达式，  abcc.axd/ccc,就忽略掉；</span><br><span class="line">        //.axd有历史原因：webFrom,后缀是Aspx，IIS是根据后缀做转发请求，MVC出现；没有后缀了，IIS6版本，打了补丁；把MVC的请求就专门添加了.axd 后缀，然后这种请求就可以被转发到网站中来；</span><br><span class="line">        //后来的IIS版本其实已经不需要，遇到以后就直接忽略；还是去走原始流程； </span><br><span class="line">        //routes.IgnoreRoute(&quot;Advanced/&#123;*pathInfo&#125;&quot;); //忽略路由</span><br><span class="line"></span><br><span class="line">        //路由匹配是从上往下依次匹配，如果有一个匹配到到，就使用当前匹配到的路由进行转发；</span><br><span class="line"></span><br><span class="line">        routes.MapRoute(</span><br><span class="line">                  name: &quot;About&quot;, //固定路由</span><br><span class="line">                  url: &quot;About&quot;,</span><br><span class="line">                  defaults: new &#123; controller = &quot;Home&quot;, action = &quot;About&quot;, id = UrlParameter.Optional &#125;</span><br><span class="line">       );</span><br><span class="line"></span><br><span class="line">        routes.MapRoute(  //修改控制器</span><br><span class="line">                name: &quot;test&quot;,</span><br><span class="line">                url: &quot;test/&#123;action&#125;/&#123;Id&#125;&quot;,</span><br><span class="line">                defaults: new &#123; controller = &quot;Second&quot;, action = &quot;Index&quot;, id = UrlParameter.Optional &#125;</span><br><span class="line">     );</span><br><span class="line"></span><br><span class="line">        routes.MapRoute(</span><br><span class="line">              name: &quot;Regex&quot;,</span><br><span class="line">              url: &quot;&#123;controller&#125;/&#123;action&#125;_&#123;year&#125;_&#123;month&#125;_&#123;day&#125;&quot;,</span><br><span class="line">              defaults: new &#123; controller = &quot;Second&quot;, action = &quot;Index&quot;, id = UrlParameter.Optional &#125;,</span><br><span class="line">              constraints: new &#123; year = @&quot;\d&#123;4&#125;&quot;, month = @&quot;\d&#123;2&#125;&quot;, day = @&quot;\d&#123;2&#125;&quot; &#125;</span><br><span class="line">         );</span><br><span class="line">         </span><br><span class="line"></span><br><span class="line">        routes.MapRoute( //常规路由 </span><br><span class="line">            url: &quot;&#123;controller&#125;/&#123;action&#125;/&#123;id&#125;&quot;,</span><br><span class="line">            name: &quot;Default&quot;, //路由名称  被作为路由集合的Key  this[int index]  不能重复</span><br><span class="line">            defaults: new &#123; controller = &quot;Home&quot;, action = &quot;Index&quot;, id = UrlParameter.Optional &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="MVC调用Action"><a href="#MVC调用Action" class="headerlink" title="MVC调用Action"></a>MVC调用Action</h2><blockquote>
+<p>信息来自于url+route，路由匹配时，只能找到action和controller，  其实还有个步骤，扫描+存储，在bin里面找Controller的子类，然后把命名空间–类名称+全部方法都存起来</p>
+</blockquote>
+<h2 id="Razor语法"><a href="#Razor语法" class="headerlink" title="Razor语法"></a>Razor语法</h2><p>Razor是一种服务器端代码的语法，用于ASP.NET Web Forms和ASP.NET MVC。它允许在HTML页面中嵌入C#或VB.NET代码，从而使得在服务器端生成动态内容变得更容易。Razor语法使用“@”符号来标识代码块的开始，可以用来输出数据、控制流程和执行其他服务器端代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = &quot;Second_Index&quot;;</span><br><span class="line">    int i = 10;  //多行</span><br><span class="line">&#125;</span><br><span class="line">@&#123; int j = 10; string x = &quot;Advanced&quot;; &#125; @*单行*@  &lt;!--单行--&gt;</span><br><span class="line">&lt;h2&gt;this is Second Index&lt;/h2&gt;</span><br><span class="line">&lt;h3&gt;@ViewBag.Title&lt;/h3&gt;</span><br><span class="line">@*&lt;h3&gt;@&#123; ViewBag.Title&#125;&lt;/h3&gt;*@  @*//行内 不能有大括号*@</span><br><span class="line"></span><br><span class="line">@if (i &gt; 10)</span><br><span class="line">&#123;</span><br><span class="line">    &lt;a href=&quot;www.baidu.com&quot;&gt; 这里是一个链接&lt;/a&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@for (int l = 0; l &lt; 10; l++)</span><br><span class="line">&#123;</span><br><span class="line">    @: 这里是一个链接</span><br><span class="line">    &lt;a href=&quot;www.baidu.com&quot;&gt; 这里是一个链接 @l&lt;/a&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    //1.Html闭合的标签</span><br><span class="line">    //2.   @: 这里是一个链接</span><br><span class="line">    //3.text标签</span><br><span class="line"></span><br><span class="line">    &lt;text&gt;</span><br><span class="line">        欢迎大家来到.Net高级班的Vip课程；</span><br><span class="line">    &lt;/text&gt;</span><br><span class="line">    &lt;h3&gt;你好&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@section scripts&#123;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        alert(&quot;aaaaaaaaaaaaaaaaaaaa&quot;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Razor 标签</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Html.ActionLink(linkText, actionName, controllerName, routeValues)：用于生成一个链接到指定动作的HTML锚点元素。</span><br><span class="line">@Html.BeginForm(formAction, controllerName, routeValues)：用于生成一个表单的开始标签。</span><br><span class="line">@Html.CheckBoxFor(model =&gt; model.Property)：用于生成一个复选框元素，绑定到模型的属性。</span><br><span class="line">@Html.DropDownListFor(model =&gt; model.Property, selectList, htmlAttributes)：用于生成一个下拉列表元素，绑定到模型的属性。</span><br><span class="line">@Html.EditorFor(model =&gt; model.Property)：用于生成一个文本框元素，绑定到模型的属性。</span><br><span class="line">@Html.FileFor(model =&gt; model.Property)：用于生成一个文件上传框元素，绑定到模型的属性。</span><br><span class="line">@Html.HiddenFor(model =&gt; model.Property)：用于生成一个隐藏字段元素，绑定到模型的属性。</span><br><span class="line">@Html.Image(imageUrl, altText, htmlAttributes)：用于生成一个图像元素。</span><br><span class="line">@Html.LabelFor(model =&gt; model.Property, htmlAttributes)：用于生成一个标签元素，绑定到模型的属性。</span><br><span class="line">@Html.ListBoxFor(model =&gt; model.Property, selectList, htmlAttributes)：用于生成一个列表框元素，绑定到模型的属性。</span><br><span class="line">@Html.Link(linkText, actionName, controllerName, routeValues)：用于生成一个链接元素。</span><br><span class="line">@Html.PasswordFor(model =&gt; model.Property)：用于生成一个密码框元素，绑定到模型的属性。</span><br><span class="line">@Html.RadioButtonFor(model =&gt; model.Property, radioButtonValue)：用于生成一个单选按钮元素，绑定到模型的属性。</span><br><span class="line">@Html.TextAreaFor(model =&gt; model.Property)：用于生成一个文本区域元素，绑定到模型的属性。</span><br><span class="line">@Html.ValidationMessageFor(model =&gt; model.Property)：用于生成一个验证消息元素，绑定到模型的属性。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Index页面循环出控制器给出的列表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">-----------------控制器----------------</span><br><span class="line">public ActionResult Index()&#123;</span><br><span class="line">    IEnumerable&lt;TencentSubject001&gt; tencentQuery = _iTencentSubjectService.Query&lt;TencentSubject001&gt;(funcWhere);</span><br><span class="line">    return tencentQuery;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">-----------------Index----------------</span><br><span class="line">@model  PagedList.StaticPagedList&lt;TencentSubject001&gt;</span><br><span class="line">@foreach (var item in Model)</span><br><span class="line">&#123;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">        &lt;td&gt;</span><br><span class="line">            @*@item.Id*@</span><br><span class="line">            @Html.DisplayFor(modelItem =&gt; item.Id)@*//强类型 可以展示display*@</span><br><span class="line">        &lt;/td&gt;</span><br><span class="line">        &lt;td&gt;</span><br><span class="line">            @Html.DisplayFor(modelItem =&gt; item.Title)</span><br><span class="line">        &lt;/td&gt;</span><br><span class="line">        &lt;td&gt;</span><br><span class="line">            @Html.DisplayFor(modelItem =&gt; item.Price)</span><br><span class="line">        &lt;/td&gt;</span><br><span class="line">        &lt;td&gt;</span><br><span class="line">            @Html.DisplayFor(modelItem =&gt; item.Url)</span><br><span class="line">        &lt;/td&gt;</span><br><span class="line">        &lt;td&gt;</span><br><span class="line">            &lt;a href=&quot;/Fourth/Details/@item.Id&quot;&gt;Details&lt;/a&gt;|</span><br><span class="line">            @Html.ActionLink(&quot;Update&quot;, &quot;Update&quot;, new &#123; id = item.Id &#125;) |</span><br><span class="line">            @Html.ActionLink(&quot;Delete&quot;, &quot;Delete&quot;, new &#123; id = item.Id &#125;) |</span><br><span class="line">            &lt;a id=&quot;@item.Id&quot; href=&quot;javascript:void(0);&quot; onclick=&quot;ajaxDelete(this)&quot;&gt;ajaxDelete&lt;/a&gt;</span><br><span class="line">        &lt;/td&gt;</span><br><span class="line">        @*&lt;td&gt;</span><br><span class="line">                &lt;img src=&quot;@item.ImageUrl&quot; /&gt;</span><br><span class="line">            &lt;/td&gt;*@</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>Index 传递参数给到控制器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">-----------Index--------------------</span><br><span class="line">@using (Html.BeginForm(&quot;Index&quot;, &quot;Fourth&quot;))  //来一个表单</span><br><span class="line">&#123;</span><br><span class="line">    @Html.Br()</span><br><span class="line">    &lt;p&gt;</span><br><span class="line">        Find by Condition:</span><br><span class="line">        @Html.TextBox(&quot;searchString&quot;, ViewBag.searchString as string, new &#123; @class = &quot;form-control&quot;, @Style = &quot;display:inline&quot; &#125;)</span><br><span class="line">        @Html.TextBox(&quot;minPrice&quot;, ViewBag.minPrice as string, new &#123; @class = &quot;form-control&quot;, @Style = &quot;display:inline&quot; &#125;)</span><br><span class="line">        @Html.TextBox(&quot;maxPrice&quot;, ViewBag.maxPrice as string, new &#123; @class = &quot;form-control&quot;, @Style = &quot;display:inline&quot; &#125;)</span><br><span class="line">        @Html.Submit(&quot;查询&quot;)</span><br><span class="line">    &lt;/p&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">----------------控制器----------------------</span><br><span class="line">public ActionResult Index(string searchString, string minPrice, string maxPrice, int pageIndex = 1)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Update 实体显示及编辑</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">------------------控制器------------------------</span><br><span class="line">[HttpGet]</span><br><span class="line">public ActionResult Update(int id)</span><br><span class="line">&#123;</span><br><span class="line">    TencentSubject001 updateData = _iTencentSubjectService.Find&lt;TencentSubject001&gt;(id);</span><br><span class="line">    return View(updateData);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[HttpPost]</span><br><span class="line">public ActionResult Update(TencentSubject001 model)</span><br><span class="line">&#123;</span><br><span class="line">    //可以查询一边</span><br><span class="line">    //然后把查询拆来的数据 重新赋值 然后再次修改提交</span><br><span class="line">    _iTencentSubjectService.Update(model);</span><br><span class="line">    return RedirectToAction(&quot;Index&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">----------------------Update---------------------------</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = &quot;Update&quot;;</span><br><span class="line">&#125;</span><br><span class="line">@using Advanced.EF6.Models;</span><br><span class="line">@model TencentSubject001</span><br><span class="line">@using (Html.BeginForm(&quot;Update&quot;, &quot;Fourth&quot;))  //来一个表单</span><br><span class="line">&#123;</span><br><span class="line">    @Html.Br()</span><br><span class="line">    &lt;div id=&quot;partialajaxlist&quot;&gt; </span><br><span class="line">        @Html.Hidden(&quot;Url&quot;, Model.Url)</span><br><span class="line">        @Html.Hidden(&quot;ImageUrl&quot;, Model.ImageUrl)</span><br><span class="line">        @Html.Hidden(&quot;CategoryId&quot;, Model.CategoryId)</span><br><span class="line">        @Html.Hidden(&quot;CourseId&quot;, Model.CourseId)</span><br><span class="line">        &lt;table class=&quot;table&quot;&gt;</span><br><span class="line">            &lt;tr&gt;</span><br><span class="line">                &lt;td&gt;</span><br><span class="line">                    名称</span><br><span class="line">                &lt;/td&gt;</span><br><span class="line">                &lt;td&gt;</span><br><span class="line">                    @Html.TextBox(&quot;Title&quot;, Model.Title, new &#123; @class = &quot;form-control&quot;, @Style = &quot;display:inline&quot; &#125;)</span><br><span class="line">                &lt;/td&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">            &lt;tr&gt;</span><br><span class="line">                &lt;td&gt;</span><br><span class="line">                    价格</span><br><span class="line">                &lt;/td&gt;</span><br><span class="line">                &lt;td&gt;</span><br><span class="line">                    @Html.TextBox(&quot;Price&quot;, Model.Price, new &#123; @class = &quot;form-control&quot;, @Style = &quot;display:inline&quot; &#125;)</span><br><span class="line">                &lt;/td&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">        &lt;/table&gt;</span><br><span class="line">        @Html.Submit(&quot;提交&quot;)</span><br><span class="line">        @Html.Br()</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>Create 实体创建</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line">-------------------------控制器----------------------</span><br><span class="line">#region Create</span><br><span class="line">[HttpGet]</span><br><span class="line">public ActionResult Create()</span><br><span class="line">&#123;</span><br><span class="line">    ViewBag.categoryList = BuildCategoryList(string.Empty);</span><br><span class="line">    return View();</span><br><span class="line">&#125;</span><br><span class="line">[AcceptVerbs(HttpVerbs.Put | HttpVerbs.Post)] //[HttpPost]</span><br><span class="line">//[HttpPost]</span><br><span class="line">//[HttpGet]</span><br><span class="line">[ValidateAntiForgeryToken]</span><br><span class="line">public ActionResult Create([Bind(Include = &quot;ProductId, CategoryId, Title, Price, Url, ImageUrl&quot;)]TencentSubject001 tencentSubject001)</span><br><span class="line">&#123;</span><br><span class="line">    string title1 = this.HttpContext.Request.Params[&quot;title&quot;];</span><br><span class="line">    string title2 = this.HttpContext.Request.QueryString[&quot;title&quot;];</span><br><span class="line">    string title3 = this.HttpContext.Request.Form[&quot;title&quot;];</span><br><span class="line">    if (ModelState.IsValid)//数据校验</span><br><span class="line">    &#123;</span><br><span class="line">        TencentSubject001 newCommodity = this._iTencentSubjectService.Insert(tencentSubject001);</span><br><span class="line">        return RedirectToAction(&quot;Index&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        throw new Exception(&quot;ModelState未通过检测&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 建议大家在整个项目中统一一个；</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;tencentSubject001&quot;&gt;&lt;/param&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line"></span><br><span class="line">[HttpPost]</span><br><span class="line">public ActionResult AjaxCreate([Bind(Include = &quot;ProductId, CategoryId, Title, Price, Url, ImageUrl&quot;)]TencentSubject001 tencentSubject001)</span><br><span class="line">&#123;</span><br><span class="line">    AjaxResult ajaxResult = new AjaxResult(); </span><br><span class="line">    try</span><br><span class="line">    &#123;</span><br><span class="line">        TencentSubject001 newCommodity = this._iTencentSubjectService.Insert(tencentSubject001);</span><br><span class="line">        ajaxResult.Result = DoResult.Success;</span><br><span class="line">        ajaxResult.PromptMsg = &quot;插入成功&quot;;</span><br><span class="line">        return Json(ajaxResult);</span><br><span class="line">    &#125;</span><br><span class="line">    catch (Exception)</span><br><span class="line">    &#123;</span><br><span class="line">        ajaxResult.Result = DoResult.Failed;</span><br><span class="line">        return Json(ajaxResult);</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line">#endregion Create</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">--------------------Create-----------------------</span><br><span class="line">@model Advanced.EF6.Models.TencentSubject001</span><br><span class="line">@&#123;</span><br><span class="line">    ViewBag.Title = &quot;Add New TencentSubject001&quot;;</span><br><span class="line">    List&lt;SelectListItem&gt; CategoryId = ViewBag.categoryList as List&lt;SelectListItem&gt;;</span><br><span class="line">&#125;</span><br><span class="line">&lt;h2&gt;Add New TencentSubject001&lt;/h2&gt;</span><br><span class="line">@using (Html.BeginForm())</span><br><span class="line">&#123;</span><br><span class="line">    @Html.AntiForgeryToken() @*//生成一个防伪标记，再提交的时候，就验证着标记，如果标记被修改过，就不允许*@</span><br><span class="line">    &lt;div class=&quot;form-horizontal&quot;&gt;</span><br><span class="line">        &lt;hr /&gt;</span><br><span class="line">        @Html.ValidationSummary(true)  </span><br><span class="line">        @*&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">            @Html.LabelFor(model =&gt; model.CategoryId, new &#123; @class = &quot;control-label col-md-2&quot; &#125;)</span><br><span class="line">            &lt;div class=&quot;col-md-10&quot;&gt;</span><br><span class="line">                @Html.DropDownList(&quot;CategoryId&quot;, CategoryId, new &#123; @class = &quot;control-label col-md-3&quot; &#125;)</span><br><span class="line">                @Html.ValidationMessageFor(model =&gt; model.CategoryId)</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;*@</span><br><span class="line">        &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">            @Html.LabelFor(model =&gt; model.Title, new &#123; @class = &quot;control-label col-md-2&quot; &#125;)</span><br><span class="line">            &lt;div class=&quot;col-md-10&quot;&gt;</span><br><span class="line">                @Html.EditorFor(model =&gt; model.Title)</span><br><span class="line">                @Html.ValidationMessageFor(model =&gt; model.Title)</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">            @Html.LabelFor(model =&gt; model.Price, new &#123; @class = &quot;control-label col-md-2&quot; &#125;)</span><br><span class="line">            &lt;div class=&quot;col-md-10&quot;&gt;</span><br><span class="line">                @Html.EditorFor(model =&gt; model.Price)</span><br><span class="line">                @Html.ValidationMessageFor(model =&gt; model.Price)</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">            @Html.LabelFor(model =&gt; model.ImageUrl, new &#123; @class = &quot;control-label col-md-2&quot; &#125;)</span><br><span class="line">            &lt;div class=&quot;col-md-10&quot;&gt;</span><br><span class="line">                @Html.EditorFor(model =&gt; model.ImageUrl)</span><br><span class="line">                @Html.ValidationMessageFor(model =&gt; model.ImageUrl)</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">            @Html.LabelFor(model =&gt; model.Url, new &#123; @class = &quot;control-label col-md-2&quot; &#125;)</span><br><span class="line">            &lt;div class=&quot;col-md-10&quot;&gt;</span><br><span class="line">                @Html.EditorFor(model =&gt; model.Url)</span><br><span class="line">                @Html.ValidationMessageFor(model =&gt; model.Url)</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;col-md-offset-2 col-md-10&quot;&gt;</span><br><span class="line">                @Html.Submit(&quot;Submit&quot;)</span><br><span class="line">                @Html.ValidationMessage(&quot;unableToSave&quot;)</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    @Html.ActionLink(&quot;Back to List&quot;, &quot;Index&quot;)</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">@section scripts&#123;</span><br><span class="line">    @Scripts.Render(&quot;~/bundles/jqueryval&quot;)</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">    //jquery ajax真的得学习</span><br><span class="line">        $(function () &#123; </span><br><span class="line">            $(&quot;form&quot;).submit(function () &#123; </span><br><span class="line">                $.ajax(&#123;</span><br><span class="line">                    url: &#x27;/Fifth/AjaxCreate&#x27;,</span><br><span class="line">                    type: &#x27;post&#x27;,</span><br><span class="line">                    dataType: &#x27;json&#x27;,</span><br><span class="line">                    data: $(&quot;form&quot;).serializeArray(),</span><br><span class="line">                    success: function (data) &#123;</span><br><span class="line">                        if (data.Result == 1) &#123;</span><br><span class="line">                            alert(&quot;添加成功&quot;);</span><br><span class="line">                        &#125;</span><br><span class="line">                        else if (data.Result == 2) &#123;</span><br><span class="line">                            alert(&quot;登陆超时,请重新登陆&quot;);</span><br><span class="line">                            location.href = &quot;/home/login&quot;;</span><br><span class="line">                        &#125;</span><br><span class="line">                        else &#123;</span><br><span class="line">                            alert(data.PromptMsg);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;,</span><br><span class="line">                    error: function (XMLHttpRequest, textStatus, errorThrown) &#123;</span><br><span class="line">                        alert(errorThrown);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">                return false;//避免又ajax提交 又表单提交</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Layout"><a href="#Layout" class="headerlink" title="Layout"></a>Layout</h2><pre><code>//默认是_layout  可以自行指定
+Masterpage--layout  
+//使用样式包，可以结合 App_Start/BundleConfig.cs类应用
+@Styles.Render(&quot;~/Content/css&quot;) 
+//使用js包，可以结合 App_Start/BundleConfig.cs类应用
+@Scripts.Render(&quot;~/bundles/modernizr&quot;) 
+@RenderBody() 就是页面的结合点
+@RenderSection(&quot;scripts&quot;, required: false)
+</code></pre>
+<h2 id="PartialPage局部页"><a href="#PartialPage局部页" class="headerlink" title="PartialPage局部页"></a>PartialPage局部页</h2><p>“PartialPage” 通常指的是一个网页的部分内容，它可以独立于主页面进行加载、修改或更新。在许多Web开发框架中，例如ASP.NET MVC，partial视图（或partial页面）是一个常见的概念。</p>
+<p>使用partial页面有几个好处：</p>
+<pre><code>性能优化：如果一个页面的某一部分经常改变，而其他部分保持不变，那么只更新这部分内容而不是整个页面可以大大提高性能。
+代码重用：如果多个页面有相同的内容或布局，使用partial页面可以避免重复代码。
+更易于维护：如果页面的一部分需要更改，只需更改一个地方，而不是多个地方。
+</code></pre>
+<blockquote>
+<p>在ASP.NET MVC中，partial视图通常使用@Html.Partial()或@Html.RenderPartial()方法来渲染。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 在主页面中 --&gt;  </span><br><span class="line">@Html.Partial(&quot;PartialViewName&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;!-- 在Controller中 --&gt;  </span><br><span class="line">public ActionResult SomeAction()  </span><br><span class="line">&#123;  </span><br><span class="line">    // ... 其他代码 ...  </span><br><span class="line">    return PartialView(&quot;PartialViewName&quot;);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="返回的数据类型"><a href="#返回的数据类型" class="headerlink" title="返回的数据类型"></a>返回的数据类型</h1><blockquote>
+<p>在Web开发中，返回的数据可以有不同的表现形式呢？</p>
+</blockquote>
+<pre><code>HTML----text/html
+JSON----application/json
+IMAGE---gif/jpeg/png
+IOC---image/x-ioc
+JS----application/javascript
+XML--- application/xml
+</code></pre>
+<p>Http请求:Web框架和客户端配合完成；<br>PDF下载：其实操作的都是同一个文件，为什么可以是下载，也可以是在页面展示；<br>其实是服务器在响应的时候，做了一些包装；来区分类型—ContentType</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/C-%E9%AB%98%E7%BA%A7/" rel="tag"># C#高级</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/03/15/CSharp%E5%9F%BA%E7%A1%80/15%E3%80%81%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="prev" title="15、多线程">
+      <i class="fa fa-chevron-left"></i> 15、多线程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/04/02/Net%E9%AB%98%E7%BA%A7/2%E3%80%81MVC2-IOC/" rel="next" title="2、MVC2-IOC">
+      2、MVC2-IOC <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MVC"><span class="nav-text">MVC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E6%88%90"><span class="nav-text">组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC%E7%9A%84%E5%9B%9B%E7%A7%8D%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F"><span class="nav-text">MVC的四种传值方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC%E5%BC%95%E5%85%A5Log%E6%97%A5%E5%BF%97"><span class="nav-text">MVC引入Log日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Global-%E5%85%A8%E5%B1%80%E6%96%87%E4%BB%B6"><span class="nav-text">Global:全局文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RouteConfig-cs-%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE"><span class="nav-text">RouteConfig.cs 路由配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC%E8%B0%83%E7%94%A8Action"><span class="nav-text">MVC调用Action</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Razor%E8%AF%AD%E6%B3%95"><span class="nav-text">Razor语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Layout"><span class="nav-text">Layout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PartialPage%E5%B1%80%E9%83%A8%E9%A1%B5"><span class="nav-text">PartialPage局部页</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">返回的数据类型</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/BlogPro/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

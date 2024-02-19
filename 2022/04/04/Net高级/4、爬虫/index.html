@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="步骤获取分页数据 创建  HttpHelper  爬虫帮助类 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4、爬虫">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/04/04/Net%E9%AB%98%E7%BA%A7/4%E3%80%81%E7%88%AC%E8%99%AB/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="步骤获取分页数据 创建  HttpHelper  爬虫帮助类 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-04T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-02-02T13:33:26.833Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="C#高级">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/04/04/Net%E9%AB%98%E7%BA%A7/4%E3%80%81%E7%88%AC%E8%99%AB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>4、爬虫 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">你知道的越多 你不知道的也就越多</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/04/04/Net%E9%AB%98%E7%BA%A7/4%E3%80%81%E7%88%AC%E8%99%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          4、爬虫
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-04 10:48:57" itemprop="dateCreated datePublished" datetime="2022-04-04T10:48:57+08:00">2022-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-02 21:33:26" itemprop="dateModified" datetime="2024-02-02T21:33:26+08:00">2024-02-02</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/04/04/Net%E9%AB%98%E7%BA%A7/4%E3%80%81%E7%88%AC%E8%99%AB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/04/04/Net%E9%AB%98%E7%BA%A7/4%E3%80%81%E7%88%AC%E8%99%AB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="获取分页数据"><a href="#获取分页数据" class="headerlink" title="获取分页数据"></a>获取分页数据</h3><ul>
+<li><p>创建  HttpHelper  爬虫帮助类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// http://tool.sufeinet.com/HttpHelper.aspx</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class HttpHelper</span><br><span class="line">&#123;</span><br><span class="line">    private static Logger logger = new Logger(typeof(HttpHelper));</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 根据url下载内容  之前是GB2312</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;url&quot;&gt;&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    public static string DownloadUrl(string url)</span><br><span class="line">    &#123;</span><br><span class="line">        return DownloadHtml(url, Encoding.UTF8);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //HttpClient--WebApi</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 下载html</span><br><span class="line">    /// http://tool.sufeinet.com/HttpHelper.aspx</span><br><span class="line">    /// HttpWebRequest功能比较丰富，WebClient使用比较简单</span><br><span class="line">    /// WebRequest</span><br><span class="line">    /// </span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;url&quot;&gt;&lt;/param&gt;</span><br><span class="line">    /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">    public static string DownloadHtml(string url, Encoding encode)</span><br><span class="line">    &#123;</span><br><span class="line">        string html = string.Empty;</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            //可以使用httpWebRequest  也可以使用HttpClent</span><br><span class="line">            //https可以下载--</span><br><span class="line"></span><br><span class="line">            //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback((object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors) =&gt;</span><br><span class="line">            //&#123;</span><br><span class="line">            //    return true; //总是接受  </span><br><span class="line">            //&#125;);</span><br><span class="line">            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;</span><br><span class="line"></span><br><span class="line">            HttpWebRequest request = HttpWebRequest.Create(url) as HttpWebRequest;//模拟请求</span><br><span class="line">            request.Timeout = 30 * 1000;//设置30s的超时</span><br><span class="line">            request.UserAgent = &quot;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36&quot;;</span><br><span class="line">            //request.UserAgent = &quot;User - Agent:Mozilla / 5.0(iPhone; CPU iPhone OS 7_1_2 like Mac OS X) App leWebKit/ 537.51.2(KHTML, like Gecko) Version / 7.0 Mobile / 11D257 Safari / 9537.53&quot;;</span><br><span class="line"></span><br><span class="line">            request.ContentType = &quot;text/html; charset=utf-8&quot;;// &quot;text/html;charset=gbk&quot;;// </span><br><span class="line">             </span><br><span class="line">            //request.Host = &quot;search.yhd.com&quot;; </span><br><span class="line">            //request.Headers.Add(&quot;Cookie&quot;, @&quot;newUserFlag=1; guid=YFT7C9E6TMFU93FKFVEN7TEA5HTCF5DQ26HZ; gray=959782; cid=av9kKvNkAPJ10JGqM_rB_vDhKxKM62PfyjkB4kdFgFY5y5VO; abtest=31; _ga=GA1.2.334889819.1425524072; grouponAreaId=37; provinceId=20; search_showFreeShipping=1; rURL=http%3A%2F%2Fsearch.yhd.com%2Fc0-0%2Fkiphone%2F20%2F%3Ftp%3D1.1.12.0.73.Ko3mjRR-11-FH7eo; aut=5GTM45VFJZ3RCTU21MHT4YCG1QTYXERWBBUFS4; ac=57265177%40qq.com; msessionid=H5ACCUBNPHMJY3HCK4DRF5VD5VA9MYQW; gc=84358431%2C102362736%2C20001585%2C73387122; tma=40580330.95741028.1425524063040.1430288358914.1430790348439.9; tmd=23.40580330.95741028.1425524063040.; search_browse_history=998435%2C1092925%2C32116683%2C1013204%2C6486125%2C38022757%2C36224528%2C24281304%2C22691497%2C26029325; detail_yhdareas=&quot;&quot;; cart_cookie_uuid=b64b04b6-fca7-423b-b2d1-ff091d17e5e5; gla=20.237_0_0; JSESSIONID=14F1F4D714C4EE1DD9E11D11DDCD8EBA; wide_screen=1; linkPosition=search&quot;);</span><br><span class="line"></span><br><span class="line">            //request.Headers.Add(&quot;Accept&quot;, &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&quot;);</span><br><span class="line">            //request.Headers.Add(&quot;Accept-Encoding&quot;, &quot;gzip, deflate, sdch&quot;);</span><br><span class="line">            //request.Headers.Add(&quot;Referer&quot;, &quot;http://list.yhd.com/c0-0/b/a-s1-v0-p1-price-d0-f0-m1-rt0-pid-mid0-kiphone/&quot;);</span><br><span class="line"></span><br><span class="line">            //Encoding enc = Encoding.GetEncoding(&quot;GB2312&quot;); // 如果是乱码就改成 utf-8 / GB2312</span><br><span class="line"></span><br><span class="line">            //如何自动读取cookie</span><br><span class="line">            request.CookieContainer = new CookieContainer();//1 给请求准备个container</span><br><span class="line">            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)//发起请求</span><br><span class="line">            &#123;</span><br><span class="line">                if (response.StatusCode != HttpStatusCode.OK)</span><br><span class="line">                &#123;</span><br><span class="line">                    logger.Warn(string.Format(&quot;抓取&#123;0&#125;地址返回失败,response.StatusCode为&#123;1&#125;&quot;, url, response.StatusCode));</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    try</span><br><span class="line">                    &#123;</span><br><span class="line">                        //string sessionValue = response.Cookies[&quot;ASP.NET_SessionId&quot;].Value;//2 读取cookie</span><br><span class="line">                        StreamReader sr = new StreamReader(response.GetResponseStream(), encode);</span><br><span class="line">                        html = sr.ReadToEnd();//读取数据</span><br><span class="line">                        sr.Close();</span><br><span class="line">                    &#125;</span><br><span class="line">                    catch (Exception ex)</span><br><span class="line">                    &#123;</span><br><span class="line">                        logger.Error(string.Format($&quot;DownloadHtml抓取&#123;url&#125;失败&quot;), ex);</span><br><span class="line">                        html = null;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (System.Net.WebException ex)</span><br><span class="line">        &#123;</span><br><span class="line">            if (ex.Message.Equals(&quot;远程服务器返回错误: (306)。&quot;))</span><br><span class="line">            &#123;</span><br><span class="line">                logger.Error(&quot;远程服务器返回错误: (306)。&quot;, ex);</span><br><span class="line">                html = null;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            logger.Error(string.Format(&quot;DownloadHtml抓取&#123;0&#125;出现异常&quot;, url), ex);</span><br><span class="line">            html = null;</span><br><span class="line">        &#125;</span><br><span class="line">        return html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static string DownloadJsonData(string url, Encoding encode)</span><br><span class="line">    &#123;</span><br><span class="line">        string html = string.Empty;</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            HttpWebRequest request = HttpWebRequest.Create(url) as HttpWebRequest;//模拟请求</span><br><span class="line">            request.Timeout = 30 * 1000;//设置30s的超时</span><br><span class="line">            request.UserAgent = &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36&quot;;</span><br><span class="line"></span><br><span class="line">            request.ContentType = &quot;application/json;charset=utf-8&quot;;</span><br><span class="line">            request.Referer = &quot;https://ke.qq.com/admin/index.html&quot;;</span><br><span class="line">            request.Accept = &quot;*/*&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            request.Headers.Add(&quot;authority&quot;, &quot;ke.qq.com&quot;);</span><br><span class="line">            request.Headers.Add(&quot;method&quot;, &quot;GET&quot;);</span><br><span class="line">            request.Headers.Add(&quot;path&quot;, &quot;/cgi-agency/agency/manager/get_course_list?aid=80207&amp;count=10&amp;page=1&amp;pay_type=2&amp;only_owner=1&amp;cname_key=&amp;course_state=0&amp;signup_state=0&amp;sort_method=0&amp;is_ascending=0&amp;bkn=449651946&amp;t=0.0029&quot;);</span><br><span class="line"></span><br><span class="line">            request.Headers.Add(&quot;scheme&quot;, &quot;https&quot;);</span><br><span class="line">            request.Headers.Add(&quot;accept-encodin&quot;, &quot;gzip, deflate, br&quot;);</span><br><span class="line">            request.Headers.Add(&quot;accept-language&quot;, &quot;zh-CN,zh;q=0.9&quot;);</span><br><span class="line">            request.Headers.Add(&quot;sec-fetch-mode&quot;, &quot;cors&quot;);</span><br><span class="line">            request.Headers.Add(&quot;sec-fetch-site&quot;, &quot;same-origin&quot;);</span><br><span class="line">             </span><br><span class="line">            request.CookieContainer = new CookieContainer();//1 给请求准备个container</span><br><span class="line">            request.Headers.Add(&quot;cookie&quot;, @&quot;pgv_pvi=5087136768; RK=WXbobkaNsr; ptcz=447bb81ae5a54414d650b3476dced39f0cb80683ac471ec83f6cd827e4fdf5b7; pgv_pvid=3854687776; ts_uid=2094536335; localInterest=[2002]; iswebp=1; pac_uid=1_2751435708; ied_qq=o2751435708; isHideDealTips=1; ts_refer=pay.qq.com/enterprise/separate.shtml; tvfe_boss_uuid=86ed223020e11b4d; o_cookie=2751435708; ke_login_type=1; luin=o2751435708; course_origin=[&#123;&#x27;cid&#x27;:297038,&#x27;ext&#x27;:&#123;&#x27;pagelocation&#x27;:&#x27;list, 1.3&#x27;&#125;&#125;]; tdw_data_testid=; tdw_data_flowid=; tdw_auin_data=-; tdw_first_visited=1; pgv_info=ssid=s6817397715; Hm_lvt_0c196c536f609d373a16d246a117fd44=1575856560,1575893514,1575896171,1575951173; index_new_key=&#123;&#x27;index_interest_cate_id&#x27;:2002&#125;; _qpsvr_localtk=0.05340837932628206; pgv_si=s9919754240; miniapp_qrcode_id=0115055f128549d785b0b1593b6084e4; uin=o2751435708; skey=@iGqJqPF6r; ptisp=cnc; lskey=000100005c4c2b2b6499fad1306a5536e639f4503825b33a2f4ee7f6c8ad4b5d43621199c8c99163c07c78c0; p_uin=o2751435708; pt4_token=SXdux*M4NNFzFRs6r59i-wKIVO4xk1AofSqAo8pvGg8_; p_skey=B4sUwtIxpxoGHY7OrQue0wyl2KkTlW4-Jr0MPc7Vf88_; p_luin=o2751435708; p_lskey=000400007af2a05b862ff9c18913d8cb474fb1c0c9f957de9f12b024a4372a5544cd95ecca989efba4edd06a; _pathcode=0.8704610796361238; tdw_data_sessionid=157595933804520618739236; ts_last=ke.qq.com/course/list; Hm_lpvt_0c196c536f609d373a16d246a117fd44=1575959482; tdw_data_new_2=&#123;&#x27;auin&#x27;:&#x27; - &#x27;,&#x27;sourcetype&#x27;:&#x27;tuin&#x27;,&#x27;sourcefrom&#x27;:&#x27;a3ff93bc&#x27;,&#x27;ver9&#x27;:2751435708,&#x27;uin&#x27;:2751435708,&#x27;visitor_id&#x27;:&#x27;8882822910493176&#x27;,&#x27;url_page&#x27;:&#x27;index&#x27;,&#x27;url_module&#x27;:&#x27;searchbar&#x27;,&#x27;url_position&#x27;:&#x27;&#x27;&#125;; tdw_data=&#123;&#x27;ver4&#x27;:&#x27;4&#x27;,&#x27;ver5&#x27;:&#x27;&#x27;,&#x27;ver6&#x27;:&#x27;&#x27;,&#x27;refer&#x27;:&#x27;&#x27;,&#x27;from_channel&#x27;:&#x27;&#x27;,&#x27;path&#x27;:&#x27;aBar - 0.8704610796361238&#x27;,&#x27;auin&#x27;:&#x27; - &#x27;,&#x27;uin&#x27;:2751435708,&#x27;real_uin&#x27;:2751435708&#125;&quot;);</span><br><span class="line"></span><br><span class="line">            //如何自动读取cookie </span><br><span class="line">            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)//发起请求</span><br><span class="line">            &#123;</span><br><span class="line">                if (response.StatusCode != HttpStatusCode.OK)</span><br><span class="line">                &#123;</span><br><span class="line">                    logger.Warn(string.Format(&quot;抓取&#123;0&#125;地址返回失败,response.StatusCode为&#123;1&#125;&quot;, url, response.StatusCode));</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    try</span><br><span class="line">                    &#123;</span><br><span class="line">                        //string sessionValue = response.Cookies[&quot;ASP.NET_SessionId&quot;].Value;//2 读取cookie</span><br><span class="line">                        StreamReader sr = new StreamReader(response.GetResponseStream(), encode);</span><br><span class="line">                        html = sr.ReadToEnd();//读取数据</span><br><span class="line">                        sr.Close();</span><br><span class="line">                    &#125;</span><br><span class="line">                    catch (Exception ex)</span><br><span class="line">                    &#123;</span><br><span class="line">                        logger.Error(string.Format($&quot;DownloadHtml抓取&#123;url&#125;失败&quot;), ex);</span><br><span class="line">                        html = null;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (System.Net.WebException ex)</span><br><span class="line">        &#123;</span><br><span class="line">            if (ex.Message.Equals(&quot;远程服务器返回错误: (306)。&quot;))</span><br><span class="line">            &#123;</span><br><span class="line">                logger.Error(&quot;远程服务器返回错误: (306)。&quot;, ex);</span><br><span class="line">                html = null;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            logger.Error(string.Format(&quot;DownloadHtml抓取&#123;0&#125;出现异常&quot;, url), ex);</span><br><span class="line">            html = null;</span><br><span class="line">        &#125;</span><br><span class="line">        return html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建 CourseSearch 爬虫实现类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 商品抓取</span><br><span class="line">/// http://www.w3school.com.cn/xpath/index.asp XPATH语法</span><br><span class="line">/// </span><br><span class="line">/// 1 HtmlAgilityPack还挺方便</span><br><span class="line">/// 2 订制，不同网站都要订制；</span><br><span class="line">///   同一网站基本不需要升级</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">public class CourseSearch : ISearch</span><br><span class="line">&#123;</span><br><span class="line">    private Logger logger = new Logger(typeof(CourseSearch));</span><br><span class="line">    private WarnRepository warnRepository = new WarnRepository();</span><br><span class="line">    private CourseRepository courseRepository = new CourseRepository();</span><br><span class="line">    private TencentCategoryEntity category = null;</span><br><span class="line"></span><br><span class="line">    public CourseSearch()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public CourseSearch(TencentCategoryEntity _category)</span><br><span class="line">    &#123;</span><br><span class="line">        category = _category;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Crawler()</span><br><span class="line">    &#123;</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            if (string.IsNullOrEmpty(category.Url))</span><br><span class="line">            &#123;</span><br><span class="line">                warnRepository.SaveWarn(category, string.Format(&quot;Url为空,Name=&#123;0&#125; Level=&#123;1&#125; Url=&#123;2&#125;&quot;, category.Name, category.CategoryLevel, category.Url));</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            &#123; </span><br><span class="line">                #region 分页获取  </span><br><span class="line">                //ImageHelper.DeleteDir(Constant.ImagePath);</span><br><span class="line">               GetPageCourseData();</span><br><span class="line">                #endregion</span><br><span class="line"></span><br><span class="line">                #region 获取某一页的数据</span><br><span class="line">                //this.Show(category.Url);</span><br><span class="line">                #endregion</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            logger.Error(&quot;CrawlerMuti出现异常&quot;, ex);</span><br><span class="line">            warnRepository.SaveWarn(category, string.Format(&quot;出现异常,Name=&#123;0&#125; Level=&#123;1&#125; Url=&#123;2&#125;&quot;, category.Name, category.CategoryLevel, category.Url));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static int count = 0;</span><br><span class="line"></span><br><span class="line">    //这个爬虫定制的套路如果能理解；刷个1</span><br><span class="line">    public void Show(string url)</span><br><span class="line">    &#123;</span><br><span class="line">        string strHtml = HttpHelper.DownloadUrl(url);</span><br><span class="line">        HtmlDocument document = new HtmlDocument();</span><br><span class="line">        document.LoadHtml(strHtml);</span><br><span class="line">        string liPath = &quot;/html/body/section[1]/div/div[@class=&#x27;market-bd market-bd-6 course-list course-card-list-multi-wrap js-course-list&#x27;]/ul/li&quot;;</span><br><span class="line">        HtmlNodeCollection liNodes = document.DocumentNode.SelectNodes(liPath);</span><br><span class="line">        foreach (var node in liNodes)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine();</span><br><span class="line">            Console.WriteLine();</span><br><span class="line">            Console.WriteLine(&quot;************************************************&quot;);</span><br><span class="line">            HtmlDocument lidocument = new HtmlDocument();</span><br><span class="line">            lidocument.LoadHtml(node.OuterHtml);</span><br><span class="line">            string aPath = &quot;//*/a[1]&quot;;</span><br><span class="line">            HtmlNode classANode = lidocument.DocumentNode.SelectSingleNode(aPath);</span><br><span class="line">            string aHref = classANode.Attributes[&quot;href&quot;].Value;</span><br><span class="line"></span><br><span class="line">            Console.WriteLine($&quot;课程Url:&#123;aHref&#125;&quot;);</span><br><span class="line"></span><br><span class="line">            string Id = classANode.Attributes[&quot;data-id&quot;].Value;</span><br><span class="line"></span><br><span class="line">            Console.WriteLine($&quot;课程Id:&#123;Id&#125;&quot;);</span><br><span class="line"></span><br><span class="line">            string imgPath = &quot;//*/a[1]/img&quot;;</span><br><span class="line">            HtmlNode imgNode = lidocument.DocumentNode.SelectSingleNode(imgPath);</span><br><span class="line">            string imgUrl = imgNode.Attributes[&quot;src&quot;].Value;</span><br><span class="line"></span><br><span class="line">            Console.WriteLine($&quot;ImageUrl:&#123;imgUrl&#125;&quot;);</span><br><span class="line"></span><br><span class="line">            string namePaths = &quot;//*/h4/a[1]&quot;;</span><br><span class="line">            HtmlNode nameNode = lidocument.DocumentNode.SelectSingleNode(namePaths);</span><br><span class="line">            string name = nameNode.InnerText;</span><br><span class="line">            Console.WriteLine(name);</span><br><span class="line"></span><br><span class="line">            Console.WriteLine($&quot;课程名称:&#123;name&#125;&quot;);</span><br><span class="line">            // courseEntity.Price = new Random().Next(100, 10000);  //关于腾讯课堂上的课程价格抓取 这是一个进阶内容  通过普通方式搞不了（他有一个自己的算法） </span><br><span class="line"></span><br><span class="line">            count = count + 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void ShowPageData(string url)</span><br><span class="line">    &#123;</span><br><span class="line">        string strHtml = HttpHelper.DownloadUrl(url);</span><br><span class="line">        HtmlDocument document = new HtmlDocument();</span><br><span class="line">        document.LoadHtml(strHtml);</span><br><span class="line">        string pagePath = &quot;/html/body/section[1]/div/div[5]/a[@class=&#x27;page-btn&#x27;]&quot;;</span><br><span class="line">        HtmlNodeCollection pageNodes = document.DocumentNode.SelectNodes(pagePath);</span><br><span class="line">        int maxPage = pageNodes.Select(p =&gt; int.Parse(p.InnerText)).Max();</span><br><span class="line">        for (int page = 1; page &lt;= maxPage; page++)</span><br><span class="line">        &#123;</span><br><span class="line">            string pageUrl = $&quot;&#123;url&#125;&amp;page=&#123;page&#125;&quot;;</span><br><span class="line">            Show(pageUrl);</span><br><span class="line">        &#125;</span><br><span class="line">        Console.WriteLine($&quot;一共抓取数据&#123;count&#125;条&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #region 分页抓取 </span><br><span class="line">    private void GetPageCourseData()</span><br><span class="line">    &#123;</span><br><span class="line">        //1. 确定总页数</span><br><span class="line">        //2. 分别抓取每一页的数据</span><br><span class="line">        //3. 分析  过滤  清洗</span><br><span class="line">        //4. 入库 </span><br><span class="line"></span><br><span class="line">        category.Url = $&quot;&#123;Constant.TencentClassUrl&#125;&#123;category.Url&#125;&quot;;</span><br><span class="line"></span><br><span class="line">        string strHtml = HttpHelper.DownloadUrl(category.Url);</span><br><span class="line">        HtmlDocument document = new HtmlDocument();</span><br><span class="line">        document.LoadHtml(strHtml);</span><br><span class="line">        //Xpath</span><br><span class="line">        string pagePath = &quot;/html/body/section[1]/div/div[@class=&#x27;sort-page&#x27;]/a[@class=&#x27;page-btn&#x27;]&quot;;</span><br><span class="line">        HtmlNodeCollection pageNodes = document.DocumentNode.SelectNodes(pagePath);</span><br><span class="line"></span><br><span class="line">        int pageCount = 1;</span><br><span class="line">        if (pageNodes != null)</span><br><span class="line">        &#123;</span><br><span class="line">            pageCount = pageNodes.Select(a =&gt; int.Parse(a.InnerText)).Max();</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;CourseEntity&gt; courseList = new List&lt;CourseEntity&gt;();</span><br><span class="line"></span><br><span class="line">        for (int pageIndex = 1; pageIndex &lt;= pageCount; pageIndex++)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine($&quot;******************************当前是第&#123;pageIndex&#125;页数据************************************&quot;);</span><br><span class="line">            string pageIndexUrl = $&quot;&#123;category.Url&#125;&amp;page=&#123;pageIndex&#125;&quot;;</span><br><span class="line">            List&lt;CourseEntity&gt; courseEntities = GetPageIndeData(pageIndexUrl);</span><br><span class="line">            courseList.AddRange(courseEntities);</span><br><span class="line">        &#125;</span><br><span class="line">        courseRepository.SaveList(courseList);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private List&lt;CourseEntity&gt; GetPageIndeData(string url)</span><br><span class="line">    &#123;</span><br><span class="line">        //获取li标签里面的数据 </span><br><span class="line">        // 先获取所有的Li </span><br><span class="line">        //  然后循环获取li中的有效数据</span><br><span class="line">        string strHtml = HttpHelper.DownloadUrl(url);</span><br><span class="line">        HtmlDocument document = new HtmlDocument();</span><br><span class="line">        document.LoadHtml(strHtml);</span><br><span class="line">        string liPath = &quot;/html/body/section[1]/div/div[@class=&#x27;market-bd market-bd-6 course-list course-card-list-multi-wrap js-course-list&#x27;]/ul/li&quot;;</span><br><span class="line">        HtmlNodeCollection liNodes = document.DocumentNode.SelectNodes(liPath);</span><br><span class="line"></span><br><span class="line">        List&lt;CourseEntity&gt; courseEntities = new List&lt;CourseEntity&gt;();</span><br><span class="line">        foreach (var node in liNodes)</span><br><span class="line">        &#123;</span><br><span class="line">            CourseEntity courseEntity = GetLiData(node);</span><br><span class="line">            courseEntities.Add(courseEntity);</span><br><span class="line">        &#125;</span><br><span class="line">        return courseEntities;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 当我们把这些数据获取到以后，那就应该保存起来</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;node&quot;&gt;&lt;/param&gt;</span><br><span class="line">    private CourseEntity GetLiData(HtmlNode node)</span><br><span class="line">    &#123;</span><br><span class="line">        CourseEntity courseEntity = new CourseEntity();</span><br><span class="line">        //从这里开始 </span><br><span class="line">        HtmlDocument document = new HtmlDocument();</span><br><span class="line">        document.LoadHtml(node.OuterHtml);</span><br><span class="line">        string aPath = &quot;//*/a[1]&quot;;</span><br><span class="line">        HtmlNode classANode = document.DocumentNode.SelectSingleNode(aPath);</span><br><span class="line">        string aHref = classANode.Attributes[&quot;href&quot;].Value;</span><br><span class="line">        courseEntity.Url = aHref;</span><br><span class="line"></span><br><span class="line">        Console.WriteLine($&quot;课程Url:&#123;aHref&#125;&quot;);</span><br><span class="line"></span><br><span class="line">        string Id = classANode.Attributes[&quot;data-id&quot;].Value;</span><br><span class="line"></span><br><span class="line">        Console.WriteLine($&quot;课程Id:&#123;Id&#125;&quot;);</span><br><span class="line"></span><br><span class="line">        courseEntity.CourseId = long.Parse(Id);</span><br><span class="line"></span><br><span class="line">        string imgPath = &quot;//*/a[1]/img&quot;;</span><br><span class="line">        HtmlNode imgNode = document.DocumentNode.SelectSingleNode(imgPath);</span><br><span class="line">        string imgUrl = imgNode.Attributes[&quot;src&quot;].Value;</span><br><span class="line">        courseEntity.ImageUrl = imgUrl;</span><br><span class="line"></span><br><span class="line">        Console.WriteLine($&quot;ImageUrl:&#123;imgUrl&#125;&quot;);</span><br><span class="line"></span><br><span class="line">        string namePaths = &quot;//*/h4/a[1]&quot;;</span><br><span class="line">        HtmlNode nameNode = document.DocumentNode.SelectSingleNode(namePaths);</span><br><span class="line">        string name = nameNode.InnerText;</span><br><span class="line"></span><br><span class="line">        courseEntity.Title = name;</span><br><span class="line"></span><br><span class="line">        Console.WriteLine($&quot;课程名称:&#123;name&#125;&quot;);</span><br><span class="line"></span><br><span class="line">        courseEntity.Price = new Random().Next(100, 10000);  //关于腾讯课堂上的课程价格抓取 这是一个进阶内容  通过普通方式搞不了（他有一个自己的算法） </span><br><span class="line">        return courseEntity;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改 Program 类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">static class Program</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 应用程序的主入口点。</span><br><span class="line">    /// &lt;/summary&gt;  </span><br><span class="line">    static void Main()</span><br><span class="line">    &#123;</span><br><span class="line">        //获取所有页的数据</span><br><span class="line">        // 发现每一页的数据URL后面拼接的page数据不一样</span><br><span class="line">        //1.需要先获取最大页数</span><br><span class="line">        //2.就可以通过拼接不同的URL来获取每一页的数据 </span><br><span class="line">        //4.循环读取数据</span><br><span class="line">        CourseSearch search = new CourseSearch(category);</span><br><span class="line">        search.ShowPageData(&quot;https://ke.qq.com/course/list?tuin=a3ff93bc&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="获取类别数据"><a href="#获取类别数据" class="headerlink" title="获取类别数据"></a>获取类别数据</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class CrawlerCenter</span><br><span class="line">&#123;</span><br><span class="line">    private static Logger logger = new Logger(typeof(CrawlerCenter));</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 抓取</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public static void Handler()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;请输入Y/N进行类别表初始化确认！ Y 删除Tencent_Category表然后重新创建，然后抓取类型数据，N（或者其他）跳过&quot;);</span><br><span class="line">        string input = Console.ReadLine();</span><br><span class="line">        if (input.Equals(&quot;Y&quot;, StringComparison.OrdinalIgnoreCase))</span><br><span class="line">        &#123;</span><br><span class="line">            DBInit.InitCategoryTable();</span><br><span class="line">            CrawlerCategory();</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;你选择不初始化类别数据&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        Console.WriteLine(&quot;*****************^_^**********************&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Console.WriteLine(&quot;请输入Y/N进行课程数据初始化确认！ Y 删除全部课程数据表然后重新创建，然后抓取课程数据，N（或者其他）跳过&quot;);</span><br><span class="line">        input = Console.ReadLine();</span><br><span class="line">        if (input.Equals(&quot;Y&quot;, StringComparison.OrdinalIgnoreCase))</span><br><span class="line">        &#123;</span><br><span class="line">            DBInit.InitTencentSubjectTable();</span><br><span class="line">            CrawlerCourse();</span><br><span class="line">        &#125;</span><br><span class="line">        Console.WriteLine(&quot;*****************^_^**********************&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void CrawlerCategory()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine($&quot;&#123; DateTime.Now&#125; 腾讯课堂类目开始抓取 - -&quot;);</span><br><span class="line">        ISearch search = new CategorySearch();</span><br><span class="line">        search.Crawler();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt; </span><br><span class="line">    /// </span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public static void CrawlerCourse()</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine($&quot;&#123; DateTime.Now&#125; 腾讯课堂课程开始抓取 - -&quot;);</span><br><span class="line">        CategoryRepository categoryRepository = new CategoryRepository();</span><br><span class="line"></span><br><span class="line">        //先从数据库拿到第三级类目信息</span><br><span class="line">        List&lt;TencentCategoryEntity&gt; categoryList = categoryRepository.QueryListByLevel(3);</span><br><span class="line"></span><br><span class="line">        var categoryquery = categoryList.Where(a =&gt; !a.Name.Contains(&quot;全部&quot;));</span><br><span class="line"> </span><br><span class="line">        //TaskFactory taskFactory = Task.Factory; </span><br><span class="line">        //List&lt;Task&gt; taskList = new List&lt;Task&gt;();</span><br><span class="line">        //foreach (TencentCategoryEntity category in categoryquery)</span><br><span class="line">        //&#123;</span><br><span class="line">        //    ISearch searcher = new CourseSearch(category);</span><br><span class="line">        //    taskList.Add(taskFactory.StartNew(searcher.Crawler));</span><br><span class="line">        //    if (taskList.Count &gt;= 10)  //当前最多开启10个线程</span><br><span class="line">        //    &#123;</span><br><span class="line">        //        taskList = taskList.Where(t =&gt; !t.IsCompleted &amp;&amp; !t.IsCanceled &amp;&amp; !t.IsFaulted).ToList();</span><br><span class="line">        //        Task.WaitAny(taskList.ToArray());//表示等待一个线程完成之后继续往后 </span><br><span class="line">        //    &#125;</span><br><span class="line">        //&#125;</span><br><span class="line">        //Task.WaitAll(taskList.ToArray());</span><br><span class="line"></span><br><span class="line">        List&lt;Action&gt; actions = new List&lt;Action&gt;();</span><br><span class="line">        foreach (TencentCategoryEntity category in categoryquery)</span><br><span class="line">        &#123;</span><br><span class="line">            ISearch searcher = new CourseSearch(category);</span><br><span class="line">            actions.Add(new Action(searcher.Crawler));</span><br><span class="line">        &#125;</span><br><span class="line">        //需要控制数量 </span><br><span class="line">        ParallelOptions options = new ParallelOptions();</span><br><span class="line">        options.MaxDegreeOfParallelism = 10;  //控制了最大的线程数量是10 个线程</span><br><span class="line">        Parallel.Invoke(options, actions.ToArray()); //Parallel 表示有多少个委托  就开启多少个线程</span><br><span class="line"></span><br><span class="line">        Console.WriteLine($&quot;&#123; DateTime.Now&#125; 腾讯课堂所有课程抓取完毕 - -&quot;); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 清理重复数据</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    private static void CleanAll()</span><br><span class="line">    &#123;</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine($&quot;&#123; DateTime.Now&#125; 开始清理重复数据 - -&quot;);</span><br><span class="line">            StringBuilder sb = new StringBuilder();</span><br><span class="line">            for (int i = 1; i &lt; 31; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                sb.AppendFormat(@&quot;DELETE FROM [dbo].[JD_Commodity_&#123;0&#125;] where productid IN(select productid from [dbo].[JD_Commodity_&#123;0&#125;] group by productid,CategoryId having count(0)&gt;1)</span><br><span class="line">                            AND ID NOT IN(select max(ID) as ID from [dbo].[JD_Commodity_&#123;0&#125;] group by productid,CategoryId having count(0)&gt;1);&quot;, i.ToString(&quot;000&quot;));</span><br><span class="line">            &#125;</span><br><span class="line">            Console.WriteLine(&quot;执行清理sql:&#123;0&#125;&quot;, sb.ToString());</span><br><span class="line">            SqlHelper.ExecuteNonQuery(sb.ToString());</span><br><span class="line">            Console.WriteLine(&quot;&#123;0&#125; 完成清理重复数据 - -&quot;, DateTime.Now);</span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            logger.Error(&quot;CleanAll出现异常&quot;, ex);</span><br><span class="line">        &#125;</span><br><span class="line">        finally</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;&#123;0&#125; 结束清理重复数据 - -&quot;, DateTime.Now);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改 Program 类</li>
+</ul>
+<pre><code>
+TencentCategoryEntity category = new TencentCategoryEntity()
+&#123;
+    Url = &quot;https://ke.qq.com/course/list/.net?tuin=a3ff93bc&quot;
+&#125;;
+#region 开始抓取数据 
+CrawlerCenter.Handler();
+</code></pre>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/C-%E9%AB%98%E7%BA%A7/" rel="tag"># C#高级</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/04/03/Net%E9%AB%98%E7%BA%A7/3%E3%80%81MVC3-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/" rel="prev" title="3、MVC3-权限验证">
+      <i class="fa fa-chevron-left"></i> 3、MVC3-权限验证
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/04/05/Net%E9%AB%98%E7%BA%A7/5%E3%80%81QuartZ/" rel="next" title="5、QuartZ">
+      5、QuartZ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-text">步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%88%86%E9%A1%B5%E6%95%B0%E6%8D%AE"><span class="nav-text">获取分页数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%B1%BB%E5%88%AB%E6%95%B0%E6%8D%AE"><span class="nav-text">获取类别数据</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/BlogPro/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

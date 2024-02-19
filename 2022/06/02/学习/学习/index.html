@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/BlogPro/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/BlogPro/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/BlogPro/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/BlogPro/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/BlogPro/css/main.css">
+
+
+<link rel="stylesheet" href="/BlogPro/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/BlogPro/lib/pace/pace-theme-minimal.min.css">
+  <script src="/BlogPro/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"smdegz.github.io","root":"/BlogPro/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="多线程await 等待Task  任务async 异步 mutex 跨进程及线程monitor 跨线程 threadLocal 线程本地存储空间asyncLocal 异步线程存储空间 ReaderWriterLockSlim  多线程日志写入程序 依赖注入ServiceCollection 配置依赖注入的类 AddTransient 瞬时注入AddScoped   作用域注入AddSingleto">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2、复习">
+<meta property="og:url" content="https://smdegz.github.io/BlogPro/2022/06/02/%E5%AD%A6%E4%B9%A0/%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="何锦祥 博客">
+<meta property="og:description" content="多线程await 等待Task  任务async 异步 mutex 跨进程及线程monitor 跨线程 threadLocal 线程本地存储空间asyncLocal 异步线程存储空间 ReaderWriterLockSlim  多线程日志写入程序 依赖注入ServiceCollection 配置依赖注入的类 AddTransient 瞬时注入AddScoped   作用域注入AddSingleto">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-02T02:48:57.000Z">
+<meta property="article:modified_time" content="2024-02-19T08:16:42.674Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://smdegz.github.io/BlogPro/2022/06/02/%E5%AD%A6%E4%B9%A0/%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>2、复习 | 何锦祥 博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/SMDegz" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/BlogPro/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">何锦祥 博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">你知道的越多 你不知道的也就越多</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/BlogPro/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/BlogPro/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/BlogPro/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/BlogPro/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/BlogPro/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/06/02/%E5%AD%A6%E4%B9%A0/%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2、复习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-02 10:48:57" itemprop="dateCreated datePublished" datetime="2022-06-02T10:48:57+08:00">2022-06-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-19 16:16:42" itemprop="dateModified" datetime="2024-02-19T16:16:42+08:00">2024-02-19</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/06/02/%E5%AD%A6%E4%B9%A0/%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/06/02/%E5%AD%A6%E4%B9%A0/%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><p>await 等待<br>Task  任务<br>async 异步</p>
+<p>mutex 跨进程及线程<br>monitor 跨线程</p>
+<p>threadLocal 线程本地存储空间<br>asyncLocal 异步线程存储空间</p>
+<p>ReaderWriterLockSlim  多线程日志写入程序</p>
+<h1 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h1><p>ServiceCollection 配置依赖注入的类</p>
+<p>AddTransient 瞬时注入<br>AddScoped   作用域注入<br>AddSingleton    单例注入  </p>
+<ul>
+<li>注册当前程序集的所有类型<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//这行代码获取当前正在执行的程序集（通常是包含此方法的程序集）。</span><br><span class="line">var assembly = Assembly.GetExecutingAssembly();</span><br><span class="line">// 程序集注册 使用RegisterAssemblyTypes方法注册当前程序集中所有的类型。</span><br><span class="line">builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())</span><br><span class="line">    .Where(t =&gt; t.Namespace == assembly.GetName().Name + &quot;.Services&quot;)</span><br><span class="line">    .AsImplementedInterfaces()</span><br><span class="line">    .InstancePerLifetimeScope();</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="主机管道"><a href="#主机管道" class="headerlink" title="主机管道"></a>主机管道</h1><ul>
+<li><p>IHostedService 通过继承这个类并实现该类的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public Task StartAsync(CancellationToken cancellationToken)</span><br><span class="line">public Task StopAsync(CancellationToken cancellationToken)</span><br></pre></td></tr></table></figure></li>
+<li><p>再通过以下方法可将服务注册到管道</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var host = new HostBuilder()</span><br><span class="line">           .ConfigureServices(collection =&gt; collection</span><br><span class="line">               .AddHostedService&lt;SystemClock&gt;())</span><br><span class="line">               .Build();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Web主机管道</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample01</span><br><span class="line">&#123;</span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        //使用Host.CreateDefaultBuilder()方法创建一个默认主机配置。</span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            // 使用ConfigureWebHost方法来配置Web主机的特定设置。</span><br><span class="line">            .ConfigureWebHost(builder =&gt; builder</span><br><span class="line">                .UseKestrel()</span><br><span class="line">                //使用Configure方法来配置请求处理管道</span><br><span class="line">                .Configure(app =&gt;</span><br><span class="line">                    app.Run(context =&gt; </span><br><span class="line">                        context.Response.WriteAsync(&quot;Hello!&quot;))</span><br><span class="line">                )</span><br><span class="line">            ).Build();</span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建中间件并注册到主机管道中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class Sample03</span><br><span class="line">&#123;</span><br><span class="line">    public class HelloMiddleware : IMiddleware</span><br><span class="line">    &#123;</span><br><span class="line">        public async Task InvokeAsync(HttpContext context, RequestDelegate next)</span><br><span class="line">        &#123;</span><br><span class="line">            await context.Response.WriteAsync(&quot;Hello&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(collection =&gt; collection.AddSingleton&lt;HelloMiddleware&gt;())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UseMiddleware&lt;HelloMiddleware&gt;()</span><br><span class="line">                )</span><br><span class="line">            ).Build();</span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="会话"><a href="#会话" class="headerlink" title="会话"></a>会话</h1><ul>
+<li>启用会话功能，并注册指定方法<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                //使用ConfigureServices方法来添加分布式内存缓存和会话服务。</span><br><span class="line">                .ConfigureServices(collection =&gt; collection</span><br><span class="line">                    .AddDistributedMemoryCache()</span><br><span class="line">                    .AddSession())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    //启用会话功能。</span><br><span class="line">                    .UseSession()</span><br><span class="line">                    .Run(ProcessAsync)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br></pre></td></tr></table></figure></li>
+<li>创建指定方法，获取会话信息<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static async Task ProcessAsync(HttpContext context)</span><br><span class="line">&#123;</span><br><span class="line">    var session = context.Session;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h1><p>configureServices 添加 以下方法配置授权</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.AddAuthentication(options =&gt;</span><br><span class="line">    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)</span><br><span class="line">.AddCookie())</span><br></pre></td></tr></table></figure>
+<p>Configure 使用授权中间件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.UseAuthentication()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>接下来便可以在通过HttpContext获得用户授权信息</p>
+</blockquote>
+<h1 id="OData"><a href="#OData" class="headerlink" title="OData"></a>OData</h1><blockquote>
+<p>OData - Open Data Protocol，是一个设计和使用RESTful API的标准</p>
+</blockquote>
+<blockquote>
+<p>只有在需要Open Data（开放数据给其他组织）时候，才有必要按照OData协议设计RESTful API。</p>
+</blockquote>
+<h1 id="GraphQL"><a href="#GraphQL" class="headerlink" title="GraphQL"></a>GraphQL</h1><blockquote>
+<p>GraphQL（或者叫图形化查询语言）是由 Facebook 发明和开源的 API 标准</p>
+</blockquote>
+<blockquote>
+<p>GraphQL 不像传统的 REST API，它将控制权交由给客户端，以便客户端应用&#x2F;用户能够请求他自己想要的特定数据。</p>
+</blockquote>
+<pre><code>GraphQL 不需要 HTTP 来运行，而 REST API 需要 HTTP。
+GraphQL 仅支持后发自外服务请求，与 REST 模式不同，后跟 RESTPI。
+GraphQL 和 REST API 都有 JSON 响应。
+GraphQL 允许客户端/使用者以所需的格式对数据进行塑型。它给客户端提供完全控制，以定义请求和响应。
+</code></pre>
+<h1 id="Params-参数（Params-Parameters）"><a href="#Params-参数（Params-Parameters）" class="headerlink" title="Params 参数（Params Parameters）"></a>Params 参数（Params Parameters）</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">方法定义：public void MyMethod(params int[] parameters)</span><br><span class="line">调用方式：MyMethod(1, 2, 3) 或 MyMethod(4)</span><br><span class="line">实例：MyMethod(5, 6, 7); 和 MyMethod(8);</span><br></pre></td></tr></table></figure>
+
+<h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><p>允许您延迟编写类或方法中的编程元素的数据类型的规范，直到实际在程序中使用它的时候。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class MyGenericArray&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    private T[] array;</span><br><span class="line">&#125;</span><br><span class="line">MyGenericArray&lt;int&gt; intArray = new MyGenericArray&lt;int&gt;(5);</span><br></pre></td></tr></table></figure>
+
+<h1 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h1><p>List<br>ArrayList<br>Hashtable<br>SortedList<br>Stack<br>Queue<br>BitArray</p>
+<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><p>特性（Attribute）是用于在运行时传递程序中各种元素（比如类、方法、结构、枚举、组件等）的行为信息的声明性标签。</p>
+<p>.Net 框架允许创建自定义特性，用于存储声明性的信息，且可在运行时被检索。</p>
+<p>.Net 框架提供了三种预定义特性：</p>
+<p>AttributeUsage<br>    它规定了特性可应用到的项目的类型。<br>Conditional<br>    这个预定义特性标记了一个条件方法，其执行依赖于指定的预处理标识符<br>Obsolete<br>    这个预定义特性标记了不应被使用的程序实体。</p>
+<h1 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h1><p>反射指程序可以访问、检测和修改它本身状态或行为的一种能力。</p>
+<p>您可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型。然后，可以调用类型的方法或访问其字段和属性。</p>
+<pre><code>它允许在运行时查看特性（attribute）信息。
+它允许审查集合中的各种类型，以及实例化这些类型。
+它允许延迟绑定的方法和属性（property）。
+它允许在运行时创建新类型，然后使用这些类型执行一些任务。
+</code></pre>
+<h1 id="委托"><a href="#委托" class="headerlink" title="委托"></a>委托</h1><p>C# 中的委托（Delegate）类似于 C 或 C++ 中函数的指针。委托（Delegate） 是存有对某个方法的引用的一种引用类型变量。</p>
+<p>委托（Delegate）特别用于实现事件和回调方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate int MyDelegate (string s);</span><br></pre></td></tr></table></figure>
+
+<p>委托的多播</p>
+<h1 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h1><p>事件（Event） 基本上说是一个用户操作，如按键、点击、鼠标移动等等，或者是一些提示信息，如系统生成的通知。应用程序需要在事件发生时响应事件。</p>
+<p>包含事件的类用于发布事件。这被称为 发布器（publisher） 类。其他接受该事件的类被称为 订阅器（subscriber） 类。事件使用 发布-订阅（publisher-subscriber） 模型。</p>
+<p>在类的内部声明事件，首先必须声明该事件的委托类型。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate void BoilerLogHandler(string status);</span><br></pre></td></tr></table></figure>
+<p>然后，声明事件本身，使用 event 关键字：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 基于上面的委托定义事件</span><br><span class="line">public event BoilerLogHandler BoilerEventLog;</span><br></pre></td></tr></table></figure>
+
+<h1 id="匿名方法"><a href="#匿名方法" class="headerlink" title="匿名方法"></a>匿名方法</h1><p>匿名方法（Anonymous methods） 提供了一种传递代码块作为委托参数的技术。匿名方法是没有名称只有主体的方法。</p>
+<h1 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h1><p>RabbitMQ是一个功能强大、易于使用、可靠性高的消息队列系统，广泛应用于各种需要异步通信和事件驱动架构的应用场景中。</p>
+<ul>
+<li>直连交换机</li>
+<li>扇形交换机</li>
+<li>主题交换机</li>
+<li>RPC回调</li>
+</ul>
+<h1 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h1><p>将消息分区存储，实现存储大量数据<br>批量处理，提高处理效率及吞吐量</p>
+<ul>
+<li>直连交换机</li>
+<li>扇形交换机</li>
+<li>主题交换机</li>
+<li>RPC回调</li>
+</ul>
+<h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><p>Nginx是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP&#x2F;POP3&#x2F;SMTP服务。</p>
+<pre><code>失败重置
+主机备份
+服务限流
+重定向HTTP
+加载静态资源
+代理缓存
+配置https证书
+四层Socket 代理
+</code></pre>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>Redis是一个功能强大、性能优异、易于使用的Key-Value数据库，广泛应用于缓存、消息队列、实时流处理等场景。</p>
+<pre><code>Redis提供持久化机制，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用。
+Redis支持主从复制功能，可以实现数据的备份和同步，保证数据的安全性。
+Redis具有丰富的数据结构类型，可以满足多种需求，如存储结构化数据、缓存读写、消息队列等。
+Redis提供了事务和Lua脚本功能，可以实现更复杂的业务逻辑。
+Redis提供了发布/订阅和阻塞式通知等功能，可以实现实时数据的流处理和消息推送等。
+</code></pre>
+<h1 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h1><p>MongoDB是一个基于分布式文件存储的数据库,旨在为Web应用提供可扩展的高性能数据存储解决方案。使用类似于JSON的BSON（Binary JSON）格式来存储数据</p>
+<pre><code>高性能：MongoDB使用了内存映射文件的方式来存储数据，使其读写速度非常快。
+灵活性：MongoDB支持丰富的数据结构类型，如文档、数组和哈希等，可以存储复杂的业务对象。
+易扩展性：MongoDB具有水平扩展的能力，可以通过增加节点来提高性能和存储容量。
+强大的查询能力：MongoDB支持类似于面向对象查询的语法，提供了丰富的查询操作符和聚合框架，可以实现复杂的数据查询和报表生成。
+自动分片：MongoDB提供了自动分片的功能，可以将数据分布到多个节点上，以实现负载均衡和水平扩展。
+文档版本控制：MongoDB支持文档版本控制，可以记录每个文档的修改历史，方便回溯和数据审计。
+</code></pre>
+<h1 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h1><p>全文搜索引擎</p>
+<h1 id="Lucene"><a href="#Lucene" class="headerlink" title="Lucene"></a>Lucene</h1><p>Lucene 可以被认为是迄今为止最先进、性能最好的、功能最全的搜索引擎库。Elasticsearch同样也是基于Lucene的开源搜索引擎。</p>
+<h1 id="ScheduleMaster"><a href="#ScheduleMaster" class="headerlink" title="ScheduleMaster"></a>ScheduleMaster</h1><p>分布式任务调度系统</p>
+<h1 id="ShardingSphere-Proxy"><a href="#ShardingSphere-Proxy" class="headerlink" title="ShardingSphere-Proxy"></a>ShardingSphere-Proxy</h1><p>ShardingSphere-Proxy是一个跨语言的数据库代理服务端，主要用来处理分表、分库、读写分离等。</p>
+<h1 id="DNS调优"><a href="#DNS调优" class="headerlink" title="DNS调优"></a>DNS调优</h1><p>DNS是将域名解析成IP地址，然后找到IP对应的主机或者服务器。<br>正向解析：将域名解析成IP地址<br>逆向解析：将IP地址解析成域名</p>
+<p>DNS的调优可以通过bind-utils工具包实现。bind-utils是一组DNS工具包，提供了多种DNS相关的工具，包括dig、host、nslookup和nsupdate等。这些工具可以用于进行域名解析和DNS调试工作。</p>
+<h1 id="CDN调优"><a href="#CDN调优" class="headerlink" title="CDN调优"></a>CDN调优</h1><p>内容分发网络</p>
+<p>其目的是通过在现有的Internet中增加一层新的CACHE(缓存)层，将网站的内容发布到最接近用户的网络”边缘“的节点，使用户可以就近取得所需的内容（就近原则），提高用户访问网站的响应速度。</p>
+<p>解决由于网络带宽小、用户访问量大、网点分布不均等原因，提高用户访问网站的响应速度。</p>
+<h1 id="WebApi-调优"><a href="#WebApi-调优" class="headerlink" title="WebApi 调优"></a>WebApi 调优</h1><p>缓存    Caching<br>分布式缓存  Redis </p>
+<h1 id="MySql-调优"><a href="#MySql-调优" class="headerlink" title="MySql 调优"></a>MySql 调优</h1><p>MySQL中，以下语句或操作可能会影响性能：</p>
+<p>全表扫描：没有使用索引的查询，会导致全表扫描，这在大型表上尤其昂贵。</p>
+<p>缺少索引：即使查询条件使用了索引，但如果缺少合适的索引，MySQL可能无法快速找到所需的数据。</p>
+<p>JOIN操作：多个表之间的复杂JOIN操作可能会降低性能，尤其是当这些表的数据量很大时。</p>
+<p>子查询：在某些情况下，子查询可能会导致性能下降，尤其是当子查询返回大量数据时。</p>
+<p>LIKE查询：以通配符开始的LIKE查询（如LIKE ‘%xyz’）可能会导致全表扫描，尤其是当没有适当的索引时。</p>
+<p>使用函数或运算在列上：例如，SELECT * FROM table WHERE YEAR(column) &#x3D; 2023;。这种查询不能有效地使用索引。</p>
+<p>不恰当的数据类型：使用不恰当的数据类型可能会导致性能问题，因为这可能导致额外的类型转换或存储开销。</p>
+<p>锁和事务：长时间运行的事务或大量的锁争用可能会降低数据库的性能。<br>不合理的配置：MySQL的配置参数（如缓冲区大小、连接数等）设置不当也可能影响性能。</p>
+<p>不恰当的数据表设计：例如，过度规范化或反规范化可能导致性能问题。</p>
+<p>频繁的更新和删除操作：对大量数据的频繁更新和删除可能会影响性能</p>
+<p>使用了不合适的存储引擎：例如，InnoDB和MyISAM是两种常见的MySQL存储引擎，它们在不同的工作负载下有各自的优势和劣势。</p>
+<p>大量的数据插入和删除：大批量插入或删除数据时，如果未进行适当的优化，也可能影响性能。</p>
+<p>没有及时进行数据库维护：如优化表、修复表、清理旧数据等，长时间不进行这些维护可能导致性能问题。</p>
+<hr>
+<p>开启慢查询日志：MySQL提供了慢查询日志功能，可以记录执行时间超过指定阈值的查询。通过分析慢查询日志，可以找到性能瓶颈并进行优化。</p>
+<p>优化查询语句：对于复杂的查询，使用更有效的查询语句或者更合适的索引可以提高查询性能。可以考虑对查询进行分解、重写或优化索引来改进查询效率。</p>
+<p>优化数据库结构：合理设计数据库表结构，使用合适的数据类型，避免过度规范化或反规范化。这有助于提高数据检索速度和减少不必要的计算。</p>
+<p>使用缓存：对于频繁访问的数据，使用缓存可以减少数据库的负载。缓存常用的查询结果或数据片段，减少对数据库的直接访问。</p>
+<p>优化数据库配置：根据服务器的硬件和数据库的工作负载，调整MySQL的配置参数可以提高性能。例如，调整缓冲区大小、连接池大小、线程缓存等。</p>
+<p>分析查询执行计划：使用EXPLAIN命令查看查询的执行计划，分析查询的性能瓶颈。通过优化索引、调整查询语句或修改数据库结构来改进执行计划。</p>
+<p>定期维护数据库：定期进行数据库维护，如优化表、修复表和清理旧数据等，可以提高数据库的性能和稳定性。</p>
+<p>使用性能监控工具：使用性能监控工具（如Percona Monitoring and Management、MySQL Enterprise Monitor等）可以实时监控数据库性能，发现潜在的慢查询问题并进行处理。</p>
+<h1 id="ASP-NET-与-Net"><a href="#ASP-NET-与-Net" class="headerlink" title="ASP.NET 与 .Net"></a>ASP.NET 与 .Net</h1><blockquote>
+<p>.net是一种平台，asp.net是运行在该平台下的网络应用程序技术。.net还支持桌面应用程序。<br>    要想运行网络应用程序和桌面应用程序，必须在服务器和电脑上安装.net framework公共语言运行环境。.net包括asp.net。</p>
+</blockquote>
+<p>asp.net只是.net框架中的一个组成部分，ASP.NET的开发模式，大概又有三种：</p>
+<p>Web Pages（Web页面）<br>MVC（Model View Controller 模型-视图-控制器）<br>Web Forms（Web窗体）</p>
+<h1 id="Consul"><a href="#Consul" class="headerlink" title="Consul"></a>Consul</h1><p>内置了服务注册与发现框 架、分布一致性协议实现、健康检查、Key&#x2F;Value存储、多数据中心方案</p>
+<p>在高峰时，可以扩展或缩小服务集群<br>集群：相同的实例，干相同的活</p>
+<h1 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h1><p>CAP是一个用来解决微服务或者分布式系统中分布式事务问题的一个开源项目解决方案。可以解决跨服务器的数据一致性问题。</p>
+<h1 id="Ocelot"><a href="#Ocelot" class="headerlink" title="Ocelot"></a>Ocelot</h1><p>API网关是微服务架构中的唯一入口，它提供一个单独且统一的API入口用于访问内部一个或多个API。</p>
+<p>具有身份验证，监控，负载均衡，缓存，请求分片与管理，静态响应处理等。</p>
+<h1 id="Apollo"><a href="#Apollo" class="headerlink" title="Apollo"></a>Apollo</h1><p>是携程框架部门研发的分布式配置中心，能够集中化管理应用不同环境、不同集群的配置，配置修改后能够实时推送到应用端，并且具备规范的权限、流程治理等特性，适用于微服务配置管理场景。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/BlogPro/images/wechatpay.png" alt="John Doe 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/Mxb.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/BlogPro/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/BlogPro/2022/06/01/%E5%AD%A6%E4%B9%A0/%E9%9D%A2%E8%AF%95/" rel="prev" title="1、面试题">
+      <i class="fa fa-chevron-left"></i> 1、面试题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/BlogPro/2023/01/02/ABP%E4%B8%AD%E9%97%B4%E4%BB%B6/RabbitMQ/" rel="next" title="2、RabbitMQ">
+      2、RabbitMQ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-text">多线程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5"><span class="nav-text">依赖注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E7%AE%A1%E9%81%93"><span class="nav-text">主机管道</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D"><span class="nav-text">会话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%88%E6%9D%83"><span class="nav-text">授权</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OData"><span class="nav-text">OData</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GraphQL"><span class="nav-text">GraphQL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Params-%E5%8F%82%E6%95%B0%EF%BC%88Params-Parameters%EF%BC%89"><span class="nav-text">Params 参数（Params Parameters）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B"><span class="nav-text">泛型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%97%E8%A1%A8"><span class="nav-text">列表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%80%A7"><span class="nav-text">特性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-text">反射</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A7%94%E6%89%98"><span class="nav-text">委托</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6"><span class="nav-text">事件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8C%BF%E5%90%8D%E6%96%B9%E6%B3%95"><span class="nav-text">匿名方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ"><span class="nav-text">RabbitMQ</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kafka"><span class="nav-text">Kafka</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Nginx"><span class="nav-text">Nginx</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB"><span class="nav-text">MongoDB</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Elasticsearch"><span class="nav-text">Elasticsearch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lucene"><span class="nav-text">Lucene</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ScheduleMaster"><span class="nav-text">ScheduleMaster</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ShardingSphere-Proxy"><span class="nav-text">ShardingSphere-Proxy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS%E8%B0%83%E4%BC%98"><span class="nav-text">DNS调优</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDN%E8%B0%83%E4%BC%98"><span class="nav-text">CDN调优</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WebApi-%E8%B0%83%E4%BC%98"><span class="nav-text">WebApi 调优</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySql-%E8%B0%83%E4%BC%98"><span class="nav-text">MySql 调优</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ASP-NET-%E4%B8%8E-Net"><span class="nav-text">ASP.NET 与 .Net</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Consul"><span class="nav-text">Consul</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CAP"><span class="nav-text">CAP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ocelot"><span class="nav-text">Ocelot</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Apollo"><span class="nav-text">Apollo</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="John Doe"
+      src="/BlogPro/images/Wx.jpg">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description">这里是何锦祥的博客，记录生活点滴，分享思考与感悟。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/BlogPro/archives/">
+        
+          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/BlogPro/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SMDegz" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SMDegz" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/BlogPro/1522107010@qq.com" title="E-Mail → 1522107010@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/%E4%B8%8D%E4%BC%9A%E7%BC%96%E7%A8%8B%E7%9A%84%E7%8C%AB" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;不会编程的猫" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://smdegz.github.io/BlogPro/" title="https:&#x2F;&#x2F;smdegz.github.io&#x2F;BlogPro&#x2F;">smdegz Blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/BlogPro/lib/anime.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.min.js"></script>
+  <script src="/BlogPro/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/BlogPro/js/utils.js"></script>
+
+<script src="/BlogPro/js/motion.js"></script>
+
+
+<script src="/BlogPro/js/schemes/pisces.js"></script>
+
+
+<script src="/BlogPro/js/next-boot.js"></script>
+
+
+  <script defer src="/BlogPro/lib/three/three.min.js"></script>
+    <script defer src="/BlogPro/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/BlogPro/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'i6ML4c6D9phSdR4vRG7tjH8M-gzGzoHsz',
+      appKey     : 'BfRJ9pJSV3u0CAuvm1xEwNL8',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
