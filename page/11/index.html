@@ -194,115 +194,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/08/CSharp%E5%9F%BA%E7%A1%80/8%E3%80%81%E5%B1%9E%E6%80%A7%EF%BC%88Property%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="何锦祥 博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/BlogPro/2022/03/08/CSharp%E5%9F%BA%E7%A1%80/8%E3%80%81%E5%B1%9E%E6%80%A7%EF%BC%88Property%EF%BC%89/" class="post-title-link" itemprop="url">8、属性（Property）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-08 10:48:57" itemprop="dateCreated datePublished" datetime="2022-03-08T10:48:57+08:00">2022-03-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-02-01 11:03:47" itemprop="dateModified" datetime="2024-02-01T11:03:47+08:00">2024-02-01</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/BlogPro/2022/03/08/CSharp%E5%9F%BA%E7%A1%80/8%E3%80%81%E5%B1%9E%E6%80%A7%EF%BC%88Property%EF%BC%89/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/03/08/CSharp%E5%9F%BA%E7%A1%80/8%E3%80%81%E5%B1%9E%E6%80%A7%EF%BC%88Property%EF%BC%89/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="C-属性（Property）"><a href="#C-属性（Property）" class="headerlink" title="C# 属性（Property）"></a>C# 属性（Property）</h1><ul>
-<li>属性（Property） 是类（class）、结构（structure）和接口（interface）的命名（named）成员。<blockquote>
-<p>类或结构中的成员变量或方法称为 域（Field）。属性（Property）是域（Field）的扩展，且可使用相同的语法来访问。它们使用 访问器（accessors） 让私有域的值可被读写或操作。</p>
-</blockquote>
-</li>
-</ul>
-<p>属性（Property）不会确定存储位置。相反，它们具有可读写或计算它们值的 访问器（accessors）。</p>
-<p>例如，有一个名为 Student 的类，带有 age、name 和 code 的私有域。我们不能在类的范围以外直接访问这些域，但是我们可以拥有访问这些私有域的属性。</p>
-<h2 id="访问器（Accessors）"><a href="#访问器（Accessors）" class="headerlink" title="访问器（Accessors）"></a>访问器（Accessors）</h2><blockquote>
-<p>属性（Property）的访问器（accessor）包含有助于获取（读取或计算）或设置（写入）属性的可执行语句。访问器（accessor）声明可包含一个 get 访问器、一个 set 访问器，或者同时包含二者。例如：</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// 声明类型为 string 的 Code 属性</span><br><span class="line">public string Code</span><br><span class="line">&#123;</span><br><span class="line">   get</span><br><span class="line">   &#123;</span><br><span class="line">      return code;</span><br><span class="line">   &#125;</span><br><span class="line">   set</span><br><span class="line">   &#123;</span><br><span class="line">      code = value;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 声明类型为 string 的 Name 属性</span><br><span class="line">public string Name</span><br><span class="line">&#123;</span><br><span class="line">   get</span><br><span class="line">   &#123;</span><br><span class="line">     return name;</span><br><span class="line">   &#125;</span><br><span class="line">   set</span><br><span class="line">   &#123;</span><br><span class="line">     name = value;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 声明类型为 int 的 Age 属性</span><br><span class="line">public int Age</span><br><span class="line">&#123;</span><br><span class="line">   get</span><br><span class="line">   &#123;</span><br><span class="line">      return age;</span><br><span class="line">   &#125;</span><br><span class="line">   set</span><br><span class="line">   &#123;</span><br><span class="line">      age = value;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>实例</p>
-<blockquote>
-<p>下面的实例演示了属性（Property）的用法：</p>
-</blockquote>
-<p>实例</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">namespace runoob</span><br><span class="line">&#123;</span><br><span class="line">   class Student</span><br><span class="line">   &#123;</span><br><span class="line"></span><br><span class="line">      private string code = &quot;N.A&quot;;</span><br><span class="line">      private string name = &quot;not known&quot;;</span><br><span class="line">      private int age = 0;</span><br><span class="line"></span><br><span class="line">      // 声明类型为 string 的 Code 属性</span><br><span class="line">      public string Code</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            return code;</span><br><span class="line">         &#125;</span><br><span class="line">         set</span><br><span class="line">         &#123;</span><br><span class="line">            code = value;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   </span><br><span class="line">      // 声明类型为 string 的 Name 属性</span><br><span class="line">      public string Name</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            return name;</span><br><span class="line">         &#125;</span><br><span class="line">         set</span><br><span class="line">         &#123;</span><br><span class="line">            name = value;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      // 声明类型为 int 的 Age 属性</span><br><span class="line">      public int Age</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            return age;</span><br><span class="line">         &#125;</span><br><span class="line">         set</span><br><span class="line">         &#123;</span><br><span class="line">            age = value;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      public override string ToString()</span><br><span class="line">      &#123;</span><br><span class="line">         return &quot;Code = &quot; + Code +&quot;, Name = &quot; + Name + &quot;, Age = &quot; + Age;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    class ExampleDemo</span><br><span class="line">    &#123;</span><br><span class="line">      public static void Main()</span><br><span class="line">      &#123;</span><br><span class="line">         // 创建一个新的 Student 对象</span><br><span class="line">         Student s = new Student();</span><br><span class="line">           </span><br><span class="line">         // 设置 student 的 code、name 和 age</span><br><span class="line">         s.Code = &quot;001&quot;;</span><br><span class="line">         s.Name = &quot;Zara&quot;;</span><br><span class="line">         s.Age = 9;</span><br><span class="line">         Console.WriteLine(&quot;Student Info: &#123;0&#125;&quot;, s);</span><br><span class="line">         // 增加年龄</span><br><span class="line">         s.Age += 1;</span><br><span class="line">         Console.WriteLine(&quot;Student Info: &#123;0&#125;&quot;, s);</span><br><span class="line">         Console.ReadKey();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
-</blockquote>
-<pre><code>Student Info: Code = 001, Name = Zara, Age = 9
-Student Info: Code = 001, Name = Zara, Age = 10
-</code></pre>
-<h2 id="抽象属性（Abstract-Properties）"><a href="#抽象属性（Abstract-Properties）" class="headerlink" title="抽象属性（Abstract Properties）"></a>抽象属性（Abstract Properties）</h2><p>抽象类可拥有抽象属性，这些属性应在派生类中被实现。下面的程序说明了这点：</p>
-<p>实例</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">namespace runoob</span><br><span class="line">&#123;</span><br><span class="line">   public abstract class Person</span><br><span class="line">   &#123;</span><br><span class="line">      public abstract string Name</span><br><span class="line">      &#123;</span><br><span class="line">         get;</span><br><span class="line">         set;</span><br><span class="line">      &#125;</span><br><span class="line">      public abstract int Age</span><br><span class="line">      &#123;</span><br><span class="line">         get;</span><br><span class="line">         set;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   class Student : Person</span><br><span class="line">   &#123;</span><br><span class="line"></span><br><span class="line">      private string code = &quot;N.A&quot;;</span><br><span class="line">      private string name = &quot;N.A&quot;;</span><br><span class="line">      private int age = 0;</span><br><span class="line"></span><br><span class="line">      // 声明类型为 string 的 Code 属性</span><br><span class="line">      public string Code</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            return code;</span><br><span class="line">         &#125;</span><br><span class="line">         set</span><br><span class="line">         &#123;</span><br><span class="line">            code = value;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   </span><br><span class="line">      // 声明类型为 string 的 Name 属性</span><br><span class="line">      public override string Name</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            return name;</span><br><span class="line">         &#125;</span><br><span class="line">         set</span><br><span class="line">         &#123;</span><br><span class="line">            name = value;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      // 声明类型为 int 的 Age 属性</span><br><span class="line">      public override int Age</span><br><span class="line">      &#123;</span><br><span class="line">         get</span><br><span class="line">         &#123;</span><br><span class="line">            return age;</span><br><span class="line">         &#125;</span><br><span class="line">         set</span><br><span class="line">         &#123;</span><br><span class="line">            age = value;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      public override string ToString()</span><br><span class="line">      &#123;</span><br><span class="line">         return &quot;Code = &quot; + Code +&quot;, Name = &quot; + Name + &quot;, Age = &quot; + Age;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   class ExampleDemo</span><br><span class="line">   &#123;</span><br><span class="line">      public static void Main()</span><br><span class="line">      &#123;</span><br><span class="line">         // 创建一个新的 Student 对象</span><br><span class="line">         Student s = new Student();</span><br><span class="line">           </span><br><span class="line">         // 设置 student 的 code、name 和 age</span><br><span class="line">         s.Code = &quot;001&quot;;</span><br><span class="line">         s.Name = &quot;Zara&quot;;</span><br><span class="line">         s.Age = 9;</span><br><span class="line">         Console.WriteLine(&quot;Student Info:- &#123;0&#125;&quot;, s);</span><br><span class="line">         // 增加年龄</span><br><span class="line">         s.Age += 1;</span><br><span class="line">         Console.WriteLine(&quot;Student Info:- &#123;0&#125;&quot;, s);</span><br><span class="line">         Console.ReadKey();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
-<pre><code>Student Info: Code = 001, Name = Zara, Age = 9
-Student Info: Code = 001, Name = Zara, Age = 10
-</code></pre>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/03/08/CSharp%E5%9F%BA%E7%A1%80/9%E3%80%81%E7%B4%A2%E5%BC%95%E5%99%A8%EF%BC%88Indexer%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1534,6 +1425,164 @@ Value of Num: 175
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/01/13/Net%E6%9E%B6%E6%9E%84/13%E3%80%81%E7%AE%A1%E9%81%93%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/BlogPro/2022/01/13/Net%E6%9E%B6%E6%9E%84/13%E3%80%81%E7%AE%A1%E9%81%93%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="post-title-link" itemprop="url">13、管道中间件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-13 09:11:12" itemprop="dateCreated datePublished" datetime="2022-01-13T09:11:12+08:00">2022-01-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-19 16:40:53" itemprop="dateModified" datetime="2024-02-19T16:40:53+08:00">2024-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/01/13/Net%E6%9E%B6%E6%9E%84/13%E3%80%81%E7%AE%A1%E9%81%93%E4%B8%AD%E9%97%B4%E4%BB%B6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/01/13/Net%E6%9E%B6%E6%9E%84/13%E3%80%81%E7%AE%A1%E9%81%93%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="管道中间件"><a href="#管道中间件" class="headerlink" title="管道中间件"></a>管道中间件</h1><p>在Asp.Net Core中，管道往往伴随着请求一起出现。客户端发起Http请求，服务端去响应这个请求，之间的过程都在管道内进行。</p>
+<blockquote>
+<p>举一个生活中比较常见的例子：旅游景区。</p>
+</blockquote>
+<pre><code>我们都知道，有些景区大门离景区很远，我们需要经过层层关卡才能到达景区。
+
+我的请求最终就是去到景区，去到景区的整个过程就是管道，景区就是服务器，层层关卡就是一个个中间件了，比如：门票、停车费、摆渡费等等。
+
+如果其中任何一个中间件卡壳了，比如我没买门票，那别人肯定是不让我进去，这就是管道短路了。
+</code></pre>
+<p>Asp.Net Core 请求管道包含一系列Http请求委托（RequestDelegate），依次调用。</p>
+<p>微软给的图示：<br><img src="/BlogPro/image/imageA1.png" alt="Alt text"></p>
+<h2 id="Net-Core服务"><a href="#Net-Core服务" class="headerlink" title=".Net Core服务"></a>.Net Core服务</h2><p>在解释管道的使用方法之前，我们先来准备一个Asp.Net Core服务。</p>
+<blockquote>
+<p>创建一个.Net Core控制台应用程序，并实现如下代码，一个简单的使用 Kestrel 托管的服务就完成了：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">internal class Program</span><br><span class="line">&#123;</span><br><span class="line">    static void Main(string[] args)</span><br><span class="line">    &#123;</span><br><span class="line">        new WebHostBuilder()</span><br><span class="line">            .UseKestrel()</span><br><span class="line">            .UseStartup&lt;Startup2&gt;()</span><br><span class="line">            .Build()</span><br><span class="line">            .Start();</span><br><span class="line"></span><br><span class="line">        Console.ReadLine();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Startup</span><br><span class="line">&#123;</span><br><span class="line">    public void Configure(IApplicationBuilder app)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/BlogPro/image/imageA2.png" alt="Alt text"></p>
+<p>这也是.Net Core的优点之一，只选择我们需要的，摒弃那些多余的功能。优点是优点，一般开发中也犯不上这样去做。</p>
+<p>Kestrel 托管默认监听端口：5000</p>
+<h2 id="管道中间件-1"><a href="#管道中间件-1" class="headerlink" title="管道中间件"></a>管道中间件</h2><p>微软这边内置了三个扩展函数供我们构建自己的中间件：</p>
+<ul>
+<li><p>Use</p>
+</li>
+<li><p>Map</p>
+</li>
+<li><p>Run</p>
+</li>
+</ul>
+<p>其中Use和Map函数还提供了对应的分支扩展：UseWhen、MapWhen、UseMiddleware。下面我们一个个来解释。</p>
+<h3 id="app-Use"><a href="#app-Use" class="headerlink" title="app.Use"></a>app.Use</h3><p>Use 是最常用的一种模式，承接上一个请求并执行下一个请求的任务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public void Configure(IApplicationBuilder app)</span><br><span class="line">&#123;</span><br><span class="line">    app.Use(async (context, next) =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;middleware1&quot;);</span><br><span class="line">         await next.Invoke();</span><br><span class="line">    &#125;);</span><br><span class="line">    app.Use(async (context, next) =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;middleware2&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="app-UseWhen"><a href="#app-UseWhen" class="headerlink" title="app.UseWhen"></a>app.UseWhen</h3><p>UseWhen在Use的基础上提供了条件分支的功能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">app.UseWhen(context =&gt;</span><br><span class="line">         // 判断请求路径的开头是否是/h</span><br><span class="line">        context.Request.Path.StartsWithSegments(new PathString(&quot;/h&quot;)),</span><br><span class="line">        c =&gt; c.Use(async (context, next) =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(&quot;middleware1&quot;);</span><br><span class="line">            await next.Invoke();</span><br><span class="line">        &#125;)</span><br><span class="line">);</span><br><span class="line">app.Use(async (context, next) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;middleware2&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="app-Map"><a href="#app-Map" class="headerlink" title="app.Map"></a>app.Map</h3><p>Map我们可以理解成专为请求路径扩展的分支中间件，可以根据请求路径去处理对应分支逻辑，与上面的UseWhen例子效果类似，但更加方便。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app.Map(&quot;/h&quot;, _app =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    _app.Use(async (context, next) =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;hello world&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="app-MapWhen"><a href="#app-MapWhen" class="headerlink" title="app.MapWhen"></a>app.MapWhen</h3><p>MapWhen与UseWhen类似，都是在请求上下文的基础上去扩展分支，比Map更加灵活。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">app.MapWhen(context =&gt; &#123; return context.Request.Query[&quot;name&quot;] == &quot;tony&quot;; &#125;, _app =&gt; &#123;</span><br><span class="line">    _app.Use(async (context, next) =&gt; &#123;</span><br><span class="line">        context.Response.ContentType = &quot;text/plain; charset=utf-8&quot;;</span><br><span class="line">        await context.Response.WriteAsync(&quot;i 服了 you&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="app-Run"><a href="#app-Run" class="headerlink" title="app.Run"></a>app.Run</h3><p>Run一般用于断路或请求管道的末尾，不会将请求传递下去</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.Run(async context =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    await context.Response.WriteAsync(&quot;hello world&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="UseMiddleware"><a href="#UseMiddleware" class="headerlink" title="UseMiddleware"></a>UseMiddleware</h3><p>将一个完整的类添加到管道中间件，也就是将上面的请求委托，用类以及函数的形式替代了，便于我们的代码管理。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">app.UseMiddleware&lt;DotnetboyMiddleware&gt;();</span><br><span class="line"></span><br><span class="line">public class DotnetboyMiddleware</span><br><span class="line">&#123;</span><br><span class="line">    private readonly RequestDelegate _next;</span><br><span class="line">    private readonly string _name;</span><br><span class="line">    public DotnetboyMiddleware(RequestDelegate next, string name)</span><br><span class="line">    &#123;</span><br><span class="line">        _next = next;</span><br><span class="line">        _name = name;</span><br><span class="line">        &#125;</span><br><span class="line">    public Task Invoke(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        context.Response.WriteAsync($&quot;my name is &#123;_name&#125;&quot;).Wait();</span><br><span class="line">        return this._next(context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>微软内置的一些管道中间件扩展函数就介绍完了，下面我们实现一下微软实例图示中的效果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public void Configure(IApplicationBuilder app)</span><br><span class="line">&#123;</span><br><span class="line">    app.Use(async (context, next) =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;middleware1 : in&quot;);</span><br><span class="line">        await next.Invoke();</span><br><span class="line">        Console.WriteLine(&quot;middleware1 : out&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">    app.Use(async (context, next) =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;middleware2 : in&quot;);</span><br><span class="line">        await next.Invoke();</span><br><span class="line">        Console.WriteLine(&quot;middleware2 : out&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">    app.Run(async context =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;Hello World&quot;);</span><br><span class="line">        await context.Response.WriteAsync(&quot;Hello World&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/BlogPro/image/imageA3.png" alt="Alt text"></p>
+<p>从上面的例子中我们可以看到，中间件都是由上而下依次执行，由每个中间件决定是否继续执行下一个中间件，最终到响应结果。</p>
+<p>如果哪个中间件决定不往下执行，那通道也就短路了，比如我们去掉 middleware2 的 await next.Invoke();</p>
+<p>执行到 Console.WriteLine(“middleware2 : out”); 就短路了，此路不通，原路返回。</p>
+<h2 id="二、中间件可以用来做什么？"><a href="#二、中间件可以用来做什么？" class="headerlink" title="二、中间件可以用来做什么？"></a>二、中间件可以用来做什么？</h2><pre><code>在我们的应用程序当中和业务关系不大的一些需要在管道中做的事情可以使用，比如身份验证，Session存储，日志记录，定时任务等。.NET自带很多中间件，比如身份认证中间件UseAuthorization，Session中间件等。并且中间件可以自定义。
+</code></pre>
+<h3 id="三、自定义中间件"><a href="#三、自定义中间件" class="headerlink" title="三、自定义中间件"></a>三、自定义中间件</h3><pre><code>当系统自带的中间件不能满足我们需求时，我们可以自定义中间件来实现功能，比如自己开发的定时任务等。注册中间件的方式可以使用use和run，use可以快速注册中间件，而run是终端中间件，是中间件管道末尾，当注册该中间件后，后面的中间件将不再执行。下面介绍三种自定义中间件的方式。
+</code></pre>
+<ul>
+<li>1、自定义匿名中间件</li>
+</ul>
+<p>自定义匿名中间件在Program.cs文件中就可以实现，可以通过use和run来自定义匿名中间件。案例如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">app.Use(async (context, next) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;测试匿名中间件&quot;);</span><br><span class="line">    await next();</span><br><span class="line">&#125;);</span><br><span class="line">//如果shi用app.run将在这里结束。</span><br></pre></td></tr></table></figure>
+<p>还可以通过useWhen创建子集中间件。如下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//UseWhen有点类似if,这里是如果访问/put或者/put/xxx会调用该中间件。</span><br><span class="line">app.UseWhen(context =&gt; context.Request.Path.StartsWithSegments(&quot;/put&quot;), app =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    app.Use(async (context, next) =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(&quot;测试UseWhen匿名中间件&quot;);</span><br><span class="line">        await next();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>使用注意：如果有下一个中间件，一定记得调用next(),否则会导致管道短路,后面的中间件不再被执行；如果有response操作不能调用next()，否则会报错。</p>
+<ul>
+<li>2、基于工厂的中间件</li>
+</ul>
+<p>基于工厂中间件需要通过IMiddleware接口实现，然后在通过UseMiddleware注册后在Program.cs文件中依赖注入。代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">//通过实现IMiddleware接口</span><br><span class="line"> public class Middleware:IMiddleware</span><br><span class="line">   &#123;</span><br><span class="line">       public async Task InvokeAsync(HttpContext context, RequestDelegate next)</span><br><span class="line">       &#123;</span><br><span class="line">           //下一个之前执行</span><br><span class="line">           Console.WriteLine(&quot;测试基于工厂的中间件（欢迎公众号：DOTNET开发跳槽）&quot;);</span><br><span class="line">           await next(context);</span><br><span class="line">           //下一个中间件处理完之后执行</span><br><span class="line">           Console.WriteLine(&quot;基于工厂的中间件运行结束&quot;);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   public static class MiddlewareExtensions</span><br><span class="line">   &#123;</span><br><span class="line">       public static IApplicationBuilder Middleware(this IApplicationBuilder builder)</span><br><span class="line">       &#123;</span><br><span class="line">         //需要注册一下才能使用</span><br><span class="line">           return builder.UseMiddleware&lt;Middleware&gt;();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   //在Program.cs中注册和注入</span><br><span class="line">   builder.Services.AddSingleton&lt;Middleware&gt;();</span><br><span class="line">   app.Middleware();</span><br></pre></td></tr></table></figure>
+<p>3、基于约定中间件</p>
+<p>主要通过RequestDelegate来实现管道传递，关键代码如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class TestMiddleware</span><br><span class="line">   &#123;</span><br><span class="line">       public RequestDelegate _requestDelegate;</span><br><span class="line">       public TestMiddleware(RequestDelegate requestDelegate)</span><br><span class="line">       &#123;</span><br><span class="line">           _requestDelegate = requestDelegate;</span><br><span class="line">       &#125;</span><br><span class="line">       public async Task InvokeAsync(HttpContext context)</span><br><span class="line">       &#123;</span><br><span class="line">           //下一个之前执行</span><br><span class="line">           Console.WriteLine(&quot;测试约定中间件开始，（欢迎公众号：DOTNET开发跳槽）&quot;);</span><br><span class="line">           await _requestDelegate(context);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">  //在Program.cs中注册</span><br><span class="line">  app.UseMiddleware&lt;TestMiddleware&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>因为管道中间件执行逻辑的关系，我们在实际开发中要注意两点：</p>
+<p>1、谨慎使用管道短路</p>
+<p>2、注意中间件的使用顺序，比如：路由中间件肯定是要在认证中间件前面执行，有中间件需要访问文件，在此之前就必须先执行开放静态文件的中间件</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yakniu/p/17011221.html">https://www.cnblogs.com/yakniu/p/17011221.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1605,7 +1654,7 @@ Value of Num: 175
       <div class="site-state-item site-state-posts">
           <a href="/BlogPro/archives/">
         
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -194,246 +194,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/06/02/%E5%AD%A6%E4%B9%A0/%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="何锦祥 博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/BlogPro/2022/06/02/%E5%AD%A6%E4%B9%A0/%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">2、复习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-06-02 10:48:57" itemprop="dateCreated datePublished" datetime="2022-06-02T10:48:57+08:00">2022-06-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-02-19 16:16:42" itemprop="dateModified" datetime="2024-02-19T16:16:42+08:00">2024-02-19</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/BlogPro/2022/06/02/%E5%AD%A6%E4%B9%A0/%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/06/02/%E5%AD%A6%E4%B9%A0/%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><p>await 等待<br>Task  任务<br>async 异步</p>
-<p>mutex 跨进程及线程<br>monitor 跨线程</p>
-<p>threadLocal 线程本地存储空间<br>asyncLocal 异步线程存储空间</p>
-<p>ReaderWriterLockSlim  多线程日志写入程序</p>
-<h1 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h1><p>ServiceCollection 配置依赖注入的类</p>
-<p>AddTransient 瞬时注入<br>AddScoped   作用域注入<br>AddSingleton    单例注入  </p>
-<ul>
-<li>注册当前程序集的所有类型<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//这行代码获取当前正在执行的程序集（通常是包含此方法的程序集）。</span><br><span class="line">var assembly = Assembly.GetExecutingAssembly();</span><br><span class="line">// 程序集注册 使用RegisterAssemblyTypes方法注册当前程序集中所有的类型。</span><br><span class="line">builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())</span><br><span class="line">    .Where(t =&gt; t.Namespace == assembly.GetName().Name + &quot;.Services&quot;)</span><br><span class="line">    .AsImplementedInterfaces()</span><br><span class="line">    .InstancePerLifetimeScope();</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h1 id="主机管道"><a href="#主机管道" class="headerlink" title="主机管道"></a>主机管道</h1><ul>
-<li><p>IHostedService 通过继承这个类并实现该类的方法</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public Task StartAsync(CancellationToken cancellationToken)</span><br><span class="line">public Task StopAsync(CancellationToken cancellationToken)</span><br></pre></td></tr></table></figure></li>
-<li><p>再通过以下方法可将服务注册到管道</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var host = new HostBuilder()</span><br><span class="line">           .ConfigureServices(collection =&gt; collection</span><br><span class="line">               .AddHostedService&lt;SystemClock&gt;())</span><br><span class="line">               .Build();</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Web主机管道</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public static class Sample01</span><br><span class="line">&#123;</span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        //使用Host.CreateDefaultBuilder()方法创建一个默认主机配置。</span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            // 使用ConfigureWebHost方法来配置Web主机的特定设置。</span><br><span class="line">            .ConfigureWebHost(builder =&gt; builder</span><br><span class="line">                .UseKestrel()</span><br><span class="line">                //使用Configure方法来配置请求处理管道</span><br><span class="line">                .Configure(app =&gt;</span><br><span class="line">                    app.Run(context =&gt; </span><br><span class="line">                        context.Response.WriteAsync(&quot;Hello!&quot;))</span><br><span class="line">                )</span><br><span class="line">            ).Build();</span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建中间件并注册到主机管道中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class Sample03</span><br><span class="line">&#123;</span><br><span class="line">    public class HelloMiddleware : IMiddleware</span><br><span class="line">    &#123;</span><br><span class="line">        public async Task InvokeAsync(HttpContext context, RequestDelegate next)</span><br><span class="line">        &#123;</span><br><span class="line">            await context.Response.WriteAsync(&quot;Hello&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Start()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        var host = Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                .ConfigureServices(collection =&gt; collection.AddSingleton&lt;HelloMiddleware&gt;())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    .UseMiddleware&lt;HelloMiddleware&gt;()</span><br><span class="line">                )</span><br><span class="line">            ).Build();</span><br><span class="line">        host.Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h1 id="会话"><a href="#会话" class="headerlink" title="会话"></a>会话</h1><ul>
-<li>启用会话功能，并注册指定方法<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Host.CreateDefaultBuilder()</span><br><span class="line">            .ConfigureWebHostDefaults(builder =&gt; builder</span><br><span class="line">                //使用ConfigureServices方法来添加分布式内存缓存和会话服务。</span><br><span class="line">                .ConfigureServices(collection =&gt; collection</span><br><span class="line">                    .AddDistributedMemoryCache()</span><br><span class="line">                    .AddSession())</span><br><span class="line">                .Configure(app =&gt; app</span><br><span class="line">                    //启用会话功能。</span><br><span class="line">                    .UseSession()</span><br><span class="line">                    .Run(ProcessAsync)))</span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br></pre></td></tr></table></figure></li>
-<li>创建指定方法，获取会话信息<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static async Task ProcessAsync(HttpContext context)</span><br><span class="line">&#123;</span><br><span class="line">    var session = context.Session;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h1 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h1><p>configureServices 添加 以下方法配置授权</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.AddAuthentication(options =&gt;</span><br><span class="line">    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme)</span><br><span class="line">.AddCookie())</span><br></pre></td></tr></table></figure>
-<p>Configure 使用授权中间件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.UseAuthentication()</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>接下来便可以在通过HttpContext获得用户授权信息</p>
-</blockquote>
-<h1 id="OData"><a href="#OData" class="headerlink" title="OData"></a>OData</h1><blockquote>
-<p>OData - Open Data Protocol，是一个设计和使用RESTful API的标准</p>
-</blockquote>
-<blockquote>
-<p>只有在需要Open Data（开放数据给其他组织）时候，才有必要按照OData协议设计RESTful API。</p>
-</blockquote>
-<h1 id="GraphQL"><a href="#GraphQL" class="headerlink" title="GraphQL"></a>GraphQL</h1><blockquote>
-<p>GraphQL（或者叫图形化查询语言）是由 Facebook 发明和开源的 API 标准</p>
-</blockquote>
-<blockquote>
-<p>GraphQL 不像传统的 REST API，它将控制权交由给客户端，以便客户端应用&#x2F;用户能够请求他自己想要的特定数据。</p>
-</blockquote>
-<pre><code>GraphQL 不需要 HTTP 来运行，而 REST API 需要 HTTP。
-GraphQL 仅支持后发自外服务请求，与 REST 模式不同，后跟 RESTPI。
-GraphQL 和 REST API 都有 JSON 响应。
-GraphQL 允许客户端/使用者以所需的格式对数据进行塑型。它给客户端提供完全控制，以定义请求和响应。
-</code></pre>
-<h1 id="Params-参数（Params-Parameters）"><a href="#Params-参数（Params-Parameters）" class="headerlink" title="Params 参数（Params Parameters）"></a>Params 参数（Params Parameters）</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">方法定义：public void MyMethod(params int[] parameters)</span><br><span class="line">调用方式：MyMethod(1, 2, 3) 或 MyMethod(4)</span><br><span class="line">实例：MyMethod(5, 6, 7); 和 MyMethod(8);</span><br></pre></td></tr></table></figure>
-
-<h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><p>允许您延迟编写类或方法中的编程元素的数据类型的规范，直到实际在程序中使用它的时候。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class MyGenericArray&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    private T[] array;</span><br><span class="line">&#125;</span><br><span class="line">MyGenericArray&lt;int&gt; intArray = new MyGenericArray&lt;int&gt;(5);</span><br></pre></td></tr></table></figure>
-
-<h1 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h1><p>List<br>ArrayList<br>Hashtable<br>SortedList<br>Stack<br>Queue<br>BitArray</p>
-<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><p>特性（Attribute）是用于在运行时传递程序中各种元素（比如类、方法、结构、枚举、组件等）的行为信息的声明性标签。</p>
-<p>.Net 框架允许创建自定义特性，用于存储声明性的信息，且可在运行时被检索。</p>
-<p>.Net 框架提供了三种预定义特性：</p>
-<p>AttributeUsage<br>    它规定了特性可应用到的项目的类型。<br>Conditional<br>    这个预定义特性标记了一个条件方法，其执行依赖于指定的预处理标识符<br>Obsolete<br>    这个预定义特性标记了不应被使用的程序实体。</p>
-<h1 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h1><p>反射指程序可以访问、检测和修改它本身状态或行为的一种能力。</p>
-<p>您可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型。然后，可以调用类型的方法或访问其字段和属性。</p>
-<pre><code>它允许在运行时查看特性（attribute）信息。
-它允许审查集合中的各种类型，以及实例化这些类型。
-它允许延迟绑定的方法和属性（property）。
-它允许在运行时创建新类型，然后使用这些类型执行一些任务。
-</code></pre>
-<h1 id="委托"><a href="#委托" class="headerlink" title="委托"></a>委托</h1><p>C# 中的委托（Delegate）类似于 C 或 C++ 中函数的指针。委托（Delegate） 是存有对某个方法的引用的一种引用类型变量。</p>
-<p>委托（Delegate）特别用于实现事件和回调方法。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate int MyDelegate (string s);</span><br></pre></td></tr></table></figure>
-
-<p>委托的多播</p>
-<h1 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h1><p>事件（Event） 基本上说是一个用户操作，如按键、点击、鼠标移动等等，或者是一些提示信息，如系统生成的通知。应用程序需要在事件发生时响应事件。</p>
-<p>包含事件的类用于发布事件。这被称为 发布器（publisher） 类。其他接受该事件的类被称为 订阅器（subscriber） 类。事件使用 发布-订阅（publisher-subscriber） 模型。</p>
-<p>在类的内部声明事件，首先必须声明该事件的委托类型。例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate void BoilerLogHandler(string status);</span><br></pre></td></tr></table></figure>
-<p>然后，声明事件本身，使用 event 关键字：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 基于上面的委托定义事件</span><br><span class="line">public event BoilerLogHandler BoilerEventLog;</span><br></pre></td></tr></table></figure>
-
-<h1 id="匿名方法"><a href="#匿名方法" class="headerlink" title="匿名方法"></a>匿名方法</h1><p>匿名方法（Anonymous methods） 提供了一种传递代码块作为委托参数的技术。匿名方法是没有名称只有主体的方法。</p>
-<h1 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h1><p>RabbitMQ是一个功能强大、易于使用、可靠性高的消息队列系统，广泛应用于各种需要异步通信和事件驱动架构的应用场景中。</p>
-<ul>
-<li>直连交换机</li>
-<li>扇形交换机</li>
-<li>主题交换机</li>
-<li>RPC回调</li>
-</ul>
-<h1 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h1><p>将消息分区存储，实现存储大量数据<br>批量处理，提高处理效率及吞吐量</p>
-<ul>
-<li>直连交换机</li>
-<li>扇形交换机</li>
-<li>主题交换机</li>
-<li>RPC回调</li>
-</ul>
-<h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><p>Nginx是一个高性能的HTTP和反向代理web服务器，同时也提供了IMAP&#x2F;POP3&#x2F;SMTP服务。</p>
-<pre><code>失败重置
-主机备份
-服务限流
-重定向HTTP
-加载静态资源
-代理缓存
-配置https证书
-四层Socket 代理
-</code></pre>
-<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>Redis是一个功能强大、性能优异、易于使用的Key-Value数据库，广泛应用于缓存、消息队列、实时流处理等场景。</p>
-<pre><code>Redis提供持久化机制，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用。
-Redis支持主从复制功能，可以实现数据的备份和同步，保证数据的安全性。
-Redis具有丰富的数据结构类型，可以满足多种需求，如存储结构化数据、缓存读写、消息队列等。
-Redis提供了事务和Lua脚本功能，可以实现更复杂的业务逻辑。
-Redis提供了发布/订阅和阻塞式通知等功能，可以实现实时数据的流处理和消息推送等。
-</code></pre>
-<h1 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h1><p>MongoDB是一个基于分布式文件存储的数据库,旨在为Web应用提供可扩展的高性能数据存储解决方案。使用类似于JSON的BSON（Binary JSON）格式来存储数据</p>
-<pre><code>高性能：MongoDB使用了内存映射文件的方式来存储数据，使其读写速度非常快。
-灵活性：MongoDB支持丰富的数据结构类型，如文档、数组和哈希等，可以存储复杂的业务对象。
-易扩展性：MongoDB具有水平扩展的能力，可以通过增加节点来提高性能和存储容量。
-强大的查询能力：MongoDB支持类似于面向对象查询的语法，提供了丰富的查询操作符和聚合框架，可以实现复杂的数据查询和报表生成。
-自动分片：MongoDB提供了自动分片的功能，可以将数据分布到多个节点上，以实现负载均衡和水平扩展。
-文档版本控制：MongoDB支持文档版本控制，可以记录每个文档的修改历史，方便回溯和数据审计。
-</code></pre>
-<h1 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h1><p>全文搜索引擎</p>
-<h1 id="Lucene"><a href="#Lucene" class="headerlink" title="Lucene"></a>Lucene</h1><p>Lucene 可以被认为是迄今为止最先进、性能最好的、功能最全的搜索引擎库。Elasticsearch同样也是基于Lucene的开源搜索引擎。</p>
-<h1 id="ScheduleMaster"><a href="#ScheduleMaster" class="headerlink" title="ScheduleMaster"></a>ScheduleMaster</h1><p>分布式任务调度系统</p>
-<h1 id="ShardingSphere-Proxy"><a href="#ShardingSphere-Proxy" class="headerlink" title="ShardingSphere-Proxy"></a>ShardingSphere-Proxy</h1><p>ShardingSphere-Proxy是一个跨语言的数据库代理服务端，主要用来处理分表、分库、读写分离等。</p>
-<h1 id="DNS调优"><a href="#DNS调优" class="headerlink" title="DNS调优"></a>DNS调优</h1><p>DNS是将域名解析成IP地址，然后找到IP对应的主机或者服务器。<br>正向解析：将域名解析成IP地址<br>逆向解析：将IP地址解析成域名</p>
-<p>DNS的调优可以通过bind-utils工具包实现。bind-utils是一组DNS工具包，提供了多种DNS相关的工具，包括dig、host、nslookup和nsupdate等。这些工具可以用于进行域名解析和DNS调试工作。</p>
-<h1 id="CDN调优"><a href="#CDN调优" class="headerlink" title="CDN调优"></a>CDN调优</h1><p>内容分发网络</p>
-<p>其目的是通过在现有的Internet中增加一层新的CACHE(缓存)层，将网站的内容发布到最接近用户的网络”边缘“的节点，使用户可以就近取得所需的内容（就近原则），提高用户访问网站的响应速度。</p>
-<p>解决由于网络带宽小、用户访问量大、网点分布不均等原因，提高用户访问网站的响应速度。</p>
-<h1 id="WebApi-调优"><a href="#WebApi-调优" class="headerlink" title="WebApi 调优"></a>WebApi 调优</h1><p>缓存    Caching<br>分布式缓存  Redis </p>
-<h1 id="MySql-调优"><a href="#MySql-调优" class="headerlink" title="MySql 调优"></a>MySql 调优</h1><p>MySQL中，以下语句或操作可能会影响性能：</p>
-<p>全表扫描：没有使用索引的查询，会导致全表扫描，这在大型表上尤其昂贵。</p>
-<p>缺少索引：即使查询条件使用了索引，但如果缺少合适的索引，MySQL可能无法快速找到所需的数据。</p>
-<p>JOIN操作：多个表之间的复杂JOIN操作可能会降低性能，尤其是当这些表的数据量很大时。</p>
-<p>子查询：在某些情况下，子查询可能会导致性能下降，尤其是当子查询返回大量数据时。</p>
-<p>LIKE查询：以通配符开始的LIKE查询（如LIKE ‘%xyz’）可能会导致全表扫描，尤其是当没有适当的索引时。</p>
-<p>使用函数或运算在列上：例如，SELECT * FROM table WHERE YEAR(column) &#x3D; 2023;。这种查询不能有效地使用索引。</p>
-<p>不恰当的数据类型：使用不恰当的数据类型可能会导致性能问题，因为这可能导致额外的类型转换或存储开销。</p>
-<p>锁和事务：长时间运行的事务或大量的锁争用可能会降低数据库的性能。<br>不合理的配置：MySQL的配置参数（如缓冲区大小、连接数等）设置不当也可能影响性能。</p>
-<p>不恰当的数据表设计：例如，过度规范化或反规范化可能导致性能问题。</p>
-<p>频繁的更新和删除操作：对大量数据的频繁更新和删除可能会影响性能</p>
-<p>使用了不合适的存储引擎：例如，InnoDB和MyISAM是两种常见的MySQL存储引擎，它们在不同的工作负载下有各自的优势和劣势。</p>
-<p>大量的数据插入和删除：大批量插入或删除数据时，如果未进行适当的优化，也可能影响性能。</p>
-<p>没有及时进行数据库维护：如优化表、修复表、清理旧数据等，长时间不进行这些维护可能导致性能问题。</p>
-<hr>
-<p>开启慢查询日志：MySQL提供了慢查询日志功能，可以记录执行时间超过指定阈值的查询。通过分析慢查询日志，可以找到性能瓶颈并进行优化。</p>
-<p>优化查询语句：对于复杂的查询，使用更有效的查询语句或者更合适的索引可以提高查询性能。可以考虑对查询进行分解、重写或优化索引来改进查询效率。</p>
-<p>优化数据库结构：合理设计数据库表结构，使用合适的数据类型，避免过度规范化或反规范化。这有助于提高数据检索速度和减少不必要的计算。</p>
-<p>使用缓存：对于频繁访问的数据，使用缓存可以减少数据库的负载。缓存常用的查询结果或数据片段，减少对数据库的直接访问。</p>
-<p>优化数据库配置：根据服务器的硬件和数据库的工作负载，调整MySQL的配置参数可以提高性能。例如，调整缓冲区大小、连接池大小、线程缓存等。</p>
-<p>分析查询执行计划：使用EXPLAIN命令查看查询的执行计划，分析查询的性能瓶颈。通过优化索引、调整查询语句或修改数据库结构来改进执行计划。</p>
-<p>定期维护数据库：定期进行数据库维护，如优化表、修复表和清理旧数据等，可以提高数据库的性能和稳定性。</p>
-<p>使用性能监控工具：使用性能监控工具（如Percona Monitoring and Management、MySQL Enterprise Monitor等）可以实时监控数据库性能，发现潜在的慢查询问题并进行处理。</p>
-<h1 id="ASP-NET-与-Net"><a href="#ASP-NET-与-Net" class="headerlink" title="ASP.NET 与 .Net"></a>ASP.NET 与 .Net</h1><blockquote>
-<p>.net是一种平台，asp.net是运行在该平台下的网络应用程序技术。.net还支持桌面应用程序。<br>    要想运行网络应用程序和桌面应用程序，必须在服务器和电脑上安装.net framework公共语言运行环境。.net包括asp.net。</p>
-</blockquote>
-<p>asp.net只是.net框架中的一个组成部分，ASP.NET的开发模式，大概又有三种：</p>
-<p>Web Pages（Web页面）<br>MVC（Model View Controller 模型-视图-控制器）<br>Web Forms（Web窗体）</p>
-<h1 id="Consul"><a href="#Consul" class="headerlink" title="Consul"></a>Consul</h1><p>内置了服务注册与发现框 架、分布一致性协议实现、健康检查、Key&#x2F;Value存储、多数据中心方案</p>
-<p>在高峰时，可以扩展或缩小服务集群<br>集群：相同的实例，干相同的活</p>
-<h1 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h1><p>CAP是一个用来解决微服务或者分布式系统中分布式事务问题的一个开源项目解决方案。可以解决跨服务器的数据一致性问题。</p>
-<h1 id="Ocelot"><a href="#Ocelot" class="headerlink" title="Ocelot"></a>Ocelot</h1><p>API网关是微服务架构中的唯一入口，它提供一个单独且统一的API入口用于访问内部一个或多个API。</p>
-<p>具有身份验证，监控，负载均衡，缓存，请求分片与管理，静态响应处理等。</p>
-<h1 id="Apollo"><a href="#Apollo" class="headerlink" title="Apollo"></a>Apollo</h1><p>是携程框架部门研发的分布式配置中心，能够集中化管理应用不同环境、不同集群的配置，配置修改后能够实时推送到应用端，并且具备规范的权限、流程治理等特性，适用于微服务配置管理场景。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/06/01/%E5%AD%A6%E4%B9%A0/%E9%9D%A2%E8%AF%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2313,6 +2073,115 @@ SOA是一组相互通信的服务。通信可以涉及简单的数据传送，�
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2022/04/15/Net%E9%AB%98%E7%BA%A7/15%E3%80%81%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%8F%98%E8%BF%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/BlogPro/2022/04/15/Net%E9%AB%98%E7%BA%A7/15%E3%80%81%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%8F%98%E8%BF%81/" class="post-title-link" itemprop="url">15、系统架构变迁</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-15 10:48:57" itemprop="dateCreated datePublished" datetime="2022-04-15T10:48:57+08:00">2022-04-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-19 16:52:14" itemprop="dateModified" datetime="2024-02-19T16:52:14+08:00">2024-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2022/04/15/Net%E9%AB%98%E7%BA%A7/15%E3%80%81%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%8F%98%E8%BF%81/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2022/04/15/Net%E9%AB%98%E7%BA%A7/15%E3%80%81%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E5%8F%98%E8%BF%81/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="单机系统"><a href="#单机系统" class="headerlink" title="单机系统"></a>单机系统</h2><p><img src="/BlogPro/images%E9%AB%98%E7%BA%A7/image-8.png" alt="Alt text"></p>
+<p>PV&#x2F;UV&#x2F;IP<br>单机承载能力—硬件资源不够<br>压力测试—loadrunner</p>
+<p>随着时间的推移，用户增多，数据增多，并发量增多了，然后服务器扛不住了，怎么办？</p>
+<p>1 垂直扩展：升级硬件<br>    立竿见影，但是有上限<br>2 水平扩展：多来几台服务器<br>    一个人力气不够，多来几个人</p>
+<h2 id="独立服务器"><a href="#独立服务器" class="headerlink" title="独立服务器"></a>独立服务器</h2><p><img src="/BlogPro/images%E9%AB%98%E7%BA%A7/image-9.png" alt="Alt text"></p>
+<p>第一次分布式：这就是分布式<br>分布式就是一台服务器做的事儿分成多台服务器协作完成</p>
+<p>很轻松的提升承载能力，但是当前的划分粒度是很粗放的</p>
+<p>分布式的第一要务就是不要使用分布式</p>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p><img src="/BlogPro/images%E9%AB%98%E7%BA%A7/image-10.png" alt="Alt text"></p>
+<p>系统性能优化的第一步就是使用缓存，成本低见效快(有弊端)</p>
+<p>二八原则：<br>80%财富集中在20%人手里<br>80%的活儿是20%的人干了<br>80%的访问都集中在20%数据上<br>(性能优化就应该盯着大多数)</p>
+<p>随着时间的推移，用户增多，数据增多，并发量增多了，然后服务器扛不住了，怎么办？</p>
+<p>缓存，立竿见影，因为直接重用结果，<br>降低数据库压力，提升性能<br>改造也特别简单，成本也低</p>
+<p>也要注意缓存的缺点，是可能有数据延迟(过期时间)<br>再给出解决方案，以场景为例，证明真的用过</p>
+<p>—-应对大数据高并发，这个是第一阶段答案</p>
+<h2 id="集群负载均衡"><a href="#集群负载均衡" class="headerlink" title="集群负载均衡"></a>集群负载均衡</h2><p><img src="/BlogPro/images%E9%AB%98%E7%BA%A7/image-11.png" alt="Alt text"></p>
+<p>集群：一台服务器做的事儿，现在由多台服务器共同承载，每台服务器都是独立完成的<br>—同一个服务有多个实例</p>
+<p>分布式：一台服务器做的事儿分成多台服务器协作完成，每台服务器完成其中的一个部分<br>—微服务里面多个服务串成一个业务逻辑</p>
+<p>其实集群也算分布式</p>
+<p>在服务压力大，水平扩展，增强承载能力<br>每台服务器都能完成响应—内容是一样的(部署一台，其他FTP同步的)<br>DNS负载均衡—可以在DNS配置多个站点响应的，由DNS决定谁来响应<br>负载均衡：多个选项中，按照一定的策略去选择<br>就近策略—轮询策略—权重策略</p>
+<h2 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h2><p><img src="/BlogPro/images%E9%AB%98%E7%BA%A7/image-12.png" alt="Alt text"></p>
+<p>数据库瓶颈：数据库读写分离<br>木桶理论：决定一个木桶装水能力是由最短的那块儿板<br>二八原则：80%的业务都是查询，20%是增删改</p>
+<p>1主库—N从库：数据结构—数据都是一模一样的</p>
+<p>分库分表表分区—从设计角度分担压力(让数据库可以水平扩展)<br>垂直分库—按业务分库—不同的服务器—降低—合理划分&#x2F;通过服务交互&#x2F;再来个合并库&#x2F;技术手段<br>水平分库—每个库是一样的—数据不同—降低—合理划分&#x2F;通过服务交互&#x2F;再来个合并库&#x2F;技术手段</p>
+<h2 id="反向代理-CDN"><a href="#反向代理-CDN" class="headerlink" title="反向代理&amp;CDN"></a>反向代理&amp;CDN</h2><p><img src="/BlogPro/images%E9%AB%98%E7%BA%A7/image-13.png" alt="Alt text"><br>继续缓存<br>CDN加速&#x2F;缓存：阿里云<br>南网宿 北<br>CDN其实是DNS提供的<br>DNS是互联网的第一心跳，CDN就是把数据存在离用户最近的地方<br>主要解决图片 视频，缓存<br>加快速度—减少服务器请求<br>反向代理：屏蔽和保护，也可以缓存一下<br>本地缓存+CDN+反向代理&#x3D;–明天上午10点，一起来探讨缓存</p>
+<h2 id="分布式文件系统"><a href="#分布式文件系统" class="headerlink" title="分布式文件系统"></a>分布式文件系统</h2><p><img src="/BlogPro/images%E9%AB%98%E7%BA%A7/image-14.png" alt="Alt text"></p>
+<p>分布式文件服务器<br>图片多  视频多的<br>TFS  GFS  NFS<br>就是把多个硬盘管理成本地硬盘<br>可以直接读写–</p>
+<h2 id="其他中间件"><a href="#其他中间件" class="headerlink" title="其他中间件"></a>其他中间件</h2><p><img src="/BlogPro/images%E9%AB%98%E7%BA%A7/image-15.png" alt="Alt text"></p>
+<h2 id="业务拆分"><a href="#业务拆分" class="headerlink" title="业务拆分"></a>业务拆分</h2><p><img src="/BlogPro/images%E9%AB%98%E7%BA%A7/image-16.png" alt="Alt text"><br>继续拆分，垂直业务拆分<br>门户网站—Ask—BBS—Blog—NEW—DB组各种知识库<br>独立团队 独立维护 独立部署<br>很有效的提升承载能力</p>
+<p>数据共享方式：<br>数据库—接口—队列—缓存Nosql</p>
+<h2 id="分布式-微服务"><a href="#分布式-微服务" class="headerlink" title="分布式&amp;微服务"></a>分布式&amp;微服务</h2><p><img src="/BlogPro/images%E9%AB%98%E7%BA%A7/image-17.png" alt="Alt text"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -2384,7 +2253,7 @@ SOA是一组相互通信的服务。通信可以涉及简单的数据传送，�
       <div class="site-state-item site-state-posts">
           <a href="/BlogPro/archives/">
         
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

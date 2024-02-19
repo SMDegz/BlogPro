@@ -194,205 +194,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/08/11/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/11%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E9%9B%86%E7%BE%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="何锦祥 博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/BlogPro/2023/08/11/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/11%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E9%9B%86%E7%BE%A4/" class="post-title-link" itemprop="url">11、千万级秒杀项目实战集群</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-11 10:48:57" itemprop="dateCreated datePublished" datetime="2023-08-11T10:48:57+08:00">2023-08-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-02-19 16:40:53" itemprop="dateModified" datetime="2024-02-19T16:40:53+08:00">2024-02-19</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/BlogPro/2023/08/11/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/11%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E9%9B%86%E7%BE%A4/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/08/11/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/11%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E9%9B%86%E7%BE%A4/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="阿里云购买其他3个服务器，作为K8s集群搭建"><a href="#阿里云购买其他3个服务器，作为K8s集群搭建" class="headerlink" title="阿里云购买其他3个服务器，作为K8s集群搭建"></a>阿里云购买其他3个服务器，作为K8s集群搭建</h1><p><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-136.png" alt="Alt text"></p>
-<h2 id="云主机搭建k8s集群"><a href="#云主机搭建k8s集群" class="headerlink" title="云主机搭建k8s集群"></a>云主机搭建k8s集群</h2><p>###注意</p>
-<ul>
-<li><p>k8s有硬件要求，必须运行cpu为2核，内存为2G以上</p>
-<p>  47.104.160.223  (主节点)<br>  120.27.23.20（从节点1）<br>  120.27.13.75（从节点2）</p>
-</li>
-</ul>
-<h4 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h4><pre><code>docker: k8s运行用来运行容器
-kubeadm :k8s集群搭建
-kubectl: 操作k8s集群客户端
-kubelet: 运行每个节点容器
-</code></pre>
-<ul>
-<li><p>连接3台云主机<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-137.png" alt="Alt text"></p>
-</li>
-<li><p>查看Kubectl 主从节点列表<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-138.png" alt="Alt text"></p>
-</li>
-<li><p>运行私有仓库地址<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-139.png" alt="Alt text"></p>
-</li>
-<li><p>查看运行状态<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-140.png" alt="Alt text"></p>
-</li>
-<li><p>将当前私有仓库地址 注册到docker 中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br></pre></td></tr></table></figure>
-<p><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-131.png" alt="Alt text"></p>
-</li>
-<li><p>docker 需要先登录 镜像仓库，才能提交<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-135.png" alt="Alt text"></p>
-</li>
-<li><p>通过一下命令从镜像仓库下载对应镜像到两个从节点服务器上<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-141.png" alt="Alt text"></p>
-</li>
-</ul>
-<h3 id="基础设施镜像放到镜像仓库中"><a href="#基础设施镜像放到镜像仓库中" class="headerlink" title="基础设施镜像放到镜像仓库中"></a>基础设施镜像放到镜像仓库中</h3><pre><code>Redis 
-mysql
-rabbitmq
-consul
-</code></pre>
-<h4 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h4><ul>
-<li><p>使用以下命令下载 redis镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull redis</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将 redis 打上标签</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docekr tag redis 47.104.7.9/seckill-projects/redis</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将 redis 推送到远程镜像仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docekr push 47.104.7.9/seckill-projects/redis</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h4><ul>
-<li><p>下载mysql 镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql:5.7</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>打上标签</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docekr tag mysql:5.7 47.104.7.9/seckill-projects/mysql:5.7</span><br></pre></td></tr></table></figure></li>
-<li><p>将 mysql 推送到远程镜像仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docekr push 47.104.7.9/seckill-projects/mysql:5.7</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="rabbitmq"><a href="#rabbitmq" class="headerlink" title="rabbitmq"></a>rabbitmq</h4><ul>
-<li><p>下载rabbitmq 镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull rabbitmq:management</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>打上标签</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docekr tag rabbitmq:management 47.104.7.9/seckill-projects/rabbitmq:management</span><br></pre></td></tr></table></figure></li>
-<li><p>将 rabbitmq:management 推送到远程镜像仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docekr push 47.104.7.9/seckill-projects/rabbitmq:management</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="consul"><a href="#consul" class="headerlink" title="consul"></a>consul</h4><ul>
-<li><p>下载consul 镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull consul</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>打上标签</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docekr tag consul 47.104.7.9/seckill-projects/consul</span><br></pre></td></tr></table></figure></li>
-<li><p>将 consul 推送到远程镜像仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docekr push 47.104.7.9/seckill-projects/consul</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="运行镜像"><a href="#运行镜像" class="headerlink" title="运行镜像"></a>运行镜像</h3><h4 id="进入主节点服务器"><a href="#进入主节点服务器" class="headerlink" title="进入主节点服务器"></a>进入主节点服务器</h4><h5 id="创建-deployment、service-文件夹"><a href="#创建-deployment、service-文件夹" class="headerlink" title="创建 deployment、service 文件夹"></a>创建 deployment、service 文件夹</h5><ul>
-<li><p>在deployment 文件夹下面创建 redis.yml 编排文件<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-144.png" alt="Alt text"></p>
-</li>
-<li><p>在deployment 文件夹下面创建 mysql.yml 编排文件<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-145.png" alt="Alt text"></p>
-</li>
-<li><p>在deployment 文件夹下面创建 rabbitmq.yml 编排文件<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-146.png" alt="Alt text"></p>
-</li>
-<li><p>在deployment 文件夹下面创建 consul.yml 编排文件<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-147.png" alt="Alt text"></p>
-</li>
-<li><p>在 server 文件夹下面创建 mysql.yml 文件<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-152.png" alt="Alt text"></p>
-</li>
-<li><p>在 server 文件夹下面创建 rabbitmq.yml 文件<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-153.png" alt="Alt text"></p>
-</li>
-</ul>
-<blockquote>
-<p>其余基础设施一样操作</p>
-</blockquote>
-<ul>
-<li>运行 deployment 编排文件<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f deployment/</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="运行Mysql-server"><a href="#运行Mysql-server" class="headerlink" title="运行Mysql server"></a>运行Mysql server</h4><ul>
-<li><p>进入到mysql 文件夹的config 文件夹，修改里面的配置<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-149.png" alt="Alt text"></p>
-</li>
-<li><p>进入数据挂载</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get configmap</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-150.png" alt="Alt text"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap mysql-config --from-file=mysql.cnf=$PWD/mysql/config/mysqld.cnf</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f deployment/</span><br></pre></td></tr></table></figure>
-<p><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-151.png" alt="Alt text"></p>
-<ul>
-<li><p>查看是否挂载成功</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe configmap mysql-config</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>运行server 服务</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f service/</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="运行微服务项目"><a href="#运行微服务项目" class="headerlink" title="运行微服务项目"></a>运行微服务项目</h3><h4 id="Order-微服务"><a href="#Order-微服务" class="headerlink" title="Order 微服务"></a>Order 微服务</h4><ul>
-<li><p>创建 Order 服务 的 deployment [orderservices.yml]<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-155.png" alt="Alt text"></p>
-</li>
-<li><p>创建 Order 服务的 server 【orderservices.yml】<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-156.png" alt="Alt text"></p>
-</li>
-<li><p>运行 deployment 文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f deployment/</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>运行 service 文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f service/</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="其余微服务跟-Order-微服务一致"><a href="#其余微服务跟-Order-微服务一致" class="headerlink" title="其余微服务跟 Order 微服务一致"></a>其余微服务跟 Order 微服务一致</h4>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/08/11/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/11%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E6%9D%83%E9%99%90openiddict-%E6%9D%83%E9%99%90%E6%9C%8D%E5%8A%A1%E8%90%BD%E5%9C%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3233,6 +3034,107 @@ SkyWalking显示器，显示ElasticSearch中的时间数据
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://smdegz.github.io/BlogPro/2023/08/05/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/5%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%AD%E5%8F%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/BlogPro/images/Wx.jpg">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="这里是何锦祥的博客，记录生活点滴，分享思考与感悟。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="何锦祥 博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/BlogPro/2023/08/05/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/5%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%AD%E5%8F%B0/" class="post-title-link" itemprop="url">5、千万级秒杀项目实战中台</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-05 10:48:57" itemprop="dateCreated datePublished" datetime="2023-08-05T10:48:57+08:00">2023-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-02-19 16:40:53" itemprop="dateModified" datetime="2024-02-19T16:40:53+08:00">2024-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/BlogPro/2023/08/05/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/5%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%AD%E5%8F%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/BlogPro/2023/08/05/%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/5%E3%80%81%E5%8D%83%E4%B8%87%E7%BA%A7%E7%A7%92%E6%9D%80%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%AD%E5%8F%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="中台（后台）"><a href="#中台（后台）" class="headerlink" title="中台（后台）"></a>中台（后台）</h1><p>通过动态代理，生成动态代理实现类，再通过这个实现类访问对应的微服务</p>
+<ul>
+<li><p>将中台项目转换成 ABP vNext 项目<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-91.png" alt="Alt text"></p>
+</li>
+<li><p>创建 Module 类<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-92.png" alt="Alt text"></p>
+</li>
+<li><p>配置 Autofac<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-97.png" alt="Alt text"></p>
+</li>
+<li><p>引入 所有微服务 应用<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-90.png" alt="Alt text"></p>
+</li>
+<li><p>Module 类 集成所有微服务项目<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-93.png" alt="Alt text"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[DependsOn(</span><br><span class="line">    typeof(AbpAspNetCoreMvcModule),</span><br><span class="line">    typeof(AbpAutofacModule),</span><br><span class="line">    typeof(ProductHttpApiClientModule),</span><br><span class="line">    typeof(OrderHttpApiClientModule),</span><br><span class="line">    typeof(PaymentHttpApiClientModule),</span><br><span class="line">    typeof(SeckillHttpApiClientModule),</span><br><span class="line">    typeof(UserHttpApiClientModule)</span><br><span class="line">    )]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置所有远程服务端的应用<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-94.png" alt="Alt text"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&quot;RemoteServices&quot;: &#123;</span><br><span class="line">  &quot;Product&quot;: &#123;</span><br><span class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:5005/&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;Order&quot;: &#123;</span><br><span class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:5005/&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;Payment&quot;: &#123;</span><br><span class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:5005/&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;Seckill&quot;: &#123;</span><br><span class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:5005/&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;User&quot;: &#123;</span><br><span class="line">    &quot;BaseUrl&quot;: &quot;http://localhost:5005/&quot;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>注意：远程服务的名字要跟对应的微服务 远程名称一致<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-95.png" alt="Alt text"></p>
+</blockquote>
+<ul>
+<li>创建商品控制器，并添加相应服务<br><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-96.png" alt="Alt text"><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">namespace YDT.SeckillAggregate.Controllers</span><br><span class="line">&#123;</span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 商品聚合控制器</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    [Route(&quot;api/Product&quot;)]</span><br><span class="line">    [ApiController]</span><br><span class="line">    public class ProductController : ControllerBase</span><br><span class="line">    &#123;</span><br><span class="line">        // 1、直接引入IProductAppService</span><br><span class="line">        public IProductAppService productAppService &#123; set; get; &#125;</span><br><span class="line">        public IOrderAppService orderAppService &#123; set; get; &#125;</span><br><span class="line">        </span><br><span class="line">        public IPaymentAppService paymentAppService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">        public ISeckillAppService seckillAppService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">        public ISeckillTimeAppService seckillTimeAppService &#123; set; get; &#125;</span><br><span class="line"></span><br><span class="line">        public IUserAppService userAppService &#123; set; get; &#125; </span><br><span class="line"></span><br><span class="line">        /// &lt;summary&gt;</span><br><span class="line">        /// 商品查询</span><br><span class="line">        /// &lt;/summary&gt;</span><br><span class="line">        /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">        [HttpGet(&quot;&#123;productId&#125;&quot;)]</span><br><span class="line">        public async Task&lt;ProductDto&gt; GetProduct(Guid productId)</span><br><span class="line">        &#123;</span><br><span class="line">            // 1、查询商品</span><br><span class="line">            ProductDto productDto = await productAppService.GetAsync(productId);</span><br><span class="line">            return productDto;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="/BlogPro/images%E5%8D%83%E4%B8%87/image-98.png" alt="Alt text"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -3304,7 +3206,7 @@ SkyWalking显示器，显示ElasticSearch中的时间数据
       <div class="site-state-item site-state-posts">
           <a href="/BlogPro/archives/">
         
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
